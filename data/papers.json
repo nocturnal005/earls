@@ -1,0 +1,52 @@
+[
+  {
+    "id": "giclee-smooth",
+    "name": "Giclée Smooth",
+    "description": "Ultra-smooth 310gsm cotton rag. Museum-quality archival finish with exceptional colour depth.",
+    "shortDesc": "310gsm cotton rag, archival",
+    "price": 12.00,
+    "pricePerSqM": 45.00,
+    "texture": "smooth",
+    "icon": "lucide:layers"
+  },
+  {
+    "id": "giclee-textured",
+    "name": "Giclée Textured",
+    "description": "Textured 300gsm cotton rag with a subtle canvas-like surface. Ideal for fine art reproductions.",
+    "shortDesc": "300gsm cotton rag, textured",
+    "price": 14.00,
+    "pricePerSqM": 52.00,
+    "texture": "textured",
+    "icon": "lucide:grid-3x3"
+  },
+  {
+    "id": "photo-lustre",
+    "name": "Photo Lustre",
+    "description": "Semi-gloss 260gsm photo paper. Vibrant colours with reduced glare — the photographer's choice.",
+    "shortDesc": "260gsm semi-gloss photo",
+    "price": 8.00,
+    "pricePerSqM": 30.00,
+    "texture": "lustre",
+    "icon": "lucide:sun"
+  },
+  {
+    "id": "photo-gloss",
+    "name": "Photo Gloss",
+    "description": "High-gloss 250gsm photo paper. Maximum colour saturation and sharpness.",
+    "shortDesc": "250gsm high-gloss photo",
+    "price": 7.00,
+    "pricePerSqM": 25.00,
+    "texture": "gloss",
+    "icon": "lucide:sparkles"
+  },
+  {
+    "id": "canvas-stretch",
+    "name": "Canvas Stretch",
+    "description": "380gsm poly-cotton canvas, gallery-wrapped on solid pine stretcher bars. Ready to hang.",
+    "shortDesc": "380gsm poly-cotton, gallery wrap",
+    "price": 25.00,
+    "pricePerSqM": 85.00,
+    "texture": "canvas",
+    "icon": "lucide:frame"
+  }
+]

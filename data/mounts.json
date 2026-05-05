@@ -1,0 +1,810 @@
+[
+  {
+    "category": "White Core",
+    "ref": "WC-sw23",
+    "name": "Pure White",
+    "description": "Crisp, clean brilliant white.",
+    "hex": "#F8F8F8",
+    "family": "Whites & Ivories"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-Aq1",
+    "name": "Soft White",
+    "description": "Barely warm — less stark than pure white.",
+    "hex": "#F0EBE3",
+    "family": "Whites & Ivories"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-sw20",
+    "name": "Polar White Ingres",
+    "description": "Laid Ingres texture on cool white.",
+    "hex": "#EDF0F2",
+    "family": "Whites & Ivories"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8629",
+    "name": "Buttermilk",
+    "description": "Gentle warmth — suits antique frames.",
+    "hex": "#F5EDD0",
+    "family": "Whites & Ivories"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-Aq2",
+    "name": "Ivory",
+    "description": "Classic warm off-white — timeless.",
+    "hex": "#F5EDCC",
+    "family": "Whites & Ivories"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8048",
+    "name": "Cream Ingres",
+    "description": "Textured Ingres surface on creamy board.",
+    "hex": "#EDE4C0",
+    "family": "Whites & Ivories"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8701",
+    "name": "Vanilla",
+    "description": "Soft honey-cream, warmer than ivory.",
+    "hex": "#F2E4A0",
+    "family": "Warm Naturals"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8285",
+    "name": "Milkwood Ingres",
+    "description": "Parchment-like Ingres texture.",
+    "hex": "#E0D4B0",
+    "family": "Warm Naturals"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8695",
+    "name": "Bamboo",
+    "description": "Warm mid natural, pairs with wood frames.",
+    "hex": "#D8C888",
+    "family": "Warm Naturals"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8017",
+    "name": "Maple",
+    "description": "Rich warm caramel — natural wood tone.",
+    "hex": "#C8A860",
+    "family": "Warm Naturals"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8632",
+    "name": "Stone",
+    "description": "Warm greige — natural and unpretentious.",
+    "hex": "#C8B898",
+    "family": "Warm Naturals"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8013",
+    "name": "Hazelnut",
+    "description": "Mid warm brown — earthy and grounded.",
+    "hex": "#B89060",
+    "family": "Warm Naturals"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-Y01",
+    "name": "Primrose",
+    "description": "Soft sunshine yellow — uplifting.",
+    "hex": "#F5E87A",
+    "family": "Yellows & Golds"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8701B",
+    "name": "Vanilla",
+    "description": "Warm gold-cream — gentle warmth.",
+    "hex": "#F0DC70",
+    "family": "Yellows & Golds"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-Y02",
+    "name": "Sahara",
+    "description": "Golden sand — warm and natural.",
+    "hex": "#E8C84A",
+    "family": "Yellows & Golds"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-LJ01",
+    "name": "Daffodil",
+    "description": "Bright true yellow — bold statement.",
+    "hex": "#F5D800",
+    "family": "Yellows & Golds"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-LJ02",
+    "name": "Mustard",
+    "description": "Deep muted gold — sophisticated warmth.",
+    "hex": "#C8A020",
+    "family": "Yellows & Golds"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8032",
+    "name": "Gold Metallic",
+    "description": "Metallic gold surface — luxurious finish.",
+    "hex": "#C8A040",
+    "family": "Yellows & Golds"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-P01",
+    "name": "Pastel Pink",
+    "description": "Softest blush — delicate and feminine.",
+    "hex": "#F5C8C0",
+    "family": "Pinks & Reds"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8028",
+    "name": "Dusty Pink",
+    "description": "Warm mid-rose — not too sweet.",
+    "hex": "#E8A898",
+    "family": "Pinks & Reds"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8628",
+    "name": "Dawn Mist",
+    "description": "Peachy soft pink — warm and gentle.",
+    "hex": "#F0B0A0",
+    "family": "Pinks & Reds"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8020",
+    "name": "Rouge",
+    "description": "Strong clear red — confident and graphic.",
+    "hex": "#C84040",
+    "family": "Pinks & Reds"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8151",
+    "name": "Beaujolais",
+    "description": "Deep wine red — rich and authoritative.",
+    "hex": "#901830",
+    "family": "Pinks & Reds"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8016",
+    "name": "Burgundy",
+    "description": "Classic deep burgundy — timeless.",
+    "hex": "#780018",
+    "family": "Pinks & Reds"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8051",
+    "name": "Pastel Blue",
+    "description": "Pale sky blue — calm and airy.",
+    "hex": "#C0D0E8",
+    "family": "Blues"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8154",
+    "name": "Iced Blue Ingres",
+    "description": "Soft blue on laid Ingres texture.",
+    "hex": "#A0C0D8",
+    "family": "Blues"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8805",
+    "name": "Sky",
+    "description": "Clear mid-blue — fresh and open.",
+    "hex": "#88B0D0",
+    "family": "Blues"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8053",
+    "name": "Bluebell",
+    "description": "Soft cornflower blue — natural and easy.",
+    "hex": "#7090C0",
+    "family": "Blues"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8054",
+    "name": "Oxford Blue",
+    "description": "Deep classic navy — smart and formal.",
+    "hex": "#284878",
+    "family": "Blues"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8640",
+    "name": "Imperial Blue",
+    "description": "Darkest navy — intense and dramatic.",
+    "hex": "#1A3060",
+    "family": "Blues"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8426",
+    "name": "Pastel Green",
+    "description": "Pale mint — fresh and contemporary.",
+    "hex": "#B8D8B0",
+    "family": "Greens"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8034",
+    "name": "Sage",
+    "description": "Soft grey-green — the framer's neutral.",
+    "hex": "#90B088",
+    "family": "Greens"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8416",
+    "name": "Guacamole",
+    "description": "Earthy olive — grounded and natural.",
+    "hex": "#708060",
+    "family": "Greens"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8645",
+    "name": "Laurel",
+    "description": "Mid forest green — natural and easy.",
+    "hex": "#507850",
+    "family": "Greens"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8018G",
+    "name": "Bottle Green",
+    "description": "Deep forest green — bold and classic.",
+    "hex": "#204030",
+    "family": "Greens"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8071",
+    "name": "Nightshade",
+    "description": "Very dark teal-green — moody depth.",
+    "hex": "#283040",
+    "family": "Greens"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8633",
+    "name": "Dove",
+    "description": "Soft warm grey — universally flattering.",
+    "hex": "#D0D0CC",
+    "family": "Greys & Silvers"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8026",
+    "name": "Smoke",
+    "description": "Cool mid grey — clean and modern.",
+    "hex": "#B8B8B4",
+    "family": "Greys & Silvers"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8491",
+    "name": "Mid Grey",
+    "description": "True neutral mid-grey — precise.",
+    "hex": "#909090",
+    "family": "Greys & Silvers"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8159",
+    "name": "Slate",
+    "description": "Blue-toned slate — cool and sophisticated.",
+    "hex": "#708090",
+    "family": "Greys & Silvers"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8010",
+    "name": "Charcoal",
+    "description": "Dark charcoal — moody, high-contrast.",
+    "hex": "#484848",
+    "family": "Greys & Silvers"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-3033",
+    "name": "Silver Metallic",
+    "description": "Metallic silver surface — refined.",
+    "hex": "#B8C0C8",
+    "family": "Greys & Silvers"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8023",
+    "name": "Chestnut",
+    "description": "Mid warm brown — earthy and grounded.",
+    "hex": "#A07040",
+    "family": "Browns, Purples & Black"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-8050",
+    "name": "Sepia",
+    "description": "Classic brown — pairs with antique frames.",
+    "hex": "#704830",
+    "family": "Browns, Purples & Black"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-LJ04",
+    "name": "Rust",
+    "description": "Burnt orange-red — bold earthy accent.",
+    "hex": "#A84828",
+    "family": "Browns, Purples & Black"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-28031",
+    "name": "Violet",
+    "description": "Mid purple — creative and distinct.",
+    "hex": "#604888",
+    "family": "Browns, Purples & Black"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-LJ06",
+    "name": "Damson",
+    "description": "Deep berry purple — rich and luxurious.",
+    "hex": "#401838",
+    "family": "Browns, Purples & Black"
+  },
+  {
+    "category": "White Core",
+    "ref": "WC-BLK",
+    "name": "Poster Black",
+    "description": "Full black — maximum contrast.",
+    "hex": "#181818",
+    "family": "Browns, Purples & Black"
+  },
+  {
+    "category": "Black Core",
+    "ref": "BC-01",
+    "name": "Pure White",
+    "description": "Bright white surface — black bevel adds subtle depth.",
+    "hex": "#F8F8F8",
+    "family": "Light Surfaces"
+  },
+  {
+    "category": "Black Core",
+    "ref": "BC-02",
+    "name": "Soft White",
+    "description": "Warm white surface with deep black bevel.",
+    "hex": "#F0EBE3",
+    "family": "Light Surfaces"
+  },
+  {
+    "category": "Black Core",
+    "ref": "BC-03",
+    "name": "Ivory",
+    "description": "Warm ivory with striking black bevel.",
+    "hex": "#F5EDCC",
+    "family": "Light Surfaces"
+  },
+  {
+    "category": "Black Core",
+    "ref": "BC-04",
+    "name": "Antique White",
+    "description": "Antique surface — the black bevel adds edge.",
+    "hex": "#EDE4CF",
+    "family": "Light Surfaces"
+  },
+  {
+    "category": "Black Core",
+    "ref": "BC-05",
+    "name": "Dove Grey",
+    "description": "Soft grey surface with rich black bevel.",
+    "hex": "#D0D0CC",
+    "family": "Light Surfaces"
+  },
+  {
+    "category": "Black Core",
+    "ref": "BC-06",
+    "name": "Slate",
+    "description": "Cool slate — sophisticated tonal depth.",
+    "hex": "#708090",
+    "family": "Light Surfaces"
+  },
+  {
+    "category": "Black Core",
+    "ref": "BC-07",
+    "name": "Charcoal",
+    "description": "Dark surface — deeper black bevel is near seamless.",
+    "hex": "#484848",
+    "family": "Dark & Colour Surfaces"
+  },
+  {
+    "category": "Black Core",
+    "ref": "BC-08",
+    "name": "Poster Black",
+    "description": "Full black both sides — zero visual interruption.",
+    "hex": "#181818",
+    "family": "Dark & Colour Surfaces"
+  },
+  {
+    "category": "Black Core",
+    "ref": "BC-09",
+    "name": "Oxford Blue",
+    "description": "Navy surface with a striking black bevel.",
+    "hex": "#284878",
+    "family": "Dark & Colour Surfaces"
+  },
+  {
+    "category": "Black Core",
+    "ref": "BC-10",
+    "name": "Bottle Green",
+    "description": "Deep green surface — rich and intense.",
+    "hex": "#204030",
+    "family": "Dark & Colour Surfaces"
+  },
+  {
+    "category": "Black Core",
+    "ref": "BC-11",
+    "name": "Burgundy",
+    "description": "Wine red surface with dramatic black bevel.",
+    "hex": "#780018",
+    "family": "Dark & Colour Surfaces"
+  },
+  {
+    "category": "Black Core",
+    "ref": "BC-12",
+    "name": "Gold Metallic",
+    "description": "Gold metallic surface — opulent contrast.",
+    "hex": "#C8A040",
+    "family": "Dark & Colour Surfaces"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-62",
+    "name": "Super White",
+    "description": "Brilliant clean white — brightest in the range.",
+    "hex": "#F4F6F8",
+    "family": "Whites & Ivories"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-54",
+    "name": "Snow White",
+    "description": "Pure cool white — gallery standard.",
+    "hex": "#F0F3F5",
+    "family": "Whites & Ivories"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-00",
+    "name": "Polar White Ingres",
+    "description": "Laid Ingres texture on cool white board.",
+    "hex": "#EDF0F2",
+    "family": "Whites & Ivories"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-67",
+    "name": "Soft White Ingres",
+    "description": "Warm soft white on Ingres texture.",
+    "hex": "#EDE8E0",
+    "family": "Whites & Ivories"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-60",
+    "name": "Alpine White",
+    "description": "Gentle texture — suits painterly artwork.",
+    "hex": "#EBE9E4",
+    "family": "Whites & Ivories"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-23T",
+    "name": "Jasmine Texture",
+    "description": "Delicate texture, warm hint of cream.",
+    "hex": "#F5F3EE",
+    "family": "Whites & Ivories"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-69",
+    "name": "Antique White",
+    "description": "Warm classic antique — timeless choice.",
+    "hex": "#EDE4CF",
+    "family": "Antiques & Creams"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-94",
+    "name": "Antique White Tex.",
+    "description": "Textured antique white — refined.",
+    "hex": "#E8DEC8",
+    "family": "Antiques & Creams"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-85",
+    "name": "Milkwood Ingres",
+    "description": "Parchment-like Ingres texture.",
+    "hex": "#E0D4B0",
+    "family": "Antiques & Creams"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-11",
+    "name": "Champagne",
+    "description": "Soft warm champagne — elegant.",
+    "hex": "#F2E6CC",
+    "family": "Antiques & Creams"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-30",
+    "name": "Ivory",
+    "description": "Classic warm ivory — most popular colour.",
+    "hex": "#F5EDCC",
+    "family": "Antiques & Creams"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-57",
+    "name": "Linen Flannel",
+    "description": "Warm linen tone — natural and easy.",
+    "hex": "#D8C9A0",
+    "family": "Antiques & Creams"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-23",
+    "name": "Poppy Red",
+    "description": "Bold conservation red — strong accent.",
+    "hex": "#C82020",
+    "family": "Colour Accents"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-48",
+    "name": "Scarlet",
+    "description": "Vivid scarlet — confident and graphic.",
+    "hex": "#D03030",
+    "family": "Colour Accents"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-31",
+    "name": "Maroon",
+    "description": "Deep conservation maroon — traditional.",
+    "hex": "#780018",
+    "family": "Colour Accents"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-29",
+    "name": "Hussar Blue",
+    "description": "Deep navy — classic and authoritative.",
+    "hex": "#304878",
+    "family": "Colour Accents"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-43",
+    "name": "Russian Green",
+    "description": "Deep forest green — conservation quality.",
+    "hex": "#305840",
+    "family": "Colour Accents"
+  },
+  {
+    "category": "Conservation",
+    "ref": "CON-12",
+    "name": "Charcoal Black",
+    "description": "Dark charcoal — serious, high-contrast.",
+    "hex": "#383838",
+    "family": "Colour Accents"
+  },
+  {
+    "category": "Extra Thick",
+    "ref": "XT-sw23",
+    "name": "Pure White",
+    "description": "Brilliant white with a deep sculptural bevel.",
+    "hex": "#F8F8F8",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Extra Thick",
+    "ref": "XT-91",
+    "name": "Ice White",
+    "description": "Cool crisp white — refined and precise.",
+    "hex": "#EEF2F5",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Extra Thick",
+    "ref": "XT-54",
+    "name": "Snow White",
+    "description": "Gallery-standard white at full thickness.",
+    "hex": "#F0F3F5",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Extra Thick",
+    "ref": "XT-00",
+    "name": "Polar White Ingres",
+    "description": "Ingres texture — refined depth on thick board.",
+    "hex": "#EDF0F2",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Extra Thick",
+    "ref": "XT-97",
+    "name": "Snow White Texture",
+    "description": "Textured white — light plays on the deep bevel.",
+    "hex": "#ECEEF0",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Extra Thick",
+    "ref": "XT-03",
+    "name": "Tint 3 Texture",
+    "description": "Pale warm grey texture — subtle and calm.",
+    "hex": "#E8E8E8",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Extra Thick",
+    "ref": "XT-69",
+    "name": "Antique White",
+    "description": "Warm classic with a deep luxury bevel.",
+    "hex": "#EDE4CF",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Extra Thick",
+    "ref": "XT-70",
+    "name": "Pale Ivory",
+    "description": "Soft ivory — warmth and depth combined.",
+    "hex": "#F0E8C8",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Extra Thick",
+    "ref": "XT-11",
+    "name": "Champagne",
+    "description": "Warm champagne — elegant premium finish.",
+    "hex": "#F2E6CC",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Extra Thick",
+    "ref": "XT-86",
+    "name": "Cotton White Ingres",
+    "description": "Warm white Ingres texture on thick board.",
+    "hex": "#EDEDE8",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Extra Thick",
+    "ref": "XT-42",
+    "name": "Poster Black",
+    "description": "Full black thick mount — maximum impact.",
+    "hex": "#181818",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Museum",
+    "ref": "MUS-01",
+    "name": "Natural White",
+    "description": "Pure natural cotton-rag white — the archival standard.",
+    "hex": "#F5F2EC",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Museum",
+    "ref": "MUS-02",
+    "name": "Soft White",
+    "description": "Warm natural white — for artwork that needs warmth.",
+    "hex": "#EEE8DC",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Museum",
+    "ref": "MUS-03",
+    "name": "Antique White",
+    "description": "Warm antique cotton rag — traditional preservation.",
+    "hex": "#E8DEC8",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Museum",
+    "ref": "MUS-04",
+    "name": "Buff",
+    "description": "Natural buff — close to historic document paper.",
+    "hex": "#E0D0A0",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Suede",
+    "ref": "SU-01",
+    "name": "Cream Suede",
+    "description": "Soft warm cream suedette — elegant and understated.",
+    "hex": "#E8DCC0",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Suede",
+    "ref": "SU-02",
+    "name": "Ivory Suede",
+    "description": "Warm ivory velvet texture — gentle luxury.",
+    "hex": "#F0E4B8",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Suede",
+    "ref": "SU-03",
+    "name": "Mushroom Suede",
+    "description": "Natural taupe suedette — warm and versatile.",
+    "hex": "#C8B498",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Suede",
+    "ref": "SU-04",
+    "name": "Sand Suede",
+    "description": "Sandy gold suedette — natural warmth.",
+    "hex": "#D8C080",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Suede",
+    "ref": "SU-05",
+    "name": "Soft Grey Suede",
+    "description": "Warm light grey suedette — modern and calm.",
+    "hex": "#C0B8B0",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Suede",
+    "ref": "SU-06",
+    "name": "Charcoal Suede",
+    "description": "Dark charcoal suedette — bold and dramatic.",
+    "hex": "#484848",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Suede",
+    "ref": "SU-07",
+    "name": "Navy Suede",
+    "description": "Deep navy velvet texture — rich and formal.",
+    "hex": "#182848",
+    "family": "Available Colours"
+  },
+  {
+    "category": "Suede",
+    "ref": "SU-08",
+    "name": "Bottle Green Suede",
+    "description": "Deep green suedette — sophisticated warmth.",
+    "hex": "#183828",
+    "family": "Available Colours"
+  }
+]

@@ -1,0 +1,26 @@
+# Dev-only files
+server.js
+configurator/src/
+configurator/node_modules/
+configurator/package.json
+configurator/package-lock.json
+configurator/vite.config.js
+configurator/eslint.config.js
+configurator/index.html
+configurator/README.md
+configurator/test_popup.cjs
+
+# Large/unnecessary files
+whitewall-recording.mp4
+create.docx
+node_modules/
+.env
+uploads/
+video-frames/
+mount_prompt.txt
+catalogue_extract.txt
+Picture_Mounts_Catalogue.docx
+fine-art-printing-plan.md
+implementation-plan.html
+room-dining.jpg
+scripts/

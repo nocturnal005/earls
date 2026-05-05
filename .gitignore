@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+configurator/node_modules/
+
+# Environment
+.env
+
+# Uploads (user content)
+uploads/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Large files (exceed GitHub's 100MB limit)
+whitewall-recording.mp4
+create.docx

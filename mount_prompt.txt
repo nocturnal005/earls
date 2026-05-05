@@ -1,0 +1,632 @@
+PICTURE MOUNT CONFIGURATOR TILES
+Best-Selling Mount Options — Configurator Panel Data & Developer Brief
+Earl's Framing  ·  All prices include VAT  ·  Default size: A1 (841×594mm)  ·  Prices calculated: Wessex base × grade multiplier × size multiplier × 3
+WHAT THIS DOCUMENT CONTAINS
+24 bestselling mount options selected from the full Earl's Framing mount range. They are organised into 6 groups of 4 tiles — matching the 3-column grid in the configurator panel. Each tile shows the colour as a filled swatch, the mount type, the product reference, the add-on price at A1 size, and the FATG quality level.
+The JSON data block at the end of this document is the authoritative source for your AI agent. Pass it directly into the agent prompt.
+TILE VISUAL REFERENCE
+Each tile below is shown as it should appear in the configurator panel. Colour, name, type, add-on price, and FATG level are all visible at a glance.
+  WHITES & NEUTRALS    The most-ordered colours in professional framing. Clean and versatile.
+White Core
+WC-sw23
+Pure White
+Photography, modern prints, contemporary artwork
++ £5.57  FATG Level 3
+White Core
+WC-Aq1
+Soft White
+Watercolours, pencil drawings, portraits
++ £5.57  FATG Level 3
+White Core
+WC-Aq2
+Ivory
+Oil paintings, wildlife art, vintage prints
++ £5.57  FATG Level 3
+White Core
+WC-8629
+Buttermilk
+Antique frames, botanical prints, maps
++ £5.57  FATG Level 3
+  GREYS    The fastest-growing colour family in contemporary framing.
+White Core
+WC-8633
+Dove Grey
+Monochrome photography, pencil drawings
++ £5.57  FATG Level 3
+White Core
+WC-8491
+Mid Grey
+Contemporary photography, abstract prints
++ £5.57  FATG Level 3
+White Core
+WC-8159
+Slate
+Architecture photography, modern art
++ £5.57  FATG Level 3
+White Core
+WC-8010
+Charcoal
+Black & white photography, graphic prints
++ £5.57  FATG Level 3
+  BLACK CORE    A deep black bevel that adds depth and makes artwork appear to float.
+Black Core
+BC-01
+Soft White
+Photography — the black bevel adds subtle depth
++ £5.57  FATG Level 4
+Black Core
+BC-02
+Ivory
+Warm-toned artwork — striking black bevel
++ £5.57  FATG Level 4
+Black Core
+BC-05
+Dove Grey
+Monochrome photography with depth
++ £5.57  FATG Level 4
+Black Core
+BC-08
+Poster Black
+Bold photography, graphic prints
++ £5.57  FATG Level 4
+  COLOUR ACCENTS    Statement colours for artwork that calls for a bolder frame.
+White Core
+WC-8034
+Sage
+Botanical art, wildlife, landscape photography
++ £5.57  FATG Level 3
+White Core
+WC-8054
+Oxford Blue
+Formal portraiture, naval art, photography
++ £5.57  FATG Level 3
+White Core
+WC-8028
+Dusty Pink
+Portrait photography, botanical florals
++ £5.57  FATG Level 3
+White Core
+WC-LJ02
+Mustard
+Abstract prints, bold contemporary artwork
++ £5.57  FATG Level 3
+  CONSERVATION    Archival protection for original artwork and valued photographs.
+Conservation
+CON-54
+Snow White
+Photography, contemporary fine art originals
++ £6.91  FATG Level 2
+Conservation
+CON-30
+Ivory
+Original artwork — the most popular conservation colour
++ £6.91  FATG Level 2
+Conservation
+CON-69
+Antique White
+Oil paintings, vintage maps, heritage prints
++ £6.91  FATG Level 2
+Conservation
+CON-67
+Soft White
+Watercolours, drawings, limited-edition prints
++ £6.91  FATG Level 2
+  PREMIUM    Luxury finishes for gallery framing and special commissions.
+Extra Thick
+XT-sw23
+Pure White
+Gallery framing — deep 2.6mm sculptural bevel
++ £9.68  FATG Level 3
+Museum
+MUS-01
+Natural White
+Irreplaceable originals — 100% cotton rag
++ £8.91  FATG Level 1
+Suede
+SU-01
+Cream Suede
+Portrait photography, wedding commissions
++ £6.68  FATG Level 3
+Suede
+SU-06
+Charcoal Suede
+Black & white photography, dramatic commissions
++ £6.68  FATG Level 3
+PRICE REFERENCE — ALL 24 TILES
+Add-on prices shown at A1 (841×594mm) per sheet, inc. VAT. These are the prices shown on the configurator tile. For other sizes, apply the size multipliers from the full price guide.
+Colour
+Type
+Ref
+FATG
++ A1
+Popular for
+Whites & Neutrals
+Pure White
+White Core
+WC-sw23
+Level 3
+£5.57
+Photography, modern prints, contemporary artwork
+Soft White
+White Core
+WC-Aq1
+Level 3
+£5.57
+Watercolours, pencil drawings, portraits
+Ivory
+White Core
+WC-Aq2
+Level 3
+£5.57
+Oil paintings, wildlife art, vintage prints
+Buttermilk
+White Core
+WC-8629
+Level 3
+£5.57
+Antique frames, botanical prints, maps
+Greys
+Dove Grey
+White Core
+WC-8633
+Level 3
+£5.57
+Monochrome photography, pencil drawings
+Mid Grey
+White Core
+WC-8491
+Level 3
+£5.57
+Contemporary photography, abstract prints
+Slate
+White Core
+WC-8159
+Level 3
+£5.57
+Architecture photography, modern art
+Charcoal
+White Core
+WC-8010
+Level 3
+£5.57
+Black & white photography, graphic prints
+Black Core
+Soft White
+Black Core
+BC-01
+Level 4
+£5.57
+Photography — the black bevel adds subtle depth
+Ivory
+Black Core
+BC-02
+Level 4
+£5.57
+Warm-toned artwork — striking black bevel
+Dove Grey
+Black Core
+BC-05
+Level 4
+£5.57
+Monochrome photography with depth
+Poster Black
+Black Core
+BC-08
+Level 4
+£5.57
+Bold photography, graphic prints
+Colour Accents
+Sage
+White Core
+WC-8034
+Level 3
+£5.57
+Botanical art, wildlife, landscape photography
+Oxford Blue
+White Core
+WC-8054
+Level 3
+£5.57
+Formal portraiture, naval art, photography
+Dusty Pink
+White Core
+WC-8028
+Level 3
+£5.57
+Portrait photography, botanical florals
+Mustard
+White Core
+WC-LJ02
+Level 3
+£5.57
+Abstract prints, bold contemporary artwork
+Conservation
+Snow White
+Conservation
+CON-54
+Level 2
+£6.91
+Photography, contemporary fine art originals
+Ivory
+Conservation
+CON-30
+Level 2
+£6.91
+Original artwork — the most popular conservation colour
+Antique White
+Conservation
+CON-69
+Level 2
+£6.91
+Oil paintings, vintage maps, heritage prints
+Soft White
+Conservation
+CON-67
+Level 2
+£6.91
+Watercolours, drawings, limited-edition prints
+Premium
+Pure White
+Extra Thick
+XT-sw23
+Level 3
+£9.68
+Gallery framing — deep 2.6mm sculptural bevel
+Natural White
+Museum
+MUS-01
+Level 1
+£8.91
+Irreplaceable originals — 100% cotton rag
+Cream Suede
+Suede
+SU-01
+Level 3
+£6.68
+Portrait photography, wedding commissions
+Charcoal Suede
+Suede
+SU-06
+Level 3
+£6.68
+Black & white photography, dramatic commissions
+AI AGENT PROMPT
+Copy everything below the line and paste it directly into your AI agent or developer brief.
+SYSTEM PROMPT — PICTURE MOUNT CONFIGURATOR PANEL
+You are building the Mounting section of the Earl's Framing website configurator.
+The configurator is a right-side panel that sits alongside a live frame preview.
+The panel is approximately 400px wide. It shows mount options as a tile grid.
+The customer selects one tile. It applies to the frame preview. The price updates.
+One button at the bottom: APPLY CHANGE.
+━━ PANEL STRUCTURE ━━
+The panel heading is: MOUNTING
+Below the heading: a scrollable tile grid, 3 columns wide.
+Below the grid: 'Price incl. VAT, excl. shipping' and the running total.
+At the bottom: a full-width APPLY CHANGE button in Earl's Framing red (#C0392B).
+━━ TILE DESIGN ━━
+Each tile is a card with three zones (top to bottom):
+  1. COLOUR SWATCH — fills the top 60% of the tile with the mount hex colour.
+     Shows mount type (small bold text) and ref code (small italic) at the bottom of the swatch.
+     Text colour: white (#FFFFFF) on dark swatches (hex < #909090), dark (#222222) on light swatches.
+  2. NAME AREA — white background.
+     Line 1: colour name, bold, navy (#1A3C5C).
+     Line 2: popularFor string, small italic grey (#555555).
+  3. PRICE BAND — coloured background matching the mount type colour.
+     Shows: '+£X.XX' in white bold, and 'FATG Level X' in small light text.
+Mount type colours (for the price band and any type labels):
+  White Core:   #1E5C8A
+  Black Core:   #333333
+  Conservation: #1A6B3C
+  Extra Thick:  #5A3C8A
+  Museum:       #8A5A1A
+  Suede:        #7A3C5C
+Selected tile state: add a solid 2px border in Earl's Framing red (#C0392B) around the entire tile.
+Hover state: slight scale(1.02) and a soft box-shadow.
+Default (no mount): first tile (Pure White, White Core) is pre-selected on load.
+━━ TILE GROUPS ━━
+Tiles are organised into 6 groups. Display a small group label above each group of tiles.
+Group labels are left-aligned, small caps or small bold text, in a muted colour (#888888).
+Groups scroll vertically inside the panel. Do not paginate.
+The 6 groups and their order:
+  1. Whites & Neutrals
+  2. Greys
+  3. Black Core
+  4. Colour Accents
+  5. Conservation
+  6. Premium
+━━ PRICING LOGIC ━━
+The add-on price shown on each tile is per sheet at A1 size, inc. VAT.
+Formula: £1.485 × gradeMultiplier × sizeMultiplier × 3
+The default size is A1 (sizeMultiplier = 1.00).
+If your configurator supports multiple sizes, recalculate using the size multipliers
+from the full price guide. Do not hardcode prices for non-A1 sizes.
+━━ TILE DATA ━━
+Use the following JSON as the authoritative data source for all 24 tiles.
+Do not invent colours, prices, or reference codes. Do not add tiles not in this list.
+The 'addonPriceA1' field is the price shown on the tile at A1 size.
+--- BEGIN JSON ---
+[
+  {
+    "id": "wc-pure-white",
+    "label": "White Core · Pure White",
+    "mountType": "White Core",
+    "ref": "WC-sw23",
+    "hex": "#F8F8F8",
+    "fatgLevel": "Level 3",
+    "addonPriceA1": 5.57,
+    "popularFor": "Photography, modern prints, contemporary artwork",
+    "group": "Whites & Neutrals"
+  },
+  {
+    "id": "wc-soft-white",
+    "label": "White Core · Soft White",
+    "mountType": "White Core",
+    "ref": "WC-Aq1",
+    "hex": "#F0EBE3",
+    "fatgLevel": "Level 3",
+    "addonPriceA1": 5.57,
+    "popularFor": "Watercolours, pencil drawings, portraits",
+    "group": "Whites & Neutrals"
+  },
+  {
+    "id": "wc-ivory",
+    "label": "White Core · Ivory",
+    "mountType": "White Core",
+    "ref": "WC-Aq2",
+    "hex": "#F5EDCC",
+    "fatgLevel": "Level 3",
+    "addonPriceA1": 5.57,
+    "popularFor": "Oil paintings, wildlife art, vintage prints",
+    "group": "Whites & Neutrals"
+  },
+  {
+    "id": "wc-buttermilk",
+    "label": "White Core · Buttermilk",
+    "mountType": "White Core",
+    "ref": "WC-8629",
+    "hex": "#F5EDD0",
+    "fatgLevel": "Level 3",
+    "addonPriceA1": 5.57,
+    "popularFor": "Antique frames, botanical prints, maps",
+    "group": "Whites & Neutrals"
+  },
+  {
+    "id": "wc-dove",
+    "label": "White Core · Dove Grey",
+    "mountType": "White Core",
+    "ref": "WC-8633",
+    "hex": "#D0D0CC",
+    "fatgLevel": "Level 3",
+    "addonPriceA1": 5.57,
+    "popularFor": "Monochrome photography, pencil drawings",
+    "group": "Greys"
+  },
+  {
+    "id": "wc-mid-grey",
+    "label": "White Core · Mid Grey",
+    "mountType": "White Core",
+    "ref": "WC-8491",
+    "hex": "#909090",
+    "fatgLevel": "Level 3",
+    "addonPriceA1": 5.57,
+    "popularFor": "Contemporary photography, abstract prints",
+    "group": "Greys"
+  },
+  {
+    "id": "wc-slate",
+    "label": "White Core · Slate",
+    "mountType": "White Core",
+    "ref": "WC-8159",
+    "hex": "#708090",
+    "fatgLevel": "Level 3",
+    "addonPriceA1": 5.57,
+    "popularFor": "Architecture photography, modern art",
+    "group": "Greys"
+  },
+  {
+    "id": "wc-charcoal",
+    "label": "White Core · Charcoal",
+    "mountType": "White Core",
+    "ref": "WC-8010",
+    "hex": "#484848",
+    "fatgLevel": "Level 3",
+    "addonPriceA1": 5.57,
+    "popularFor": "Black & white photography, graphic prints",
+    "group": "Greys"
+  },
+  {
+    "id": "bc-soft-white",
+    "label": "Black Core · Soft White",
+    "mountType": "Black Core",
+    "ref": "BC-01",
+    "hex": "#F0EBE3",
+    "fatgLevel": "Level 4",
+    "addonPriceA1": 5.57,
+    "popularFor": "Photography — the black bevel adds subtle depth",
+    "group": "Black Core"
+  },
+  {
+    "id": "bc-ivory",
+    "label": "Black Core · Ivory",
+    "mountType": "Black Core",
+    "ref": "BC-02",
+    "hex": "#F5EDCC",
+    "fatgLevel": "Level 4",
+    "addonPriceA1": 5.57,
+    "popularFor": "Warm-toned artwork — striking black bevel",
+    "group": "Black Core"
+  },
+  {
+    "id": "bc-dove-grey",
+    "label": "Black Core · Dove Grey",
+    "mountType": "Black Core",
+    "ref": "BC-05",
+    "hex": "#D0D0CC",
+    "fatgLevel": "Level 4",
+    "addonPriceA1": 5.57,
+    "popularFor": "Monochrome photography with depth",
+    "group": "Black Core"
+  },
+  {
+    "id": "bc-poster-black",
+    "label": "Black Core · Poster Black",
+    "mountType": "Black Core",
+    "ref": "BC-08",
+    "hex": "#181818",
+    "fatgLevel": "Level 4",
+    "addonPriceA1": 5.57,
+    "popularFor": "Bold photography, graphic prints",
+    "group": "Black Core"
+  },
+  {
+    "id": "wc-sage",
+    "label": "White Core · Sage",
+    "mountType": "White Core",
+    "ref": "WC-8034",
+    "hex": "#90B088",
+    "fatgLevel": "Level 3",
+    "addonPriceA1": 5.57,
+    "popularFor": "Botanical art, wildlife, landscape photography",
+    "group": "Colour Accents"
+  },
+  {
+    "id": "wc-oxford-blue",
+    "label": "White Core · Oxford Blue",
+    "mountType": "White Core",
+    "ref": "WC-8054",
+    "hex": "#284878",
+    "fatgLevel": "Level 3",
+    "addonPriceA1": 5.57,
+    "popularFor": "Formal portraiture, naval art, photography",
+    "group": "Colour Accents"
+  },
+  {
+    "id": "wc-dusty-pink",
+    "label": "White Core · Dusty Pink",
+    "mountType": "White Core",
+    "ref": "WC-8028",
+    "hex": "#E8A898",
+    "fatgLevel": "Level 3",
+    "addonPriceA1": 5.57,
+    "popularFor": "Portrait photography, botanical florals",
+    "group": "Colour Accents"
+  },
+  {
+    "id": "wc-mustard",
+    "label": "White Core · Mustard",
+    "mountType": "White Core",
+    "ref": "WC-LJ02",
+    "hex": "#C8A020",
+    "fatgLevel": "Level 3",
+    "addonPriceA1": 5.57,
+    "popularFor": "Abstract prints, bold contemporary artwork",
+    "group": "Colour Accents"
+  },
+  {
+    "id": "con-snow-white",
+    "label": "Conservation · Snow White",
+    "mountType": "Conservation",
+    "ref": "CON-54",
+    "hex": "#F0F3F5",
+    "fatgLevel": "Level 2",
+    "addonPriceA1": 6.91,
+    "popularFor": "Photography, contemporary fine art originals",
+    "group": "Conservation"
+  },
+  {
+    "id": "con-ivory",
+    "label": "Conservation · Ivory",
+    "mountType": "Conservation",
+    "ref": "CON-30",
+    "hex": "#F5EDCC",
+    "fatgLevel": "Level 2",
+    "addonPriceA1": 6.91,
+    "popularFor": "Original artwork — the most popular conservation colour",
+    "group": "Conservation"
+  },
+  {
+    "id": "con-antique-white",
+    "label": "Conservation · Antique White",
+    "mountType": "Conservation",
+    "ref": "CON-69",
+    "hex": "#EDE4CF",
+    "fatgLevel": "Level 2",
+    "addonPriceA1": 6.91,
+    "popularFor": "Oil paintings, vintage maps, heritage prints",
+    "group": "Conservation"
+  },
+  {
+    "id": "con-soft-white",
+    "label": "Conservation · Soft White",
+    "mountType": "Conservation",
+    "ref": "CON-67",
+    "hex": "#EDE8E0",
+    "fatgLevel": "Level 2",
+    "addonPriceA1": 6.91,
+    "popularFor": "Watercolours, drawings, limited-edition prints",
+    "group": "Conservation"
+  },
+  {
+    "id": "xt-pure-white",
+    "label": "Extra Thick · Pure White",
+    "mountType": "Extra Thick",
+    "ref": "XT-sw23",
+    "hex": "#F8F8F8",
+    "fatgLevel": "Level 3",
+    "addonPriceA1": 9.68,
+    "popularFor": "Gallery framing — deep 2.6mm sculptural bevel",
+    "group": "Premium"
+  },
+  {
+    "id": "mus-natural-white",
+    "label": "Museum · Natural White",
+    "mountType": "Museum",
+    "ref": "MUS-01",
+    "hex": "#F5F2EC",
+    "fatgLevel": "Level 1",
+    "addonPriceA1": 8.91,
+    "popularFor": "Irreplaceable originals — 100% cotton rag",
+    "group": "Premium"
+  },
+  {
+    "id": "su-cream",
+    "label": "Suede · Cream",
+    "mountType": "Suede",
+    "ref": "SU-01",
+    "hex": "#E8DCC0",
+    "fatgLevel": "Level 3",
+    "addonPriceA1": 6.68,
+    "popularFor": "Portrait photography, wedding commissions",
+    "group": "Premium"
+  },
+  {
+    "id": "su-charcoal",
+    "label": "Suede · Charcoal",
+    "mountType": "Suede",
+    "ref": "SU-06",
+    "hex": "#484848",
+    "fatgLevel": "Level 3",
+    "addonPriceA1": 6.68,
+    "popularFor": "Black & white photography, dramatic commissions",
+    "group": "Premium"
+  }
+]
+--- END JSON ---
+━━ FULL CATALOGUE LINK ━━
+At the bottom of the tile grid, before the price/apply row, add a small text link:
+  'View full colour range →'
+This opens the full mount catalogue page in a modal or new tab.
+The link text colour is #1E5C8A. Font size: 13px. Do not style it as a button.
+━━ WHAT NOT TO BUILD ━━
+Do not add filters, tabs, or search to the configurator panel.
+Do not show prices before the customer has seen the tile.
+Do not add a 'most popular' badge to any tile — it biases selection.
+Do not add tooltips or hover descriptions inside the panel — keep it clean.
+Do not add more than 24 tiles without approval — the panel must remain scrollable,
+  not exhausting.
+━━ BRAND ━━
+Site name: Earl's Framing
+Primary red: #C0392B
+Navy: #1A3C5C
+Font: match the existing site — use the font already loaded on earlsframing.co.uk
+All prices include VAT. Pricing formula: Wessex wholesale base (£5.94/A0 inc. VAT) × grade multiplier × size multiplier × 3. All board meets Fine Art Trade Guild standards.

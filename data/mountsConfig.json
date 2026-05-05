@@ -1,0 +1,86 @@
+{
+  "categories": [
+    {
+      "id": "white-core",
+      "name": "White Core",
+      "useCase": "Original artwork, photography, quality prints — everyday professional framing.",
+      "fatg": "Level 3",
+      "thickness": "1.4mm",
+      "tagline": "The professional framing standard",
+      "specBar": "1.4mm · Alpha cellulose · Acid-free · Lignin-free · White bevel stays white · FATG Level 3",
+      "description": "White Core is the most widely used mount board in professional framing. The core is chemically purified — the bevel stays bright white for the life of the frame. Suitable for original artwork, photography, and quality prints at all price points.",
+      "gradeMultiplier": 1.25,
+      "sizes": ["A4", "A3", "A1", "32x47in", "A0", "Jumbo"]
+    },
+    {
+      "id": "black-core",
+      "name": "Black Core",
+      "useCase": "Photography, graphic prints, contemporary art — the black bevel adds depth and drama.",
+      "fatg": "Level 4",
+      "thickness": "1.4mm",
+      "tagline": "A dramatic black bevel — bold contrast for modern framing",
+      "specBar": "1.4mm · 100% recycled fibres · Carbon black core · Acid-free · Lignin-free · FATG Level 4",
+      "description": "Black Core mounts reveal a deep black bevel when cut. The black edge is visible between the surface and the artwork, creating a natural shadow that makes the image appear to float. Popular for photography, graphic prints, and contemporary art.",
+      "gradeMultiplier": 1.25,
+      "sizes": ["A4", "A3", "A1", "32x44in"]
+    },
+    {
+      "id": "conservation",
+      "name": "Conservation",
+      "useCase": "Original art, limited editions, vintage photographs — permanent archival protection.",
+      "fatg": "Level 2",
+      "thickness": "1.4mm",
+      "tagline": "Permanent archival protection for artwork that matters",
+      "specBar": "1.4mm · Alpha cellulose · Acid-free · Calcium carbonate buffered · No optical brighteners · FATG Level 2",
+      "description": "Conservation mounts are the professional standard for original artwork, limited-edition prints, and vintage photographs. Buffered with calcium carbonate to actively resist acid migration. The bevel stays permanently white. No optical brighteners — will not change colour under UV light.",
+      "gradeMultiplier": 1.55,
+      "sizes": ["A4", "A3", "A1", "32x47in", "Jumbo"]
+    },
+    {
+      "id": "extra-thick",
+      "name": "Extra Thick",
+      "useCase": "Gallery framing and special commissions — the 2.6mm bevel is a design statement in itself.",
+      "fatg": "Level 3",
+      "thickness": "2.6mm",
+      "tagline": "A deep 2.6mm bevel — the gallery framing choice",
+      "specBar": "2.6mm · Alpha cellulose · Acid-free · Lignin-free · Nearly double standard thickness · FATG Level 3",
+      "description": "At 2.6mm — almost double the standard thickness — Extra Thick mounts deliver a sculptural bevel that catches light differently and signals quality at a glance. Used in gallery framing and special commissions where the mount is part of the design statement.",
+      "gradeMultiplier": 1.40,
+      "sizes": ["XT 32x47in"]
+    },
+    {
+      "id": "museum",
+      "name": "Museum",
+      "useCase": "Irreplaceable originals, museum pieces, archival documents — 100% cotton rag, the absolute standard.",
+      "fatg": "Level 1",
+      "thickness": "1.4mm",
+      "tagline": "The gold standard — 100% cotton rag, naturally acid-free",
+      "specBar": "1.4mm · 100% cotton rag · Naturally acid-free · Pigment colouring only · No optical brighteners · FATG Level 1",
+      "description": "Museum mounts are made from 100% cotton rag — not wood pulp — so they are naturally acid-free without any chemical treatment. Used in museums and national galleries for the permanent preservation of irreplaceable artwork, documents, and photographs. Pigment-only colouring ensures the face will not fade under prolonged light exposure.",
+      "gradeMultiplier": 2.00,
+      "sizes": ["A1", "32x47in"]
+    },
+    {
+      "id": "suede",
+      "name": "Suede",
+      "useCase": "Portrait photography, wedding commissions, textile art — tactile velvet-like fabric surface.",
+      "fatg": "Level 3",
+      "thickness": "1.4mm",
+      "tagline": "A soft tactile surface — warmth and texture in the mount",
+      "specBar": "1.4mm · Suedette fabric surface · White core beneath · pH neutral · FATG Level 3",
+      "description": "Suede mounts carry a soft velvet-like fabric surface that no standard board can replicate. The tactile quality works especially well for portrait photography, wedding commissions, and textile art — anywhere the mount itself is part of the design rather than a neutral border.",
+      "gradeMultiplier": 1.50,
+      "sizes": ["A1", "32x44in"]
+    }
+  ],
+  "sizesConfig": {
+    "A4": { "mult": 0.30, "pack": 10, "label": "A4", "desc": "(297×210mm)" },
+    "A3": { "mult": 0.55, "pack": 8, "label": "A3", "desc": "(420×297mm)" },
+    "A1": { "mult": 1.00, "pack": 5, "label": "A1", "desc": "(841×594mm)" },
+    "32x44in": { "mult": 1.10, "pack": 5, "label": "32×44in", "desc": "(1120×815mm)" },
+    "32x47in": { "mult": 1.15, "pack": 5, "label": "32×47in", "desc": "(1200×815mm)" },
+    "A0": { "mult": 1.85, "pack": 10, "label": "A0", "desc": "(1189×841mm)" },
+    "Jumbo": { "mult": 2.80, "pack": 5, "label": "Jumbo", "desc": "(1016×1524mm)" },
+    "XT 32x47in": { "mult": 1.5525, "pack": 5, "label": "32×47in", "desc": "(1200×815mm)" }
+  }
+}

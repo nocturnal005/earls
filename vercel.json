@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "framework": null,
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/bespoke-framing", "destination": "/bespoke-framing.html" },
+    { "source": "/frame-my-photo", "destination": "/frame-my-photo.html" },
+    { "source": "/fine-art-printing", "destination": "/fine-art-printing.html" }
+  ],
+  "functions": {
+    "api/*.js": {
+      "runtime": "@vercel/node@3"
+    }
+  }
+}

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earl's Picture Framing | Professional & Bespoke</title>
+    <meta name="description" content="Professional picture framing services in Peckham, London. Bespoke framing, canvas stretching, and frame restoration.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Iconify -->
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css?v=9999&t=123456789">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container header__inner">
+            <a href="#" class="logo">
+                <img src="assets/images/earls_logo.png" alt="Earl's Picture Framing Logo">
+                <span class="logo-text">Earl's Framing</span>
+            </a>
+            
+            <nav class="nav">
+                <button class="mobile-menu-btn" aria-label="Toggle menu">
+                    <span class="iconify" data-icon="lucide:menu"></span>
+                </button>
+                <ul class="nav__list">
+                    <li><a href="#services" class="nav__link">Services</a></li>
+                    <li><a href="frame-my-photo.html" class="nav__link">Frame My Photo</a></li>
+                    <li><a href="#contact" class="nav__link">Contact</a></li>
+                    <li><a href="#gallery" class="nav__link">Gallery</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header__contact">
+                <span class="iconify header__contact-icon" data-icon="lucide:phone"></span>
+                <span>075 0896 3540</span>
+                <a href="#" class="header__cart" id="header-cart-btn" aria-label="Shopping Cart" style="margin-left: 20px; color: #fff; text-decoration: none; display: flex; align-items: center; position: relative;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+                    <span class="header__cart-count" id="header-cart-count" style="display:none; position: absolute; top: -6px; right: -8px; background: #C41E1E; color: white; font-size: 10px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; align-items: center; justify-content: center;">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero hero--split">
+        <div class="hero__split-left">
+            <div class="hero__content reveal">
+                <h1 class="hero__title">Custom Picture Framing</h1>
+                <p class="hero__subtitle">Professional, Bespoke, and Built to Last. Let us frame your memories with care.</p>
+                <a href="frame-my-photo.html" class="btn btn--primary">Frame My Photo <span class="iconify" data-icon="lucide:arrow-right" style="margin-left:0.4rem"></span></a>
+            </div>
+            
+            <div class="hero__scroll-indicator">
+                <span class="hero__scroll-text">Scroll</span>
+                <span class="iconify" data-icon="lucide:chevron-down" data-width="24"></span>
+            </div>
+        </div>
+        <div class="hero__split-right">
+            <video class="hero__video-bg" autoplay loop muted playsinline>
+                <source src="new-hero.mp4" type="video/mp4">
+            </video>
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section id="services" class="section poseify-services-section">
+        <div class="container">
+            <div class="section-header reveal poseify-header">
+                <h5 class="poseify-subtitle">SERVICES</h5>
+                <h2 class="poseify-title">How We Help You</h2>
+            </div>
+            
+            <div class="poseify-services-list">
+                <!-- Service 1 -->
+                <div class="poseify-service-row reveal">
+                    <div class="poseify-service-image-col">
+                        <div class="framing-rect-wrapper framing-rect-wrapper--bespoke">
+                            <img src="assets/images/service_bespoke_framing.jpeg" alt="Bespoke Picture Framing">
+                        </div>
+                    </div>
+                    <div class="poseify-service-content-col">
+                        <h3>Bespoke Picture Framing</h3>
+                        <p>Custom-built frames for art, photographs, certificates, and precious memories, perfectly sized and styled for your piece.</p>
+                        <a href="frame-my-photo.html" class="btn btn--outline poseify-btn">Read More <span class="iconify" data-icon="lucide:arrow-right"></span></a>
+                    </div>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="poseify-service-row poseify-service-row--reverse reveal">
+                    <div class="poseify-service-image-col">
+                        <div class="framing-rect-wrapper">
+                            <img src="assets/images/service_canvas_new.png" alt="Canvas Stretching">
+                        </div>
+                    </div>
+                    <div class="poseify-service-content-col">
+                        <h3>Canvas Stretching</h3>
+                        <p>Professional stretching for rolled canvases and paintings, ensuring a tight, secure fit ready for display or framing.</p>
+                        <a href="frame-my-photo.html" class="btn btn--outline poseify-btn">Read More <span class="iconify" data-icon="lucide:arrow-right"></span></a>
+                    </div>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="poseify-service-row reveal">
+                    <div class="poseify-service-image-col">
+                        <div class="framing-rect-wrapper framing-rect-wrapper--shadowbox">
+                            <img src="assets/images/service_shadowbox_shearer_v3.png" alt="Shadow Boxes">
+                        </div>
+                    </div>
+                    <div class="poseify-service-content-col">
+                        <h3>Shadow Boxes</h3>
+                        <p>Deep box frames perfect for sports shirts, medals, shoes, and other three-dimensional memorabilia.</p>
+                        <a href="frame-my-photo.html" class="btn btn--outline poseify-btn">Read More <span class="iconify" data-icon="lucide:arrow-right"></span></a>
+                    </div>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="poseify-service-row poseify-service-row--reverse reveal">
+                    <div class="poseify-service-image-col">
+                        <div class="framing-rect-wrapper framing-rect-wrapper--mounts">
+                            <img src="assets/images/mount_grid_samples.png" alt="Custom Picture Mount Samples Grid" class="mount-grid-image">
+                        </div>
+                    </div>
+                    <div class="poseify-service-content-col">
+                        <h3>Custom Picture Mounts</h3>
+                        <p>Elevate your artwork with our precision-cut, conservation-grade mounts. Designed to perfectly frame and protect your pieces, our custom mounts reflect a commitment to quality, longevity, and timeless presentation.</p>
+                        <a href="frame-my-photo.html?mount=single" class="btn btn--outline poseify-btn">Get Started <span class="iconify" data-icon="lucide:arrow-right"></span></a>
+                    </div>
+                </div>
+                
+                <!-- Service 5 -->
+                <div class="poseify-service-row reveal">
+                    <div class="poseify-service-image-col">
+                        <div class="framing-rect-wrapper">
+                            <img src="assets/images/service_print.png" alt="Fine Art Printing">
+                        </div>
+                    </div>
+                    <div class="poseify-service-content-col">
+                        <h3>Fine Art Printing</h3>
+                        <p>High-quality Giclée printing for artists and photographers, ready to be framed immediately in-store.</p>
+                        <a href="frame-my-photo.html" class="btn btn--outline poseify-btn">Read More <span class="iconify" data-icon="lucide:arrow-right"></span></a>
+                    </div>
+                </div>
+                
+                <!-- Service 6 -->
+                <div class="poseify-service-row poseify-service-row--reverse reveal">
+                    <div class="poseify-service-image-col">
+                        <div class="framing-rect-wrapper">
+                            <img src="assets/images/service_restore.png" alt="Frame Restoration">
+                        </div>
+                    </div>
+                    <div class="poseify-service-content-col">
+                        <h3>Frame Restoration</h3>
+                        <p>Careful repair and restoration of damaged frames, glass replacement, and re-mounting of old artworks.</p>
+                        <a href="frame-my-photo.html" class="btn btn--outline poseify-btn">Read More <span class="iconify" data-icon="lucide:arrow-right"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY / OUR WORK SECTION -->
+    <section id="gallery" class="section">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="section-title">Our Work</h2>
+                <p class="section-subtitle">A selection of our recent bespoke framing projects.</p>
+            </div>
+        </div>
+
+        <div class="gallery-immersive reveal" id="gallery-immersive">
+            <div class="gallery-immersive__track">
+                <div class="gallery-immersive__item">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="assets/images/ourwork-1.png" alt="Bespoke Framing Project 1">
+                    </div>
+                </div>
+                <div class="gallery-immersive__item">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="configurator/dist/samples/reworked 1.jpeg" alt="Framed Landscape Photo">
+                    </div>
+                </div>
+                <div class="gallery-immersive__item">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="assets/images/ourwork-2.png" alt="Bespoke Framing Project 2">
+                    </div>
+                </div>
+                <div class="gallery-immersive__item">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="configurator/dist/samples/reworked 2.jpeg" alt="Framed Nature Photo">
+                    </div>
+                </div>
+                <div class="gallery-immersive__item active">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="assets/images/ourwork-3.png" alt="Bespoke Framing Project 3">
+                    </div>
+                </div>
+                <div class="gallery-immersive__item">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="configurator/dist/samples/reworked 3.jpeg" alt="Framed Portrait Photo">
+                    </div>
+                </div>
+                <div class="gallery-immersive__item">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="configurator/dist/samples/reworked 4.jpeg" alt="Framed Architecture Photo">
+                    </div>
+                </div>
+                <div class="gallery-immersive__item">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="assets/images/ourwork-4.png" alt="Bespoke Framing Project 4">
+                    </div>
+                </div>
+                <div class="gallery-immersive__item">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="configurator/dist/samples/reworked 5.jpeg" alt="Framed Art Photo">
+                    </div>
+                </div>
+                <div class="gallery-immersive__item">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="configurator/dist/samples/reworked 6.jpeg" alt="Framed Scenic Photo">
+                    </div>
+                </div>
+                <div class="gallery-immersive__item">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="assets/images/ourwork-5.png" alt="Bespoke Framing Project 5">
+                    </div>
+                </div>
+                <div class="gallery-immersive__item">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="configurator/dist/samples/reworked 7.jpeg" alt="Framed Sunset Photo">
+                    </div>
+                </div>
+                <div class="gallery-immersive__item">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="configurator/dist/samples/reworked 8.jpeg" alt="Framed City Photo">
+                    </div>
+                </div>
+                <div class="gallery-immersive__item">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="assets/images/ourwork-6.jpg" alt="Bespoke Framing Project 6">
+                    </div>
+                </div>
+                <div class="gallery-immersive__item">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="configurator/dist/samples/reworked 9.jpeg" alt="Framed Abstract Photo">
+                    </div>
+                </div>
+                <div class="gallery-immersive__item">
+                    <div class="gallery-immersive__image-wrap">
+                        <img src="configurator/dist/samples/reworked 10.jpeg" alt="Framed Wildlife Photo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="section section--alt">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="section-title">Client Reviews</h2>
+                <p class="section-subtitle">Hear from those who trust us with their treasured art.</p>
+            </div>
+            
+            <div class="reviews-grid reveal">
+                <div class="review-card">
+                    <div class="review-card__stars">
+                        <span class="iconify" data-icon="lucide:star"></span>
+                        <span class="iconify" data-icon="lucide:star"></span>
+                        <span class="iconify" data-icon="lucide:star"></span>
+                        <span class="iconify" data-icon="lucide:star"></span>
+                        <span class="iconify" data-icon="lucide:star"></span>
+                    </div>
+                    <div class="review-card__quote">
+                        <span class="iconify quote-icon" data-icon="lucide:quote"></span>
+                        <p>"Earl's framing did an incredible job stretching and framing a large canvas I brought back from holiday. The craftsmanship is flawless and the service was wonderfully friendly."</p>
+                    </div>
+                    <div class="review-card__footer">
+                        <p class="review-card__author">Sarah Jenkins</p>
+                        <p class="review-card__service">Canvas Stretching</p>
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-card__stars">
+                        <span class="iconify" data-icon="lucide:star"></span>
+                        <span class="iconify" data-icon="lucide:star"></span>
+                        <span class="iconify" data-icon="lucide:star"></span>
+                        <span class="iconify" data-icon="lucide:star"></span>
+                        <span class="iconify" data-icon="lucide:star"></span>
+                    </div>
+                    <div class="review-card__quote">
+                        <span class="iconify quote-icon" data-icon="lucide:quote"></span>
+                        <p>"Absolutely top tier bespoke framing. They guided me through selecting the perfect mount and frame for a signed football shirt. Highly recommended."</p>
+                    </div>
+                    <div class="review-card__footer">
+                        <p class="review-card__author">David M.</p>
+                        <p class="review-card__service">Shadow Box Framing</p>
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-card__stars">
+                        <span class="iconify" data-icon="lucide:star"></span>
+                        <span class="iconify" data-icon="lucide:star"></span>
+                        <span class="iconify" data-icon="lucide:star"></span>
+                        <span class="iconify" data-icon="lucide:star"></span>
+                        <span class="iconify" data-icon="lucide:star"></span>
+                    </div>
+                    <div class="review-card__quote">
+                        <span class="iconify quote-icon" data-icon="lucide:quote"></span>
+                        <p>"I brought in an old, damaged frame holding a family photograph. The restoration was remarkable, it looks brand new but retains its character."</p>
+                    </div>
+                    <div class="review-card__footer">
+                        <p class="review-card__author">Emma L.</p>
+                        <p class="review-card__service">Frame Restoration</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="section section--alt">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info reveal">
+                    <h3>Visit Our Workshop</h3>
+                    <div class="contact-list">
+                        <div class="contact-item">
+                            <span class="iconify contact-icon" data-icon="lucide:map-pin"></span>
+                            <div>
+                                <h4>Address</h4>
+                                <p>Unit 49, Rye Lane<br>Peckham, London<br>SE15 5BY</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <span class="iconify contact-icon" data-icon="lucide:phone"></span>
+                            <div>
+                                <h4>Phone</h4>
+                                <p><a href="tel:07508963540">075 0896 3540</a></p>
+                                <p><a href="tel:02035448391">0203 544 8391</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <span class="iconify contact-icon" data-icon="lucide:clock"></span>
+                            <div>
+                                <h4>Opening Hours</h4>
+                                <p>Mon - Fri: 9:00 AM - 6:00 PM</p>
+                                <p>Saturday: 10:00 AM - 4:00 PM</p>
+                                <p>Sunday: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="map-container reveal">
+                    <!-- Google Maps Embed Placeholder targeting Peckham Rye Lane area -->
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9939.992837265213!2d-0.07682974999999999!3d51.4696803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487603a11b61921f%3A0xc665b16e84126fb9!2sRye%20Ln%2C%20London%20SE15!5e0!3m2!1sen!2suk!4v1683123456789!5m2!1sen!2suk" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <img src="assets/images/earls_logo.png" alt="Earl's Picture Framing Logo">
+                        <span class="logo-text">Earl's Framing</span>
+                    </a>
+                    <p>Professional, bespoke picture framing services in Peckham, London. Elevating your art with quality craftsmanship.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <span class="iconify" data-icon="lucide:instagram"></span>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <span class="iconify" data-icon="lucide:facebook"></span>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <span class="iconify" data-icon="lucide:twitter"></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <div class="footer-links">
+                        <a href="#services">Our Services</a>
+                        <a href="#gallery">Portfolio</a>
+                        <a href="frame-my-photo.html?sample=portrait">Frame My Photo</a>
+                        <a href="#contact">Contact Us</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="footer-heading">Services</h4>
+                    <div class="footer-links">
+                        <a href="bespoke-framing.html">Bespoke Framing</a>
+                        <a href="fine-art-printing.html">Fine Art Printing</a>
+                        <a href="#services">Canvas Stretching</a>
+                        <a href="#services">Shadow Boxes</a>
+                        <a href="#services">Frame Restoration</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Earl's Picture Framing. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox-modal" class="lightbox">
+        <span class="lightbox__close" id="lightbox-close">&times;</span>
+        <img class="lightbox__content" id="lightbox-img" src="" alt="Full view project image">
+    </div>
+
+
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bespoke Picture Framing | Earl's Framing</title>
+    <meta name="description" content="Choose your bespoke framing option: picture frames only, frames with mounts, or picture mounts only. Made to measure at Earl's Picture Framing, Peckham.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* === V2: FULL-WIDTH HORIZONTAL PANELS === */
+
+        /* — Compact Hero — */
+        .bespoke-hero-v2 {
+            background: var(--earls-black);
+            padding: 6rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+        }
+        .bespoke-hero-v2__breadcrumb {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--medium-grey);
+        }
+        .bespoke-hero-v2__breadcrumb a {
+            color: var(--medium-grey);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .bespoke-hero-v2__breadcrumb a:hover { color: var(--earls-red); }
+        .bespoke-hero-v2__breadcrumb .sep { color: var(--earls-red); }
+        .bespoke-hero-v2__title {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 1rem;
+        }
+        .bespoke-hero-v2__title span { color: var(--earls-red); }
+        .bespoke-hero-v2__subtitle {
+            font-family: var(--font-body);
+            font-size: 1.15rem;
+            color: #B0B0B0;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* — Horizontal Option Panels — */
+        .option-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 55vh;
+            overflow: hidden;
+            border-bottom: 1px solid var(--light-grey);
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .option-panel:nth-child(even) .option-panel__image { order: 2; }
+        .option-panel:nth-child(even) .option-panel__content { order: 1; }
+
+        .option-panel__image {
+            position: relative;
+            overflow: hidden;
+            background: var(--cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .option-panel__image img {
+            width: 65%;
+            height: auto;
+            object-fit: contain;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .option-panel:hover .option-panel__image img {
+            transform: scale(1.06);
+        }
+
+        .option-panel__content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: clamp(2.5rem, 5vw, 5rem);
+            background: #fff;
+            transition: background 0.3s ease;
+        }
+        .option-panel:hover .option-panel__content {
+            background: var(--earls-black);
+        }
+        .option-panel:hover .option-panel__number { background: #fff; color: var(--earls-red); }
+        .option-panel:hover .option-panel__title { color: #fff; }
+        .option-panel:hover .option-panel__desc { color: #C0C0C0; }
+        .option-panel:hover .option-panel__features li { color: #A0A0A0; }
+        .option-panel:hover .option-panel__features li .iconify { color: var(--earls-red); }
+
+        .option-panel__number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--earls-red);
+            color: #fff;
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .option-panel__title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            color: var(--earls-black);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            transition: color 0.3s ease;
+        }
+        .option-panel__desc {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--dark-grey);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            max-width: 500px;
+            transition: color 0.3s ease;
+        }
+        .option-panel__features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2rem;
+        }
+        .option-panel__features li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--dark-grey);
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+        .option-panel__features li .iconify {
+            color: var(--earls-red);
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            transition: color 0.3s ease;
+        }
+        .option-panel__cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--earls-red);
+            border: 2px solid var(--earls-red);
+            padding: 0.9rem 2rem;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            width: fit-content;
+            text-decoration: none;
+        }
+        .option-panel:hover .option-panel__cta {
+            background: var(--earls-red);
+            color: #fff;
+        }
+
+        /* — Trust Strip — */
+        .trust-strip {
+            background: var(--earls-black);
+            padding: 3.5rem 2rem;
+        }
+        .trust-strip__inner {
+            display: flex;
+            justify-content: center;
+            gap: clamp(2rem, 5vw, 5rem);
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #fff;
+        }
+        .trust-item__icon {
+            font-size: 1.5rem;
+            color: var(--earls-red);
+        }
+        .trust-item__text {
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* — Responsive — */
+        @media (max-width: 768px) {
+            .option-panel {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+            .option-panel__image { 
+                min-height: 280px;
+                order: 0 !important; 
+            }
+            .option-panel__content { 
+                order: 1 !important;
+                padding: 2.5rem 1.5rem;
+            }
+            .trust-strip__inner { flex-direction: column; align-items: center; gap: 1.25rem; }
+        }
+
+        /* Hide non-relevant sections */
+        .hero, #services, #gallery, .testimonials-slider, section:has(.testimonials-slider) { display: none !important; }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container header__inner">
+            <a href="index.html" class="logo">
+                <img src="assets/images/earls_logo.png" alt="Earl's Picture Framing Logo">
+                <span class="logo-text">Earl's Framing</span>
+            </a>
+            <nav class="nav">
+                <button class="mobile-menu-btn" aria-label="Toggle menu">
+                    <span class="iconify" data-icon="lucide:menu"></span>
+                </button>
+                <ul class="nav__list">
+                    <li><a href="index.html#services" class="nav__link">Services</a></li>
+                    <li><a href="index.html#gallery" class="nav__link">Gallery</a></li>
+
+                    <li><a href="index.html#contact" class="nav__link">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header__contact">
+                <span class="iconify header__contact-icon" data-icon="lucide:phone"></span>
+                <span>075 0896 3540</span>
+                <a href="#" class="header__cart" id="header-cart-btn" aria-label="Shopping Cart" style="margin-left: 20px; color: #fff; text-decoration: none; display: flex; align-items: center; position: relative;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+                    <span class="header__cart-count" id="header-cart-count" style="display:none; position: absolute; top: -6px; right: -8px; background: #C41E1E; color: white; font-size: 10px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; align-items: center; justify-content: center;">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- COMPACT HERO -->
+    <section class="bespoke-hero-v2">
+        <div class="bespoke-hero-v2__breadcrumb">
+            <a href="index.html">Home</a>
+            <span class="sep">›</span>
+            <a href="index.html#services">Services</a>
+            <span class="sep">›</span>
+            <span style="color: #fff;">Bespoke Picture Framing</span>
+        </div>
+        <h1 class="bespoke-hero-v2__title">Bespoke <span>Picture</span> Framing</h1>
+        <p class="bespoke-hero-v2__subtitle">Handmade to your exact specifications in our Peckham workshop. Choose your service to begin.</p>
+    </section>
+
+    <!-- OPTION PANELS -->
+    <!-- Panel 1: Frames Only -->
+    <a href="frame-my-photo.html" class="option-panel" id="option-frames-only">
+        <div class="option-panel__image">
+            <img src="assets/images/option_frame_only.png" alt="Picture Frame Only">
+        </div>
+        <div class="option-panel__content">
+            <span class="option-panel__number">1</span>
+            <h2 class="option-panel__title">Picture Frames Only</h2>
+            <p class="option-panel__desc">A custom-made frame without a mount. Your artwork sits directly within the frame profile.</p>
+            <ul class="option-panel__features">
+                <li><span class="iconify" data-icon="lucide:check"></span> Ideal for canvases and stretched prints</li>
+                <li><span class="iconify" data-icon="lucide:check"></span> Wood, metal, and composite profiles</li>
+                <li><span class="iconify" data-icon="lucide:check"></span> Standard or conservation glazing</li>
+            </ul>
+            <span class="option-panel__cta">Get Started <span class="iconify" data-icon="lucide:arrow-right"></span></span>
+        </div>
+    </a>
+
+    <!-- Panel 2: Frames & Mounts -->
+    <a href="frame-my-photo.html?mount=single" class="option-panel" id="option-frames-mounts">
+        <div class="option-panel__image">
+            <img src="assets/images/option_frame_mount.png" alt="Picture Frame with Mount">
+        </div>
+        <div class="option-panel__content">
+            <span class="option-panel__number">2</span>
+            <h2 class="option-panel__title">Picture Frames &amp; Mounts</h2>
+            <p class="option-panel__desc">The complete package — a bespoke frame paired with a precision-cut mount board to present and protect your piece.</p>
+            <ul class="option-panel__features">
+                <li><span class="iconify" data-icon="lucide:check"></span> Most popular option for photos & prints</li>
+                <li><span class="iconify" data-icon="lucide:check"></span> Single, double, or multi-window mounts</li>
+                <li><span class="iconify" data-icon="lucide:check"></span> 50+ mount colours available</li>
+            </ul>
+            <span class="option-panel__cta">Get Started <span class="iconify" data-icon="lucide:arrow-right"></span></span>
+        </div>
+    </a>
+
+    <!-- Panel 3: Mounts Only -->
+    <a href="frame-my-photo.html?mount=single&frameOptional=true" class="option-panel" id="option-mounts-only">
+        <div class="option-panel__image">
+            <img src="assets/images/option_mount_only.png" alt="Picture Mount Only">
+        </div>
+        <div class="option-panel__content">
+            <span class="option-panel__number">3</span>
+            <h2 class="option-panel__title">Picture Mounts Only</h2>
+            <p class="option-panel__desc">Conservation-quality mount boards cut to your exact specifications — ideal if you already have a frame.</p>
+            <ul class="option-panel__features">
+                <li><span class="iconify" data-icon="lucide:check"></span> Acid-free, conservation-grade board</li>
+                <li><span class="iconify" data-icon="lucide:check"></span> Beveled or straight cuts available</li>
+                <li><span class="iconify" data-icon="lucide:check"></span> Custom shapes and multiple windows</li>
+            </ul>
+            <span class="option-panel__cta">Get Started <span class="iconify" data-icon="lucide:arrow-right"></span></span>
+        </div>
+    </a>
+
+    <!-- TRUST STRIP -->
+    <section class="trust-strip">
+        <div class="trust-strip__inner">
+            <div class="trust-item">
+                <span class="trust-item__icon"><span class="iconify" data-icon="lucide:ruler"></span></span>
+                <span class="trust-item__text">Made to Measure</span>
+            </div>
+            <div class="trust-item">
+                <span class="trust-item__icon"><span class="iconify" data-icon="lucide:hammer"></span></span>
+                <span class="trust-item__text">Handcrafted In-House</span>
+            </div>
+            <div class="trust-item">
+                <span class="trust-item__icon"><span class="iconify" data-icon="lucide:shield-check"></span></span>
+                <span class="trust-item__text">Conservation Quality</span>
+            </div>
+            <div class="trust-item">
+                <span class="trust-item__icon"><span class="iconify" data-icon="lucide:map-pin"></span></span>
+                <span class="trust-item__text">Visit Our Peckham Workshop</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="section section--alt">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Visit Our Workshop</h3>
+                    <div class="contact-list">
+                        <div class="contact-item">
+                            <span class="iconify contact-icon" data-icon="lucide:map-pin"></span>
+                            <div>
+                                <h4>Address</h4>
+                                <p>Unit 49, Rye Lane<br>Peckham, London<br>SE15 5BY</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <span class="iconify contact-icon" data-icon="lucide:phone"></span>
+                            <div>
+                                <h4>Phone</h4>
+                                <p><a href="tel:07508963540">075 0896 3540</a></p>
+                                <p><a href="tel:02035448391">0203 544 8391</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <span class="iconify contact-icon" data-icon="lucide:clock"></span>
+                            <div>
+                                <h4>Opening Hours</h4>
+                                <p>Mon - Fri: 9:00 AM - 6:00 PM</p>
+                                <p>Saturday: 10:00 AM - 4:00 PM</p>
+                                <p>Sunday: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9939.992837265213!2d-0.07682974999999999!3d51.4696803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487603a11b61921f%3A0xc665b16e84126fb9!2sRye%20Ln%2C%20London%20SE15!5e0!3m2!1sen!2suk!4v1683123456789!5m2!1sen!2suk" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <img src="assets/images/earls_logo.png" alt="Earl's Picture Framing Logo">
+                        <span class="logo-text">Earl's Framing</span>
+                    </a>
+                    <p>Professional, bespoke picture framing services in Peckham, London. Elevating your art with quality craftsmanship.</p>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <div class="footer-links">
+                        <a href="index.html#services">Our Services</a>
+                        <a href="index.html#gallery">Portfolio</a>
+
+                        <a href="index.html#contact">Contact Us</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Services</h4>
+                    <div class="footer-links">
+                        <a href="bespoke-framing.html">Bespoke Framing</a>
+                        <a href="index.html#services">Canvas Stretching</a>
+                        <a href="index.html#services">Shadow Boxes</a>
+                        <a href="index.html#services">Frame Restoration</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Earl's Picture Framing. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
