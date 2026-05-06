@@ -498,32 +498,27 @@ img {
 /* Custom Picture Mounts 2x2 Grid Image */
 .framing-rect-wrapper--mounts {
   display: flex;
-  justify-content: flex-start; /* Aligns image to the left of the column, meeting the overlap */
+  justify-content: center;
   align-items: center;
-  width: 100%; 
-  height: 600px;
+  width: 70%; /* Reduced wrapper width to ensure mounts stay on the far right */
+  margin-left: auto; /* Push to the far right */
+  height: 550px;
   background-color: #ffffff; /* Clean white background */
   box-shadow: none; 
   overflow: visible; 
 }
 
 .mount-grid-image {
-  width: 95%; /* Reduced individual scale of the grid */
+  width: 100%; /* Fill the wrapper */
   height: auto;
   aspect-ratio: 1 / 1;
   object-fit: contain;
   transition: transform var(--transition-slow);
-  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.1));
-  margin-left: -5%; /* Slight push left for tighter integration with the text card */
-}
-
-.poseify-service-row:has(.framing-rect-wrapper--mounts) .poseify-service-content-col {
-  margin-right: -160px; /* Precision overlap: right edge of card rests over left edge of mounts */
-  z-index: 10;
+  filter: drop-shadow(0 10px 25px rgba(0,0,0,0.08));
 }
 
 .poseify-service-row:hover .mount-grid-image {
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
 .poseify-service-row:hover .framing-rect-wrapper--bespoke img {
