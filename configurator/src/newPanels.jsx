@@ -7,6 +7,11 @@ import {
   calcGlassPrice, calcMountPrice, calcFramePrice, calcPrintPrice,
   SQCM_PER_SQFT, FRAME_MARKUP,
 } from './newData.js';
+// ─── Colour Square (simple swatch for frames) ──────────────────────────────
+
+export function MouldingCorner({ hex, className = '' }) {
+  return <span className={`colour-square ${className}`} style={{ backgroundColor: hex }} />;
+}
 
 
 // ─── Size & Print Section ────────────────────────────────────────────────────
@@ -61,7 +66,7 @@ export function SizePrintSection({ selections, onUpdate }) {
                   <span className="opt-card__name">{pt.label}</span>
                   <span className="opt-card__desc">{pt.desc}</span>
                   <span className="opt-card__price">
-                    {unavailable ? 'N/A' : pt.id === 'none' ? 'Free' : `£${price?.toFixed(2)}`}
+                    {unavailable ? 'N/A' : pt.id === 'none' ? '—' : `£${price?.toFixed(2)}`}
                   </span>
                 </button>
               );
@@ -83,7 +88,6 @@ export function FrameSection({ selections, onUpdate }) {
   const [tier, setTier] = useState('everyday');
 
   const size = PRINT_SIZES.find(s => s.id === sizeId);
-  const isCanvas = printType === 'canvas';
 
   const colourCounts = useMemo(() => {
     const counts = {};
@@ -131,7 +135,7 @@ export function FrameSection({ selections, onUpdate }) {
         <button className={`tier-toggle__btn ${tier === 'all' ? 'active' : ''}`} onClick={() => setTier('all')}>All inc. Premium</button>
       </div>
 
-      {/* Colour */}
+      {/* Colour — square swatches with moulding corners */}
       <div className="sec-row">
         <span className="sec-label">Colour</span>
         <div className="colour-row">
@@ -142,7 +146,9 @@ export function FrameSection({ selections, onUpdate }) {
               onClick={() => handleColourChange(cg.id)}
               title={`${cg.label} (${colourCounts[cg.id]})`}
             >
-              <span className="colour-swatch__circle" style={{ backgroundColor: cg.hex }} />
+              <span className="colour-swatch__square">
+                <MouldingCorner hex={cg.hex} />
+              </span>
               <span className="colour-swatch__label">{cg.label}</span>
               <span className="colour-swatch__count">{colourCounts[cg.id]}</span>
             </button>
@@ -168,7 +174,7 @@ export function FrameSection({ selections, onUpdate }) {
         </div>
       )}
 
-      {/* Width ladder */}
+      {/* Width ladder — moulding corners with finish-specific rendering */}
       {widthFrames.length > 0 && (
         <div className="sec-row">
           <span className="sec-label">Width {rec && <span className="sec-label__hint">— rec. {rec.ideal}mm for {size?.label}</span>}</span>
@@ -186,9 +192,11 @@ export function FrameSection({ selections, onUpdate }) {
                   className={`w-row ${isSelected ? 'w-row--sel' : ''}`}
                   onClick={() => onUpdate({ frameId: f.id })}
                 >
-                  {/* Image-ready: frame corner thumbnail */}
-                  <span className="w-row__thumb" style={{ backgroundColor: cg?.hex || '#888' }}>
-                    {f.imageUrl && <img src={f.imageUrl} alt={f.name} />}
+                  <span className="w-row__thumb">
+                    {f.imageUrl
+                      ? <img src={f.imageUrl} alt={f.name} />
+                      : <MouldingCorner hex={cg?.hex || '#888'} widthMm={f.widthMm} finish={f.finish} />
+                    }
                   </span>
                   <span className="w-row__info">
                     <span className="w-row__mm">{f.widthMm}mm</span>
@@ -219,7 +227,6 @@ export function MountSection({ selections, onUpdate }) {
   const size = PRINT_SIZES.find(s => s.id === sizeId);
   const isCanvas = printType === 'canvas';
   const isDouble = mountTypeId === 'double';
-
   if (isCanvas) {
     return (
       <div className="sec-body">
@@ -240,7 +247,7 @@ export function MountSection({ selections, onUpdate }) {
         <span className="sec-label">Mount Type</span>
         <div className="opt-grid opt-grid--5">
           {MOUNT_TYPES.map(mt => {
-            const price = size ? calcMountPrice(mt.id, size.w_cm, size.h_cm) : 0;
+            const price = size ? calcMountPrice(mt.id, size.w_cm, size.h_cm) : null;
             return (
               <button
                 key={mt.id}
@@ -248,7 +255,7 @@ export function MountSection({ selections, onUpdate }) {
                 onClick={() => onUpdate({ mountTypeId: mt.id })}
               >
                 <span className="opt-card__name">{mt.label}</span>
-                <span className="opt-card__price">{mt.id === 'none' ? 'Free' : `£${price.toFixed(2)}`}</span>
+                <span className="opt-card__price">{mt.id === 'none' ? '—' : price !== null ? `£${price.toFixed(2)}` : '—'}</span>
               </button>
             );
           })}
@@ -269,10 +276,7 @@ export function MountSection({ selections, onUpdate }) {
                     onClick={() => onUpdate({ mountColourId: mc.id })}
                     title={mc.label}
                   >
-                    {/* Image-ready: mount texture thumbnail */}
-                    <span className="mc-swatch__fill" style={{ backgroundColor: mc.hex }}>
-                      {mc.imageUrl && <img src={mc.imageUrl} alt={mc.label} />}
-                    </span>
+                    <span className="mc-swatch__fill" style={{ backgroundColor: mc.hex }} />
                   </button>
                 ))}
               </div>
@@ -290,9 +294,7 @@ export function MountSection({ selections, onUpdate }) {
                     onClick={() => onUpdate({ mountColourId2: mc.id })}
                     title={mc.label}
                   >
-                    <span className="mc-swatch__fill" style={{ backgroundColor: mc.hex }}>
-                      {mc.imageUrl && <img src={mc.imageUrl} alt={mc.label} />}
-                    </span>
+                    <span className="mc-swatch__fill" style={{ backgroundColor: mc.hex }} />
                   </button>
                 ))}
               </div>
@@ -325,7 +327,7 @@ export function GlassSection({ selections, onUpdate }) {
       <div className="sec-row">
         <div className="opt-grid opt-grid--3">
           {GLASS_OPTIONS.map(g => {
-            const price = size ? calcGlassPrice(g.id, size.w_cm, size.h_cm) : 0;
+            const price = size ? calcGlassPrice(g.id, size.w_cm, size.h_cm) : null;
             return (
               <button
                 key={g.id}
@@ -335,7 +337,7 @@ export function GlassSection({ selections, onUpdate }) {
                 <span className="opt-card__name">{g.label}</span>
                 <span className="opt-card__desc">{g.desc}</span>
                 <span className="opt-card__price">
-                  {g.id === 'none' ? 'Free' : `£${price.toFixed(2)}`}
+                  {g.id === 'none' ? '—' : price !== null ? `£${price.toFixed(2)}` : '—'}
                 </span>
                 {g.ratePerSqFt > 0 && <span className="opt-card__rate">£{g.ratePerSqFt.toFixed(2)}/sq ft</span>}
               </button>
