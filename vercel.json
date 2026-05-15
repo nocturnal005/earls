@@ -4,6 +4,14 @@
   "installCommand": "npm install --production",
   "buildCommand": "",
   "outputDirectory": ".",
+  "headers": [
+    {
+      "source": "/configurator/dist/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
+      ]
+    }
+  ],
   "rewrites": [
     { "source": "/bespoke-framing", "destination": "/bespoke-framing.html" },
     { "source": "/frame-my-photo", "destination": "/frame-my-photo.html" },
