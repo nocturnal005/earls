@@ -17,11 +17,25 @@ export function MouldingCorner({ hex, className = '' }) {
 // ─── Size & Print Section ────────────────────────────────────────────────────
 
 export function SizePrintSection({ selections, onUpdate }) {
-  const { sizeId, printType } = selections;
+  const { sizeId, printType, customW, customH } = selections;
   const [unit, setUnit] = useState('imperial');
+  const isCustom = sizeId === 'custom';
 
   const isoSizes = PRINT_SIZES.filter(s => s.group === 'ISO');
   const impSizes = PRINT_SIZES.filter(s => s.group === 'Imperial');
+
+  const toDisplay = (cm) => {
+    if (cm == null) return '';
+    return unit === 'imperial' ? (cm / 2.54).toFixed(1) : cm.toFixed(1);
+  };
+
+  const fromInput = (val) => {
+    const n = parseFloat(val);
+    if (isNaN(n) || n <= 0) return null;
+    return unit === 'imperial' ? n * 2.54 : n;
+  };
+
+  const isValidDim = (cm) => cm == null || (cm >= 10 && cm <= 200);
 
   return (
     <div className="sec-body">
@@ -38,7 +52,7 @@ export function SizePrintSection({ selections, onUpdate }) {
             <button
               key={s.id}
               className={`chip ${sizeId === s.id ? 'chip--sel' : ''}`}
-              onClick={() => onUpdate({ sizeId: s.id })}
+              onClick={() => onUpdate({ sizeId: s.id, orientation: null })}
             >
               <span className="chip__name">{s.label}</span>
               <span className="chip__dim">
@@ -46,10 +60,55 @@ export function SizePrintSection({ selections, onUpdate }) {
               </span>
             </button>
           ))}
+          <button
+            className={`chip chip--custom ${isCustom ? 'chip--sel' : ''}`}
+            onClick={() => onUpdate({ sizeId: 'custom', printType: 'none', orientation: null })}
+          >
+            <span className="chip__name">Custom</span>
+            <span className="chip__dim">Enter size</span>
+          </button>
         </div>
       </div>
 
-      {sizeId && (
+      {isCustom && (
+        <div className="sec-row">
+          <span className="sec-label">Enter Dimensions ({unit === 'imperial' ? 'inches' : 'cm'})</span>
+          <div className="custom-size-inputs">
+            <div className="custom-size-field">
+              <label className="custom-size-field__label">Width</label>
+              <input
+                type="number"
+                className={`custom-size-field__input ${!isValidDim(customW) ? 'custom-size-field__input--err' : ''}`}
+                value={toDisplay(customW)}
+                onChange={(e) => onUpdate({ customW: fromInput(e.target.value) })}
+                placeholder={unit === 'imperial' ? 'e.g. 18' : 'e.g. 45'}
+                min={unit === 'imperial' ? 4 : 10}
+                max={unit === 'imperial' ? 79 : 200}
+                step="0.1"
+              />
+            </div>
+            <span className="custom-size-x">×</span>
+            <div className="custom-size-field">
+              <label className="custom-size-field__label">Height</label>
+              <input
+                type="number"
+                className={`custom-size-field__input ${!isValidDim(customH) ? 'custom-size-field__input--err' : ''}`}
+                value={toDisplay(customH)}
+                onChange={(e) => onUpdate({ customH: fromInput(e.target.value) })}
+                placeholder={unit === 'imperial' ? 'e.g. 24' : 'e.g. 60'}
+                min={unit === 'imperial' ? 4 : 10}
+                max={unit === 'imperial' ? 79 : 200}
+                step="0.1"
+              />
+            </div>
+          </div>
+          {(!isValidDim(customW) || !isValidDim(customH)) && (
+            <span className="custom-size-hint">Size must be between 10–200 cm (4–79 in) per side</span>
+          )}
+        </div>
+      )}
+
+      {sizeId && !isCustom && (
         <div className="sec-row">
           <span className="sec-label">Print Type</span>
           <div className="opt-grid opt-grid--4">
@@ -74,6 +133,12 @@ export function SizePrintSection({ selections, onUpdate }) {
           </div>
         </div>
       )}
+
+      {isCustom && (
+        <div className="sec-row">
+          <p className="sec-note">Custom sizes are for framing your own artwork — print service is available for standard sizes only.</p>
+        </div>
+      )}
     </div>
   );
 }
@@ -81,13 +146,15 @@ export function SizePrintSection({ selections, onUpdate }) {
 
 // ─── Frame Section ───────────────────────────────────────────────────────────
 
-export function FrameSection({ selections, onUpdate }) {
+export function FrameSection({ selections, onUpdate, effW, effH }) {
   const { frameId, sizeId, printType } = selections;
   const [selectedColour, setSelectedColour] = useState('black');
   const [selectedFinish, setSelectedFinish] = useState(null);
   const [tier, setTier] = useState('everyday');
 
   const size = PRINT_SIZES.find(s => s.id === sizeId);
+  const dimW = effW || size?.w_cm;
+  const dimH = effH || size?.h_cm;
 
   const colourCounts = useMemo(() => {
     const counts = {};
@@ -119,7 +186,7 @@ export function FrameSection({ selections, onUpdate }) {
       .sort((a, b) => a.widthMm - b.widthMm);
   }, [selectedColour, activeFinish, tier]);
 
-  const rec = size ? recommendWidth(size.w_cm, size.h_cm) : null;
+  const rec = dimW ? recommendWidth(dimW, dimH) : null;
   const maxW = widthFrames.length > 0 ? Math.max(...widthFrames.map(f => f.widthMm)) : 1;
 
   const handleColourChange = (colourId) => {
@@ -177,13 +244,13 @@ export function FrameSection({ selections, onUpdate }) {
       {/* Width ladder — moulding corners with finish-specific rendering */}
       {widthFrames.length > 0 && (
         <div className="sec-row">
-          <span className="sec-label">Width {rec && <span className="sec-label__hint">— rec. {rec.ideal}mm for {size?.label}</span>}</span>
+          <span className="sec-label">Width {rec && <span className="sec-label__hint">— rec. {rec.ideal}mm for {size?.label || 'your size'}</span>}</span>
           <div className="width-ladder">
             {widthFrames.map(f => {
               const isSelected = frameId === f.id;
               const barPct = Math.max(10, (f.widthMm / maxW) * 100);
               const isRec = rec && f.widthMm === rec.ideal;
-              const framePrice = size ? calcFramePrice(f, size.w_cm, size.h_cm) : null;
+              const framePrice = dimW ? calcFramePrice(f, dimW, dimH) : null;
               const cg = COLOUR_GROUPS.find(c => c.id === f.colour);
 
               return (
@@ -222,9 +289,11 @@ export function FrameSection({ selections, onUpdate }) {
 
 // ─── Mount Section ───────────────────────────────────────────────────────────
 
-export function MountSection({ selections, onUpdate }) {
+export function MountSection({ selections, onUpdate, effW, effH }) {
   const { mountTypeId, mountColourId, mountColourId2, sizeId, printType } = selections;
   const size = PRINT_SIZES.find(s => s.id === sizeId);
+  const dimW = effW || size?.w_cm;
+  const dimH = effH || size?.h_cm;
   const isCanvas = printType === 'canvas';
   const isDouble = mountTypeId === 'double';
   if (isCanvas) {
@@ -247,7 +316,7 @@ export function MountSection({ selections, onUpdate }) {
         <span className="sec-label">Mount Type</span>
         <div className="opt-grid opt-grid--5">
           {MOUNT_TYPES.map(mt => {
-            const price = size ? calcMountPrice(mt.id, size.w_cm, size.h_cm) : null;
+            const price = dimW ? calcMountPrice(mt.id, dimW, dimH) : null;
             return (
               <button
                 key={mt.id}
@@ -309,9 +378,11 @@ export function MountSection({ selections, onUpdate }) {
 
 // ─── Glass Section ───────────────────────────────────────────────────────────
 
-export function GlassSection({ selections, onUpdate }) {
+export function GlassSection({ selections, onUpdate, effW, effH }) {
   const { glassId, sizeId, printType } = selections;
   const size = PRINT_SIZES.find(s => s.id === sizeId);
+  const dimW = effW || size?.w_cm;
+  const dimH = effH || size?.h_cm;
   const isCanvas = printType === 'canvas';
 
   if (isCanvas) {
@@ -327,7 +398,7 @@ export function GlassSection({ selections, onUpdate }) {
       <div className="sec-row">
         <div className="opt-grid opt-grid--3">
           {GLASS_OPTIONS.map(g => {
-            const price = size ? calcGlassPrice(g.id, size.w_cm, size.h_cm) : null;
+            const price = dimW ? calcGlassPrice(g.id, dimW, dimH) : null;
             return (
               <button
                 key={g.id}

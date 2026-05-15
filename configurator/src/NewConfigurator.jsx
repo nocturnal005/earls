@@ -20,6 +20,9 @@ const DEFAULT_SELECTIONS = {
   imageUrl: null,
   imageFile: null,
   sizeId: null,
+  customW: null,
+  customH: null,
+  orientation: null,
   printType: null,
   frameId: null,
   mountTypeId: 'none',
@@ -50,12 +53,28 @@ export default function NewConfigurator() {
   const mountType = MOUNT_TYPES.find(m => m.id === selections.mountTypeId);
   const glass = GLASS_OPTIONS.find(g => g.id === selections.glassId);
 
+  const isCustom = selections.sizeId === 'custom';
+  const rawW = isCustom ? selections.customW : size?.w_cm;
+  const rawH = isCustom ? selections.customH : size?.h_cm;
+  const hasDims = rawW > 0 && rawH > 0;
+
+  const [displayW, displayH] = useMemo(() => {
+    if (!hasDims) return [3, 4];
+    const w = rawW, h = rawH;
+    if (selections.orientation === 'landscape') return w >= h ? [w, h] : [h, w];
+    if (selections.orientation === 'portrait') return h >= w ? [w, h] : [h, w];
+    return [w, h];
+  }, [rawW, rawH, hasDims, selections.orientation]);
+
+  const effW = hasDims ? displayW : null;
+  const effH = hasDims ? displayH : null;
+
   const pricing = useMemo(() => {
     const round2 = n => Math.round(n * 100) / 100;
-    const printPrice  = (selections.printType && size) ? (calcPrintPrice(selections.printType, selections.sizeId) || 0) : 0;
-    const framePrice  = (frame && size) ? calcFramePrice(frame, size.w_cm, size.h_cm) : 0;
-    const mountPrice  = (selections.mountTypeId !== 'none' && size) ? calcMountPrice(selections.mountTypeId, size.w_cm, size.h_cm) : 0;
-    const glassPrice  = (selections.glassId && selections.glassId !== 'none' && size) ? calcGlassPrice(selections.glassId, size.w_cm, size.h_cm) : 0;
+    const printPrice  = (!isCustom && selections.printType && size) ? (calcPrintPrice(selections.printType, selections.sizeId) || 0) : 0;
+    const framePrice  = (frame && effW) ? calcFramePrice(frame, effW, effH) : 0;
+    const mountPrice  = (selections.mountTypeId !== 'none' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH) : 0;
+    const glassPrice  = (selections.glassId && selections.glassId !== 'none' && effW) ? calcGlassPrice(selections.glassId, effW, effH) : 0;
     const hasItems    = printPrice + framePrice + mountPrice + glassPrice > 0;
     const handlingPrice = hasItems ? HANDLING_FEE : 0;
     const subtotal = printPrice + framePrice + mountPrice + glassPrice + handlingPrice;
@@ -67,7 +86,7 @@ export default function NewConfigurator() {
       handlingPrice: round2(handlingPrice), subtotal: round2(subtotal),
       vat: round2(vat), total: round2(total),
     };
-  }, [selections, frame, size]);
+  }, [selections, frame, size, effW, effH, isCustom]);
 
   const frameColourHex = frame
     ? (COLOUR_GROUPS.find(c => c.id === frame.colour)?.hex || '#333')
@@ -97,7 +116,11 @@ export default function NewConfigurator() {
 
   const sectionSummary = (id) => {
     switch (id) {
-      case 'size': return size ? `${size.label} ${selections.printType === 'none' ? '' : selections.printType?.replace('_', ' ')}`.trim() : '';
+      case 'size': {
+        const sizeLabel = isCustom && hasDims ? `Custom ${Math.round(effW)} × ${Math.round(effH)} cm` : size?.label || '';
+        const printLabel = selections.printType === 'none' ? '' : selections.printType?.replace('_', ' ') || '';
+        return sizeLabel ? `${sizeLabel} ${printLabel}`.trim() : '';
+      }
       case 'frame': return frame ? `${frame.widthMm}mm ${frame.finish} ${COLOUR_GROUPS.find(c => c.id === frame.colour)?.label || ''}`.trim() : '';
       case 'mount': return mountType?.label || '';
       case 'glass': return glass?.label || '';
@@ -145,6 +168,7 @@ export default function NewConfigurator() {
                   )}
                   <div
                     className="preview-image"
+                    style={{ aspectRatio: `${displayW} / ${displayH}` }}
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={handleDrop}
                   >
@@ -156,6 +180,9 @@ export default function NewConfigurator() {
                         <span>Drop photo here</span>
                       </div>
                     )}
+                    {selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && (
+                      <div className={`glass-overlay glass-overlay--${selections.glassId}`} />
+                    )}
                   </div>
                 </div>
               )}
@@ -163,6 +190,7 @@ export default function NewConfigurator() {
               {(selections.mountTypeId === 'none' || selections.printType === 'canvas') && (
                 <div
                   className="preview-image"
+                  style={{ aspectRatio: `${displayW} / ${displayH}` }}
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={handleDrop}
                 >
@@ -174,16 +202,33 @@ export default function NewConfigurator() {
                       <span>Drop photo here</span>
                     </div>
                   )}
+                  {selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && (
+                    <div className={`glass-overlay glass-overlay--${selections.glassId}`} />
+                  )}
                 </div>
               )}
             </div>
           </div>
 
-          {/* Upload button */}
-          <label className="upload-btn">
-            <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
-            {selections.imageUrl ? 'Change Photo' : 'Upload Photo'}
-          </label>
+          {/* Upload + orientation controls */}
+          <div className="preview-actions">
+            <label className="upload-btn">
+              <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
+              {selections.imageUrl ? 'Change Photo' : 'Upload Photo'}
+            </label>
+            {hasDims && (
+              <button
+                className="orientation-toggle"
+                onClick={() => {
+                  const current = selections.orientation || (rawW >= rawH ? 'landscape' : 'portrait');
+                  update({ orientation: current === 'landscape' ? 'portrait' : 'landscape' });
+                }}
+                title={`Switch to ${(selections.orientation || (rawW >= rawH ? 'landscape' : 'portrait')) === 'landscape' ? 'portrait' : 'landscape'}`}
+              >
+                ↻
+              </button>
+            )}
+          </div>
 
           {/* Frame detail strip — with moulding corner */}
           {frame && (
@@ -227,9 +272,9 @@ export default function NewConfigurator() {
                   </button>
                   <div className={`acc-body ${isOpen ? 'acc-body--open' : ''}`}>
                     {sec.id === 'size' && <SizePrintSection selections={selections} onUpdate={update} />}
-                    {sec.id === 'frame' && <FrameSection selections={selections} onUpdate={update} />}
-                    {sec.id === 'mount' && <MountSection selections={selections} onUpdate={update} />}
-                    {sec.id === 'glass' && <GlassSection selections={selections} onUpdate={update} />}
+                    {sec.id === 'frame' && <FrameSection selections={selections} onUpdate={update} effW={effW} effH={effH} />}
+                    {sec.id === 'mount' && <MountSection selections={selections} onUpdate={update} effW={effW} effH={effH} />}
+                    {sec.id === 'glass' && <GlassSection selections={selections} onUpdate={update} effW={effW} effH={effH} />}
                   </div>
                 </div>
               );

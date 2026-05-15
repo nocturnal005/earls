@@ -90,13 +90,15 @@ body {
 }
 
 .preview-image {
+  position: relative;
   background: #f0ede8;
-  min-height: 280px;
+  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
   aspect-ratio: 3 / 4;
   max-height: 420px;
+  transition: aspect-ratio 0.3s ease;
 }
 
 .preview-image img {
@@ -144,6 +146,53 @@ body {
   transition: all 0.15s;
 }
 .upload-btn:hover { border-color: #999; color: #1a1a1a; }
+
+.preview-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.orientation-toggle {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  color: #666;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.orientation-toggle:hover { border-color: #999; color: #1a1a1a; }
+
+/* ── Glass Overlay ─────────────────────────────────────────────────────────── */
+
+.glass-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.glass-overlay--standard {
+  background: linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 45%, rgba(255,255,255,0.08) 100%);
+}
+.glass-overlay--acrylic {
+  background: linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,248,240,0.03) 50%, rgba(255,255,255,0.06) 100%);
+}
+.glass-overlay--non_refl {
+  background: rgba(0,0,0,0.03);
+}
+.glass-overlay--uv {
+  background: linear-gradient(135deg, rgba(255,248,220,0.08) 0%, rgba(255,248,220,0.02) 50%, rgba(255,248,220,0.06) 100%);
+}
+.glass-overlay--museum {
+  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.03) 100%);
+}
 
 /* Frame detail strip — with moulding corner */
 .frame-detail {
@@ -317,6 +366,62 @@ body {
 .chip__name { font-weight: 600; display: block; font-size: 14px; }
 .chip__dim { font-size: 11px; color: #999; display: block; margin-top: 1px; }
 .chip--sel .chip__dim { color: #999; }
+
+.chip--custom { border-style: dashed; }
+.chip--custom.chip--sel { border-style: solid; }
+
+/* ── Custom Size Inputs ──────────────────────────────────────────────────── */
+
+.custom-size-inputs {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.custom-size-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.custom-size-field__label {
+  font-size: 11px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.custom-size-field__input {
+  padding: 8px 10px;
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  font-size: 15px;
+  font-family: inherit;
+  color: #1a1a1a;
+  background: #fff;
+  width: 100%;
+  transition: border-color 0.15s;
+}
+.custom-size-field__input:focus {
+  outline: none;
+  border-color: #1a1a1a;
+}
+.custom-size-field__input--err {
+  border-color: #d44;
+}
+
+.custom-size-x {
+  font-size: 16px;
+  color: #999;
+  padding-bottom: 8px;
+}
+
+.custom-size-hint {
+  font-size: 11px;
+  color: #d44;
+  margin-top: 4px;
+}
 
 
 /* ── Option Cards (print type, glass, mount type) ────────────────────────── */
