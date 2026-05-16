@@ -2,7 +2,6 @@ import React, { useState, useMemo, useCallback } from 'react';
 import {
   PRINT_SIZES, FRAME_CATALOGUE, MOUNT_COLOURS, COLOUR_GROUPS, MOUNT_TYPES,
   GLASS_OPTIONS, calcFramePrice, calcPrintPrice, calcMountPrice, calcGlassPrice,
-  VAT_RATE,
 } from './newData.js';
 import {
   SizePrintSection, FrameSection, MountSection, GlassSection,
@@ -71,18 +70,14 @@ export default function NewConfigurator() {
 
   const pricing = useMemo(() => {
     const round2 = n => Math.round(n * 100) / 100;
-    const incVat = n => n * (1 + VAT_RATE);
-    const printEx  = (!isCustom && selections.printType && size) ? (calcPrintPrice(selections.printType, selections.sizeId) || 0) : 0;
-    const frameEx  = (frame && effW) ? calcFramePrice(frame, effW, effH) : 0;
-    const mountEx  = (selections.mountTypeId !== 'none' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH) : 0;
-    const glassEx  = (selections.glassId && selections.glassId !== 'none' && effW) ? calcGlassPrice(selections.glassId, effW, effH) : 0;
-    const printPrice = round2(incVat(printEx));
-    const framePrice = round2(incVat(frameEx));
-    const mountPrice = round2(incVat(mountEx));
-    const glassPrice = round2(incVat(glassEx));
+    const printPrice  = (!isCustom && selections.printType && size) ? (calcPrintPrice(selections.printType, selections.sizeId) || 0) : 0;
+    const framePrice  = (frame && effW) ? calcFramePrice(frame, effW, effH) : 0;
+    const mountPrice  = (selections.mountTypeId !== 'none' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH) : 0;
+    const glassPrice  = (selections.glassId && selections.glassId !== 'none' && effW) ? calcGlassPrice(selections.glassId, effW, effH) : 0;
     const total = printPrice + framePrice + mountPrice + glassPrice;
     return {
-      printPrice, framePrice, mountPrice, glassPrice,
+      printPrice: round2(printPrice), framePrice: round2(framePrice),
+      mountPrice: round2(mountPrice), glassPrice: round2(glassPrice),
       total: round2(total),
     };
   }, [selections, frame, size, effW, effH, isCustom]);
