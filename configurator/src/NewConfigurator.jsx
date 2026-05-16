@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import {
   PRINT_SIZES, FRAME_CATALOGUE, MOUNT_COLOURS, COLOUR_GROUPS, MOUNT_TYPES,
-  GLASS_OPTIONS, calcFramePrice, calcPrintPrice, calcMountPrice, calcGlassPrice,
+  GLASS_OPTIONS, VGROOVE_COLOURS, MOUNT_WIDTHS,
+  calcFramePrice, calcPrintPrice, calcMountPrice, calcGlassPrice,
 } from './newData.js';
 import {
   SizePrintSection, FrameSection, MountSection, GlassSection,
@@ -27,6 +28,8 @@ const DEFAULT_SELECTIONS = {
   mountTypeId: 'none',
   mountColourId: 'snow-white',
   mountColourId2: 'deep-black',
+  mountWidthId: null,
+  vGrooveColourId: null,
   glassId: null,
 };
 
@@ -49,8 +52,11 @@ export default function NewConfigurator() {
   const size = PRINT_SIZES.find(s => s.id === selections.sizeId);
   const mountColour = MOUNT_COLOURS.find(c => c.id === selections.mountColourId);
   const mountColour2 = MOUNT_COLOURS.find(c => c.id === selections.mountColourId2);
+  const vGrooveColour = VGROOVE_COLOURS.find(c => c.id === selections.vGrooveColourId);
   const mountType = MOUNT_TYPES.find(m => m.id === selections.mountTypeId);
+  const mountWidth = MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId);
   const glass = GLASS_OPTIONS.find(g => g.id === selections.glassId);
+  const isOvalOrRound = selections.mountTypeId === 'oval' || selections.mountTypeId === 'round';
 
   const isCustom = selections.sizeId === 'custom';
   const rawW = isCustom ? selections.customW : size?.w_cm;
@@ -157,17 +163,21 @@ export default function NewConfigurator() {
                   {selections.mountTypeId === 'double' && (
                     <div className="preview-mount-inner" style={{ border: `3px solid ${mountColour2?.hex || '#1A1A1A'}` }} />
                   )}
-                  {selections.mountTypeId === 'mount_line' && (
-                    <div className="preview-mount-line" style={{ border: '1px solid #C9A84C' }} />
+                  {selections.mountTypeId === 'v_groove' && vGrooveColour && (
+                    <div className="preview-mount-line" style={{ border: `1px solid ${vGrooveColour.hex}` }} />
                   )}
                   <div
                     className="preview-image"
-                    style={{ aspectRatio: `${displayW} / ${displayH}` }}
+                    style={{
+                      aspectRatio: selections.mountTypeId === 'round' ? '1 / 1' : `${displayW} / ${displayH}`,
+                      borderRadius: isOvalOrRound ? '50%' : 0,
+                      overflow: 'hidden',
+                    }}
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={handleDrop}
                   >
                     {selections.imageUrl ? (
-                      <img src={selections.imageUrl} alt="Preview" />
+                      <img src={selections.imageUrl} alt="Preview" style={{ borderRadius: isOvalOrRound ? '50%' : 0 }} />
                     ) : (
                       <div className="preview-placeholder">
                         <span className="preview-placeholder__icon">+</span>
@@ -175,7 +185,7 @@ export default function NewConfigurator() {
                       </div>
                     )}
                     {selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && (
-                      <div className={`glass-overlay glass-overlay--${selections.glassId}`} />
+                      <div className={`glass-overlay glass-overlay--${selections.glassId}`} style={{ borderRadius: isOvalOrRound ? '50%' : 0 }} />
                     )}
                   </div>
                 </div>

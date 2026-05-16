@@ -73,11 +73,24 @@ export const GLASS_OPTIONS = [
 export const MOUNT_BASE_RATE_PER_SQFT = 5.00;
 
 export const MOUNT_TYPES = [
-  { id: 'none',       label: 'No Mount',      multiplier: 0,    surcharge: 0 },
-  { id: 'plain',      label: 'Plain Mount',   multiplier: 1.0,  surcharge: 0 },
-  { id: 'mount_line', label: 'Mount + Line',  multiplier: 1.0,  surcharge: 3.50 },
-  { id: 'double',     label: 'Double Mount',  multiplier: 1.6,  surcharge: 0 },
-  { id: 'oval',       label: 'Oval Mount',    multiplier: 1.0,  surcharge: 5.00 },
+  { id: 'none',       label: 'No Mount',          multiplier: 0,    surcharge: 0 },
+  { id: 'plain',      label: 'Plain Mount',       multiplier: 1.0,  surcharge: 0 },
+  { id: 'v_groove',   label: 'Mount + V-Groove',  multiplier: 1.0,  surcharge: 3.50 },
+  { id: 'double',     label: 'Double Mount',      multiplier: 1.6,  surcharge: 0 },
+  { id: 'oval',       label: 'Oval Mount',        multiplier: 1.0,  surcharge: 5.00 },
+  { id: 'round',      label: 'Round Mount',       multiplier: 1.0,  surcharge: 5.00 },
+];
+
+export const MOUNT_WIDTHS = [
+  { id: 'standard', label: 'Standard', mm: 50 },
+  { id: 'wide',     label: 'Wide',     mm: 70 },
+  { id: 'extra',    label: 'Extra Wide', mm: 90 },
+];
+
+export const VGROOVE_COLOURS = [
+  { id: 'vg-black',     label: 'Black',     hex: '#1A1A1A' },
+  { id: 'vg-white',     label: 'White',     hex: '#FFFFFF' },
+  { id: 'vg-off-white', label: 'Off White', hex: '#F5F0E1' },
 ];
 
 export const MOUNT_COLOURS = [

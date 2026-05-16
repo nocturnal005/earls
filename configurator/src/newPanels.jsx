@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import {
   PRINT_SIZES, PRINT_TYPES, PRINT_PRICES,
-  GLASS_OPTIONS, MOUNT_TYPES, MOUNT_COLOURS,
+  GLASS_OPTIONS, MOUNT_TYPES, MOUNT_COLOURS, MOUNT_WIDTHS, VGROOVE_COLOURS,
   FRAME_CATALOGUE, COLOUR_GROUPS,
   getFinishesForColour, recommendWidth,
   calcGlassPrice, calcMountPrice, calcFramePrice, calcPrintPrice,
@@ -26,7 +26,7 @@ export function SizePrintSection({ selections, onUpdate }) {
 
   const toDisplay = (cm) => {
     if (cm == null) return '';
-    return unit === 'imperial' ? (cm / 2.54).toFixed(1) : cm.toFixed(1);
+    return unit === 'imperial' ? Math.round(cm / 2.54) : Math.round(cm);
   };
 
   const fromInput = (val) => {
@@ -84,7 +84,7 @@ export function SizePrintSection({ selections, onUpdate }) {
                 placeholder={unit === 'imperial' ? 'e.g. 18' : 'e.g. 45'}
                 min={unit === 'imperial' ? 4 : 10}
                 max={unit === 'imperial' ? 79 : 200}
-                step="0.1"
+                step="1"
               />
             </div>
             <span className="custom-size-x">×</span>
@@ -98,7 +98,7 @@ export function SizePrintSection({ selections, onUpdate }) {
                 placeholder={unit === 'imperial' ? 'e.g. 24' : 'e.g. 60'}
                 min={unit === 'imperial' ? 4 : 10}
                 max={unit === 'imperial' ? 79 : 200}
-                step="0.1"
+                step="1"
               />
             </div>
           </div>
@@ -198,8 +198,8 @@ export function FrameSection({ selections, onUpdate, effW, effH }) {
     <div className="sec-body">
       {/* Tier toggle */}
       <div className="tier-toggle">
-        <button className={`tier-toggle__btn ${tier === 'everyday' ? 'active' : ''}`} onClick={() => setTier('everyday')}>Everyday</button>
-        <button className={`tier-toggle__btn ${tier === 'all' ? 'active' : ''}`} onClick={() => setTier('all')}>All inc. Premium</button>
+        <button className={`tier-toggle__btn ${tier === 'everyday' ? 'active' : ''}`} onClick={() => setTier('everyday')}>Classic</button>
+        <button className={`tier-toggle__btn ${tier === 'all' ? 'active' : ''}`} onClick={() => setTier('all')}>Full Collection</button>
       </div>
 
       {/* Colour — square swatches with moulding corners */}
@@ -290,12 +290,13 @@ export function FrameSection({ selections, onUpdate, effW, effH }) {
 // ─── Mount Section ───────────────────────────────────────────────────────────
 
 export function MountSection({ selections, onUpdate, effW, effH }) {
-  const { mountTypeId, mountColourId, mountColourId2, sizeId, printType } = selections;
+  const { mountTypeId, mountColourId, mountColourId2, mountWidthId, vGrooveColourId, sizeId, printType } = selections;
   const size = PRINT_SIZES.find(s => s.id === sizeId);
   const dimW = effW || size?.w_cm;
   const dimH = effH || size?.h_cm;
   const isCanvas = printType === 'canvas';
   const isDouble = mountTypeId === 'double';
+  const isVGroove = mountTypeId === 'v_groove';
   if (isCanvas) {
     return (
       <div className="sec-body">
@@ -314,7 +315,7 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
     <div className="sec-body">
       <div className="sec-row">
         <span className="sec-label">Mount Type</span>
-        <div className="opt-grid opt-grid--5">
+        <div className="opt-grid opt-grid--3">
           {MOUNT_TYPES.map(mt => {
             const price = dimW ? calcMountPrice(mt.id, dimW, dimH) : null;
             return (
@@ -332,44 +333,80 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
       </div>
 
       {mountTypeId !== 'none' && (
-        <div className="sec-row">
-          <span className="sec-label">{isDouble ? 'Primary Mount Colour' : 'Mount Colour'}</span>
-          {Object.entries(colourGroups).map(([groupName, colours]) => (
-            <div key={groupName} className="mc-group">
-              <span className="mc-group__label">{groupName}</span>
-              <div className="mc-row">
-                {colours.map(mc => (
-                  <button
-                    key={mc.id}
-                    className={`mc-swatch ${mountColourId === mc.id ? 'mc-swatch--sel' : ''}`}
-                    onClick={() => onUpdate({ mountColourId: mc.id })}
-                    title={mc.label}
-                  >
-                    <span className="mc-swatch__fill" style={{ backgroundColor: mc.hex }} />
-                  </button>
-                ))}
-              </div>
+        <>
+          <div className="sec-row">
+            <span className="sec-label">Mount Width</span>
+            <div className="opt-grid opt-grid--3">
+              {MOUNT_WIDTHS.map(mw => (
+                <button
+                  key={mw.id}
+                  className={`opt-card opt-card--sm ${mountWidthId === mw.id ? 'opt-card--sel' : ''}`}
+                  onClick={() => onUpdate({ mountWidthId: mw.id })}
+                >
+                  <span className="opt-card__name">{mw.label}</span>
+                  <span className="opt-card__desc">{mw.mm}mm</span>
+                </button>
+              ))}
             </div>
-          ))}
+          </div>
 
-          {isDouble && (
-            <>
-              <span className="sec-label" style={{ marginTop: 12 }}>Secondary Mount Colour</span>
-              <div className="mc-row">
-                {MOUNT_COLOURS.map(mc => (
-                  <button
-                    key={mc.id}
-                    className={`mc-swatch ${mountColourId2 === mc.id ? 'mc-swatch--sel' : ''}`}
-                    onClick={() => onUpdate({ mountColourId2: mc.id })}
-                    title={mc.label}
-                  >
-                    <span className="mc-swatch__fill" style={{ backgroundColor: mc.hex }} />
-                  </button>
-                ))}
+          <div className="sec-row">
+            <span className="sec-label">{isDouble ? 'Top Mount Colour' : 'Mount Colour'}</span>
+            {Object.entries(colourGroups).map(([groupName, colours]) => (
+              <div key={groupName} className="mc-group">
+                <span className="mc-group__label">{groupName}</span>
+                <div className="mc-row">
+                  {colours.map(mc => (
+                    <button
+                      key={mc.id}
+                      className={`mc-swatch ${mountColourId === mc.id ? 'mc-swatch--sel' : ''}`}
+                      onClick={() => onUpdate({ mountColourId: mc.id })}
+                      title={mc.label}
+                    >
+                      <span className="mc-swatch__fill" style={{ backgroundColor: mc.hex }} />
+                    </button>
+                  ))}
+                </div>
               </div>
-            </>
-          )}
-        </div>
+            ))}
+
+            {isDouble && (
+              <>
+                <span className="sec-label" style={{ marginTop: 12 }}>Bottom Mount Colour</span>
+                <div className="mc-row">
+                  {MOUNT_COLOURS.map(mc => (
+                    <button
+                      key={mc.id}
+                      className={`mc-swatch ${mountColourId2 === mc.id ? 'mc-swatch--sel' : ''}`}
+                      onClick={() => onUpdate({ mountColourId2: mc.id })}
+                      title={mc.label}
+                    >
+                      <span className="mc-swatch__fill" style={{ backgroundColor: mc.hex }} />
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {isVGroove && (
+              <>
+                <span className="sec-label" style={{ marginTop: 12 }}>V-Groove Colour</span>
+                <div className="mc-row">
+                  {VGROOVE_COLOURS.map(vc => (
+                    <button
+                      key={vc.id}
+                      className={`mc-swatch ${vGrooveColourId === vc.id ? 'mc-swatch--sel' : ''}`}
+                      onClick={() => onUpdate({ vGrooveColourId: vc.id })}
+                      title={vc.label}
+                    >
+                      <span className="mc-swatch__fill" style={{ backgroundColor: vc.hex }} />
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </>
       )}
     </div>
   );
