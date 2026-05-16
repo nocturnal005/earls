@@ -260,8 +260,8 @@ export function FrameSection({ selections, onUpdate, effW, effH }) {
                   onClick={() => onUpdate({ frameId: f.id })}
                 >
                   <span className="w-row__thumb">
-                    {f.imageUrl
-                      ? <img src={f.imageUrl} alt={f.name} />
+                    {f.image
+                      ? <img src={f.image} alt={f.name} />
                       : <MouldingCorner hex={cg?.hex || '#888'} widthMm={f.widthMm} finish={f.finish} />
                     }
                   </span>
