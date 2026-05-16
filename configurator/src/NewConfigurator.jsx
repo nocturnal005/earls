@@ -289,7 +289,6 @@ export default function NewConfigurator() {
             <div className="price-line"><span>Mount</span><span>£{pricing.mountPrice.toFixed(2)}</span></div>
             <div className="price-line"><span>Glass</span><span>£{pricing.glassPrice.toFixed(2)}</span></div>
             <hr className="price-divider" />
-            <div className="price-line price-line--muted"><span>Prices include VAT</span><span></span></div>
             <div className="price-line price-line--muted"><span>Shipping calculated at checkout</span><span></span></div>
           </div>
 
