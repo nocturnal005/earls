@@ -1305,7 +1305,7 @@ export function FramePanel({ state, dispatch, onBack }) {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
                 {categoryFrames.map(frame => {
                   const sel = selectedFrame && selectedFrame.id === frame.id;
-                  const isLight = ['#F5F5F0','#FAFAFA','#F0F0F0','#F8F8F4','#F5F5F5','#EDE8DE','#E8E4DC','#D4B882','#C8A96E','#D2B97A','#C8B078','#D8A8A0'].includes(frame.hex);
+                  const isLight = frame.group === 'whites' || frame.group === 'creams' || frame.id.includes('ice') || frame.id.includes('dove') || frame.id.includes('dawn') || frame.id.includes('ash');
                   return (
                     <button key={frame.id}
                       onClick={() => handleSelectFrame(frame)}
