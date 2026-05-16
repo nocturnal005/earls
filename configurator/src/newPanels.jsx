@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import {
   PRINT_SIZES, PRINT_TYPES, PRINT_PRICES,
-  GLASS_OPTIONS, MOUNT_TYPES, MOUNT_COLOURS, MOUNT_WIDTHS, VGROOVE_COLOURS,
+  GLASS_OPTIONS, MOUNT_TYPES, MOUNT_COLOURS, MOUNT_COLOUR_GROUPS, MOUNT_WIDTHS, VGROOVE_COLOURS,
   FRAME_CATALOGUE, COLOUR_GROUPS,
   getFinishesForColour, recommendWidth,
   calcGlassPrice, calcMountPrice, calcFramePrice, calcPrintPrice,
@@ -305,10 +305,10 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
     );
   }
 
-  const colourGroups = {};
+  const coloursByGroup = {};
   MOUNT_COLOURS.forEach(mc => {
-    if (!colourGroups[mc.group]) colourGroups[mc.group] = [];
-    colourGroups[mc.group].push(mc);
+    if (!coloursByGroup[mc.group]) coloursByGroup[mc.group] = [];
+    coloursByGroup[mc.group].push(mc);
   });
 
   const mountWidthMm = MOUNT_WIDTHS.find(mw => mw.id === mountWidthId)?.mm || 50;
@@ -354,38 +354,55 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
 
           <div className="sec-row">
             <span className="sec-label">{isDouble ? 'Top Mount Colour' : 'Mount Colour'}</span>
-            {Object.entries(colourGroups).map(([groupName, colours]) => (
-              <div key={groupName} className="mc-group">
-                <span className="mc-group__label">{groupName}</span>
-                <div className="mc-row">
-                  {colours.map(mc => (
-                    <button
-                      key={mc.id}
-                      className={`mc-swatch ${mountColourId === mc.id ? 'mc-swatch--sel' : ''}`}
-                      onClick={() => onUpdate({ mountColourId: mc.id })}
-                      title={mc.label}
-                    >
-                      <span className="mc-swatch__fill" style={{ backgroundColor: mc.hex }} />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ))}
+            <div className="mc-scroll">
+              {MOUNT_COLOUR_GROUPS.map(grp => {
+                const colours = coloursByGroup[grp.id];
+                if (!colours || colours.length === 0) return null;
+                return (
+                  <div key={grp.id} className="mc-group">
+                    <span className="mc-group__label">{grp.label}</span>
+                    <div className="mc-row">
+                      {colours.map(mc => (
+                        <button
+                          key={mc.id}
+                          className={`mc-swatch ${mountColourId === mc.id ? 'mc-swatch--sel' : ''}`}
+                          onClick={() => onUpdate({ mountColourId: mc.id })}
+                          title={mc.label}
+                        >
+                          <span className="mc-swatch__fill" style={{ backgroundColor: mc.hex }} />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
 
             {isDouble && (
               <>
                 <span className="sec-label" style={{ marginTop: 12 }}>Bottom Mount Colour</span>
-                <div className="mc-row">
-                  {MOUNT_COLOURS.map(mc => (
-                    <button
-                      key={mc.id}
-                      className={`mc-swatch ${mountColourId2 === mc.id ? 'mc-swatch--sel' : ''}`}
-                      onClick={() => onUpdate({ mountColourId2: mc.id })}
-                      title={mc.label}
-                    >
-                      <span className="mc-swatch__fill" style={{ backgroundColor: mc.hex }} />
-                    </button>
-                  ))}
+                <div className="mc-scroll">
+                  {MOUNT_COLOUR_GROUPS.map(grp => {
+                    const colours = coloursByGroup[grp.id];
+                    if (!colours || colours.length === 0) return null;
+                    return (
+                      <div key={grp.id} className="mc-group">
+                        <span className="mc-group__label">{grp.label}</span>
+                        <div className="mc-row">
+                          {colours.map(mc => (
+                            <button
+                              key={mc.id}
+                              className={`mc-swatch ${mountColourId2 === mc.id ? 'mc-swatch--sel' : ''}`}
+                              onClick={() => onUpdate({ mountColourId2: mc.id })}
+                              title={mc.label}
+                            >
+                              <span className="mc-swatch__fill" style={{ backgroundColor: mc.hex }} />
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </>
             )}

@@ -26,7 +26,7 @@ const DEFAULT_SELECTIONS = {
   printType: null,
   frameId: null,
   mountTypeId: 'none',
-  mountColourId: 'snow-white',
+  mountColourId: 'pure-white',
   mountColourId2: 'deep-black',
   mountWidthId: 'standard',
   vGrooveColourId: null,

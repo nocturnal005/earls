@@ -93,31 +93,81 @@ export const VGROOVE_COLOURS = [
   { id: 'vg-off-white', label: 'Off White', hex: '#F5F0E1' },
 ];
 
+export const MOUNT_COLOUR_GROUPS = [
+  { id: 'whites',  label: 'Whites & Ivories' },
+  { id: 'naturals', label: 'Warm Naturals' },
+  { id: 'yellows', label: 'Yellows & Golds' },
+  { id: 'pinks',   label: 'Pinks & Reds' },
+  { id: 'blues',   label: 'Blues' },
+  { id: 'greens',  label: 'Greens' },
+  { id: 'greys',   label: 'Greys & Silvers' },
+  { id: 'browns',  label: 'Browns, Purples & Black' },
+];
+
 export const MOUNT_COLOURS = [
-  { id: 'snow-white',    label: 'Snow White',     hex: '#FFFFFF',  group: 'Whites & Neutrals' },
-  { id: 'soft-white',    label: 'Soft White',     hex: '#F8F6F0',  group: 'Whites & Neutrals' },
-  { id: 'warm-cream',    label: 'Warm Cream',     hex: '#F5F0E1',  group: 'Whites & Neutrals' },
-  { id: 'antique-ivory', label: 'Antique Ivory',  hex: '#EEDFCC',  group: 'Whites & Neutrals' },
-  { id: 'parchment',     label: 'Parchment',      hex: '#E8DCC8',  group: 'Whites & Neutrals' },
-  { id: 'sand',          label: 'Sand',           hex: '#D2C6A5',  group: 'Whites & Neutrals' },
-  { id: 'taupe',         label: 'Taupe',          hex: '#A89F91',  group: 'Whites & Neutrals' },
-  { id: 'deep-black',    label: 'Deep Black',     hex: '#1A1A1A',  group: 'Darks' },
-  { id: 'charcoal',      label: 'Charcoal',       hex: '#3A3A3A',  group: 'Darks' },
-  { id: 'slate-grey',    label: 'Slate Grey',     hex: '#6B6B6B',  group: 'Darks' },
-  { id: 'silver-grey',   label: 'Silver Grey',    hex: '#A8A8A8',  group: 'Greys' },
-  { id: 'dove-grey',     label: 'Dove Grey',      hex: '#C4BFB6',  group: 'Greys' },
-  { id: 'sage-green',    label: 'Sage Green',     hex: '#9CAF88',  group: 'Colours' },
-  { id: 'forest-green',  label: 'Forest Green',   hex: '#2D5F2D',  group: 'Colours' },
-  { id: 'duck-egg',      label: 'Duck Egg Blue',  hex: '#B0D4DB',  group: 'Colours' },
-  { id: 'navy',          label: 'Navy Blue',      hex: '#1B2A4A',  group: 'Colours' },
-  { id: 'powder-blue',   label: 'Powder Blue',    hex: '#A4C8E1',  group: 'Colours' },
-  { id: 'burgundy',      label: 'Burgundy',       hex: '#722F37',  group: 'Colours' },
-  { id: 'claret-wine',   label: 'Claret Wine',    hex: '#5C1A1B',  group: 'Colours' },
-  { id: 'coral-pink',    label: 'Coral Pink',     hex: '#E8877C',  group: 'Colours' },
-  { id: 'blush-pink',    label: 'Blush Pink',     hex: '#E8C4C4',  group: 'Colours' },
-  { id: 'lavender',      label: 'Lavender',       hex: '#B4A7D6',  group: 'Colours' },
-  { id: 'terracotta',    label: 'Terracotta',     hex: '#C67B5C',  group: 'Colours' },
-  { id: 'ochre-gold',    label: 'Ochre Gold',     hex: '#CC9933',  group: 'Colours' },
+  // Whites & Ivories
+  { id: 'pure-white',         label: 'Pure White',         hex: '#FFFFFF', group: 'whites',  code: 'WC-sw23', finish: 'smooth' },
+  { id: 'soft-white',         label: 'Soft White',         hex: '#F9F6F1', group: 'whites',  code: 'WC-Aq1',  finish: 'smooth' },
+  { id: 'polar-white-ingres', label: 'Polar White Ingres', hex: '#F5F5F0', group: 'whites',  code: 'WC-sw20', finish: 'ingres' },
+  { id: 'buttermilk',         label: 'Buttermilk',         hex: '#F5EFE0', group: 'whites',  code: 'WC-8629', finish: 'smooth' },
+  { id: 'ivory',              label: 'Ivory',              hex: '#F1E8D6', group: 'whites',  code: 'WC-Aq2',  finish: 'smooth' },
+  { id: 'cream-ingres',       label: 'Cream Ingres',       hex: '#F0E9D8', group: 'whites',  code: 'WC-8048', finish: 'ingres' },
+
+  // Warm Naturals
+  { id: 'vanilla',            label: 'Vanilla',            hex: '#F3E5C4', group: 'naturals', code: 'WC-8701', finish: 'smooth' },
+  { id: 'milkwood-ingres',    label: 'Milkwood Ingres',    hex: '#EDE3D0', group: 'naturals', code: 'WC-8285', finish: 'ingres' },
+  { id: 'bamboo',             label: 'Bamboo',             hex: '#D4C5A0', group: 'naturals', code: 'WC-8695', finish: 'smooth' },
+  { id: 'maple',              label: 'Maple',              hex: '#C4A265', group: 'naturals', code: 'WC-8017', finish: 'smooth' },
+  { id: 'stone',              label: 'Stone',              hex: '#C8BDAD', group: 'naturals', code: 'WC-8632', finish: 'smooth' },
+  { id: 'hazelnut',           label: 'Hazelnut',           hex: '#9C7E5A', group: 'naturals', code: 'WC-8013', finish: 'smooth' },
+
+  // Yellows & Golds
+  { id: 'primrose',           label: 'Primrose',           hex: '#F7EE8A', group: 'yellows', code: 'WC-Y01',  finish: 'smooth' },
+  { id: 'vanilla-b',          label: 'Vanilla',            hex: '#F0DDA0', group: 'yellows', code: 'WC-8701B', finish: 'smooth' },
+  { id: 'sahara',             label: 'Sahara',             hex: '#E0C882', group: 'yellows', code: 'WC-Y02',  finish: 'smooth' },
+  { id: 'daffodil',           label: 'Daffodil',           hex: '#F5D622', group: 'yellows', code: 'WC-LJ01', finish: 'smooth' },
+  { id: 'mustard',            label: 'Mustard',            hex: '#C8A83C', group: 'yellows', code: 'WC-LJ02', finish: 'smooth' },
+  { id: 'gold-metallic',      label: 'Gold Metallic',      hex: '#C9A84C', group: 'yellows', code: 'WC-8032', finish: 'metallic' },
+
+  // Pinks & Reds
+  { id: 'pastel-pink',        label: 'Pastel Pink',        hex: '#F5D6D6', group: 'pinks',  code: 'WC-P01',  finish: 'smooth' },
+  { id: 'dusty-pink',         label: 'Dusty Pink',         hex: '#D4A0A0', group: 'pinks',  code: 'WC-8028', finish: 'smooth' },
+  { id: 'dawn-mist',          label: 'Dawn Mist',          hex: '#EECCBB', group: 'pinks',  code: 'WC-8628', finish: 'smooth' },
+  { id: 'rouge',              label: 'Rouge',              hex: '#C03030', group: 'pinks',  code: 'WC-8020', finish: 'smooth' },
+  { id: 'beaujolais',         label: 'Beaujolais',         hex: '#7B2038', group: 'pinks',  code: 'WC-8151', finish: 'smooth' },
+  { id: 'burgundy',           label: 'Burgundy',           hex: '#6B1C2A', group: 'pinks',  code: 'WC-8016', finish: 'smooth' },
+
+  // Blues
+  { id: 'pastel-blue',        label: 'Pastel Blue',        hex: '#C4DBE8', group: 'blues',  code: 'WC-8051', finish: 'smooth' },
+  { id: 'iced-blue-ingres',   label: 'Iced Blue Ingres',   hex: '#B8D0DD', group: 'blues',  code: 'WC-8154', finish: 'ingres' },
+  { id: 'sky',                label: 'Sky',                hex: '#7EB5D6', group: 'blues',  code: 'WC-8805', finish: 'smooth' },
+  { id: 'bluebell',           label: 'Bluebell',           hex: '#6B9BC8', group: 'blues',  code: 'WC-8053', finish: 'smooth' },
+  { id: 'oxford-blue',        label: 'Oxford Blue',        hex: '#1E3A5F', group: 'blues',  code: 'WC-8054', finish: 'smooth' },
+  { id: 'imperial-blue',      label: 'Imperial Blue',      hex: '#0F1F3D', group: 'blues',  code: 'WC-8640', finish: 'smooth' },
+
+  // Greens
+  { id: 'pastel-green',       label: 'Pastel Green',       hex: '#C4E0C8', group: 'greens', code: 'WC-8426', finish: 'smooth' },
+  { id: 'sage',               label: 'Sage',               hex: '#9CB08C', group: 'greens', code: 'WC-8034', finish: 'smooth' },
+  { id: 'guacamole',          label: 'Guacamole',          hex: '#7A8C4A', group: 'greens', code: 'WC-8416', finish: 'smooth' },
+  { id: 'laurel',             label: 'Laurel',             hex: '#3D6B3D', group: 'greens', code: 'WC-8645', finish: 'smooth' },
+  { id: 'bottle-green',       label: 'Bottle Green',       hex: '#1E4D2B', group: 'greens', code: 'WC-8018G', finish: 'smooth' },
+  { id: 'nightshade',         label: 'Nightshade',         hex: '#1A3A30', group: 'greens', code: 'WC-8071', finish: 'smooth' },
+
+  // Greys & Silvers
+  { id: 'dove',               label: 'Dove',               hex: '#C8C0B8', group: 'greys',  code: 'WC-8633', finish: 'smooth' },
+  { id: 'smoke',              label: 'Smoke',              hex: '#A0A0A0', group: 'greys',  code: 'WC-8026', finish: 'smooth' },
+  { id: 'mid-grey',           label: 'Mid Grey',           hex: '#808080', group: 'greys',  code: 'WC-8491', finish: 'smooth' },
+  { id: 'slate',              label: 'Slate',              hex: '#5A6A78', group: 'greys',  code: 'WC-8159', finish: 'smooth' },
+  { id: 'charcoal',           label: 'Charcoal',           hex: '#383838', group: 'greys',  code: 'WC-8010', finish: 'smooth' },
+  { id: 'silver-metallic',    label: 'Silver Metallic',    hex: '#B8B8C0', group: 'greys',  code: 'WC-3033', finish: 'metallic' },
+
+  // Browns, Purples & Black
+  { id: 'chestnut',           label: 'Chestnut',           hex: '#7A4A2A', group: 'browns', code: 'WC-8023', finish: 'smooth' },
+  { id: 'sepia',              label: 'Sepia',              hex: '#6B4E2F', group: 'browns', code: 'WC-8050', finish: 'smooth' },
+  { id: 'rust',               label: 'Rust',               hex: '#B5451B', group: 'browns', code: 'WC-LJ04', finish: 'smooth' },
+  { id: 'violet',             label: 'Violet',             hex: '#6B3FA0', group: 'browns', code: 'WC-28031', finish: 'smooth' },
+  { id: 'damson',             label: 'Damson',             hex: '#4A1942', group: 'browns', code: 'WC-LJ06', finish: 'smooth' },
+  { id: 'deep-black',         label: 'Poster Black',       hex: '#1A1A1A', group: 'browns', code: 'WC-BLK',  finish: 'smooth' },
 ];
 
 

@@ -627,6 +627,8 @@ body {
 
 /* ── Mount Colour Swatches — SQUARE ──────────────────────────────────────── */
 
+.mc-scroll { max-height: 280px; overflow-y: auto; padding-right: 4px; }
+
 .mc-group { margin-bottom: 8px; }
 .mc-group__label { font-size: 10px; color: #bbb; display: block; margin-bottom: 4px; }
 
