@@ -409,11 +409,13 @@ export function calcFramePrice(frame, w_cm, h_cm) {
   return perimM * frame.costPerM * FRAME_MARKUP;
 }
 
-export function calcMountPrice(mountTypeId, w_cm, h_cm) {
+export function calcMountPrice(mountTypeId, w_cm, h_cm, mountWidthMm = 50) {
   const mt = MOUNT_TYPES.find(m => m.id === mountTypeId);
   if (!mt || mt.multiplier === 0) return 0;
-  const areaSqFt = calcGlassArea(w_cm, h_cm);
-  return (areaSqFt * MOUNT_BASE_RATE_PER_SQFT * mt.multiplier) + mt.surcharge;
+  const borderCm = mountWidthMm / 10;
+  const outerArea = (w_cm + 2 * borderCm) * (h_cm + 2 * borderCm);
+  const mountAreaSqFt = (outerArea - w_cm * h_cm) / SQCM_PER_SQFT;
+  return (mountAreaSqFt * MOUNT_BASE_RATE_PER_SQFT * mt.multiplier) + mt.surcharge;
 }
 
 export function calcGlassPrice(glassId, w_cm, h_cm) {

@@ -28,9 +28,10 @@ const DEFAULT_SELECTIONS = {
   mountTypeId: 'none',
   mountColourId: 'snow-white',
   mountColourId2: 'deep-black',
-  mountWidthId: null,
+  mountWidthId: 'standard',
   vGrooveColourId: null,
   glassId: null,
+  imageFit: 'fill',
 };
 
 export default function NewConfigurator() {
@@ -78,8 +79,9 @@ export default function NewConfigurator() {
     const round2 = n => Math.round(n * 100) / 100;
     const printPrice  = (!isCustom && selections.printType && size) ? (calcPrintPrice(selections.printType, selections.sizeId) || 0) : 0;
     const framePrice  = (frame && effW) ? calcFramePrice(frame, effW, effH) : 0;
-    const mountPrice  = (selections.mountTypeId !== 'none' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH) : 0;
-    const glassPrice  = (selections.glassId && selections.glassId !== 'none' && effW) ? calcGlassPrice(selections.glassId, effW, effH) : 0;
+    const mountWidthMm = MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50;
+    const mountPrice  = (selections.mountTypeId !== 'none' && selections.printType !== 'canvas' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH, mountWidthMm) : 0;
+    const glassPrice  = (selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && effW) ? calcGlassPrice(selections.glassId, effW, effH) : 0;
     const total = printPrice + framePrice + mountPrice + glassPrice;
     return {
       printPrice: round2(printPrice), framePrice: round2(framePrice),
@@ -92,6 +94,7 @@ export default function NewConfigurator() {
     ? (COLOUR_GROUPS.find(c => c.id === frame.colour)?.hex || '#333')
     : 'transparent';
   const framePx = frame ? Math.max(8, Math.round(frame.widthMm * 0.6)) : 0;
+  const mountPadPx = mountWidth ? Math.round(mountWidth.mm * 0.35) : 18;
 
   const toggleSection = (id) => {
     setOpenSection(prev => prev === id ? null : id);
@@ -156,7 +159,7 @@ export default function NewConfigurator() {
                 <div
                   className="preview-mount"
                   style={{
-                    padding: selections.mountTypeId === 'double' ? 20 : 16,
+                    padding: selections.mountTypeId === 'double' ? mountPadPx + 4 : mountPadPx,
                     backgroundColor: mountColour?.hex || '#F8F8F8',
                   }}
                 >
@@ -177,7 +180,7 @@ export default function NewConfigurator() {
                     onDrop={handleDrop}
                   >
                     {selections.imageUrl ? (
-                      <img src={selections.imageUrl} alt="Preview" style={{ borderRadius: isOvalOrRound ? '50%' : 0 }} />
+                      <img src={selections.imageUrl} alt="Preview" style={{ borderRadius: isOvalOrRound ? '50%' : 0, objectFit: selections.imageFit === 'fit' ? 'contain' : 'cover' }} />
                     ) : (
                       <div className="preview-placeholder">
                         <span className="preview-placeholder__icon">+</span>
@@ -199,7 +202,7 @@ export default function NewConfigurator() {
                   onDrop={handleDrop}
                 >
                   {selections.imageUrl ? (
-                    <img src={selections.imageUrl} alt="Preview" />
+                    <img src={selections.imageUrl} alt="Preview" style={{ objectFit: selections.imageFit === 'fit' ? 'contain' : 'cover' }} />
                   ) : (
                     <div className="preview-placeholder">
                       <span className="preview-placeholder__icon">+</span>
@@ -220,17 +223,32 @@ export default function NewConfigurator() {
               <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
               {selections.imageUrl ? 'Change Photo' : 'Upload Photo'}
             </label>
-            {hasDims && (
-              <button
-                className="orientation-toggle"
-                onClick={() => {
-                  const current = selections.orientation || (rawW >= rawH ? 'landscape' : 'portrait');
-                  update({ orientation: current === 'landscape' ? 'portrait' : 'landscape' });
-                }}
-                title={`Switch to ${(selections.orientation || (rawW >= rawH ? 'landscape' : 'portrait')) === 'landscape' ? 'portrait' : 'landscape'}`}
-              >
-                ↻
-              </button>
+            {hasDims && (() => {
+              const current = selections.orientation || (rawW >= rawH ? 'landscape' : 'portrait');
+              return (
+                <div className="unit-toggle">
+                  <button
+                    className={`unit-toggle__btn ${current === 'landscape' ? 'active' : ''}`}
+                    onClick={() => update({ orientation: 'landscape' })}
+                  >Landscape</button>
+                  <button
+                    className={`unit-toggle__btn ${current === 'portrait' ? 'active' : ''}`}
+                    onClick={() => update({ orientation: 'portrait' })}
+                  >Portrait</button>
+                </div>
+              );
+            })()}
+            {selections.imageUrl && (
+              <div className="unit-toggle">
+                <button
+                  className={`unit-toggle__btn ${selections.imageFit === 'fit' ? 'active' : ''}`}
+                  onClick={() => update({ imageFit: 'fit' })}
+                >Fit</button>
+                <button
+                  className={`unit-toggle__btn ${selections.imageFit === 'fill' ? 'active' : ''}`}
+                  onClick={() => update({ imageFit: 'fill' })}
+                >Fill</button>
+              </div>
             )}
           </div>
 
@@ -254,7 +272,7 @@ export default function NewConfigurator() {
         <div className="cfg__scroll">
           {/* Reset button */}
           <div className="cfg__reset-bar">
-            <button className="reset-btn" onClick={handleReset}>↺ Start Over</button>
+            <button className="reset-btn" onClick={handleReset}>↺ Reset</button>
           </div>
 
           <div className="accordion">

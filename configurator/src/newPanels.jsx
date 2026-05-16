@@ -311,13 +311,15 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
     colourGroups[mc.group].push(mc);
   });
 
+  const mountWidthMm = MOUNT_WIDTHS.find(mw => mw.id === mountWidthId)?.mm || 50;
+
   return (
     <div className="sec-body">
       <div className="sec-row">
         <span className="sec-label">Mount Type</span>
         <div className="opt-grid opt-grid--3">
           {MOUNT_TYPES.map(mt => {
-            const price = dimW ? calcMountPrice(mt.id, dimW, dimH) : null;
+            const price = dimW ? calcMountPrice(mt.id, dimW, dimH, mountWidthMm) : null;
             return (
               <button
                 key={mt.id}
