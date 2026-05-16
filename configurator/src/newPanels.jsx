@@ -5,8 +5,10 @@ import {
   FRAME_CATALOGUE, COLOUR_GROUPS,
   getFinishesForColour, recommendWidth,
   calcGlassPrice, calcMountPrice, calcFramePrice, calcPrintPrice,
-  SQCM_PER_SQFT, FRAME_MARKUP,
+  SQCM_PER_SQFT, FRAME_MARKUP, VAT_RATE,
 } from './newData.js';
+
+const incVat = n => Math.round(n * (1 + VAT_RATE) * 100) / 100;
 // ─── Colour Square (simple swatch for frames) ──────────────────────────────
 
 export function MouldingCorner({ hex, className = '' }) {
@@ -125,7 +127,7 @@ export function SizePrintSection({ selections, onUpdate }) {
                   <span className="opt-card__name">{pt.label}</span>
                   <span className="opt-card__desc">{pt.desc}</span>
                   <span className="opt-card__price">
-                    {unavailable ? 'N/A' : pt.id === 'none' ? '—' : `£${price?.toFixed(2)}`}
+                    {unavailable ? 'N/A' : pt.id === 'none' ? '—' : `£${incVat(price).toFixed(2)}`}
                   </span>
                 </button>
               );
@@ -273,7 +275,7 @@ export function FrameSection({ selections, onUpdate, effW, effH }) {
                     <span className="w-row__bar" style={{ width: `${barPct}%` }} />
                   </span>
                   <span className="w-row__price">
-                    {framePrice !== null ? `£${framePrice.toFixed(2)}` : '—'}
+                    {framePrice !== null ? `£${incVat(framePrice).toFixed(2)}` : '—'}
                   </span>
                   {isRec && <span className="w-row__rec">REC</span>}
                 </button>
@@ -324,7 +326,7 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
                 onClick={() => onUpdate({ mountTypeId: mt.id })}
               >
                 <span className="opt-card__name">{mt.label}</span>
-                <span className="opt-card__price">{mt.id === 'none' ? '—' : price !== null ? `£${price.toFixed(2)}` : '—'}</span>
+                <span className="opt-card__price">{mt.id === 'none' ? '—' : price !== null ? `£${incVat(price).toFixed(2)}` : '—'}</span>
               </button>
             );
           })}
@@ -408,9 +410,9 @@ export function GlassSection({ selections, onUpdate, effW, effH }) {
                 <span className="opt-card__name">{g.label}</span>
                 <span className="opt-card__desc">{g.desc}</span>
                 <span className="opt-card__price">
-                  {g.id === 'none' ? '—' : price !== null ? `£${price.toFixed(2)}` : '—'}
+                  {g.id === 'none' ? '—' : price !== null ? `£${incVat(price).toFixed(2)}` : '—'}
                 </span>
-                {g.ratePerSqFt > 0 && <span className="opt-card__rate">£{g.ratePerSqFt.toFixed(2)}/sq ft</span>}
+                {g.ratePerSqFt > 0 && <span className="opt-card__rate">£{incVat(g.ratePerSqFt).toFixed(2)}/sq ft</span>}
               </button>
             );
           })}

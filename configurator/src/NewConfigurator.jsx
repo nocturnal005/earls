@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import {
   PRINT_SIZES, FRAME_CATALOGUE, MOUNT_COLOURS, COLOUR_GROUPS, MOUNT_TYPES,
   GLASS_OPTIONS, calcFramePrice, calcPrintPrice, calcMountPrice, calcGlassPrice,
-  HANDLING_FEE, VAT_RATE,
+  VAT_RATE,
 } from './newData.js';
 import {
   SizePrintSection, FrameSection, MountSection, GlassSection,
@@ -71,20 +71,19 @@ export default function NewConfigurator() {
 
   const pricing = useMemo(() => {
     const round2 = n => Math.round(n * 100) / 100;
-    const printPrice  = (!isCustom && selections.printType && size) ? (calcPrintPrice(selections.printType, selections.sizeId) || 0) : 0;
-    const framePrice  = (frame && effW) ? calcFramePrice(frame, effW, effH) : 0;
-    const mountPrice  = (selections.mountTypeId !== 'none' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH) : 0;
-    const glassPrice  = (selections.glassId && selections.glassId !== 'none' && effW) ? calcGlassPrice(selections.glassId, effW, effH) : 0;
-    const hasItems    = printPrice + framePrice + mountPrice + glassPrice > 0;
-    const handlingPrice = hasItems ? HANDLING_FEE : 0;
-    const subtotal = printPrice + framePrice + mountPrice + glassPrice + handlingPrice;
-    const vat = subtotal * VAT_RATE;
-    const total = subtotal + vat;
+    const incVat = n => n * (1 + VAT_RATE);
+    const printEx  = (!isCustom && selections.printType && size) ? (calcPrintPrice(selections.printType, selections.sizeId) || 0) : 0;
+    const frameEx  = (frame && effW) ? calcFramePrice(frame, effW, effH) : 0;
+    const mountEx  = (selections.mountTypeId !== 'none' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH) : 0;
+    const glassEx  = (selections.glassId && selections.glassId !== 'none' && effW) ? calcGlassPrice(selections.glassId, effW, effH) : 0;
+    const printPrice = round2(incVat(printEx));
+    const framePrice = round2(incVat(frameEx));
+    const mountPrice = round2(incVat(mountEx));
+    const glassPrice = round2(incVat(glassEx));
+    const total = printPrice + framePrice + mountPrice + glassPrice;
     return {
-      printPrice: round2(printPrice), framePrice: round2(framePrice),
-      mountPrice: round2(mountPrice), glassPrice: round2(glassPrice),
-      handlingPrice: round2(handlingPrice), subtotal: round2(subtotal),
-      vat: round2(vat), total: round2(total),
+      printPrice, framePrice, mountPrice, glassPrice,
+      total: round2(total),
     };
   }, [selections, frame, size, effW, effH, isCustom]);
 
@@ -289,10 +288,9 @@ export default function NewConfigurator() {
             <div className="price-line"><span>Frame</span><span>£{pricing.framePrice.toFixed(2)}</span></div>
             <div className="price-line"><span>Mount</span><span>£{pricing.mountPrice.toFixed(2)}</span></div>
             <div className="price-line"><span>Glass</span><span>£{pricing.glassPrice.toFixed(2)}</span></div>
-            <div className="price-line"><span>Handling</span><span>£{pricing.handlingPrice.toFixed(2)}</span></div>
             <hr className="price-divider" />
-            <div className="price-line"><span>Subtotal</span><span>£{pricing.subtotal.toFixed(2)}</span></div>
-            <div className="price-line price-line--muted"><span>VAT (20%)</span><span>£{pricing.vat.toFixed(2)}</span></div>
+            <div className="price-line price-line--muted"><span>Prices include VAT</span><span></span></div>
+            <div className="price-line price-line--muted"><span>Shipping calculated at checkout</span><span></span></div>
           </div>
 
           <button className="price-bar__toggle" onClick={() => setShowBreakdown(p => !p)}>
