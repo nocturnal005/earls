@@ -261,7 +261,7 @@ export function FrameSection({ selections, onUpdate, effW, effH }) {
                 >
                   <span className="w-row__thumb">
                     {f.image
-                      ? <img src={f.image} alt={f.name} />
+                      ? <img src={`${import.meta.env.BASE_URL}${f.image}`} alt={f.name} />
                       : <MouldingCorner hex={cg?.hex || '#888'} widthMm={f.widthMm} finish={f.finish} />
                     }
                   </span>
