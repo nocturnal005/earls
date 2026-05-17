@@ -224,41 +224,41 @@ export const FRAME_CATALOGUE = [
   // ═══════════════════════════════════════════════════════════════════════════
 
   // ── BLACK — Matt (8) ──
-  { id: 'E001', code: 'ECON/0008', name: '14mm Matt Black',           colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 14, heightMm: 13, costPerM: 1.12, hasPhoto: true, tier: 'everyday' },
-  { id: 'E002', code: 'ECON/0007', name: '19mm Matt Black',           colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 19, heightMm: 13, costPerM: 1.25, hasPhoto: true, tier: 'everyday' },
-  { id: 'E003', code: 'ECON/0003', name: '21mm Matt Black',           colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 21, heightMm: 23, costPerM: 1.90, hasPhoto: true, tier: 'everyday' },
-  { id: 'E004', code: 'ECON/0006', name: '24mm Matt Black',           colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 24, heightMm: 13, costPerM: 1.51, hasPhoto: true, tier: 'everyday' },
-  { id: 'E005', code: 'ECON/0002', name: '28mm Matt Black',           colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 28, heightMm: 20, costPerM: 2.03, hasPhoto: true, tier: 'everyday' },
-  { id: 'E006', code: 'ECON/0005', name: '29mm Matt Black',           colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 29, heightMm: 13, costPerM: 1.80, hasPhoto: true, tier: 'everyday' },
-  { id: 'E007', code: 'ECON/0001', name: '38mm Matt Black (deep)',    colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.61, hasPhoto: true, tier: 'everyday' },
-  { id: 'E008', code: 'ECON/0004', name: '39mm Matt Black (slim)',    colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 39, heightMm: 13, costPerM: 2.30, hasPhoto: true, tier: 'everyday' },
+  { id: 'E001', code: 'ECON/0008', name: '14mm Matt Black',           colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 14, heightMm: 13, costPerM: 1.12, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0008.jpg' },
+  { id: 'E002', code: 'ECON/0007', name: '19mm Matt Black',           colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 19, heightMm: 13, costPerM: 1.25, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0007.jpg' },
+  { id: 'E003', code: 'ECON/0003', name: '21mm Matt Black',           colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 21, heightMm: 23, costPerM: 1.90, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0003.jpg' },
+  { id: 'E004', code: 'ECON/0006', name: '24mm Matt Black',           colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 24, heightMm: 13, costPerM: 1.51, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0006.jpg' },
+  { id: 'E005', code: 'ECON/0002', name: '28mm Matt Black',           colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 28, heightMm: 20, costPerM: 2.03, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0002.jpg' },
+  { id: 'E006', code: 'ECON/0005', name: '29mm Matt Black',           colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 29, heightMm: 13, costPerM: 1.80, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0005.jpg' },
+  { id: 'E007', code: 'ECON/0001', name: '38mm Matt Black (deep)',    colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.61, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0001.jpg' },
+  { id: 'E008', code: 'ECON/0004', name: '39mm Matt Black (slim)',    colour: 'black', finish: 'Matt',       profile: 'Flat',    widthMm: 39, heightMm: 13, costPerM: 2.30, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0004.jpg' },
 
   // ── BLACK — Stained / Obeche (6) ──
-  { id: 'E009', code: 'ECON/0029', name: '15mm Obeche Black',         colour: 'black', finish: 'Stained',    profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday' },
-  { id: 'E010', code: 'ECON/0022', name: '20mm Obeche Black',         colour: 'black', finish: 'Stained',    profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.51, hasPhoto: true, tier: 'everyday' },
-  { id: 'E011', code: 'ECON/0017', name: '35mm Obeche Black',         colour: 'black', finish: 'Stained',    profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 1.90, hasPhoto: true, tier: 'everyday' },
-  { id: 'E012', code: 'ECON/0034', name: '38mm Stained Black',        colour: 'black', finish: 'Stained',    profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.81, hasPhoto: true, tier: 'everyday' },
-  { id: 'E013', code: 'ECON/0047', name: '25mm Flat Compo Black',     colour: 'black', finish: 'Stained',    profile: 'Flat',    widthMm: 25, heightMm: 56, costPerM: 4.46, hasPhoto: true, tier: 'everyday' },
-  { id: 'E014', code: 'ECON/0049', name: '14mm Flat Compo Black',     colour: 'black', finish: 'Stained',    profile: 'Flat',    widthMm: 14, heightMm: 25, costPerM: 1.80, hasPhoto: true, tier: 'everyday' },
+  { id: 'E009', code: 'ECON/0029', name: '15mm Obeche Black',         colour: 'black', finish: 'Stained',    profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0029.jpg' },
+  { id: 'E010', code: 'ECON/0022', name: '20mm Obeche Black',         colour: 'black', finish: 'Stained',    profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.51, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0022.jpg' },
+  { id: 'E011', code: 'ECON/0017', name: '35mm Obeche Black',         colour: 'black', finish: 'Stained',    profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 1.90, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0017.jpg' },
+  { id: 'E012', code: 'ECON/0034', name: '38mm Stained Black',        colour: 'black', finish: 'Stained',    profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.81, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0034.jpg' },
+  { id: 'E013', code: 'ECON/0047', name: '25mm Flat Compo Black',     colour: 'black', finish: 'Stained',    profile: 'Flat',    widthMm: 25, heightMm: 56, costPerM: 4.46, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0047.jpg' },
+  { id: 'E014', code: 'ECON/0049', name: '14mm Flat Compo Black',     colour: 'black', finish: 'Stained',    profile: 'Flat',    widthMm: 14, heightMm: 25, costPerM: 1.80, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0049.jpg' },
 
   // ── BLACK — Open Grain (5) ──
-  { id: 'E015', code: 'ECON/0076', name: '22mm Open Grain Black',     colour: 'black', finish: 'Open Grain', profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, tier: 'everyday' },
-  { id: 'E016', code: 'ECON/0073', name: '30mm Open Grain Black',     colour: 'black', finish: 'Open Grain', profile: 'Flat',    widthMm: 30, heightMm: 20, costPerM: 2.43, hasPhoto: true, tier: 'everyday' },
-  { id: 'E017', code: 'ECON/0070', name: '40mm Open Grain Black',     colour: 'black', finish: 'Open Grain', profile: 'Flat',    widthMm: 40, heightMm: 20, costPerM: 2.89, hasPhoto: true, tier: 'everyday' },
-  { id: 'E018', code: 'ECON/0067', name: '55mm Open Grain Black',     colour: 'black', finish: 'Open Grain', profile: 'Flat',    widthMm: 55, heightMm: 20, costPerM: 4.00, hasPhoto: true, tier: 'everyday' },
-  { id: 'E019', code: 'ECON/0086', name: '22mm Smooth Black',         colour: 'black', finish: 'Open Grain', profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.84, hasPhoto: true, tier: 'everyday' },
+  { id: 'E015', code: 'ECON/0076', name: '22mm Open Grain Black',     colour: 'black', finish: 'Open Grain', profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, tier: 'everyday', image: 'mouldings/ECON_0076.png' },
+  { id: 'E016', code: 'ECON/0073', name: '30mm Open Grain Black',     colour: 'black', finish: 'Open Grain', profile: 'Flat',    widthMm: 30, heightMm: 20, costPerM: 2.43, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0073.png' },
+  { id: 'E017', code: 'ECON/0070', name: '40mm Open Grain Black',     colour: 'black', finish: 'Open Grain', profile: 'Flat',    widthMm: 40, heightMm: 20, costPerM: 2.89, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0070.png' },
+  { id: 'E018', code: 'ECON/0067', name: '55mm Open Grain Black',     colour: 'black', finish: 'Open Grain', profile: 'Flat',    widthMm: 55, heightMm: 20, costPerM: 4.00, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0067.png' },
+  { id: 'E019', code: 'ECON/0086', name: '22mm Smooth Black',         colour: 'black', finish: 'Open Grain', profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.84, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0086.png' },
 
   // ── BLACK — Deep Rebate (1) ──
-  { id: 'E020', code: 'ECON/0065', name: '20mm Deep Rebate Black',    colour: 'black', finish: 'Matt',       profile: 'Deep Rebate', widthMm: 20, heightMm: 33, costPerM: 2.30, hasPhoto: true, tier: 'everyday' },
+  { id: 'E020', code: 'ECON/0065', name: '20mm Deep Rebate Black',    colour: 'black', finish: 'Matt',       profile: 'Deep Rebate', widthMm: 20, heightMm: 33, costPerM: 2.30, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0065.jpg' },
 
   // ── BLACK — Cushion (7) ──
   { id: 'E021', code: '0075',      name: '½" Black Cushion',          colour: 'black', finish: 'Cushion',    profile: 'Cushion', widthMm: 12.7, heightMm: 10, costPerM: 1.18, tier: 'everyday', image: 'mouldings/0075.jpg' },
   { id: 'E022', code: '0080',      name: '⅜" Black Cushion',          colour: 'black', finish: 'Cushion',    profile: 'Cushion', widthMm: 9.5,  heightMm: 8,  costPerM: 1.31, tier: 'everyday', image: 'mouldings/0080.jpg' },
-  { id: 'E023', code: '0080/B',    name: '⅜" Black Stained Cushion',  colour: 'black', finish: 'Cushion',    profile: 'Cushion', widthMm: 9.5,  heightMm: 8,  costPerM: 1.97, hasPhoto: true, tier: 'everyday' },
+  { id: 'E023', code: '0080/B',    name: '⅜" Black Stained Cushion',  colour: 'black', finish: 'Cushion',    profile: 'Cushion', widthMm: 9.5,  heightMm: 8,  costPerM: 1.97, hasPhoto: true, tier: 'everyday', image: 'mouldings/0080_B.jpg' },
   { id: 'E024', code: '0354',      name: '¾" Black Cushion',          colour: 'black', finish: 'Cushion',    profile: 'Cushion', widthMm: 19,   heightMm: 12, costPerM: 1.80, tier: 'everyday', image: 'mouldings/0354.jpg' },
-  { id: 'E025', code: '0354/B',    name: '20mm Black Stain Cushion',  colour: 'black', finish: 'Cushion',    profile: 'Cushion', widthMm: 20,   heightMm: 12, costPerM: 1.97, hasPhoto: true, tier: 'everyday' },
+  { id: 'E025', code: '0354/B',    name: '20mm Black Stain Cushion',  colour: 'black', finish: 'Cushion',    profile: 'Cushion', widthMm: 20,   heightMm: 12, costPerM: 1.97, hasPhoto: true, tier: 'everyday', image: 'mouldings/0354_B.jpg' },
   { id: 'E026', code: '0081',      name: '1" Black Cushion',          colour: 'black', finish: 'Cushion',    profile: 'Cushion', widthMm: 25.4, heightMm: 14, costPerM: 3.94, tier: 'everyday', image: 'mouldings/0081.jpg' },
-  { id: 'E027', code: '000J/304',  name: '30mm Black Cushion',        colour: 'black', finish: 'Cushion',    profile: 'Cushion', widthMm: 30,   heightMm: 14, costPerM: 2.13, hasPhoto: true, tier: 'everyday' },
+  { id: 'E027', code: '000J/304',  name: '30mm Black Cushion',        colour: 'black', finish: 'Cushion',    profile: 'Cushion', widthMm: 30,   heightMm: 14, costPerM: 2.13, hasPhoto: true, tier: 'everyday', image: 'mouldings/000J_304.jpg' },
 
   // ── BLACK — Specialty (5) ──
   { id: 'E028', code: '000J/2035', name: '20mm Flat Ramin Black',     colour: 'black', finish: 'Specialty',  profile: 'Flat',    widthMm: 20,   heightMm: 12, costPerM: 2.03, hasPhoto: true, tier: 'everyday' },
