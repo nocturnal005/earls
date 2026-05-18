@@ -352,10 +352,10 @@ export const FRAME_CATALOGUE = [
   { id: 'E094', code: 'ECON/0079', name: '22mm Light Oak Open Grain', colour: 'natural-wood', finish: 'Light Oak', profile: 'Flat', widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday' },
 
   // ── CREAM (4) ──
-  { id: 'E095', code: 'ECON/0042', name: '15mm Stained Cream',        colour: 'cream', finish: 'Stained',    profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday' },
-  { id: 'E096', code: 'ECON/0041', name: '20mm Stained Cream',        colour: 'cream', finish: 'Stained',    profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.57, hasPhoto: true, tier: 'everyday' },
-  { id: 'E097', code: 'ECON/0040', name: '35mm Stained Cream',        colour: 'cream', finish: 'Stained',    profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday' },
-  { id: 'E098', code: 'ECON/0039', name: '38mm Stained Cream',        colour: 'cream', finish: 'Stained',    profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.81, hasPhoto: true, tier: 'everyday' },
+  { id: 'E095', code: 'ECON/0042', name: '15mm Stained Cream',        colour: 'cream', finish: 'Stained',    profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0042.jpg' },
+  { id: 'E096', code: 'ECON/0041', name: '20mm Stained Cream',        colour: 'cream', finish: 'Stained',    profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.57, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0041.jpg' },
+  { id: 'E097', code: 'ECON/0040', name: '35mm Stained Cream',        colour: 'cream', finish: 'Stained',    profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0040.jpg' },
+  { id: 'E098', code: 'ECON/0039', name: '38mm Stained Cream',        colour: 'cream', finish: 'Stained',    profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.81, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0039.jpg' },
 
   // ── COLOUR (4) ──
   { id: 'E099', code: 'ECON/0063', name: '35mm Green Painted',        colour: 'colour', finish: 'Painted',   profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 2.13, tier: 'everyday' },
