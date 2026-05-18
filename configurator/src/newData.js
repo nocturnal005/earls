@@ -303,26 +303,26 @@ export const FRAME_CATALOGUE = [
   { id: 'E057', code: 'ECON/0087', name: '22mm Smooth White',         colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.84, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0087.png' },
 
   // ── GREY — Light Grey (4) ──
-  { id: 'E058', code: 'ECON/0046', name: '15mm Light Grey',           colour: 'grey', finish: 'Light Grey',  profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday' },
-  { id: 'E059', code: 'ECON/0045', name: '20mm Light Grey',           colour: 'grey', finish: 'Light Grey',  profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.57, hasPhoto: true, tier: 'everyday' },
-  { id: 'E060', code: 'ECON/0044', name: '35mm Light Grey',           colour: 'grey', finish: 'Light Grey',  profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday' },
-  { id: 'E061', code: 'ECON/0043', name: '38mm Light Grey',           colour: 'grey', finish: 'Light Grey',  profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.67, hasPhoto: true, tier: 'everyday' },
+  { id: 'E058', code: 'ECON/0046', name: '15mm Light Grey',           colour: 'grey', finish: 'Light Grey',  profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0046.jpg' },
+  { id: 'E059', code: 'ECON/0045', name: '20mm Light Grey',           colour: 'grey', finish: 'Light Grey',  profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.57, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0045.jpg' },
+  { id: 'E060', code: 'ECON/0044', name: '35mm Light Grey',           colour: 'grey', finish: 'Light Grey',  profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0044.jpg' },
+  { id: 'E061', code: 'ECON/0043', name: '38mm Light Grey',           colour: 'grey', finish: 'Light Grey',  profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.67, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0043.jpg' },
 
   // ── GREY — Taupe (4) ──
-  { id: 'E062', code: 'ECON/0058', name: '15mm Taupe',                colour: 'grey', finish: 'Taupe',       profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday' },
-  { id: 'E063', code: 'ECON/0057', name: '20mm Taupe',                colour: 'grey', finish: 'Taupe',       profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.57, hasPhoto: true, tier: 'everyday' },
-  { id: 'E064', code: 'ECON/0056', name: '35mm Taupe',                colour: 'grey', finish: 'Taupe',       profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday' },
+  { id: 'E062', code: 'ECON/0058', name: '15mm Taupe',                colour: 'grey', finish: 'Taupe',       profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0058.jpg' },
+  { id: 'E063', code: 'ECON/0057', name: '20mm Taupe',                colour: 'grey', finish: 'Taupe',       profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.57, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0057.jpg' },
+  { id: 'E064', code: 'ECON/0056', name: '35mm Taupe',                colour: 'grey', finish: 'Taupe',       profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0056.jpg' },
   { id: 'E065', code: 'ECON/0055', name: '38mm Taupe',                colour: 'grey', finish: 'Taupe',       profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.35, tier: 'everyday' },
 
   // ── GREY — Washed Light Grey (4) ──
-  { id: 'E066', code: 'ECON/0062', name: '15mm Washed Grey',          colour: 'grey', finish: 'Washed Grey', profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday' },
-  { id: 'E067', code: 'ECON/0061', name: '20mm Washed Grey',          colour: 'grey', finish: 'Washed Grey', profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.57, hasPhoto: true, tier: 'everyday' },
-  { id: 'E068', code: 'ECON/0060', name: '35mm Washed Grey',          colour: 'grey', finish: 'Washed Grey', profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday' },
-  { id: 'E069', code: 'ECON/0059', name: '38mm Washed Grey',          colour: 'grey', finish: 'Washed Grey', profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.81, hasPhoto: true, tier: 'everyday' },
+  { id: 'E066', code: 'ECON/0062', name: '15mm Washed Grey',          colour: 'grey', finish: 'Washed Grey', profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0062.jpg' },
+  { id: 'E067', code: 'ECON/0061', name: '20mm Washed Grey',          colour: 'grey', finish: 'Washed Grey', profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.57, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0061.jpg' },
+  { id: 'E068', code: 'ECON/0060', name: '35mm Washed Grey',          colour: 'grey', finish: 'Washed Grey', profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0060.jpg' },
+  { id: 'E069', code: 'ECON/0059', name: '38mm Washed Grey',          colour: 'grey', finish: 'Washed Grey', profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.81, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0059.jpg' },
 
   // ── GREY — Open Grain (2) ──
-  { id: 'E070', code: 'ECON/0080', name: '22mm Grey Open Grain',      colour: 'grey', finish: 'Open Grain',  profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday' },
-  { id: 'E071', code: 'ECON/0081', name: '22mm Light Grey Open Grain',colour: 'grey', finish: 'Open Grain',  profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday' },
+  { id: 'E070', code: 'ECON/0080', name: '22mm Grey Open Grain',      colour: 'grey', finish: 'Open Grain',  profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0080.png' },
+  { id: 'E071', code: 'ECON/0081', name: '22mm Light Grey Open Grain',colour: 'grey', finish: 'Open Grain',  profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0081.png' },
 
   // ── DARK WOOD — Brown / Dark Grey (12) ──
   { id: 'E072', code: 'ECON/0032', name: '15mm Obeche Brown',         colour: 'dark-wood', finish: 'Stained', profile: 'Flat',   widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday' },
