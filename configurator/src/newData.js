@@ -359,9 +359,9 @@ export const FRAME_CATALOGUE = [
 
   // ── COLOUR (4) ──
   { id: 'E099', code: 'ECON/0063', name: '35mm Green Painted',        colour: 'colour', finish: 'Painted',   profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 2.13, tier: 'everyday' },
-  { id: 'E100', code: 'ECON/0083', name: '22mm Blue Open Grain',      colour: 'colour', finish: 'Open Grain',profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday' },
-  { id: 'E101', code: 'ECON/0084', name: '22mm Red Open Grain',       colour: 'colour', finish: 'Open Grain',profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday' },
-  { id: 'E102', code: 'ECON/0085', name: '22mm Green Open Grain',     colour: 'colour', finish: 'Open Grain',profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday' },
+  { id: 'E100', code: 'ECON/0083', name: '22mm Blue Open Grain',      colour: 'colour', finish: 'Open Grain',profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0083.png' },
+  { id: 'E101', code: 'ECON/0084', name: '22mm Red Open Grain',       colour: 'colour', finish: 'Open Grain',profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0084.png' },
+  { id: 'E102', code: 'ECON/0085', name: '22mm Green Open Grain',     colour: 'colour', finish: 'Open Grain',profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0085.png' },
 
   // ── OTHER (1) ──
   { id: 'E103', code: 'M0093',     name: '¾" Flat Picture Moulding',  colour: 'natural-wood', finish: 'Raw', profile: 'Flat',    widthMm: 19, heightMm: 16, costPerM: 1.64, tier: 'everyday', image: 'mouldings/M0093.jpg' },
