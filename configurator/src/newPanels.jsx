@@ -262,7 +262,7 @@ export function FrameSection({ selections, onUpdate, effW, effH }) {
                   <span className="w-row__thumb">
                     {f.image
                       ? <img src={`${import.meta.env.BASE_URL}${f.image}`} alt={f.name} />
-                      : <MouldingCorner hex={cg?.hex || '#888'} widthMm={f.widthMm} finish={f.finish} />
+                      : <MouldingCorner hex={cg?.hex || '#8A8A8A'} widthMm={f.widthMm} finish={f.finish} />
                     }
                   </span>
                   <span className="w-row__info">

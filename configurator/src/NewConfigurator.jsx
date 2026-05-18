@@ -91,7 +91,7 @@ export default function NewConfigurator() {
   }, [selections, frame, size, effW, effH, isCustom]);
 
   const frameColourHex = frame
-    ? (COLOUR_GROUPS.find(c => c.id === frame.colour)?.hex || '#333')
+    ? (COLOUR_GROUPS.find(c => c.id === frame.colour)?.hex || '#2D2D2D')
     : 'transparent';
   const framePx = frame ? Math.max(8, Math.round(frame.widthMm * 0.6)) : 0;
   const mountPadPx = mountWidth ? Math.round(mountWidth.mm * 0.35) : 18;
@@ -160,7 +160,7 @@ export default function NewConfigurator() {
                   className="preview-mount"
                   style={{
                     padding: selections.mountTypeId === 'double' ? mountPadPx + 4 : mountPadPx,
-                    backgroundColor: mountColour?.hex || '#F8F8F8',
+                    backgroundColor: mountColour?.hex || '#F9F7F4',
                   }}
                 >
                   {selections.mountTypeId === 'double' && (
