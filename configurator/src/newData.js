@@ -275,32 +275,32 @@ export const FRAME_CATALOGUE = [
   { id: 'E037', code: 'M0093/B',   name: '¾" Stained Black Flat',     colour: 'black', finish: 'Stained',    profile: 'Flat',    widthMm: 19,   heightMm: 16, costPerM: 1.90, hasPhoto: true, tier: 'everyday' },
 
   // ── WHITE — Matt (8) ──
-  { id: 'E038', code: 'ECON/0016', name: '14mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 14, heightMm: 13, costPerM: 1.12, hasPhoto: true, tier: 'everyday' },
-  { id: 'E039', code: 'ECON/0015', name: '19mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 19, heightMm: 13, costPerM: 1.25, hasPhoto: true, tier: 'everyday' },
-  { id: 'E040', code: 'ECON/0011', name: '21mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 21, heightMm: 23, costPerM: 1.90, hasPhoto: true, tier: 'everyday' },
-  { id: 'E041', code: 'ECON/0014', name: '24mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 24, heightMm: 13, costPerM: 1.51, hasPhoto: true, tier: 'everyday' },
-  { id: 'E042', code: 'ECON/0010', name: '28mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 28, heightMm: 20, costPerM: 2.03, hasPhoto: true, tier: 'everyday' },
-  { id: 'E043', code: 'ECON/0013', name: '29mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 29, heightMm: 13, costPerM: 1.80, hasPhoto: true, tier: 'everyday' },
-  { id: 'E044', code: 'ECON/0009', name: '38mm Matt White (deep)',    colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.61, hasPhoto: true, tier: 'everyday' },
-  { id: 'E045', code: 'ECON/0012', name: '39mm Matt White (slim)',    colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 39, heightMm: 13, costPerM: 2.30, hasPhoto: true, tier: 'everyday' },
+  { id: 'E038', code: 'ECON/0016', name: '14mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 14, heightMm: 13, costPerM: 1.12, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0016.jpg' },
+  { id: 'E039', code: 'ECON/0015', name: '19mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 19, heightMm: 13, costPerM: 1.25, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0015.jpg' },
+  { id: 'E040', code: 'ECON/0011', name: '21mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 21, heightMm: 23, costPerM: 1.90, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0011.jpg' },
+  { id: 'E041', code: 'ECON/0014', name: '24mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 24, heightMm: 13, costPerM: 1.51, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0014.jpg' },
+  { id: 'E042', code: 'ECON/0010', name: '28mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 28, heightMm: 20, costPerM: 2.03, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0010.jpg' },
+  { id: 'E043', code: 'ECON/0013', name: '29mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 29, heightMm: 13, costPerM: 1.80, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0013.jpg' },
+  { id: 'E044', code: 'ECON/0009', name: '38mm Matt White (deep)',    colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.61, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0009.jpg' },
+  { id: 'E045', code: 'ECON/0012', name: '39mm Matt White (slim)',    colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 39, heightMm: 13, costPerM: 2.30, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0012.jpg' },
 
   // ── WHITE — Stained / Obeche (4) ──
-  { id: 'E046', code: 'ECON/0033', name: '15mm Obeche White',         colour: 'white', finish: 'Stained',    profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday' },
-  { id: 'E047', code: 'ECON/0024', name: '20mm Obeche White',         colour: 'white', finish: 'Stained',    profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.51, hasPhoto: true, tier: 'everyday' },
-  { id: 'E048', code: 'ECON/0019', name: '35mm Obeche White',         colour: 'white', finish: 'Stained',    profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 1.90, hasPhoto: true, tier: 'everyday' },
-  { id: 'E049', code: 'ECON/0035', name: '38mm Stained White',        colour: 'white', finish: 'Stained',    profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.81, hasPhoto: true, tier: 'everyday' },
+  { id: 'E046', code: 'ECON/0033', name: '15mm Obeche White',         colour: 'white', finish: 'Stained',    profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0033.jpg' },
+  { id: 'E047', code: 'ECON/0024', name: '20mm Obeche White',         colour: 'white', finish: 'Stained',    profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.51, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0024.jpg' },
+  { id: 'E048', code: 'ECON/0019', name: '35mm Obeche White',         colour: 'white', finish: 'Stained',    profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 1.90, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0019.jpg' },
+  { id: 'E049', code: 'ECON/0035', name: '38mm Stained White',        colour: 'white', finish: 'Stained',    profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.81, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0035.jpg' },
 
   // ── WHITE — Open Grain (4) ──
-  { id: 'E050', code: 'ECON/0077', name: '22mm Open Grain White',     colour: 'white', finish: 'Open Grain', profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday' },
-  { id: 'E051', code: 'ECON/0074', name: '30mm Open Grain White',     colour: 'white', finish: 'Open Grain', profile: 'Flat',    widthMm: 30, heightMm: 20, costPerM: 2.43, hasPhoto: true, tier: 'everyday' },
-  { id: 'E052', code: 'ECON/0071', name: '40mm Open Grain White',     colour: 'white', finish: 'Open Grain', profile: 'Flat',    widthMm: 40, heightMm: 20, costPerM: 2.89, hasPhoto: true, tier: 'everyday' },
-  { id: 'E053', code: 'ECON/0068', name: '55mm Open Grain White',     colour: 'white', finish: 'Open Grain', profile: 'Flat',    widthMm: 55, heightMm: 20, costPerM: 4.00, hasPhoto: true, tier: 'everyday' },
+  { id: 'E050', code: 'ECON/0077', name: '22mm Open Grain White',     colour: 'white', finish: 'Open Grain', profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0077.png' },
+  { id: 'E051', code: 'ECON/0074', name: '30mm Open Grain White',     colour: 'white', finish: 'Open Grain', profile: 'Flat',    widthMm: 30, heightMm: 20, costPerM: 2.43, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0074.png' },
+  { id: 'E052', code: 'ECON/0071', name: '40mm Open Grain White',     colour: 'white', finish: 'Open Grain', profile: 'Flat',    widthMm: 40, heightMm: 20, costPerM: 2.89, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0071.png' },
+  { id: 'E053', code: 'ECON/0068', name: '55mm Open Grain White',     colour: 'white', finish: 'Open Grain', profile: 'Flat',    widthMm: 55, heightMm: 20, costPerM: 4.00, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0068.png' },
 
   // ── WHITE — Compo & Rebate (4) ──
-  { id: 'E054', code: 'ECON/0048', name: '25mm Flat Compo White',     colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 25, heightMm: 56, costPerM: 4.46, hasPhoto: true, tier: 'everyday' },
-  { id: 'E055', code: 'ECON/0050', name: '14mm Flat Compo White',     colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 14, heightMm: 25, costPerM: 1.80, hasPhoto: true, tier: 'everyday' },
-  { id: 'E056', code: 'ECON/0064', name: '20mm Deep Rebate White',    colour: 'white', finish: 'Matt',       profile: 'Deep Rebate', widthMm: 20, heightMm: 33, costPerM: 2.30, hasPhoto: true, tier: 'everyday' },
-  { id: 'E057', code: 'ECON/0087', name: '22mm Smooth White',         colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.84, hasPhoto: true, tier: 'everyday' },
+  { id: 'E054', code: 'ECON/0048', name: '25mm Flat Compo White',     colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 25, heightMm: 56, costPerM: 4.46, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0048.jpg' },
+  { id: 'E055', code: 'ECON/0050', name: '14mm Flat Compo White',     colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 14, heightMm: 25, costPerM: 1.80, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0050.jpg' },
+  { id: 'E056', code: 'ECON/0064', name: '20mm Deep Rebate White',    colour: 'white', finish: 'Matt',       profile: 'Deep Rebate', widthMm: 20, heightMm: 33, costPerM: 2.30, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0064.jpg' },
+  { id: 'E057', code: 'ECON/0087', name: '22mm Smooth White',         colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.84, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0087.png' },
 
   // ── GREY — Light Grey (4) ──
   { id: 'E058', code: 'ECON/0046', name: '15mm Light Grey',           colour: 'grey', finish: 'Light Grey',  profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday' },
