@@ -339,16 +339,16 @@ export const FRAME_CATALOGUE = [
   { id: 'E083', code: 'ECON/0069', name: '55mm Brown Open Grain',     colour: 'dark-wood', finish: 'Open Grain', profile: 'Flat', widthMm: 55, heightMm: 20, costPerM: 4.00, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0069.png' },
 
   // ── NATURAL WOOD — Oak (11) ──
-  { id: 'E084', code: 'ECON/0031', name: '15mm Light Oak',            colour: 'natural-wood', finish: 'Light Oak', profile: 'Flat', widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday' },
-  { id: 'E085', code: 'ECON/0030', name: '15mm Medium Oak',           colour: 'natural-wood', finish: 'Medium Oak', profile: 'Flat', widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday' },
-  { id: 'E086', code: 'ECON/0025', name: '20mm Light Oak',            colour: 'natural-wood', finish: 'Light Oak', profile: 'Flat', widthMm: 20, heightMm: 15, costPerM: 1.51, hasPhoto: true, tier: 'everyday' },
-  { id: 'E087', code: 'ECON/0026', name: '20mm Medium Oak',           colour: 'natural-wood', finish: 'Medium Oak', profile: 'Flat', widthMm: 20, heightMm: 15, costPerM: 1.51, hasPhoto: true, tier: 'everyday' },
-  { id: 'E088', code: 'ECON/0020', name: '35mm Light Oak',            colour: 'natural-wood', finish: 'Light Oak', profile: 'Flat', widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday' },
-  { id: 'E089', code: 'ECON/0021', name: '35mm Medium Oak',           colour: 'natural-wood', finish: 'Medium Oak', profile: 'Flat', widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday' },
-  { id: 'E090', code: 'ECON/0037', name: '38mm Stained Light Oak',    colour: 'natural-wood', finish: 'Light Oak', profile: 'Flat', widthMm: 38, heightMm: 30, costPerM: 3.81, hasPhoto: true, tier: 'everyday' },
-  { id: 'E091', code: 'ECON/0036', name: '38mm Stained Medium Oak',   colour: 'natural-wood', finish: 'Medium Oak', profile: 'Flat', widthMm: 38, heightMm: 30, costPerM: 3.81, hasPhoto: true, tier: 'everyday' },
-  { id: 'E092', code: 'ECON/0066', name: '20mm Oak Deep Rebate',      colour: 'natural-wood', finish: 'Light Oak', profile: 'Deep Rebate', widthMm: 20, heightMm: 33, costPerM: 2.30, hasPhoto: true, tier: 'everyday' },
-  { id: 'E093', code: 'ECON/0078', name: '22mm Oak Open Grain',       colour: 'natural-wood', finish: 'Light Oak', profile: 'Flat', widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday' },
+  { id: 'E084', code: 'ECON/0031', name: '15mm Light Oak',            colour: 'natural-wood', finish: 'Light Oak', profile: 'Flat', widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0031.jpg' },
+  { id: 'E085', code: 'ECON/0030', name: '15mm Medium Oak',           colour: 'natural-wood', finish: 'Medium Oak', profile: 'Flat', widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0030.jpg' },
+  { id: 'E086', code: 'ECON/0025', name: '20mm Light Oak',            colour: 'natural-wood', finish: 'Light Oak', profile: 'Flat', widthMm: 20, heightMm: 15, costPerM: 1.51, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0025.jpg' },
+  { id: 'E087', code: 'ECON/0026', name: '20mm Medium Oak',           colour: 'natural-wood', finish: 'Medium Oak', profile: 'Flat', widthMm: 20, heightMm: 15, costPerM: 1.51, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0026.jpg' },
+  { id: 'E088', code: 'ECON/0020', name: '35mm Light Oak',            colour: 'natural-wood', finish: 'Light Oak', profile: 'Flat', widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0020.jpg' },
+  { id: 'E089', code: 'ECON/0021', name: '35mm Medium Oak',           colour: 'natural-wood', finish: 'Medium Oak', profile: 'Flat', widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0021.jpg' },
+  { id: 'E090', code: 'ECON/0037', name: '38mm Stained Light Oak',    colour: 'natural-wood', finish: 'Light Oak', profile: 'Flat', widthMm: 38, heightMm: 30, costPerM: 3.81, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0037.jpg' },
+  { id: 'E091', code: 'ECON/0036', name: '38mm Stained Medium Oak',   colour: 'natural-wood', finish: 'Medium Oak', profile: 'Flat', widthMm: 38, heightMm: 30, costPerM: 3.81, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0036.jpg' },
+  { id: 'E092', code: 'ECON/0066', name: '20mm Oak Deep Rebate',      colour: 'natural-wood', finish: 'Light Oak', profile: 'Deep Rebate', widthMm: 20, heightMm: 33, costPerM: 2.30, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0066.jpg' },
+  { id: 'E093', code: 'ECON/0078', name: '22mm Oak Open Grain',       colour: 'natural-wood', finish: 'Light Oak', profile: 'Flat', widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0078.png' },
   { id: 'E094', code: 'ECON/0079', name: '22mm Light Oak Open Grain', colour: 'natural-wood', finish: 'Light Oak', profile: 'Flat', widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday' },
 
   // ── CREAM (4) ──
