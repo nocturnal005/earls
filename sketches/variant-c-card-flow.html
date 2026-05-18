@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variant C — Card Flow with Anchored Nav</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Source Sans 3', sans-serif; background: #f5f3f0; color: #1a1a1a; }
+  h1, h2, h3 { font-family: 'Libre Baskerville', serif; }
+
+  .tag { position: fixed; top: 0; left: 0; right: 0; background: #1a1a1a; color: #fff; text-align: center; padding: 8px; font-size: 13px; z-index: 200; letter-spacing: 1px; }
+  .tag span { background: #5b8a6e; color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: 600; margin-right: 8px; }
+
+  /* Sticky nav */
+  .nav { position: sticky; top: 36px; z-index: 100; background: #fff; border-bottom: 1px solid #eee; display: flex; justify-content: center; gap: 0; padding: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .nav a { padding: 12px 24px; font-size: 14px; font-weight: 500; color: #888; text-decoration: none; border-bottom: 2px solid transparent; transition: all 0.15s; }
+  .nav a:hover { color: #1a1a1a; }
+  .nav a.active { color: #1a1a1a; border-bottom-color: #1a1a1a; }
+  .nav a .nav-price { font-size: 12px; color: #bbb; margin-left: 4px; }
+  .nav a.active .nav-price { color: #888; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 100px 20px 120px; }
+
+  /* Cards */
+  .card { background: #fff; border-radius: 12px; padding: 32px; margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); scroll-margin-top: 100px; }
+  .card__head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px; }
+  .card__num { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: #1a1a1a; color: #fff; font-size: 14px; font-weight: 600; margin-right: 12px; }
+  .card__title { font-size: 20px; font-weight: 700; }
+  .card__price { font-size: 18px; font-weight: 600; color: #1a1a1a; }
+  .card__subtitle { font-size: 14px; color: #999; margin-top: 4px; }
+
+  .row-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-top: 20px; margin-bottom: 8px; }
+  .row-label:first-of-type { margin-top: 0; }
+
+  /* Size chips */
+  .size-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+  .sz { padding: 12px; border: 1.5px solid #e0e0e0; border-radius: 8px; cursor: pointer; text-align: center; background: #fff; font-family: inherit; transition: all 0.15s; }
+  .sz:hover { border-color: #999; }
+  .sz.sel { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .sz__name { font-weight: 600; font-size: 16px; display: block; }
+  .sz__dim { font-size: 12px; color: #999; display: block; margin-top: 2px; }
+  .sz.sel .sz__dim { color: #aaa; }
+
+  /* Print type as horizontal cards */
+  .pt-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
+  .pt { padding: 14px; border: 1.5px solid #e0e0e0; border-radius: 8px; cursor: pointer; text-align: center; background: #fff; font-family: inherit; transition: all 0.15s; }
+  .pt:hover { border-color: #999; }
+  .pt.sel { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .pt__name { font-weight: 600; display: block; }
+  .pt__price { font-size: 14px; color: #888; margin-top: 4px; display: block; }
+  .pt.sel .pt__price { color: #ccc; }
+
+  /* Colour swatches — large */
+  .sw-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .sw { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
+  .sw__circle { width: 44px; height: 44px; border-radius: 50%; border: 3px solid transparent; transition: all 0.15s; }
+  .sw:hover .sw__circle { transform: scale(1.1); }
+  .sw.sel .sw__circle { border-color: #1a1a1a; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1a1a1a; }
+  .sw__label { font-size: 11px; color: #888; text-align: center; max-width: 56px; }
+  .sw.sel .sw__label { color: #1a1a1a; font-weight: 600; }
+  .sw__count { font-size: 10px; color: #bbb; }
+
+  /* Finish pills */
+  .fp-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .fpill { padding: 8px 18px; border: 1.5px solid #e0e0e0; border-radius: 24px; cursor: pointer; font-size: 14px; background: #fff; font-family: inherit; transition: all 0.15s; }
+  .fpill:hover { border-color: #999; }
+  .fpill.sel { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .fpill .cnt { font-size: 12px; color: #999; }
+  .fpill.sel .cnt { color: #bbb; }
+
+  /* Width ladder — full width bars */
+  .wl { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+  .wr { display: grid; grid-template-columns: 80px 1fr 70px 36px; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; cursor: pointer; transition: all 0.1s; }
+  .wr:hover { background: #f5f3f0; }
+  .wr.sel { background: #1a1a1a; color: #fff; }
+  .wr__code { font-family: monospace; font-size: 12px; color: #999; }
+  .wr.sel .wr__code { color: #888; }
+  .wr__bar-wrap { position: relative; height: 10px; background: #f0ede8; border-radius: 5px; overflow: hidden; }
+  .wr.sel .wr__bar-wrap { background: #333; }
+  .wr__bar { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5px; background: #1a1a1a; }
+  .wr.sel .wr__bar { background: #C9A84C; }
+  .wr__price { text-align: right; font-weight: 600; font-size: 14px; }
+  .wr__rec { font-size: 10px; font-weight: 700; color: #C9A84C; text-align: center; }
+
+  /* Option grid */
+  .og { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+  .oc { padding: 14px; border: 1.5px solid #e0e0e0; border-radius: 8px; cursor: pointer; background: #fff; font-family: inherit; text-align: left; transition: all 0.15s; }
+  .oc:hover { border-color: #999; }
+  .oc.sel { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .oc__name { font-weight: 600; display: block; }
+  .oc__desc { font-size: 12px; color: #888; display: block; margin-top: 2px; }
+  .oc.sel .oc__desc { color: #bbb; }
+  .oc__price { font-weight: 600; margin-top: 6px; display: block; }
+
+  /* Mount colours */
+  .mc-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .mc { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #e0e0e0; cursor: pointer; transition: all 0.1s; }
+  .mc:hover { transform: scale(1.15); }
+  .mc.sel { border-color: #1a1a1a; box-shadow: 0 0 0 2px #fff, 0 0 0 3px #1a1a1a; }
+
+  /* Floating bottom bar */
+  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #eee; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); z-index: 100; }
+  .bottom-bar__inner { max-width: 860px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .bottom-bar__left { display: flex; align-items: baseline; gap: 16px; }
+  .bottom-bar__items { display: flex; gap: 12px; font-size: 13px; color: #888; }
+  .bottom-bar__items span { display: flex; align-items: center; gap: 4px; }
+  .bottom-bar__items .dot { width: 4px; height: 4px; border-radius: 50%; background: #ddd; }
+  .bottom-bar__total { font-family: 'Libre Baskerville', serif; font-size: 24px; font-weight: 700; }
+  .bottom-bar__vat { font-size: 11px; color: #aaa; }
+  .bottom-bar__right { display: flex; align-items: center; gap: 12px; }
+  .bottom-bar__upload { font-size: 13px; color: #888; text-decoration: underline; cursor: pointer; }
+  .bottom-bar__cta { padding: 12px 32px; background: #1a1a1a; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; }
+  .bottom-bar__cta:hover { background: #333; }
+
+  @media (max-width: 700px) {
+    .size-grid { grid-template-columns: repeat(3, 1fr); }
+    .pt-row { grid-template-columns: repeat(2, 1fr); }
+    .og { grid-template-columns: repeat(2, 1fr); }
+    .bottom-bar__items { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="tag"><span>C</span> Card Flow — anchored nav, floating price bar, generous spacing</div>
+
+<!-- Sticky nav -->
+<nav class="nav">
+  <a href="#size" class="active">Size & Print <span class="nav-price">£19.95</span></a>
+  <a href="#frame">Frame <span class="nav-price">£6.50</span></a>
+  <a href="#mount">Mount <span class="nav-price">Free</span></a>
+  <a href="#glass">Glass <span class="nav-price">£13.43</span></a>
+</nav>
+
+<div class="container">
+
+  <!-- Size & Print -->
+  <div class="card" id="size">
+    <div class="card__head">
+      <div><span class="card__num">1</span><span class="card__title">Size & Print</span>
+        <div class="card__subtitle">Choose your print size and paper type</div>
+      </div>
+      <span class="card__price">£19.95</span>
+    </div>
+
+    <div class="row-label">Print Size</div>
+    <div class="size-grid">
+      <button class="sz"><span class="sz__name">A4</span><span class="sz__dim">11.7" x 8.3"</span></button>
+      <button class="sz sel"><span class="sz__name">A3</span><span class="sz__dim">16.5" x 11.7"</span></button>
+      <button class="sz"><span class="sz__name">A2</span><span class="sz__dim">23.4" x 16.5"</span></button>
+      <button class="sz"><span class="sz__name">A1</span><span class="sz__dim">33.1" x 23.4"</span></button>
+      <button class="sz"><span class="sz__name">A0</span><span class="sz__dim">46.8" x 33.1"</span></button>
+      <button class="sz"><span class="sz__name">10x12"</span><span class="sz__dim">10" x 12"</span></button>
+      <button class="sz"><span class="sz__name">12x16"</span><span class="sz__dim">12" x 16"</span></button>
+      <button class="sz"><span class="sz__name">16x20"</span><span class="sz__dim">16" x 20"</span></button>
+      <button class="sz"><span class="sz__name">20x30"</span><span class="sz__dim">20" x 30"</span></button>
+      <button class="sz"><span class="sz__name">30x40"</span><span class="sz__dim">30" x 40"</span></button>
+    </div>
+
+    <div class="row-label">Print Type</div>
+    <div class="pt-row">
+      <button class="pt sel"><span class="pt__name">Poster</span><span class="pt__price">£19.95</span></button>
+      <button class="pt"><span class="pt__name">Art Paper</span><span class="pt__price">£49.95</span></button>
+      <button class="pt"><span class="pt__name">Canvas</span><span class="pt__price">£54.95</span></button>
+      <button class="pt"><span class="pt__name">No Print</span><span class="pt__price">Free</span></button>
+    </div>
+  </div>
+
+  <!-- Frame -->
+  <div class="card" id="frame">
+    <div class="card__head">
+      <div><span class="card__num">2</span><span class="card__title">Frame</span>
+        <div class="card__subtitle">Choose colour, finish, and width</div>
+      </div>
+      <span class="card__price">£6.50</span>
+    </div>
+
+    <div class="row-label">Colour</div>
+    <div class="sw-row">
+      <div class="sw sel"><div class="sw__circle" style="background:#1a1a1a"></div><span class="sw__label">Black</span><span class="sw__count">37</span></div>
+      <div class="sw"><div class="sw__circle" style="background:#f5f5f5; border:1px solid #ddd;"></div><span class="sw__label">White</span><span class="sw__count">20</span></div>
+      <div class="sw"><div class="sw__circle" style="background:#8a8a8a"></div><span class="sw__label">Grey</span><span class="sw__count">14</span></div>
+      <div class="sw"><div class="sw__circle" style="background:#3e2723"></div><span class="sw__label">Dark Wood</span><span class="sw__count">12</span></div>
+      <div class="sw"><div class="sw__circle" style="background:#a1887f"></div><span class="sw__label">Natural</span><span class="sw__count">12</span></div>
+      <div class="sw"><div class="sw__circle" style="background:#f5f0e6; border:1px solid #ddd;"></div><span class="sw__label">Cream</span><span class="sw__count">4</span></div>
+      <div class="sw"><div class="sw__circle" style="background: conic-gradient(#e53935,#fdd835,#43a047,#1e88e5,#e53935)"></div><span class="sw__label">Colour</span><span class="sw__count">4</span></div>
+    </div>
+
+    <div class="row-label">Finish</div>
+    <div class="fp-row">
+      <button class="fpill sel">Matt <span class="cnt">(9)</span></button>
+      <button class="fpill">Stained <span class="cnt">(7)</span></button>
+      <button class="fpill">Open Grain <span class="cnt">(5)</span></button>
+      <button class="fpill">Cushion <span class="cnt">(9)</span></button>
+      <button class="fpill">Specialty <span class="cnt">(7)</span></button>
+    </div>
+
+    <div class="row-label">Width — recommended: 24mm for A3</div>
+    <div class="wl">
+      <div class="wr"><span class="wr__code">ECON/0008</span><div class="wr__bar-wrap"><div class="wr__bar" style="width:36%"></div></div><span class="wr__price">£4.82</span><span class="wr__rec"></span></div>
+      <div class="wr"><span class="wr__code">ECON/0007</span><div class="wr__bar-wrap"><div class="wr__bar" style="width:49%"></div></div><span class="wr__price">£5.38</span><span class="wr__rec"></span></div>
+      <div class="wr"><span class="wr__code">ECON/0065</span><div class="wr__bar-wrap"><div class="wr__bar" style="width:51%"></div></div><span class="wr__price">£9.89</span><span class="wr__rec"></span></div>
+      <div class="wr"><span class="wr__code">ECON/0003</span><div class="wr__bar-wrap"><div class="wr__bar" style="width:54%"></div></div><span class="wr__price">£8.17</span><span class="wr__rec"></span></div>
+      <div class="wr sel"><span class="wr__code">ECON/0006</span><div class="wr__bar-wrap"><div class="wr__bar" style="width:62%"></div></div><span class="wr__price">£6.50</span><span class="wr__rec">REC</span></div>
+      <div class="wr"><span class="wr__code">ECON/0005</span><div class="wr__bar-wrap"><div class="wr__bar" style="width:74%"></div></div><span class="wr__price">£7.74</span><span class="wr__rec"></span></div>
+      <div class="wr"><span class="wr__code">ECON/0002</span><div class="wr__bar-wrap"><div class="wr__bar" style="width:72%"></div></div><span class="wr__price">£8.73</span><span class="wr__rec"></span></div>
+      <div class="wr"><span class="wr__code">ECON/0004</span><div class="wr__bar-wrap"><div class="wr__bar" style="width:100%"></div></div><span class="wr__price">£9.89</span><span class="wr__rec"></span></div>
+    </div>
+  </div>
+
+  <!-- Mount -->
+  <div class="card" id="mount">
+    <div class="card__head">
+      <div><span class="card__num">3</span><span class="card__title">Mount</span>
+        <div class="card__subtitle">Add a decorative border around your artwork</div>
+      </div>
+      <span class="card__price">Free</span>
+    </div>
+
+    <div class="og">
+      <button class="oc sel"><span class="oc__name">No Mount</span><span class="oc__price">Free</span></button>
+      <button class="oc"><span class="oc__name">Plain Mount</span><span class="oc__desc">Single colour border</span><span class="oc__price">£6.71</span></button>
+      <button class="oc"><span class="oc__name">Mount + Line</span><span class="oc__desc">With gold/silver line</span><span class="oc__price">£10.21</span></button>
+      <button class="oc"><span class="oc__name">Double Mount</span><span class="oc__desc">Two-colour border</span><span class="oc__price">£10.74</span></button>
+      <button class="oc"><span class="oc__name">Oval Mount</span><span class="oc__desc">Oval window cut</span><span class="oc__price">£11.71</span></button>
+    </div>
+
+    <div class="row-label">Mount Colour</div>
+    <div class="mc-row">
+      <div class="mc sel" style="background:#fff"></div>
+      <div class="mc" style="background:#FAF8F5"></div>
+      <div class="mc" style="background:#F5F0E6"></div>
+      <div class="mc" style="background:#F0E6D3"></div>
+      <div class="mc" style="background:#F5F5DC"></div>
+      <div class="mc" style="background:#E8DCC8"></div>
+      <div class="mc" style="background:#D4C5A9"></div>
+      <div class="mc" style="background:#C9B99A"></div>
+      <div class="mc" style="background:#B8A88A"></div>
+      <div class="mc" style="background:#A0A0A0"></div>
+      <div class="mc" style="background:#808080"></div>
+      <div class="mc" style="background:#1a1a1a"></div>
+      <div class="mc" style="background:#2C3E50"></div>
+      <div class="mc" style="background:#4A0E0E"></div>
+      <div class="mc" style="background:#2E4A2E"></div>
+      <div class="mc" style="background:#C9A84C"></div>
+    </div>
+  </div>
+
+  <!-- Glass -->
+  <div class="card" id="glass">
+    <div class="card__head">
+      <div><span class="card__num">4</span><span class="card__title">Glass</span>
+        <div class="card__subtitle">Protect your artwork</div>
+      </div>
+      <span class="card__price">£13.43</span>
+    </div>
+
+    <div class="og">
+      <button class="oc"><span class="oc__name">None</span><span class="oc__desc">No glazing</span><span class="oc__price">Free</span></button>
+      <button class="oc sel"><span class="oc__name">Standard</span><span class="oc__desc">Clear float glass</span><span class="oc__price">£13.43</span></button>
+      <button class="oc"><span class="oc__name">Acrylic</span><span class="oc__desc">Lightweight, shatterproof</span><span class="oc__price">£16.78</span></button>
+      <button class="oc"><span class="oc__name">Non-Reflective</span><span class="oc__desc">Anti-glare coating</span><span class="oc__price">£20.14</span></button>
+      <button class="oc"><span class="oc__name">UV Conservation</span><span class="oc__desc">99% UV protection</span><span class="oc__price">£24.17</span></button>
+      <button class="oc"><span class="oc__name">Museum</span><span class="oc__desc">Anti-reflective + UV</span><span class="oc__price">£33.57</span></button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Floating bottom bar -->
+<div class="bottom-bar">
+  <div class="bottom-bar__inner">
+    <div class="bottom-bar__left">
+      <div>
+        <div class="bottom-bar__total">£53.85</div>
+        <div class="bottom-bar__vat">inc. £8.98 VAT</div>
+      </div>
+      <div class="bottom-bar__items">
+        <span>A3 Poster</span><span class="dot"></span>
+        <span>24mm Matt Black</span><span class="dot"></span>
+        <span>Standard Glass</span>
+      </div>
+    </div>
+    <div class="bottom-bar__right">
+      <span class="bottom-bar__upload">+ Upload photo</span>
+      <button class="bottom-bar__cta">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Highlight active nav on scroll
+const sections = document.querySelectorAll('.card');
+const navLinks = document.querySelectorAll('.nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+  navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+});
+</script>
+</body>
+</html>

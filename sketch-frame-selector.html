@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frame Selector — Wireframe Sketch</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Inter:wght@400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #F7F6F3;
+    color: #333;
+    padding: 24px;
+    min-height: 100vh;
+  }
+
+  /* Sketch / wireframe aesthetic */
+  .sketch-border {
+    border: 2px dashed #B0ADA8;
+    border-radius: 6px;
+  }
+  .sketch-label {
+    font-family: 'Caveat', cursive;
+    color: #E85D3A;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .annotation {
+    font-family: 'Caveat', cursive;
+    color: #E85D3A;
+    font-size: 14px;
+    position: absolute;
+  }
+  .annotation-arrow {
+    stroke: #E85D3A;
+    stroke-width: 1.5;
+    fill: none;
+    marker-end: url(#arrowhead);
+  }
+
+  /* Layout */
+  .page-title {
+    font-family: 'Caveat', cursive;
+    font-size: 28px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+  .page-subtitle {
+    font-family: 'Caveat', cursive;
+    font-size: 16px;
+    color: #999;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .main-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .left-panel { display: flex; flex-direction: column; gap: 20px; }
+
+  /* Step containers */
+  .step-box {
+    background: #fff;
+    border: 2px dashed #C8C5BF;
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+  }
+  .step-box.active {
+    border-color: #888;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .step-number {
+    position: absolute;
+    top: -11px;
+    left: 16px;
+    background: #F7F6F3;
+    padding: 0 8px;
+    font-family: 'Caveat', cursive;
+    font-size: 14px;
+    color: #999;
+    font-weight: 600;
+  }
+  .step-title {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #666;
+    margin-bottom: 16px;
+  }
+
+  /* STEP 1 — Colour circles */
+  .colour-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .colour-swatch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .colour-swatch:hover { transform: scale(1.08); }
+  .colour-swatch .circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .colour-swatch.selected .circle {
+    border: 3px solid #333;
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+  }
+  .colour-swatch .label {
+    font-size: 10px;
+    color: #888;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .colour-swatch .count {
+    font-size: 9px;
+    color: #aaa;
+  }
+
+  /* STEP 2 — Finish pills */
+  .finish-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .finish-pill {
+    padding: 10px 16px;
+    border: 2px dashed #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #FAFAF8;
+  }
+  .finish-pill:hover { border-color: #999; background: #f5f5f2; }
+  .finish-pill.selected {
+    border: 2px solid #333;
+    background: #333;
+    color: #fff;
+  }
+  .finish-pill .finish-name {
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .finish-pill .finish-desc {
+    font-size: 10px;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+  .finish-pill .finish-count {
+    font-size: 9px;
+    opacity: 0.5;
+    margin-top: 4px;
+  }
+
+  /* STEP 3 — Width ladder */
+  .width-ladder {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .width-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 70px;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border: 1.5px dashed transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .width-row:hover {
+    background: #f8f8f5;
+    border-color: #ddd;
+  }
+  .width-row.selected {
+    background: #F0EDE6;
+    border: 2px solid #555;
+  }
+  .width-row.recommended {
+    position: relative;
+  }
+  .width-row .code {
+    font-size: 10px;
+    color: #aaa;
+    font-family: monospace;
+  }
+  .width-bar-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .width-bar {
+    height: 18px;
+    background: #1C1C1C;
+    border-radius: 2px;
+    min-width: 8px;
+    transition: all 0.2s;
+  }
+  .width-label {
+    font-size: 11px;
+    color: #666;
+    white-space: nowrap;
+  }
+  .width-price {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    text-align: right;
+  }
+  .rec-badge {
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    background: #E85D3A;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .rec-note {
+    font-family: 'Caveat', cursive;
+    font-size: 13px;
+    color: #E85D3A;
+    margin-top: 2px;
+    padding-left: 70px;
+  }
+
+  /* Premium section */
+  .premium-toggle {
+    margin-top: 8px;
+    padding: 14px 20px;
+    background: #FAFAF8;
+    border: 2px dashed #D5D2CC;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s;
+  }
+  .premium-toggle:hover { border-color: #aaa; }
+  .premium-toggle .pt-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .premium-toggle .pt-icon {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #C9A84C, #8B7340);
+    border-radius: 50%;
+  }
+  .premium-toggle .pt-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #777;
+  }
+  .premium-toggle .pt-count {
+    font-size: 11px;
+    color: #aaa;
+  }
+  .premium-toggle .pt-arrow {
+    font-size: 18px;
+    color: #aaa;
+  }
+
+  /* RIGHT PANEL — Preview */
+  .preview-panel {
+    background: #fff;
+    border: 2px dashed #C8C5BF;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 24px;
+  }
+  .preview-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #666;
+  }
+  .preview-frame {
+    width: 260px;
+    height: 320px;
+    border: var(--frame-width, 16px) solid var(--frame-colour, #1C1C1C);
+    background: #E8E4DC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: border-width 0.3s, border-color 0.3s;
+  }
+  .preview-frame .placeholder-img {
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(135deg, #D8D4CC 25%, transparent 25%),
+      linear-gradient(225deg, #D8D4CC 25%, transparent 25%),
+      linear-gradient(315deg, #D8D4CC 25%, transparent 25%),
+      linear-gradient(45deg, #D8D4CC 25%, transparent 25%);
+    background-size: 20px 20px;
+    background-color: #E8E4DC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .placeholder-img span {
+    background: #fff;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: #aaa;
+    font-weight: 500;
+  }
+
+  .preview-info {
+    text-align: center;
+    width: 100%;
+  }
+  .preview-info .frame-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+  }
+  .preview-info .frame-details {
+    font-size: 11px;
+    color: #999;
+    margin-top: 4px;
+  }
+  .preview-info .frame-price-line {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed #ddd;
+    font-size: 11px;
+    color: #888;
+  }
+  .preview-info .frame-total {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+    margin-top: 4px;
+  }
+
+  .preview-cta {
+    width: 100%;
+    padding: 14px;
+    background: #333;
+    color: #fff;
+    border: 2px dashed #333;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+  }
+
+  /* Annotations layer */
+  .annotations-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  /* Responsive */
+  @media (max-width: 800px) {
+    .main-layout {
+      grid-template-columns: 1fr;
+    }
+    .preview-panel { position: static; }
+    .colour-swatch .circle { width: 36px; height: 36px; }
+  }
+
+  /* Flow arrows between steps */
+  .flow-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 16px;
+    color: #ccc;
+    font-size: 16px;
+  }
+</style>
+</head>
+<body>
+
+<p class="page-title">Frame Moulding Selector — Wireframe Sketch</p>
+<p class="page-subtitle">3-step flow: Colour → Finish → Width (with smart recommendation)</p>
+
+<div class="main-layout">
+  <!-- LEFT: Selection steps -->
+  <div class="left-panel">
+
+    <!-- STEP 1: Colour -->
+    <div class="step-box active" id="step1">
+      <span class="step-number">Step 1</span>
+      <div class="step-title">Choose Colour</div>
+      <div class="colour-row" id="colourRow">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <div class="flow-connector">▼</div>
+
+    <!-- STEP 2: Finish -->
+    <div class="step-box active" id="step2">
+      <span class="step-number">Step 2</span>
+      <div class="step-title">Choose Finish Style</div>
+      <div class="finish-row" id="finishRow">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <div class="flow-connector">▼</div>
+
+    <!-- STEP 3: Width -->
+    <div class="step-box active" id="step3">
+      <span class="step-number">Step 3</span>
+      <div class="step-title">Choose Width</div>
+      <div class="rec-note" id="recNote">↑ Recommended for your A3 artwork size</div>
+      <div class="width-ladder" id="widthLadder">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Premium toggle -->
+    <div class="premium-toggle" id="premiumToggle">
+      <div class="pt-left">
+        <div class="pt-icon"></div>
+        <div>
+          <div class="pt-label">Premium & Specialty Frames</div>
+          <div class="pt-count">54 frames — Ornate, Gold & Silver, Distressed, Floaters</div>
+        </div>
+      </div>
+      <div class="pt-arrow">›</div>
+    </div>
+
+    <!-- Slips add-on hint -->
+    <div style="text-align: center; padding: 8px; font-family: 'Caveat', cursive; color: #bbb; font-size: 14px;">
+      ↓ Slips & fillets appear later as an add-on step ↓
+    </div>
+
+  </div>
+
+  <!-- RIGHT: Preview -->
+  <div>
+    <div class="preview-panel">
+      <div class="preview-label">Live Preview</div>
+      <div class="preview-frame" id="previewFrame">
+        <div class="placeholder-img">
+          <span>Your Photo</span>
+        </div>
+      </div>
+      <div class="preview-info">
+        <div class="frame-name" id="prevName">24mm Matt Black</div>
+        <div class="frame-details" id="prevDetails">ECON/0006 · Flat profile · 24mm wide</div>
+        <div class="frame-price-line">Frame moulding for A3 (42 × 29.7 cm)</div>
+        <div class="frame-total" id="prevTotal">£6.48</div>
+      </div>
+      <div class="preview-cta">Select This Frame →</div>
+
+      <div style="width:100%; margin-top:8px; padding-top:12px; border-top:1px dashed #ddd; text-align:center;">
+        <span class="sketch-label" style="font-size:12px;">← Updates instantly on hover/click</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<svg style="position:absolute;width:0;height:0">
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#E85D3A"/>
+    </marker>
+  </defs>
+</svg>
+
+<script>
+// ── DATA ──
+const COLOURS = [
+  { id:'black', name:'Black', hex:'#1C1C1C', count:38 },
+  { id:'white', name:'White', hex:'#F5F2ED', count:20 },
+  { id:'grey', name:'Grey', hex:'#8A8A8A', count:14 },
+  { id:'dark-wood', name:'Dark Wood', hex:'#5C3D2E', count:12 },
+  { id:'natural-wood', name:'Natural Wood', hex:'#C4A265', count:11 },
+  { id:'cream', name:'Cream', hex:'#F5ECD7', count:4 },
+  { id:'colour', name:'Colour', hex:'linear-gradient(135deg,#5A7A5C,#2C5288,#8B2020)', count:4, isGradient:true },
+  { id:'other', name:'Other', hex:'#999', count:1 },
+];
+
+const FINISHES = {
+  black: [
+    { id:'matt', name:'Matt Black', desc:'smooth, painted', count:8 },
+    { id:'stained', name:'Stained Black', desc:'grain visible', count:6 },
+    { id:'open-grain', name:'Open Grain', desc:'textured wood', count:4 },
+    { id:'cushion', name:'Cushion', desc:'curved profile', count:5 },
+    { id:'specialty', name:'Specialty', desc:'gold lip, reverse', count:3 },
+  ],
+  white: [
+    { id:'matt', name:'Matt White', desc:'smooth, painted', count:8 },
+    { id:'stained', name:'Stained White', desc:'grain visible', count:4 },
+    { id:'open-grain', name:'Open Grain', desc:'textured wood', count:4 },
+    { id:'obeche', name:'Obeche White', desc:'natural timber', count:3 },
+  ],
+  grey: [
+    { id:'light-grey', name:'Light Grey', desc:'pale grey stain', count:4 },
+    { id:'taupe', name:'Taupe', desc:'warm grey', count:4 },
+    { id:'washed', name:'Washed Grey', desc:'limed finish', count:4 },
+    { id:'open-grain', name:'Grey Open Grain', desc:'textured', count:2 },
+  ],
+};
+
+const WIDTHS = {
+  'black-matt': [
+    { code:'ECON/0008', width:14, price:1.12, name:'14mm Matt Black' },
+    { code:'ECON/0007', width:19, price:1.25, name:'19mm Matt Black' },
+    { code:'ECON/0003', width:21, price:1.90, name:'21mm Matt Black' },
+    { code:'ECON/0006', width:24, price:1.51, name:'24mm Matt Black', recommended:true },
+    { code:'ECON/0002', width:28, price:2.03, name:'28mm Matt Black' },
+    { code:'ECON/0005', width:29, price:1.80, name:'29mm Matt Black' },
+    { code:'ECON/0001', width:38, price:3.61, name:'38mm Matt Black (deep)' },
+    { code:'ECON/0004', width:39, price:2.30, name:'39mm Matt Black (slim)' },
+  ],
+  'black-stained': [
+    { code:'ECON/0029', width:15, price:1.15, name:'15mm Obeche Black' },
+    { code:'ECON/0022', width:20, price:1.51, name:'20mm Obeche Black' },
+    { code:'ECON/0034', width:38, price:3.81, name:'38mm Stained Black' },
+    { code:'ECON/0017', width:35, price:1.90, name:'35mm Obeche Black', recommended:true },
+    { code:'ECON/0047', width:25, price:4.46, name:'25mm Flat Compo Black' },
+    { code:'ECON/0049', width:14, price:1.80, name:'14mm Flat Compo Black' },
+  ],
+  'black-open-grain': [
+    { code:'ECON/0076', width:22, price:1.71, name:'22mm Open Grain Black' },
+    { code:'ECON/0073', width:30, price:2.43, name:'30mm Open Grain Black', recommended:true },
+    { code:'ECON/0070', width:40, price:2.89, name:'40mm Open Grain Black' },
+    { code:'ECON/0067', width:55, price:4.00, name:'55mm Open Grain Black' },
+  ],
+  'black-cushion': [
+    { code:'0075', width:12.7, price:1.18, name:'½" Black Cushion' },
+    { code:'0080', width:9.5, price:1.31, name:'⅜" Black Cushion' },
+    { code:'0354', width:19, price:1.80, name:'¾" Black Cushion', recommended:true },
+    { code:'0081', width:25.4, price:3.94, name:'1" Black Cushion' },
+    { code:'000J/304', width:30, price:2.13, name:'30mm Black Cushion' },
+  ],
+  'black-specialty': [
+    { code:'000W/846', width:19, price:3.45, name:'19mm Black / Gold Lip' },
+    { code:'000K/0406', width:41, price:3.94, name:'41mm Reverse Polished', recommended:true },
+    { code:'000S/447/3', width:64, price:10.11, name:'64mm Gold / Black Outer' },
+  ],
+};
+
+// Default fallback for colours without detailed finish data
+const DEFAULT_FINISHES = [
+  { id:'standard', name:'Standard', desc:'main range', count:'—' },
+];
+const DEFAULT_WIDTHS = [
+  { code:'—', width:20, price:1.50, name:'Sample frame', recommended:true },
+];
+
+// ── STATE ──
+let selectedColour = 'black';
+let selectedFinish = 'matt';
+let selectedWidth = null;
+
+// ── RENDER ──
+function renderColours() {
+  const row = document.getElementById('colourRow');
+  row.innerHTML = COLOURS.map(c => `
+    <div class="colour-swatch ${c.id === selectedColour ? 'selected' : ''}" onclick="selectColour('${c.id}')">
+      <div class="circle" style="${c.isGradient ? 'background:'+c.hex : 'background-color:'+c.hex}; ${c.hex==='#F5F2ED' || c.hex==='#F5ECD7' ? 'border-color:#ccc' : ''}"></div>
+      <div class="label">${c.name}</div>
+      <div class="count">${c.count}</div>
+    </div>
+  `).join('');
+}
+
+function renderFinishes() {
+  const row = document.getElementById('finishRow');
+  const finishes = FINISHES[selectedColour] || DEFAULT_FINISHES;
+  if (!finishes.find(f => f.id === selectedFinish)) {
+    selectedFinish = finishes[0].id;
+  }
+  row.innerHTML = finishes.map(f => `
+    <div class="finish-pill ${f.id === selectedFinish ? 'selected' : ''}" onclick="selectFinish('${f.id}')">
+      <div class="finish-name">${f.name}</div>
+      <div class="finish-desc">${f.desc}</div>
+      <div class="finish-count">${f.count} widths</div>
+    </div>
+  `).join('');
+}
+
+function renderWidths() {
+  const ladder = document.getElementById('widthLadder');
+  const key = `${selectedColour}-${selectedFinish}`;
+  const widths = WIDTHS[key] || DEFAULT_WIDTHS;
+  const maxW = Math.max(...widths.map(w => w.width));
+
+  // Sort by width
+  const sorted = [...widths].sort((a,b) => a.width - b.width);
+
+  // Auto-select recommended
+  const rec = sorted.find(w => w.recommended);
+  if (!selectedWidth || !sorted.find(w => w.code === selectedWidth)) {
+    selectedWidth = rec ? rec.code : sorted[0].code;
+  }
+
+  ladder.innerHTML = sorted.map(w => {
+    const barPct = (w.width / maxW) * 100;
+    const isSelected = w.code === selectedWidth;
+    return `
+      <div class="width-row ${isSelected ? 'selected' : ''} ${w.recommended ? 'recommended' : ''}"
+           onclick="selectWidth('${w.code}')"
+           onmouseenter="previewWidth('${w.code}')">
+        <div class="code">${w.code}</div>
+        <div class="width-bar-container">
+          <div class="width-bar" style="width: ${barPct}%"></div>
+          <div class="width-label">${w.width}mm</div>
+        </div>
+        <div class="width-price">£${w.price.toFixed(2)}/m</div>
+        ${w.recommended ? '<div class="rec-badge">RECOMMENDED</div>' : ''}
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('recNote').style.display = rec ? 'block' : 'none';
+  updatePreview(selectedWidth);
+}
+
+function updatePreview(code) {
+  const key = `${selectedColour}-${selectedFinish}`;
+  const widths = WIDTHS[key] || DEFAULT_WIDTHS;
+  const w = widths.find(w => w.code === code) || widths[0];
+
+  const colourData = COLOURS.find(c => c.id === selectedColour);
+  const frameHex = colourData.isGradient ? '#1C1C1C' : colourData.hex;
+  const framePx = Math.max(6, Math.round(w.width * 0.7));
+
+  document.getElementById('previewFrame').style.setProperty('--frame-width', framePx + 'px');
+  document.getElementById('previewFrame').style.setProperty('--frame-colour', frameHex);
+  document.getElementById('prevName').textContent = w.name;
+  document.getElementById('prevDetails').textContent = `${w.code} · ${w.width}mm wide`;
+
+  // Calculate rough price for A3
+  const perimeterM = ((0.42 + 0.297) * 2);
+  const total = (w.price * perimeterM * 3).toFixed(2); // 3x markup
+  document.getElementById('prevTotal').textContent = `£${total}`;
+}
+
+// ── INTERACTIONS ──
+function selectColour(id) {
+  selectedColour = id;
+  selectedWidth = null;
+  renderColours();
+  renderFinishes();
+  renderWidths();
+}
+
+function selectFinish(id) {
+  selectedFinish = id;
+  selectedWidth = null;
+  renderFinishes();
+  renderWidths();
+}
+
+function selectWidth(code) {
+  selectedWidth = code;
+  renderWidths();
+}
+
+function previewWidth(code) {
+  updatePreview(code);
+}
+
+// ── INIT ──
+renderColours();
+renderFinishes();
+renderWidths();
+</script>
+
+</body>
+</html>

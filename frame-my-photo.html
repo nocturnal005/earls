@@ -17,9 +17,9 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css">
 
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <script type="module" crossorigin src="/configurator/dist/assets/configurator.js?v=20260518i"></script>
-    <link rel="stylesheet" crossorigin href="/configurator/dist/assets/configurator.css?v=20260518i">
+    <link rel="icon" type="image/svg+xml" href="vite.svg" />
+    <script type="module" crossorigin src="configurator/dist/assets/configurator.js?v=20260518i"></script>
+    <link rel="stylesheet" crossorigin href="configurator/dist/assets/configurator.css?v=20260518i">
     <!-- Override Tailwind v4 @layer base reset for configurator sidebar -->
     <style>
       [data-summary-row] { padding: 28px 24px !important; }
@@ -31,7 +31,91 @@
   <body>
 
 
-    <div id="root"></div>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container header__inner">
+            <a href="index.html" class="logo">
+                <img src="assets/images/earls_logo.png" alt="Earl's Picture Framing Logo">
+                <span class="logo-text">Earl's Framing</span>
+            </a>
+            
+            <nav class="nav">
+                <button class="mobile-menu-btn" aria-label="Toggle menu">
+                    <span class="iconify" data-icon="lucide:menu"></span>
+                </button>
+                <ul class="nav__list">
+                    <li><a href="index.html#services" class="nav__link">Services</a></li>
+                    <li><a href="frame-my-photo.html" class="nav__link">Frame My Photo</a></li>
+                    <li><a href="index.html#contact" class="nav__link">Contact</a></li>
+                    <li><a href="index.html#gallery" class="nav__link">Gallery</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header__contact">
+                <span class="iconify header__contact-icon" data-icon="lucide:phone"></span>
+                <span>075 0896 3540</span>
+                <a href="#" class="header__cart" id="header-cart-btn" aria-label="Shopping Cart" style="margin-left: 20px; color: #fff; text-decoration: none; display: flex; align-items: center; position: relative;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+                    <span class="header__cart-count" id="header-cart-count" style="display:none; position: absolute; top: -6px; right: -8px; background: #C41E1E; color: white; font-size: 10px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; align-items: center; justify-content: center;">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main style="padding-top: 80px; min-height: 100vh;">
+        <div id="root"></div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <img src="assets/images/earls_logo.png" alt="Earl's Picture Framing Logo">
+                        <span class="logo-text">Earl's Framing</span>
+                    </a>
+                    <p>Professional, bespoke picture framing services in Peckham, London. Elevating your art with quality craftsmanship.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <span class="iconify" data-icon="lucide:instagram"></span>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <span class="iconify" data-icon="lucide:facebook"></span>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <span class="iconify" data-icon="lucide:twitter"></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <div class="footer-links">
+                        <a href="index.html#services">Our Services</a>
+                        <a href="index.html#gallery">Portfolio</a>
+                        <a href="frame-my-photo.html?sample=portrait">Frame My Photo</a>
+                        <a href="index.html#contact">Contact Us</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="footer-heading">Services</h4>
+                    <div class="footer-links">
+                        <a href="bespoke-framing.html">Bespoke Framing</a>
+                        <a href="fine-art-printing.html">Fine Art Printing</a>
+                        <a href="index.html#services">Canvas Stretching</a>
+                        <a href="index.html#services">Shadow Boxes</a>
+                        <a href="index.html#services">Frame Restoration</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Earl's Picture Framing. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
     <script src="js/main.js"></script>
   </body>
 </html>

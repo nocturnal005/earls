@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "configurator",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vite", "C:\\Users\\44755\\Desktop\\earls\\configurator", "--port", "5174", "--host"],
+      "port": 5174
+    }
+  ]
+}

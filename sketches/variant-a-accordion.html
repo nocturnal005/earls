@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variant A — Accordion Stack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Source Sans 3', sans-serif; background: #f5f3f0; color: #1a1a1a; }
+  h1, h2, h3 { font-family: 'Libre Baskerville', serif; }
+
+  .tag { position: fixed; top: 0; left: 0; right: 0; background: #1a1a1a; color: #fff; text-align: center; padding: 8px; font-size: 13px; z-index: 100; letter-spacing: 1px; }
+  .tag span { background: #C9A84C; color: #1a1a1a; padding: 2px 8px; border-radius: 3px; font-weight: 600; margin-right: 8px; }
+
+  .layout { display: grid; grid-template-columns: 1fr 360px; gap: 24px; max-width: 1200px; margin: 56px auto 40px; padding: 24px; }
+
+  /* Accordion panels */
+  .accordion { display: flex; flex-direction: column; gap: 2px; }
+
+  .acc-panel { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+
+  .acc-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; cursor: pointer; user-select: none; border: none; background: #fff; width: 100%; text-align: left; font-family: inherit; font-size: 15px; transition: background 0.15s; }
+  .acc-header:hover { background: #fafaf8; }
+  .acc-header.active { background: #fafaf8; border-bottom: 1px solid #eee; }
+
+  .acc-header__left { display: flex; align-items: center; gap: 12px; }
+  .acc-header__num { width: 28px; height: 28px; border-radius: 50%; background: #1a1a1a; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
+  .acc-header__num.done { background: #4a7c59; }
+  .acc-header__title { font-family: 'Libre Baskerville', serif; font-size: 16px; font-weight: 700; }
+  .acc-header__summary { font-size: 13px; color: #888; margin-left: 4px; }
+
+  .acc-header__right { display: flex; align-items: center; gap: 12px; }
+  .acc-header__price { font-weight: 600; color: #1a1a1a; font-size: 15px; }
+  .acc-header__chevron { font-size: 18px; color: #aaa; transition: transform 0.2s; }
+  .acc-header.active .acc-header__chevron { transform: rotate(180deg); }
+
+  .acc-body { padding: 0 20px 20px; display: none; }
+  .acc-body.open { display: block; }
+
+  /* Size chips */
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .chip { padding: 8px 16px; border: 1.5px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; font-size: 14px; font-family: inherit; transition: all 0.15s; }
+  .chip:hover { border-color: #999; }
+  .chip.selected { border-color: #1a1a1a; background: #1a1a1a; color: #fff; }
+  .chip .sub { display: block; font-size: 11px; color: #999; margin-top: 2px; }
+  .chip.selected .sub { color: #ccc; }
+
+  .section-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-top: 16px; margin-bottom: 4px; }
+  .section-label:first-child { margin-top: 0; }
+
+  /* Colour swatches */
+  .swatch-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .swatch { width: 36px; height: 36px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; position: relative; transition: all 0.15s; }
+  .swatch:hover { transform: scale(1.1); }
+  .swatch.selected { border-color: #1a1a1a; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1a1a1a; }
+  .swatch__label { position: absolute; top: 40px; left: 50%; transform: translateX(-50%); font-size: 10px; white-space: nowrap; color: #888; }
+  .swatch.selected .swatch__label { color: #1a1a1a; font-weight: 600; }
+
+  /* Finish pills */
+  .pill-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .pill { padding: 6px 14px; border: 1.5px solid #ddd; border-radius: 20px; font-size: 13px; cursor: pointer; background: #fff; font-family: inherit; transition: all 0.15s; }
+  .pill:hover { border-color: #999; }
+  .pill.selected { border-color: #1a1a1a; background: #1a1a1a; color: #fff; }
+  .pill .count { font-size: 11px; color: #999; }
+  .pill.selected .count { color: #bbb; }
+
+  /* Width ladder */
+  .width-ladder { margin-top: 12px; display: flex; flex-direction: column; gap: 4px; }
+  .w-row { display: grid; grid-template-columns: 70px 1fr 70px 40px; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; transition: background 0.1s; }
+  .w-row:hover { background: #f5f3f0; }
+  .w-row.selected { background: #1a1a1a; color: #fff; border-radius: 6px; }
+  .w-row__code { font-family: monospace; font-size: 12px; color: #888; }
+  .w-row.selected .w-row__code { color: #aaa; }
+  .w-row__bar { height: 8px; border-radius: 4px; background: #1a1a1a; }
+  .w-row.selected .w-row__bar { background: #C9A84C; }
+  .w-row__price { text-align: right; font-weight: 500; }
+  .w-row__rec { font-size: 10px; font-weight: 700; color: #C9A84C; text-align: center; }
+
+  /* Glass / mount cards */
+  .option-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .opt-card { padding: 10px 16px; border: 1.5px solid #ddd; border-radius: 8px; cursor: pointer; flex: 1; min-width: 120px; background: #fff; font-family: inherit; text-align: left; transition: all 0.15s; }
+  .opt-card:hover { border-color: #999; }
+  .opt-card.selected { border-color: #1a1a1a; background: #1a1a1a; color: #fff; }
+  .opt-card__name { font-weight: 600; font-size: 14px; display: block; }
+  .opt-card__desc { font-size: 12px; color: #888; display: block; margin-top: 2px; }
+  .opt-card.selected .opt-card__desc { color: #bbb; }
+  .opt-card__price { font-size: 14px; font-weight: 600; margin-top: 4px; display: block; }
+
+  /* Mount colours (small) */
+  .mc-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .mc { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #ddd; cursor: pointer; }
+  .mc:hover { transform: scale(1.1); }
+  .mc.selected { border-color: #1a1a1a; box-shadow: 0 0 0 2px #fff, 0 0 0 3px #1a1a1a; }
+
+  /* Sidebar */
+  .sidebar { position: sticky; top: 56px; align-self: start; }
+
+  .preview-card { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .preview-card h3 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 16px; }
+
+  .frame-preview { border: 12px solid #1a1a1a; aspect-ratio: 3/4; max-height: 260px; display: flex; align-items: center; justify-content: center; background: #f0ede8; margin-bottom: 20px; border-radius: 2px; }
+  .frame-preview span { color: #bbb; font-size: 14px; }
+
+  .price-lines { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+  .price-line { display: flex; justify-content: space-between; }
+  .price-line__label { color: #666; }
+  .price-line__val { font-weight: 500; }
+  .price-line--sub { padding-left: 8px; font-size: 13px; }
+  .price-line--sub .price-line__label { color: #aaa; }
+  .price-divider { border: none; border-top: 1px solid #eee; margin: 4px 0; }
+  .price-total { display: flex; justify-content: space-between; font-size: 20px; font-weight: 700; margin-top: 4px; }
+  .price-total .amount { font-family: 'Libre Baskerville', serif; color: #1a1a1a; }
+  .price-vat { font-size: 12px; color: #aaa; text-align: right; margin-top: 2px; }
+
+  .cta-btn { display: block; width: 100%; margin-top: 20px; padding: 14px; background: #1a1a1a; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; font-family: inherit; cursor: pointer; text-align: center; transition: background 0.15s; }
+  .cta-btn:hover { background: #333; }
+
+  .upload-link { display: block; text-align: center; margin-top: 12px; font-size: 13px; color: #888; cursor: pointer; text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<div class="tag"><span>A</span> Accordion Stack — collapsible panels, one open at a time</div>
+
+<div class="layout">
+  <!-- LEFT: Accordion -->
+  <div class="accordion">
+
+    <!-- 1. Size & Print -->
+    <div class="acc-panel">
+      <button class="acc-header active" onclick="toggle(this)">
+        <div class="acc-header__left">
+          <span class="acc-header__num done">1</span>
+          <span class="acc-header__title">Size & Print</span>
+          <span class="acc-header__summary">A3 Poster</span>
+        </div>
+        <div class="acc-header__right">
+          <span class="acc-header__price">£19.95</span>
+          <span class="acc-header__chevron">&#9662;</span>
+        </div>
+      </button>
+      <div class="acc-body open">
+        <div class="section-label">Print Size</div>
+        <div class="chip-row">
+          <button class="chip">A4<span class="sub">11.7" x 8.3"</span></button>
+          <button class="chip selected">A3<span class="sub">16.5" x 11.7"</span></button>
+          <button class="chip">A2<span class="sub">23.4" x 16.5"</span></button>
+          <button class="chip">A1<span class="sub">33.1" x 23.4"</span></button>
+          <button class="chip">A0<span class="sub">46.8" x 33.1"</span></button>
+          <button class="chip">10x12"<span class="sub">10" x 12"</span></button>
+          <button class="chip">12x16"<span class="sub">12" x 16"</span></button>
+          <button class="chip">16x20"<span class="sub">16" x 20"</span></button>
+          <button class="chip">20x30"<span class="sub">20" x 30"</span></button>
+        </div>
+        <div class="section-label">Print Type</div>
+        <div class="option-row">
+          <button class="opt-card selected">
+            <span class="opt-card__name">Poster</span>
+            <span class="opt-card__desc">Standard photo paper</span>
+            <span class="opt-card__price">£19.95</span>
+          </button>
+          <button class="opt-card">
+            <span class="opt-card__name">Art Paper</span>
+            <span class="opt-card__desc">Premium fine art</span>
+            <span class="opt-card__price">£49.95</span>
+          </button>
+          <button class="opt-card">
+            <span class="opt-card__name">Canvas</span>
+            <span class="opt-card__desc">Stretched canvas</span>
+            <span class="opt-card__price">£54.95</span>
+          </button>
+          <button class="opt-card">
+            <span class="opt-card__name">No Print</span>
+            <span class="opt-card__desc">I have my own artwork</span>
+            <span class="opt-card__price">Free</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Frame -->
+    <div class="acc-panel">
+      <button class="acc-header" onclick="toggle(this)">
+        <div class="acc-header__left">
+          <span class="acc-header__num done">2</span>
+          <span class="acc-header__title">Frame</span>
+          <span class="acc-header__summary">24mm Matt Black</span>
+        </div>
+        <div class="acc-header__right">
+          <span class="acc-header__price">£6.50</span>
+          <span class="acc-header__chevron">&#9662;</span>
+        </div>
+      </button>
+      <div class="acc-body">
+        <div class="section-label">Colour</div>
+        <div class="swatch-row">
+          <div class="swatch selected" style="background:#1a1a1a"><span class="swatch__label">Black (37)</span></div>
+          <div class="swatch" style="background:#f5f5f5; border-color:#ddd;"><span class="swatch__label">White (20)</span></div>
+          <div class="swatch" style="background:#8a8a8a"><span class="swatch__label">Grey (14)</span></div>
+          <div class="swatch" style="background:#3e2723"><span class="swatch__label">Dark Wood (12)</span></div>
+          <div class="swatch" style="background:#a1887f"><span class="swatch__label">Natural (12)</span></div>
+          <div class="swatch" style="background:#f5f0e6; border-color:#ddd;"><span class="swatch__label">Cream (4)</span></div>
+          <div class="swatch" style="background: conic-gradient(#e53935,#fdd835,#43a047,#1e88e5,#e53935)"><span class="swatch__label">Colour (4)</span></div>
+        </div>
+
+        <div class="section-label">Finish</div>
+        <div class="pill-row">
+          <button class="pill selected">Matt <span class="count">9</span></button>
+          <button class="pill">Stained <span class="count">7</span></button>
+          <button class="pill">Open Grain <span class="count">5</span></button>
+          <button class="pill">Cushion <span class="count">9</span></button>
+          <button class="pill">Specialty <span class="count">7</span></button>
+        </div>
+
+        <div class="section-label">Width</div>
+        <div class="width-ladder">
+          <div class="w-row"><span class="w-row__code">ECON/0008</span><span class="w-row__bar" style="width:36%"></span><span class="w-row__price">£4.82</span><span class="w-row__rec"></span></div>
+          <div class="w-row"><span class="w-row__code">ECON/0007</span><span class="w-row__bar" style="width:49%"></span><span class="w-row__price">£5.38</span><span class="w-row__rec"></span></div>
+          <div class="w-row"><span class="w-row__code">ECON/0065</span><span class="w-row__bar" style="width:51%"></span><span class="w-row__price">£9.89</span><span class="w-row__rec"></span></div>
+          <div class="w-row"><span class="w-row__code">ECON/0003</span><span class="w-row__bar" style="width:54%"></span><span class="w-row__price">£8.17</span><span class="w-row__rec"></span></div>
+          <div class="w-row selected"><span class="w-row__code">ECON/0006</span><span class="w-row__bar" style="width:62%"></span><span class="w-row__price">£6.50</span><span class="w-row__rec">REC</span></div>
+          <div class="w-row"><span class="w-row__code">ECON/0005</span><span class="w-row__bar" style="width:74%"></span><span class="w-row__price">£7.74</span><span class="w-row__rec"></span></div>
+          <div class="w-row"><span class="w-row__code">ECON/0002</span><span class="w-row__bar" style="width:72%"></span><span class="w-row__price">£8.73</span><span class="w-row__rec"></span></div>
+          <div class="w-row"><span class="w-row__code">ECON/0004</span><span class="w-row__bar" style="width:100%"></span><span class="w-row__price">£9.89</span><span class="w-row__rec"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Mount -->
+    <div class="acc-panel">
+      <button class="acc-header" onclick="toggle(this)">
+        <div class="acc-header__left">
+          <span class="acc-header__num">3</span>
+          <span class="acc-header__title">Mount</span>
+          <span class="acc-header__summary">No Mount</span>
+        </div>
+        <div class="acc-header__right">
+          <span class="acc-header__price">Free</span>
+          <span class="acc-header__chevron">&#9662;</span>
+        </div>
+      </button>
+      <div class="acc-body">
+        <div class="option-row">
+          <button class="opt-card selected"><span class="opt-card__name">No Mount</span><span class="opt-card__price">Free</span></button>
+          <button class="opt-card"><span class="opt-card__name">Plain Mount</span><span class="opt-card__price">£6.71</span></button>
+          <button class="opt-card"><span class="opt-card__name">Mount + Line</span><span class="opt-card__price">£10.21</span></button>
+          <button class="opt-card"><span class="opt-card__name">Double Mount</span><span class="opt-card__price">£10.74</span></button>
+          <button class="opt-card"><span class="opt-card__name">Oval Mount</span><span class="opt-card__price">£11.71</span></button>
+        </div>
+        <div class="section-label">Mount Colour</div>
+        <div class="mc-row">
+          <div class="mc selected" style="background:#fff" title="Snow White"></div>
+          <div class="mc" style="background:#FAF8F5" title="Soft White"></div>
+          <div class="mc" style="background:#F5F0E6" title="Antique White"></div>
+          <div class="mc" style="background:#F0E6D3" title="Cream"></div>
+          <div class="mc" style="background:#F5F5DC" title="Ivory"></div>
+          <div class="mc" style="background:#E8DCC8" title="Champagne"></div>
+          <div class="mc" style="background:#D4C5A9" title="Linen"></div>
+          <div class="mc" style="background:#C9B99A" title="Wheat"></div>
+          <div class="mc" style="background:#B8A88A" title="Sandstone"></div>
+          <div class="mc" style="background:#A0A0A0" title="Pewter"></div>
+          <div class="mc" style="background:#808080" title="Slate Grey"></div>
+          <div class="mc" style="background:#1a1a1a" title="Deep Black"></div>
+          <div class="mc" style="background:#2C3E50" title="Midnight Blue"></div>
+          <div class="mc" style="background:#4A0E0E" title="Burgundy"></div>
+          <div class="mc" style="background:#2E4A2E" title="Forest Green"></div>
+          <div class="mc" style="background:#C9A84C" title="Gold"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Glass -->
+    <div class="acc-panel">
+      <button class="acc-header" onclick="toggle(this)">
+        <div class="acc-header__left">
+          <span class="acc-header__num done">4</span>
+          <span class="acc-header__title">Glass</span>
+          <span class="acc-header__summary">Standard Glass</span>
+        </div>
+        <div class="acc-header__right">
+          <span class="acc-header__price">£13.43</span>
+          <span class="acc-header__chevron">&#9662;</span>
+        </div>
+      </button>
+      <div class="acc-body">
+        <div class="option-row">
+          <button class="opt-card"><span class="opt-card__name">None</span><span class="opt-card__price">Free</span></button>
+          <button class="opt-card selected"><span class="opt-card__name">Standard</span><span class="opt-card__desc">Clear float glass</span><span class="opt-card__price">£13.43</span></button>
+          <button class="opt-card"><span class="opt-card__name">Acrylic</span><span class="opt-card__desc">Lightweight</span><span class="opt-card__price">£16.78</span></button>
+          <button class="opt-card"><span class="opt-card__name">Non-Reflective</span><span class="opt-card__desc">Anti-glare</span><span class="opt-card__price">£20.14</span></button>
+          <button class="opt-card"><span class="opt-card__name">UV Protection</span><span class="opt-card__desc">99% UV block</span><span class="opt-card__price">£24.17</span></button>
+          <button class="opt-card"><span class="opt-card__name">Museum</span><span class="opt-card__desc">Anti-reflective + UV</span><span class="opt-card__price">£33.57</span></button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: Sidebar -->
+  <div class="sidebar">
+    <div class="preview-card">
+      <h3>Live Preview</h3>
+      <div class="frame-preview">
+        <span>Your Photo</span>
+      </div>
+
+      <div class="price-lines">
+        <div class="price-line"><span class="price-line__label">Print</span><span class="price-line__val">£19.95</span></div>
+        <div class="price-line price-line--sub"><span class="price-line__label">A3 Poster</span></div>
+        <div class="price-line"><span class="price-line__label">Frame</span><span class="price-line__val">£6.50</span></div>
+        <div class="price-line price-line--sub"><span class="price-line__label">24mm Matt Black</span></div>
+        <div class="price-line"><span class="price-line__label">Mount</span><span class="price-line__val">£0.00</span></div>
+        <div class="price-line"><span class="price-line__label">Glass</span><span class="price-line__val">£13.43</span></div>
+        <div class="price-line"><span class="price-line__label">Handling</span><span class="price-line__val">£5.00</span></div>
+        <hr class="price-divider">
+        <div class="price-line"><span class="price-line__label">Subtotal</span><span class="price-line__val">£44.88</span></div>
+        <div class="price-line"><span class="price-line__label">VAT (20%)</span><span class="price-line__val">£8.98</span></div>
+        <hr class="price-divider">
+        <div class="price-total"><span>Total</span><span class="amount">£53.85</span></div>
+        <div class="price-vat">inc. VAT</div>
+      </div>
+
+      <button class="cta-btn">Add to Cart — £53.85</button>
+      <span class="upload-link">+ Upload your photo</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggle(btn) {
+  const wasActive = btn.classList.contains('active');
+  document.querySelectorAll('.acc-header').forEach(h => { h.classList.remove('active'); h.nextElementSibling.classList.remove('open'); });
+  if (!wasActive) { btn.classList.add('active'); btn.nextElementSibling.classList.add('open'); }
+}
+</script>
+</body>
+</html>

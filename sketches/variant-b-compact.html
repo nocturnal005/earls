@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variant B — Compact All-Visible</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Source Sans 3', sans-serif; background: #f5f3f0; color: #1a1a1a; }
+  h1, h2, h3, h4 { font-family: 'Libre Baskerville', serif; }
+
+  .tag { position: fixed; top: 0; left: 0; right: 0; background: #1a1a1a; color: #fff; text-align: center; padding: 8px; font-size: 13px; z-index: 100; letter-spacing: 1px; }
+  .tag span { background: #e8a838; color: #1a1a1a; padding: 2px 8px; border-radius: 3px; font-weight: 600; margin-right: 8px; }
+
+  .layout { display: grid; grid-template-columns: 1fr 340px; gap: 20px; max-width: 1180px; margin: 56px auto 40px; padding: 20px; }
+
+  .config-col { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+
+  /* Section */
+  .sec { padding-bottom: 16px; margin-bottom: 16px; border-bottom: 1px solid #f0ede8; }
+  .sec:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .sec__head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; }
+  .sec__title { font-size: 14px; font-weight: 700; }
+  .sec__price { font-size: 14px; font-weight: 600; color: #666; }
+  .sec__row-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: #999; margin-top: 10px; margin-bottom: 4px; }
+  .sec__row-label:first-of-type { margin-top: 0; }
+
+  /* Inline chips — compact */
+  .ic { display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px; border: 1px solid #e0e0e0; border-radius: 4px; font-size: 13px; cursor: pointer; background: #fff; font-family: inherit; margin: 2px; transition: all 0.12s; }
+  .ic:hover { border-color: #999; }
+  .ic.sel { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .ic .dim { font-size: 11px; color: #aaa; }
+  .ic.sel .dim { color: #999; }
+
+  /* Tiny swatches */
+  .ts-row { display: flex; gap: 4px; flex-wrap: wrap; }
+  .ts { width: 28px; height: 28px; border-radius: 4px; border: 2px solid transparent; cursor: pointer; transition: all 0.1s; }
+  .ts:hover { transform: scale(1.1); }
+  .ts.sel { border-color: #1a1a1a; box-shadow: inset 0 0 0 2px #fff; }
+
+  /* Finish pills inline */
+  .fp { display: inline-block; padding: 4px 10px; border: 1px solid #ddd; border-radius: 12px; font-size: 12px; cursor: pointer; margin: 2px; background: #fff; font-family: inherit; }
+  .fp:hover { border-color: #888; }
+  .fp.sel { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+
+  /* Horizontal width scroll */
+  .hw-scroll { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0; margin-top: 6px; }
+  .hw-scroll::-webkit-scrollbar { height: 4px; }
+  .hw-scroll::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+  .hw { display: flex; flex-direction: column; align-items: center; min-width: 64px; padding: 8px 6px; border: 1px solid #e0e0e0; border-radius: 6px; cursor: pointer; font-size: 12px; gap: 4px; background: #fff; font-family: inherit; transition: all 0.12s; }
+  .hw:hover { border-color: #999; }
+  .hw.sel { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .hw__bar { width: 4px; border-radius: 2px; background: #1a1a1a; }
+  .hw.sel .hw__bar { background: #C9A84C; }
+  .hw__mm { font-weight: 600; }
+  .hw__price { font-size: 11px; color: #888; }
+  .hw.sel .hw__price { color: #bbb; }
+  .hw__rec { font-size: 9px; font-weight: 700; color: #C9A84C; }
+
+  /* Mount colour row compact */
+  .mcr { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+  .mcr .mc { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #e0e0e0; cursor: pointer; }
+  .mcr .mc:hover { transform: scale(1.15); }
+  .mcr .mc.sel { border-color: #1a1a1a; }
+
+  /* Sidebar */
+  .sidebar { position: sticky; top: 56px; align-self: start; }
+
+  .preview-card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .preview-card h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 14px; }
+
+  .frame-preview { border: 10px solid #1a1a1a; aspect-ratio: 3/4; max-height: 220px; display: flex; align-items: center; justify-content: center; background: #f0ede8; margin-bottom: 16px; }
+  .frame-preview span { color: #bbb; font-size: 13px; }
+
+  .pl { display: flex; justify-content: space-between; font-size: 13px; padding: 3px 0; }
+  .pl__l { color: #888; }
+  .pl__v { font-weight: 500; }
+  .pl--detail { padding-left: 8px; }
+  .pl--detail .pl__l { font-size: 12px; color: #bbb; }
+  .pdiv { border: none; border-top: 1px solid #f0ede8; margin: 6px 0; }
+  .ptotal { display: flex; justify-content: space-between; font-size: 22px; font-weight: 700; padding: 4px 0; }
+  .ptotal .amt { font-family: 'Libre Baskerville', serif; }
+  .pvat { font-size: 11px; color: #aaa; text-align: right; }
+
+  .cta { display: block; width: 100%; margin-top: 16px; padding: 12px; background: #1a1a1a; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; text-align: center; }
+  .cta:hover { background: #333; }
+
+  .up-link { display: block; text-align: center; margin-top: 10px; font-size: 12px; color: #888; cursor: pointer; text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<div class="tag"><span>B</span> Compact All-Visible — everything on screen, no collapsing</div>
+
+<div class="layout">
+  <div class="config-col">
+
+    <!-- Size & Print -->
+    <div class="sec">
+      <div class="sec__head"><span class="sec__title">Size & Print</span><span class="sec__price">£19.95</span></div>
+      <div>
+        <button class="ic">A4 <span class="dim">11.7"x8.3"</span></button>
+        <button class="ic sel">A3 <span class="dim">16.5"x11.7"</span></button>
+        <button class="ic">A2 <span class="dim">23.4"x16.5"</span></button>
+        <button class="ic">A1 <span class="dim">33.1"x23.4"</span></button>
+        <button class="ic">A0 <span class="dim">46.8"x33.1"</span></button>
+        <button class="ic">10x12"</button>
+        <button class="ic">12x16"</button>
+        <button class="ic">16x20"</button>
+        <button class="ic">20x30"</button>
+        <button class="ic">30x40"</button>
+      </div>
+      <div style="margin-top:8px">
+        <button class="ic sel">Poster £19.95</button>
+        <button class="ic">Art Paper £49.95</button>
+        <button class="ic">Canvas £54.95</button>
+        <button class="ic">No Print</button>
+      </div>
+    </div>
+
+    <!-- Frame -->
+    <div class="sec">
+      <div class="sec__head"><span class="sec__title">Frame</span><span class="sec__price">£6.50</span></div>
+
+      <div class="sec__row-label">Colour</div>
+      <div class="ts-row">
+        <div class="ts sel" style="background:#1a1a1a" title="Black (37)"></div>
+        <div class="ts" style="background:#f5f5f5; border-color:#ddd;" title="White (20)"></div>
+        <div class="ts" style="background:#8a8a8a" title="Grey (14)"></div>
+        <div class="ts" style="background:#3e2723" title="Dark Wood (12)"></div>
+        <div class="ts" style="background:#a1887f" title="Natural Wood (12)"></div>
+        <div class="ts" style="background:#f5f0e6; border-color:#ddd;" title="Cream (4)"></div>
+        <div class="ts" style="background: conic-gradient(#e53935,#fdd835,#43a047,#1e88e5,#e53935)" title="Colour (4)"></div>
+      </div>
+
+      <div class="sec__row-label">Finish</div>
+      <div>
+        <button class="fp sel">Matt (9)</button>
+        <button class="fp">Stained (7)</button>
+        <button class="fp">Open Grain (5)</button>
+        <button class="fp">Cushion (9)</button>
+        <button class="fp">Specialty (7)</button>
+      </div>
+
+      <div class="sec__row-label">Width</div>
+      <div class="hw-scroll">
+        <button class="hw"><div class="hw__bar" style="height:14px"></div><span class="hw__mm">14mm</span><span class="hw__price">£4.82</span></button>
+        <button class="hw"><div class="hw__bar" style="height:19px"></div><span class="hw__mm">19mm</span><span class="hw__price">£5.38</span></button>
+        <button class="hw"><div class="hw__bar" style="height:20px"></div><span class="hw__mm">20mm</span><span class="hw__price">£9.89</span></button>
+        <button class="hw"><div class="hw__bar" style="height:21px"></div><span class="hw__mm">21mm</span><span class="hw__price">£8.17</span></button>
+        <button class="hw sel"><div class="hw__bar" style="height:24px"></div><span class="hw__mm">24mm</span><span class="hw__price">£6.50</span><span class="hw__rec">REC</span></button>
+        <button class="hw"><div class="hw__bar" style="height:28px"></div><span class="hw__mm">28mm</span><span class="hw__price">£8.73</span></button>
+        <button class="hw"><div class="hw__bar" style="height:29px"></div><span class="hw__mm">29mm</span><span class="hw__price">£7.74</span></button>
+        <button class="hw"><div class="hw__bar" style="height:39px"></div><span class="hw__mm">39mm</span><span class="hw__price">£9.89</span></button>
+      </div>
+    </div>
+
+    <!-- Mount -->
+    <div class="sec">
+      <div class="sec__head"><span class="sec__title">Mount</span><span class="sec__price">Free</span></div>
+      <div>
+        <button class="ic sel">None</button>
+        <button class="ic">Plain £6.71</button>
+        <button class="ic">+ Line £10.21</button>
+        <button class="ic">Double £10.74</button>
+        <button class="ic">Oval £11.71</button>
+      </div>
+      <div class="mcr" style="margin-top:8px">
+        <div class="mc sel" style="background:#fff" title="Snow White"></div>
+        <div class="mc" style="background:#FAF8F5"></div>
+        <div class="mc" style="background:#F5F0E6"></div>
+        <div class="mc" style="background:#F0E6D3"></div>
+        <div class="mc" style="background:#F5F5DC"></div>
+        <div class="mc" style="background:#E8DCC8"></div>
+        <div class="mc" style="background:#D4C5A9"></div>
+        <div class="mc" style="background:#C9B99A"></div>
+        <div class="mc" style="background:#B8A88A"></div>
+        <div class="mc" style="background:#A0A0A0"></div>
+        <div class="mc" style="background:#808080"></div>
+        <div class="mc" style="background:#1a1a1a"></div>
+        <div class="mc" style="background:#2C3E50"></div>
+        <div class="mc" style="background:#4A0E0E"></div>
+        <div class="mc" style="background:#2E4A2E"></div>
+        <div class="mc" style="background:#C9A84C"></div>
+      </div>
+    </div>
+
+    <!-- Glass -->
+    <div class="sec">
+      <div class="sec__head"><span class="sec__title">Glass</span><span class="sec__price">£13.43</span></div>
+      <div>
+        <button class="ic">None</button>
+        <button class="ic sel">Standard £13.43</button>
+        <button class="ic">Acrylic £16.78</button>
+        <button class="ic">Non-Reflective £20.14</button>
+        <button class="ic">UV £24.17</button>
+        <button class="ic">Museum £33.57</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="preview-card">
+      <h3>Live Preview</h3>
+      <div class="frame-preview"><span>Your Photo</span></div>
+      <div class="pl"><span class="pl__l">Print</span><span class="pl__v">£19.95</span></div>
+      <div class="pl pl--detail"><span class="pl__l">A3 Poster</span></div>
+      <div class="pl"><span class="pl__l">Frame</span><span class="pl__v">£6.50</span></div>
+      <div class="pl pl--detail"><span class="pl__l">24mm Matt Black</span></div>
+      <div class="pl"><span class="pl__l">Mount</span><span class="pl__v">£0.00</span></div>
+      <div class="pl"><span class="pl__l">Glass</span><span class="pl__v">£13.43</span></div>
+      <div class="pl"><span class="pl__l">Handling</span><span class="pl__v">£5.00</span></div>
+      <hr class="pdiv">
+      <div class="pl"><span class="pl__l">Subtotal</span><span class="pl__v">£44.88</span></div>
+      <div class="pl"><span class="pl__l">VAT (20%)</span><span class="pl__v">£8.98</span></div>
+      <hr class="pdiv">
+      <div class="ptotal"><span>Total</span><span class="amt">£53.85</span></div>
+      <div class="pvat">inc. VAT</div>
+      <button class="cta">Add to Cart — £53.85</button>
+      <span class="up-link">+ Upload your photo</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -19,3 +19,5 @@ Thumbs.db
 # Large files (exceed GitHub's 100MB limit)
 whitewall-recording.mp4
 create.docx
+
+.vercel
