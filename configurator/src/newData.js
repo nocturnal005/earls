@@ -479,10 +479,17 @@ export function calcMountPrice(mountTypeId, w_cm, h_cm, mountWidthMm = 50) {
   return (mountAreaSqFt * MOUNT_BASE_RATE_PER_SQFT * mt.multiplier) + mt.surcharge;
 }
 
-export function calcGlassPrice(glassId, w_cm, h_cm) {
+export function calcGlassPrice(glassId, w_cm, h_cm, mountTypeId = 'none', mountWidthMm = 50) {
   const glass = GLASS_OPTIONS.find(g => g.id === glassId);
   if (!glass || glass.ratePerSqFt === 0) return 0;
-  const areaSqFt = calcGlassArea(w_cm, h_cm);
+  // Glass covers the full frame opening — artwork + mount borders when a mount is present
+  let glassW = w_cm, glassH = h_cm;
+  if (mountTypeId !== 'none') {
+    const borderCm = mountWidthMm / 10;
+    glassW = w_cm + 2 * borderCm;
+    glassH = h_cm + 2 * borderCm;
+  }
+  const areaSqFt = (glassW * glassH) / SQCM_PER_SQFT;
   return areaSqFt * glass.ratePerSqFt;
 }
 

@@ -435,11 +435,12 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
 // ─── Glass Section ───────────────────────────────────────────────────────────
 
 export function GlassSection({ selections, onUpdate, effW, effH }) {
-  const { glassId, sizeId, printType } = selections;
+  const { glassId, sizeId, printType, mountTypeId, mountWidthId } = selections;
   const size = PRINT_SIZES.find(s => s.id === sizeId);
   const dimW = effW || size?.w_cm;
   const dimH = effH || size?.h_cm;
   const isCanvas = printType === 'canvas';
+  const mountWidthMm = MOUNT_WIDTHS.find(mw => mw.id === mountWidthId)?.mm || 50;
 
   if (isCanvas) {
     return (
@@ -454,7 +455,7 @@ export function GlassSection({ selections, onUpdate, effW, effH }) {
       <div className="sec-row">
         <div className="opt-grid opt-grid--3">
           {GLASS_OPTIONS.map(g => {
-            const price = dimW ? calcGlassPrice(g.id, dimW, dimH) : null;
+            const price = dimW ? calcGlassPrice(g.id, dimW, dimH, mountTypeId, mountWidthMm) : null;
             return (
               <button
                 key={g.id}

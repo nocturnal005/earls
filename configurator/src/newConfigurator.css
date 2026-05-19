@@ -18,11 +18,11 @@
   --cfg-white:      #FAFAFA;
 }
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+/* Scoped reset — avoid overriding header/footer styles from main site CSS */
+.cfg *, .cfg *::before, .cfg *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-body {
+.cfg {
   font-family: 'Source Sans 3', 'Segoe UI', sans-serif;
-  background: #FAFAFA;
   color: #1a1a1a;
   -webkit-font-smoothing: antialiased;
 }
@@ -36,17 +36,38 @@ body {
 }
 
 .cfg__preview {
-  padding: 32px 40px;
+  padding: 16px 24px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  background: var(--cfg-warm);
+  background-color: #E5E2DD;
+  background-image:
+    linear-gradient(to bottom,
+      #E5E2DD 0%,
+      #E5E2DD 45%,
+      rgba(229,226,221,0) 62%
+    ),
+    url(./assets/room-bg.jpg);
+  background-size: 100% 100%, cover;
+  background-position: top, center bottom;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.cfg__preview::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(0,0,0,0.04) 0%,
+    rgba(0,0,0,0.0) 40%,
+    rgba(0,0,0,0.08) 100%
+  );
+  pointer-events: none;
 }
 
 .cfg__controls {
-  background: rgba(249, 247, 244, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: #FFFFFF;
   border-left: 1px solid var(--cfg-border);
   box-shadow: -4px 0 24px rgba(0,0,0,0.02);
   display: flex;
@@ -67,31 +88,34 @@ body {
 
 .preview-sticky {
   position: sticky;
-  top: 32px;
+  top: 12px;
   width: 100%;
   max-width: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
+  padding-top: 1.5vh;
 }
 
 .preview-frame-outer {
   width: 100%;
+  max-height: 55vh;
   display: flex;
   justify-content: center;
+  transition: max-height 0.7s ease-in-out;
 }
 
 .preview-frame {
   display: inline-block;
   border-radius: 2px;
-  box-shadow: 4px 6px 20px rgba(0, 0, 0, 0.15), 1px 1px 4px rgba(0, 0, 0, 0.1);
-  transition: border-width 0.3s ease, border-color 0.3s ease;
+  box-shadow: 6px 10px 30px rgba(0, 0, 0, 0.35), 2px 3px 8px rgba(0, 0, 0, 0.18);
+  transition: border-width 0.5s ease-in-out, border-color 0.5s ease-in-out, width 0.7s ease-in-out, height 0.7s ease-in-out;
 }
 
 .preview-mount {
   position: relative;
-  transition: padding 0.3s ease, background-color 0.3s ease;
+  transition: padding 0.6s ease-in-out, background-color 0.5s ease-in-out, width 0.7s ease-in-out, height 0.7s ease-in-out;
 }
 
 .preview-mount-inner {
@@ -114,8 +138,8 @@ body {
   align-items: center;
   justify-content: center;
   aspect-ratio: 3 / 4;
-  max-height: 65vh;
-  transition: aspect-ratio 0.3s ease;
+  max-height: 45vh;
+  transition: aspect-ratio 0.6s ease-in-out, max-height 0.7s ease-in-out, width 0.7s ease-in-out;
 }
 
 .preview-image img {
@@ -166,11 +190,15 @@ body {
 .upload-btn:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-1px); color: #1a1a1a; }
 
 .preview-actions {
+  position: absolute;
+  left: 24px;
+  top: 25%;
+  transform: translateY(-50%);
   display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  z-index: 2;
 }
 
 .orientation-toggle {
@@ -215,35 +243,45 @@ body {
   background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.03) 100%);
 }
 
-/* Frame detail strip — with moulding corner */
+/* Frame detail — compact card for left sidebar */
 .frame-detail {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
+  gap: 6px;
+  padding: 8px;
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  width: 100%;
+  margin-top: 4px;
+  max-width: 130px;
 }
 
 .frame-detail__img {
-  width: 80px;
-  height: 66px;
+  width: 60px;
+  height: 60px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.frame-detail__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .frame-detail__img .colour-square {
-  width: 80px;
-  height: 66px;
+  width: 60px;
+  height: 60px;
 }
 
-.frame-detail__info { display: flex; flex-direction: column; gap: 2px; }
-.frame-detail__name { font-weight: 600; font-size: 14px; }
-.frame-detail__code { font-size: 12px; color: var(--cfg-muted); font-family: monospace; }
+.frame-detail__info { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.frame-detail__name { font-weight: 600; font-size: 11px; text-align: center; }
+.frame-detail__code { font-size: 10px; color: var(--cfg-muted); font-family: monospace; }
 
 
 /* ── Reset Bar ──────────────────────────────────────────────────────────── */
@@ -348,6 +386,7 @@ body {
 /* ── Unit Toggle ─────────────────────────────────────────────────────────── */
 
 .unit-toggle { display: flex; gap: 2px; }
+.preview-actions .unit-toggle { flex-direction: column; }
 .unit-toggle__btn {
   padding: 3px 10px;
   font-size: 12px;
@@ -698,9 +737,7 @@ body {
 
 .price-bar {
   border-top: 1px solid var(--cfg-border);
-  background: rgba(249, 247, 244, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: #FFFFFF;
   flex-shrink: 0;
   box-shadow: 0 -4px 24px rgba(0,0,0,0.02);
   padding: 0 20px 16px;
@@ -805,6 +842,8 @@ body {
   }
   .cfg__preview {
     padding: 20px;
+    background-size: 100% 100%, 100% auto;
+    background-position: top, center bottom;
   }
   .cfg__controls {
     position: static;
@@ -818,7 +857,26 @@ body {
   .preview-sticky {
     position: static;
     max-width: none;
+    order: 1;
   }
+  .preview-actions {
+    order: 2;
+    position: static;
+    transform: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12px;
+  }
+  .frame-detail {
+    flex-direction: row;
+    max-width: none;
+    gap: 10px;
+  }
+  .frame-detail__name { font-size: 13px; }
+  .frame-detail__code { font-size: 11px; }
+  .frame-detail__info { align-items: flex-start; }
   .preview-image {
     max-height: 320px;
   }

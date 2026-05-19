@@ -10,8 +10,32 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/styles.css">
-    
+    <!-- Dev-only header/footer styles (production loads css/styles.css via frame-my-photo.html) -->
+    <style>
+      :root {
+        --earls-red: #C41E1E; --earls-black: #1A1A1A; --earls-white: #FAFAFA;
+        --font-heading: 'Libre Baskerville', Georgia, serif;
+        --font-body: 'Source Sans 3', -apple-system, sans-serif;
+        --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem; --space-xl: 2rem;
+        --max-width: 1400px; --container-padding: clamp(1.5rem, 5vw, 4rem);
+        --transition-base: 300ms ease;
+      }
+      a { text-decoration: none; color: inherit; }
+      ul { list-style: none; }
+      .container { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--container-padding); }
+      .header { position: fixed; top: 0; left: 0; width: 100%; background-color: rgba(26,26,26,0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 100; padding: var(--space-sm) 0; }
+      .header__inner { display: flex; justify-content: space-between; align-items: center; }
+      .logo { display: flex; align-items: center; gap: var(--space-sm); color: #fff; }
+      .logo img { height: 50px; width: auto; }
+      .logo-text { font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+      .nav__list { display: flex; gap: var(--space-xl); margin: 0; padding: 0; }
+      .nav__link { color: #fff; font-size: 0.875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+      .header__contact { display: flex; align-items: center; gap: var(--space-sm); color: #fff; font-weight: 600; }
+      .mobile-menu-btn { display: none; }
+      .footer { background-color: var(--earls-black); color: #fff; padding: 3rem 0 1.5rem; margin-top: 0; }
+      .footer-brand p { color: #aaa; margin-top: 0.75rem; font-size: 0.9rem; }
+    </style>
+
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   </head>
   <body>
@@ -46,7 +70,7 @@
         </div>
     </header>
 
-    <main style="padding-top: 80px; min-height: 100vh;">
+    <main style="padding-top: 66px; min-height: 100vh; background: linear-gradient(to right, #E5E2DD 60%, #FFFFFF 60%);">
         <div id="root"></div>
         <script type="module" src="/src/main.jsx"></script>
     </main>

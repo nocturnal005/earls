@@ -6,6 +6,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["vite", "C:\\Users\\44755\\Desktop\\earls\\configurator", "--port", "5174", "--host"],
       "port": 5174
+    },
+    {
+      "name": "earls-site",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["http-server", "C:\\Users\\44755\\Desktop\\earls", "-p", "8899", "--cors", "-c-1"],
+      "port": 8899
     }
   ]
 }

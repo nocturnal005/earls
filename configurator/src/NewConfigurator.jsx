@@ -81,7 +81,7 @@ export default function NewConfigurator() {
     const framePrice  = (frame && effW) ? calcFramePrice(frame, effW, effH) : 0;
     const mountWidthMm = MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50;
     const mountPrice  = (selections.mountTypeId !== 'none' && selections.printType !== 'canvas' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH, mountWidthMm) : 0;
-    const glassPrice  = (selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && effW) ? calcGlassPrice(selections.glassId, effW, effH) : 0;
+    const glassPrice  = (selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && effW) ? calcGlassPrice(selections.glassId, effW, effH, selections.mountTypeId, mountWidthMm) : 0;
     const total = printPrice + framePrice + mountPrice + glassPrice;
     return {
       printPrice: round2(printPrice), framePrice: round2(framePrice),
@@ -145,6 +145,57 @@ export default function NewConfigurator() {
     <div className="cfg">
       {/* LEFT — Preview */}
       <div className="cfg__preview">
+        {/* Upload + orientation controls — positioned left side */}
+        <div className="preview-actions">
+          <label className="upload-btn">
+            <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
+            {selections.imageUrl ? 'Change Photo' : 'Upload Photo'}
+          </label>
+          {hasDims && (() => {
+            const current = selections.orientation || (rawW >= rawH ? 'landscape' : 'portrait');
+            return (
+              <div className="unit-toggle">
+                <button
+                  className={`unit-toggle__btn ${current === 'landscape' ? 'active' : ''}`}
+                  onClick={() => update({ orientation: 'landscape' })}
+                >Landscape</button>
+                <button
+                  className={`unit-toggle__btn ${current === 'portrait' ? 'active' : ''}`}
+                  onClick={() => update({ orientation: 'portrait' })}
+                >Portrait</button>
+              </div>
+            );
+          })()}
+          {selections.imageUrl && (
+            <div className="unit-toggle">
+              <button
+                className={`unit-toggle__btn ${selections.imageFit === 'fit' ? 'active' : ''}`}
+                onClick={() => update({ imageFit: 'fit' })}
+              >Fit</button>
+              <button
+                className={`unit-toggle__btn ${selections.imageFit === 'fill' ? 'active' : ''}`}
+                onClick={() => update({ imageFit: 'fill' })}
+              >Fill</button>
+            </div>
+          )}
+
+          {/* Frame detail — moulding image + name */}
+          {frame && (
+            <div className="frame-detail">
+              <div className="frame-detail__img">
+                {frame.image
+                  ? <img src={`${import.meta.env.BASE_URL}${frame.image}`} alt={frame.name} />
+                  : <MouldingCorner hex={frameColourHex} />
+                }
+              </div>
+              <div className="frame-detail__info">
+                <span className="frame-detail__name">{frame.name}</span>
+                <span className="frame-detail__code">{frame.code}</span>
+              </div>
+            </div>
+          )}
+        </div>
+
         <div className="preview-sticky">
           <div className="preview-frame-outer">
             <div
@@ -217,53 +268,6 @@ export default function NewConfigurator() {
             </div>
           </div>
 
-          {/* Upload + orientation controls */}
-          <div className="preview-actions">
-            <label className="upload-btn">
-              <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
-              {selections.imageUrl ? 'Change Photo' : 'Upload Photo'}
-            </label>
-            {hasDims && (() => {
-              const current = selections.orientation || (rawW >= rawH ? 'landscape' : 'portrait');
-              return (
-                <div className="unit-toggle">
-                  <button
-                    className={`unit-toggle__btn ${current === 'landscape' ? 'active' : ''}`}
-                    onClick={() => update({ orientation: 'landscape' })}
-                  >Landscape</button>
-                  <button
-                    className={`unit-toggle__btn ${current === 'portrait' ? 'active' : ''}`}
-                    onClick={() => update({ orientation: 'portrait' })}
-                  >Portrait</button>
-                </div>
-              );
-            })()}
-            {selections.imageUrl && (
-              <div className="unit-toggle">
-                <button
-                  className={`unit-toggle__btn ${selections.imageFit === 'fit' ? 'active' : ''}`}
-                  onClick={() => update({ imageFit: 'fit' })}
-                >Fit</button>
-                <button
-                  className={`unit-toggle__btn ${selections.imageFit === 'fill' ? 'active' : ''}`}
-                  onClick={() => update({ imageFit: 'fill' })}
-                >Fill</button>
-              </div>
-            )}
-          </div>
-
-          {/* Frame detail strip — with moulding corner */}
-          {frame && (
-            <div className="frame-detail">
-              <div className="frame-detail__img">
-                <MouldingCorner hex={frameColourHex} widthMm={frame.widthMm} finish={frame.finish} />
-              </div>
-              <div className="frame-detail__info">
-                <span className="frame-detail__name">{frame.name}</span>
-                <span className="frame-detail__code">{frame.code}</span>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
