@@ -199,7 +199,7 @@ export default function NewConfigurator() {
         <div className="preview-sticky">
           <div className="preview-frame-outer">
             <div
-              className="preview-frame"
+              className={`preview-frame${!frame ? ' preview-frame--no-frame' : ''}`}
               style={{
                 borderWidth: framePx,
                 borderColor: frameColourHex,
