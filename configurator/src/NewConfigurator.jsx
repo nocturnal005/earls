@@ -94,7 +94,7 @@ export default function NewConfigurator() {
     ? (COLOUR_GROUPS.find(c => c.id === frame.colour)?.hex || '#2D2D2D')
     : 'transparent';
   const framePx = frame ? Math.max(8, Math.round(frame.widthMm * 0.6)) : 0;
-  const mountPadPx = mountWidth ? Math.round(mountWidth.mm * 0.35) : 18;
+  const mountPadPx = mountWidth ? Math.round(mountWidth.mm * 0.7) : 35;
 
   const toggleSection = (id) => {
     setOpenSection(prev => prev === id ? null : id);
