@@ -81,7 +81,7 @@ export default function NewConfigurator() {
     const framePrice  = (frame && effW) ? calcFramePrice(frame, effW, effH) : 0;
     const mountWidthMm = MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50;
     const mountPrice  = (selections.mountTypeId !== 'none' && selections.printType !== 'canvas' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH, mountWidthMm) : 0;
-    const glassPrice  = (selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && effW) ? calcGlassPrice(selections.glassId, effW, effH, selections.mountTypeId, mountWidthMm) : 0;
+    const glassPrice  = (selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && effW) ? calcGlassPrice(selections.glassId, effW, effH) : 0;
     const total = printPrice + framePrice + mountPrice + glassPrice;
     return {
       printPrice: round2(printPrice), framePrice: round2(framePrice),

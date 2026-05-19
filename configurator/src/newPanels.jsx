@@ -455,7 +455,7 @@ export function GlassSection({ selections, onUpdate, effW, effH }) {
       <div className="sec-row">
         <div className="opt-grid opt-grid--3">
           {GLASS_OPTIONS.map(g => {
-            const price = dimW ? calcGlassPrice(g.id, dimW, dimH, mountTypeId, mountWidthMm) : null;
+            const price = dimW ? calcGlassPrice(g.id, dimW, dimH) : null;
             return (
               <button
                 key={g.id}
