@@ -5,6 +5,11 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   base: '/configurator/dist/',
   plugins: [react(), tailwindcss()],
+  server: {
+    fs: {
+      allow: ['..'],
+    },
+  },
   build: {
     rollupOptions: {
       output: {
