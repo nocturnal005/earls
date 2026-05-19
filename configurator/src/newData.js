@@ -371,7 +371,7 @@ export const FRAME_CATALOGUE = [
   // ── Classic Wood (8) ──
   { id: 'P001', code: '000J/0082', name: 'Light Oak Flat',            colour: 'natural-wood', finish: 'Stained', profile: 'Flat',   widthMm: 20, heightMm: 12, costPerM: 1.44, hasPhoto: true, tier: 'premium' , image: 'mouldings/000J_0082.png'},
   { id: 'P002', code: '000J/0095', name: 'Medium Oak',                colour: 'natural-wood', finish: 'Stained', profile: 'Flat',   widthMm: 35, heightMm: 14, costPerM: 4.20, hasPhoto: true, tier: 'premium' , image: 'mouldings/000J_0095.jpg'},
-  { id: 'P003', code: '000J/0097', name: 'Dark Walnut',               colour: 'dark-wood', finish: 'Stained',    profile: 'Flat',   widthMm: 35, heightMm: 14, costPerM: 4.20, hasPhoto: true, tier: 'premium' },
+  { id: 'P003', code: '000J/0097', name: 'Dark Walnut',               colour: 'dark-wood', finish: 'Stained',    profile: 'Flat',   widthMm: 35, heightMm: 14, costPerM: 4.20, hasPhoto: true, tier: 'premium' , image: 'mouldings/000J_0097.png'},
   { id: 'P004', code: '0001/T',    name: 'Two Tone Oak Gold',         colour: 'natural-wood', finish: 'Stained', profile: 'Raised', widthMm: 29, heightMm: 14, costPerM: 2.95, tier: 'premium' , image: 'mouldings/0001_T.jpg'},
   { id: 'P005', code: '000S/926',  name: 'Reverse Silver Leaf',        colour: 'silver', finish: 'Leaf',          profile: 'Scoop',  widthMm: 64, heightMm: 20, costPerM: 7.00, tier: 'premium', image: 'mouldings/000S_926.jpg' },
   { id: 'P006', code: '444343000', name: 'Curl Walnut Veneer',        colour: 'dark-wood', finish: 'Veneer',     profile: 'Flat',   widthMm: 30, heightMm: 14, costPerM: 4.92, hasPhoto: true, tier: 'premium' , image: 'mouldings/444343000.jpg'},
@@ -425,7 +425,7 @@ export const FRAME_CATALOGUE = [
 
   // ── Cushion & Scoop (5 — deduplicated: 000J/304 already in everyday) ──
   { id: 'P045', code: 'GRAF/0002', name: 'Pewter Graphite Ovaloe',    colour: 'grey',   finish: 'Brushed',   profile: 'Ovaloe', widthMm: 13, heightMm: 10, costPerM: 2.17, tier: 'premium', image: 'mouldings/GRAF_0002.jpg' },
-  { id: 'P046', code: '000K/0342', name: 'Oak Cushion',               colour: 'natural-wood', finish: 'Stained', profile: 'Cushion', widthMm: 40, heightMm: 16, costPerM: 3.15, hasPhoto: true, tier: 'premium' },
+  { id: 'P046', code: '000K/0342', name: 'Oak Cushion',               colour: 'natural-wood', finish: 'Stained', profile: 'Cushion', widthMm: 40, heightMm: 16, costPerM: 3.15, hasPhoto: true, tier: 'premium' , image: 'mouldings/000K_0342.png'},
   { id: 'P047', code: 'CAPR/0010', name: 'Silver Scoop',              colour: 'silver', finish: 'Leaf',      profile: 'Scoop',  widthMm: 80, heightMm: 24, costPerM: 11.32, tier: 'premium', image: 'mouldings/CAPR_0010.jpg' },
   { id: 'P048', code: '000K/0758', name: 'Natural Obeche Scoop',      colour: 'natural-wood', finish: 'Raw', profile: 'Scoop',  widthMm: 48, heightMm: 18, costPerM: 4.59, hasPhoto: true, tier: 'premium' , image: 'mouldings/000K_0758.png'},
   { id: 'P049', code: 'YORK/0001', name: 'Light Brown Wash Scoop',    colour: 'dark-wood', finish: 'Wash',   profile: 'Scoop',  widthMm: 26, heightMm: 14, costPerM: 2.82, hasPhoto: true, tier: 'premium' , image: 'mouldings/YORK_0001.png'},
