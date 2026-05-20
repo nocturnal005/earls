@@ -457,8 +457,15 @@ export function calcPrintPrice(printType, sizeId) {
   return prices?.[sizeId] ?? null;
 }
 
-export function calcFramePrice(frame, w_cm, h_cm) {
-  const perimM = calcFramePerimeter(w_cm, h_cm);
+export function calcFramePrice(frame, w_cm, h_cm, mountTypeId = 'none', mountWidthMm = 50) {
+  // Frame moulding goes around the full assembly — artwork + mount borders
+  let frameW = w_cm, frameH = h_cm;
+  if (mountTypeId !== 'none') {
+    const borderCm = mountWidthMm / 10;
+    frameW = w_cm + 2 * borderCm;
+    frameH = h_cm + 2 * borderCm;
+  }
+  const perimM = ((frameW + frameH) * 2) / 100;
   return perimM * frame.costPerM * FRAME_MARKUP;
 }
 
@@ -471,23 +478,29 @@ export function calcMountPrice(mountTypeId, w_cm, h_cm, mountWidthMm = 50) {
   return (mountAreaSqFt * MOUNT_BASE_RATE_PER_SQFT * mt.multiplier) + mt.surcharge;
 }
 
-export function calcGlassPrice(glassId, w_cm, h_cm) {
+export function calcGlassPrice(glassId, w_cm, h_cm, mountTypeId = 'none', mountWidthMm = 50) {
   const glass = GLASS_OPTIONS.find(g => g.id === glassId);
   if (!glass || glass.ratePerSqFt === 0) return 0;
-  // Glass priced on artwork dimensions — mount border cost is handled by mount pricing
-  const areaSqFt = (w_cm * h_cm) / SQCM_PER_SQFT;
+  // Glass covers the full frame opening — artwork + mount borders when present
+  let glassW = w_cm, glassH = h_cm;
+  if (mountTypeId !== 'none') {
+    const borderCm = mountWidthMm / 10;
+    glassW = w_cm + 2 * borderCm;
+    glassH = h_cm + 2 * borderCm;
+  }
+  const areaSqFt = (glassW * glassH) / SQCM_PER_SQFT;
   return areaSqFt * glass.ratePerSqFt;
 }
 
 export function calcTotal(selections) {
-  const { printType, sizeId, frame, mountTypeId, glassId } = selections;
+  const { printType, sizeId, frame, mountTypeId, mountWidthMm = 50, glassId } = selections;
   const size = PRINT_SIZES.find(s => s.id === sizeId);
   if (!size || !frame) return null;
 
   const printPrice   = calcPrintPrice(printType, sizeId) || 0;
-  const framePrice   = calcFramePrice(frame, size.w_cm, size.h_cm);
-  const mountPrice   = calcMountPrice(mountTypeId, size.w_cm, size.h_cm);
-  const glassPrice   = calcGlassPrice(glassId, size.w_cm, size.h_cm);
+  const framePrice   = calcFramePrice(frame, size.w_cm, size.h_cm, mountTypeId, mountWidthMm);
+  const mountPrice   = calcMountPrice(mountTypeId, size.w_cm, size.h_cm, mountWidthMm);
+  const glassPrice   = calcGlassPrice(glassId, size.w_cm, size.h_cm, mountTypeId, mountWidthMm);
   const handlingPrice = HANDLING_FEE;
 
   const subtotal = printPrice + framePrice + mountPrice + glassPrice + handlingPrice;
