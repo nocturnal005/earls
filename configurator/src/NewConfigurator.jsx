@@ -20,18 +20,18 @@ const SECTIONS = [
 const DEFAULT_SELECTIONS = {
   imageUrl: null,
   imageFile: null,
-  sizeId: null,
+  sizeId: 'A4',
   customW: null,
   customH: null,
-  orientation: null,
-  printType: null,
-  frameId: null,
-  mountTypeId: 'none',
+  orientation: 'portrait',
+  printType: 'poster',
+  frameId: 'E003',
+  mountTypeId: 'plain',
   mountColourId: 'bright-white',
   mountColourId2: 'deep-black',
   mountWidthId: 'standard',
   vGrooveColourId: null,
-  glassId: null,
+  glassId: 'standard',
   imageFit: 'fill',
 };
 
@@ -163,35 +163,56 @@ export default function NewConfigurator() {
       <div className="cfg__preview">
         {/* Upload + orientation controls — positioned left side */}
         <div className="preview-actions">
-          <label className="upload-btn">
+          <label className="upload-btn" style={{ display: 'flex', justifyContent: 'center', width: '100%', boxSizing: 'border-box' }}>
             <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
             {selections.imageUrl ? 'Change Photo' : 'Upload Photo'}
           </label>
-          {hasDims && (() => {
-            const current = selections.orientation || (rawW >= rawH ? 'landscape' : 'portrait');
-            return (
-              <div className="unit-toggle">
-                <button
-                  className={`unit-toggle__btn ${current === 'landscape' ? 'active' : ''}`}
-                  onClick={() => update({ orientation: 'landscape' })}
-                >Landscape</button>
-                <button
-                  className={`unit-toggle__btn ${current === 'portrait' ? 'active' : ''}`}
-                  onClick={() => update({ orientation: 'portrait' })}
-                >Portrait</button>
-              </div>
-            );
-          })()}
+
+          <div className="orientation-selector" style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
+            <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--cfg-muted)', fontWeight: 600 }}>Orientation</span>
+            <div className="unit-toggle" style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
+              <button
+                className={`unit-toggle__btn ${(selections.orientation || 'portrait') === 'portrait' ? 'active' : ''}`}
+                onClick={() => update({ orientation: 'portrait' })}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', padding: '6px 12px', width: '100%', gap: '8px', boxSizing: 'border-box' }}
+              >
+                <svg width="12" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ flexShrink: 0 }}>
+                  <rect x="5" y="3" width="14" height="18" rx="2" ry="2" />
+                </svg>
+                Portrait
+              </button>
+              <button
+                className={`unit-toggle__btn ${(selections.orientation || 'portrait') === 'landscape' ? 'active' : ''}`}
+                onClick={() => update({ orientation: 'landscape' })}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', padding: '6px 12px', width: '100%', gap: '8px', boxSizing: 'border-box' }}
+              >
+                <svg width="15" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ flexShrink: 0 }}>
+                  <rect x="3" y="5" width="18" height="14" rx="2" ry="2" />
+                </svg>
+                Landscape
+              </button>
+            </div>
+          </div>
+
           {selections.imageUrl && (
-            <div className="unit-toggle">
-              <button
-                className={`unit-toggle__btn ${selections.imageFit === 'fit' ? 'active' : ''}`}
-                onClick={() => update({ imageFit: 'fit' })}
-              >Fit</button>
-              <button
-                className={`unit-toggle__btn ${selections.imageFit === 'fill' ? 'active' : ''}`}
-                onClick={() => update({ imageFit: 'fill' })}
-              >Fill</button>
+            <div className="fit-selector" style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
+              <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--cfg-muted)', fontWeight: 600 }}>Fit Mode</span>
+              <div className="unit-toggle" style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '100%' }}>
+                <button
+                  className={`unit-toggle__btn ${selections.imageFit === 'fit' ? 'active' : ''}`}
+                  onClick={() => update({ imageFit: 'fit' })}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', padding: '6px 12px', width: '100%', boxSizing: 'border-box' }}
+                >
+                  Fit Image
+                </button>
+                <button
+                  className={`unit-toggle__btn ${selections.imageFit === 'fill' ? 'active' : ''}`}
+                  onClick={() => update({ imageFit: 'fill' })}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', padding: '6px 12px', width: '100%', boxSizing: 'border-box' }}
+                >
+                  Fill Frame
+                </button>
+              </div>
             </div>
           )}
 
