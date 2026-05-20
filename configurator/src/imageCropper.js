@@ -43,9 +43,9 @@ export function cropFrameImage(imageUrl) {
         return a < 15 || (r > 230 && g > 230 && b > 230);
       };
 
-      // We only scan the top 35% of the image. This isolates the vertical moulding bar of
-      // L-shaped corner samples, completely avoiding the horizontal bottom arm and floor shadows.
-      const scanHeight = Math.max(20, Math.floor(H * 0.35));
+      // To find the vertical moulding bar of L-shaped corner samples, we scan columns
+      // using only the top 30% of the image (completely bypassing bottom horizontal bars/floors).
+      const scanHeight = Math.max(20, Math.floor(H * 0.30));
 
       // 2. Scan columns from Left to Right (in top region) to find left crop bound
       let cropLeft = 0;
@@ -81,12 +81,49 @@ export function cropFrameImage(imageUrl) {
         }
       }
 
-      // 4. Set vertical crop boundaries to capture a clean straight segment from the top region
-      const cropTop = 0;
-      const cropBottom = scanHeight;
+      // 4. Scan rows from Top to Bottom to find where the moulding actually starts (cropTop)
+      let cropTop = 0;
+      for (let y = 0; y < H; y++) {
+        let allWhite = true;
+        for (let x = cropLeft; x < cropRight; x++) {
+          const idx = (y * W + x) * 4;
+          if (!isWhite(idx)) {
+            allWhite = false;
+            break;
+          }
+        }
+        if (!allWhite) {
+          cropTop = y;
+          break;
+        }
+      }
 
+      // 5. Scan rows from Bottom to Top to find where the moulding ends (cropBottom)
+      let cropBottom = H;
+      for (let y = H - 1; y >= cropTop; y--) {
+        let allWhite = true;
+        for (let x = cropLeft; x < cropRight; x++) {
+          const idx = (y * W + x) * 4;
+          if (!isWhite(idx)) {
+            allWhite = false;
+            break;
+          }
+        }
+        if (!allWhite) {
+          cropBottom = y + 1;
+          break;
+        }
+      }
+
+      // Calculate physical moulding height in the image
+      const mouldingH = cropBottom - cropTop;
+
+      // 6. Crop ONLY the top 15% of the physical moulding height.
+      // This isolates the pure face texture (e.g., gold veneer) and completely excludes 
+      // the cut profile section (beige wood cross-section) located at the bottom of the moulding sample.
+      const segmentHeight = Math.max(15, Math.floor(mouldingH * 0.15));
       const finalW = cropRight - cropLeft;
-      const finalH = cropBottom - cropTop;
+      const finalH = segmentHeight;
 
       // If cropping result is valid and represents a meaningful crop
       if (finalW > 0 && finalH > 0 && finalW < W) {
