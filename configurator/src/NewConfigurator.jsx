@@ -59,6 +59,21 @@ export default function NewConfigurator() {
   const glass = GLASS_OPTIONS.find(g => g.id === selections.glassId);
   const isOvalOrRound = selections.mountTypeId === 'oval' || selections.mountTypeId === 'round';
 
+  const [croppedFrameUrl, setCroppedFrameUrl] = useState(null);
+
+  React.useEffect(() => {
+    if (!frame || !frame.image) {
+      setCroppedFrameUrl(null);
+      return;
+    }
+    const fullUrl = `${import.meta.env.BASE_URL}${frame.image}`;
+    import('./imageCropper.js').then(({ cropFrameImage }) => {
+      cropFrameImage(fullUrl).then(croppedUrl => {
+        setCroppedFrameUrl(croppedUrl);
+      });
+    });
+  }, [frame]);
+
   const isCustom = selections.sizeId === 'custom';
   const rawW = isCustom ? selections.customW : size?.w_cm;
   const rawH = isCustom ? selections.customH : size?.h_cm;
@@ -211,13 +226,13 @@ export default function NewConfigurator() {
                     className="frame-bar frame-bar--top" 
                     style={{ 
                       backgroundColor: frameColourHex, 
-                      backgroundImage: `url(${import.meta.env.BASE_URL}${frame.image})` 
+                      backgroundImage: `url(${croppedFrameUrl || `${import.meta.env.BASE_URL}${frame.image}`})` 
                     }}
                   >
                     <div 
                       className="frame-bar__texture" 
                       style={{ 
-                        backgroundImage: `url(${import.meta.env.BASE_URL}${frame.image})` 
+                        backgroundImage: `url(${croppedFrameUrl || `${import.meta.env.BASE_URL}${frame.image}`})` 
                       }} 
                     />
                   </div>
@@ -225,20 +240,20 @@ export default function NewConfigurator() {
                     className="frame-bar frame-bar--right" 
                     style={{ 
                       backgroundColor: frameColourHex, 
-                      backgroundImage: `url(${import.meta.env.BASE_URL}${frame.image})` 
+                      backgroundImage: `url(${croppedFrameUrl || `${import.meta.env.BASE_URL}${frame.image}`})` 
                     }}
                   />
                   <div 
                     className="frame-bar frame-bar--bottom" 
                     style={{ 
                       backgroundColor: frameColourHex, 
-                      backgroundImage: `url(${import.meta.env.BASE_URL}${frame.image})` 
+                      backgroundImage: `url(${croppedFrameUrl || `${import.meta.env.BASE_URL}${frame.image}`})` 
                     }}
                   >
                     <div 
                       className="frame-bar__texture" 
                       style={{ 
-                        backgroundImage: `url(${import.meta.env.BASE_URL}${frame.image})` 
+                        backgroundImage: `url(${croppedFrameUrl || `${import.meta.env.BASE_URL}${frame.image}`})` 
                       }} 
                     />
                   </div>
@@ -246,7 +261,7 @@ export default function NewConfigurator() {
                     className="frame-bar frame-bar--left" 
                     style={{ 
                       backgroundColor: frameColourHex, 
-                      backgroundImage: `url(${import.meta.env.BASE_URL}${frame.image})` 
+                      backgroundImage: `url(${croppedFrameUrl || `${import.meta.env.BASE_URL}${frame.image}`})` 
                     }}
                   />
                 </>
