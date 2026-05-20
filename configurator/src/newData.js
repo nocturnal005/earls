@@ -112,7 +112,7 @@ export const MOUNT_COLOURS = [
   { id: 'lily-white',              label: 'Lily White',              hex: '#F5F3EE', group: 'whites', code: 'MB/DR8003', finish: 'smooth' },
   { id: 'snow-white',              label: 'Snow White',              hex: '#F8F8F8', group: 'whites', code: 'MB/DR8054', finish: 'smooth' },
   { id: 'snow-white-texture',      label: 'Snow White Texture',      hex: '#F6F6F2', group: 'whites', code: 'MB/DR8697', finish: 'texture' },
-
+  { id: 'snow-white-jumbo',        label: 'Snow White Jumbo',        hex: '#F8F8F8', group: 'whites', code: 'MB/DR3354', finish: 'smooth' },
   { id: 'polar-white-ingres',      label: 'Polar White Ingres',      hex: '#F4F2ED', group: 'whites', code: 'MB/DR8200', finish: 'ingres' },
   { id: 'cotton-white-ingres',     label: 'Cotton White Ingres',     hex: '#F3F0E8', group: 'whites', code: 'MB/DR8286', finish: 'ingres' },
   { id: 'soft-white-murano',       label: 'Soft White Murano',       hex: '#F2EFE6', group: 'whites', code: 'MB/DR5035', finish: 'murano' },
@@ -132,7 +132,7 @@ export const MOUNT_COLOURS = [
   { id: 'light-parchment-texture', label: 'Light Parchment Texture', hex: '#E0D5B8', group: 'creams', code: 'MB/DR8695', finish: 'texture' },
   { id: 'linen-flannel',           label: 'Linen Flannel',           hex: '#D8CCAE', group: 'creams', code: 'MB/DR8357', finish: 'smooth' },
   { id: 'catkin',                   label: 'Catkin',                  hex: '#D4C8A0', group: 'creams', code: 'MB/DR8013', finish: 'smooth' },
-  { id: 'fellstone-texture',       label: 'Fellstone Texture',       hex: '#C8BCA0', group: 'greys', code: 'MB/DR8606', finish: 'texture' },
+  { id: 'fellstone-texture',       label: 'Fellstone Texture',       hex: '#C8BCA0', group: 'creams', code: 'MB/DR8606', finish: 'texture' },
 
   // Pinks & Reds
   { id: 'blush-texture',           label: 'Blush Texture',           hex: '#E8C8C0', group: 'pinks', code: 'MB/DR8604', finish: 'texture' },
@@ -457,15 +457,8 @@ export function calcPrintPrice(printType, sizeId) {
   return prices?.[sizeId] ?? null;
 }
 
-export function calcFramePrice(frame, w_cm, h_cm, mountTypeId = 'none', mountWidthMm = 50) {
-  // Frame goes around the full assembly — artwork + mount borders when a mount is present
-  let frameW = w_cm, frameH = h_cm;
-  if (mountTypeId !== 'none') {
-    const borderCm = mountWidthMm / 10;
-    frameW = w_cm + 2 * borderCm;
-    frameH = h_cm + 2 * borderCm;
-  }
-  const perimM = ((frameW + frameH) * 2) / 100;
+export function calcFramePrice(frame, w_cm, h_cm) {
+  const perimM = calcFramePerimeter(w_cm, h_cm);
   return perimM * frame.costPerM * FRAME_MARKUP;
 }
 
@@ -478,29 +471,23 @@ export function calcMountPrice(mountTypeId, w_cm, h_cm, mountWidthMm = 50) {
   return (mountAreaSqFt * MOUNT_BASE_RATE_PER_SQFT * mt.multiplier) + mt.surcharge;
 }
 
-export function calcGlassPrice(glassId, w_cm, h_cm, mountTypeId = 'none', mountWidthMm = 50) {
+export function calcGlassPrice(glassId, w_cm, h_cm) {
   const glass = GLASS_OPTIONS.find(g => g.id === glassId);
   if (!glass || glass.ratePerSqFt === 0) return 0;
-  // Glass covers the full frame opening — artwork + mount borders when a mount is present
-  let glassW = w_cm, glassH = h_cm;
-  if (mountTypeId !== 'none') {
-    const borderCm = mountWidthMm / 10;
-    glassW = w_cm + 2 * borderCm;
-    glassH = h_cm + 2 * borderCm;
-  }
-  const areaSqFt = (glassW * glassH) / SQCM_PER_SQFT;
+  // Glass priced on artwork dimensions — mount border cost is handled by mount pricing
+  const areaSqFt = (w_cm * h_cm) / SQCM_PER_SQFT;
   return areaSqFt * glass.ratePerSqFt;
 }
 
 export function calcTotal(selections) {
-  const { printType, sizeId, frame, mountTypeId, mountWidthMm = 50, glassId } = selections;
+  const { printType, sizeId, frame, mountTypeId, glassId } = selections;
   const size = PRINT_SIZES.find(s => s.id === sizeId);
   if (!size || !frame) return null;
 
   const printPrice   = calcPrintPrice(printType, sizeId) || 0;
-  const framePrice   = calcFramePrice(frame, size.w_cm, size.h_cm, mountTypeId, mountWidthMm);
-  const mountPrice   = calcMountPrice(mountTypeId, size.w_cm, size.h_cm, mountWidthMm);
-  const glassPrice   = calcGlassPrice(glassId, size.w_cm, size.h_cm, mountTypeId, mountWidthMm);
+  const framePrice   = calcFramePrice(frame, size.w_cm, size.h_cm);
+  const mountPrice   = calcMountPrice(mountTypeId, size.w_cm, size.h_cm);
+  const glassPrice   = calcGlassPrice(glassId, size.w_cm, size.h_cm);
   const handlingPrice = HANDLING_FEE;
 
   const subtotal = printPrice + framePrice + mountPrice + glassPrice + handlingPrice;

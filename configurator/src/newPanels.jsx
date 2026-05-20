@@ -176,8 +176,7 @@ export function SizePrintSection({ selections, onUpdate }) {
 // ─── Frame Section ───────────────────────────────────────────────────────────
 
 export function FrameSection({ selections, onUpdate, effW, effH }) {
-  const { frameId, sizeId, printType, mountTypeId, mountWidthId } = selections;
-  const mountWidthMm = MOUNT_WIDTHS.find(mw => mw.id === mountWidthId)?.mm || 50;
+  const { frameId, sizeId, printType } = selections;
   const [selectedColour, setSelectedColour] = useState('black');
   const [selectedFinish, setSelectedFinish] = useState(null);
   const [tier, setTier] = useState('everyday');
@@ -282,7 +281,7 @@ export function FrameSection({ selections, onUpdate, effW, effH }) {
               const isSelected = frameId === f.id;
               const barPct = Math.max(10, (f.widthMm / maxW) * 100);
               const isRec = rec && f.widthMm === rec.ideal;
-              const framePrice = dimW ? calcFramePrice(f, dimW, dimH, mountTypeId, mountWidthMm) : null;
+              const framePrice = dimW ? calcFramePrice(f, dimW, dimH) : null;
               const cg = COLOUR_GROUPS.find(c => c.id === f.colour);
 
               return (
@@ -592,7 +591,7 @@ export function GlassSection({ selections, onUpdate, effW, effH }) {
       <div className="sec-row">
         <div className="opt-grid opt-grid--3">
           {GLASS_OPTIONS.map(g => {
-            const price = dimW ? calcGlassPrice(g.id, dimW, dimH, mountTypeId, mountWidthMm) : null;
+            const price = dimW ? calcGlassPrice(g.id, dimW, dimH) : null;
             return (
               <button
                 key={g.id}

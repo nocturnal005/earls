@@ -24,15 +24,15 @@ const DEFAULT_SELECTIONS = {
   customW: null,
   customH: null,
   orientation: 'portrait',
-  printType: 'none',
-  frameId: null,
-  mountTypeId: 'none',
+  printType: 'poster',
+  frameId: 'E003',
+  mountTypeId: 'plain',
   mountColourId: 'bright-white',
   mountColourId2: 'deep-black',
   mountWidthId: 'standard',
   customMountWidth: null,
   vGrooveColourId: null,
-  glassId: 'none',
+  glassId: 'standard',
   imageFit: 'fill',
 };
 
@@ -106,12 +106,12 @@ export default function NewConfigurator() {
   const pricing = useMemo(() => {
     const round2 = n => Math.round(n * 100) / 100;
     const printPrice  = (!isCustom && selections.printType && size) ? (calcPrintPrice(selections.printType, selections.sizeId) || 0) : 0;
-    const mountWidthMm = selections.mountWidthId === 'custom'
-      ? (selections.customMountWidth || 50)
+    const framePrice  = (frame && effW) ? calcFramePrice(frame, effW, effH) : 0;
+    const mountWidthMm = selections.mountWidthId === 'custom' 
+      ? (selections.customMountWidth || 50) 
       : (MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50);
-    const framePrice  = (frame && effW) ? calcFramePrice(frame, effW, effH, selections.mountTypeId, mountWidthMm) : 0;
     const mountPrice  = (selections.mountTypeId !== 'none' && selections.printType !== 'canvas' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH, mountWidthMm) : 0;
-    const glassPrice  = (selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && effW) ? calcGlassPrice(selections.glassId, effW, effH, selections.mountTypeId, mountWidthMm) : 0;
+    const glassPrice  = (selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && effW) ? calcGlassPrice(selections.glassId, effW, effH) : 0;
     const total = printPrice + framePrice + mountPrice + glassPrice;
     return {
       printPrice: round2(printPrice), framePrice: round2(framePrice),
