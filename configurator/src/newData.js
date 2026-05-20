@@ -85,6 +85,7 @@ export const MOUNT_WIDTHS = [
   { id: 'standard', label: 'Standard', mm: 50 },
   { id: 'wide',     label: 'Wide',     mm: 70 },
   { id: 'extra',    label: 'Extra Wide', mm: 90 },
+  { id: 'custom',   label: 'Custom',   mm: null },
 ];
 
 export const VGROOVE_COLOURS = [

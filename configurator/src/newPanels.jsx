@@ -231,10 +231,10 @@ export function FrameSection({ selections, onUpdate, effW, effH }) {
         <button className={`tier-toggle__btn ${tier === 'all' ? 'active' : ''}`} onClick={() => setTier('all')}>Full Collection</button>
       </div>
 
-      {/* Colour — square swatches with moulding corners */}
+      {/* Colour — Premium Inset Tiles */}
       <div className="sec-row">
         <span className="sec-label">Colour</span>
-        <div className="colour-row">
+        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginTop: 8 }}>
           {availableColours.map(cg => (
             <button
               key={cg.id}
@@ -245,8 +245,10 @@ export function FrameSection({ selections, onUpdate, effW, effH }) {
               <span className="colour-swatch__square">
                 <MouldingCorner hex={cg.hex} />
               </span>
-              <span className="colour-swatch__label">{cg.label}</span>
-              <span className="colour-swatch__count">{colourCounts[cg.id]}</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <span className="colour-swatch__label">{cg.label}</span>
+                <span className="colour-swatch__count">{colourCounts[cg.id]} available</span>
+              </div>
             </button>
           ))}
         </div>
@@ -289,7 +291,15 @@ export function FrameSection({ selections, onUpdate, effW, effH }) {
                   onClick={() => onUpdate({ frameId: f.id })}
                 >
                   <span className="w-row__thumb">
-                    <CroppedFrameThumb image={f.image} name={f.name} fallbackHex={cg?.hex || '#8A8A8A'} />
+                    {f.image ? (
+                      <img
+                        src={`${import.meta.env.BASE_URL}${f.image}`}
+                        alt={f.name}
+                        style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                      />
+                    ) : (
+                      <MouldingCorner hex={cg?.hex || '#8A8A8A'} />
+                    )}
                   </span>
                   <span className="w-row__info">
                     <span className="w-row__mm">{f.widthMm}mm</span>
@@ -316,7 +326,8 @@ export function FrameSection({ selections, onUpdate, effW, effH }) {
 // ─── Mount Section ───────────────────────────────────────────────────────────
 
 export function MountSection({ selections, onUpdate, effW, effH }) {
-  const { mountTypeId, mountColourId, mountColourId2, mountWidthId, vGrooveColourId, sizeId, printType } = selections;
+  const [unit, setUnit] = useState('metric');
+  const { mountTypeId, mountColourId, mountColourId2, mountWidthId, vGrooveColourId, sizeId, printType, customMountWidth } = selections;
   const size = PRINT_SIZES.find(s => s.id === sizeId);
   const dimW = effW || size?.w_cm;
   const dimH = effH || size?.h_cm;
@@ -337,7 +348,9 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
     coloursByGroup[mc.group].push(mc);
   });
 
-  const mountWidthMm = MOUNT_WIDTHS.find(mw => mw.id === mountWidthId)?.mm || 50;
+  const mountWidthMm = mountWidthId === 'custom' 
+    ? (customMountWidth || 50) 
+    : (MOUNT_WIDTHS.find(mw => mw.id === mountWidthId)?.mm || 50);
 
   const mountColour = MOUNT_COLOURS.find(mc => mc.id === mountColourId);
   const mountColour2 = MOUNT_COLOURS.find(mc => mc.id === mountColourId2);
@@ -427,7 +440,7 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
           </div>
           <div className="sec-row">
             <span className="sec-label">Mount Width</span>
-            <div className="opt-grid opt-grid--3">
+            <div className="opt-grid opt-grid--4">
               {MOUNT_WIDTHS.map(mw => (
                 <button
                   key={mw.id}
@@ -435,11 +448,45 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
                   onClick={() => onUpdate({ mountWidthId: mw.id })}
                 >
                   <span className="opt-card__name">{mw.label}</span>
-                  <span className="opt-card__desc">{mw.mm}mm</span>
+                  <span className="opt-card__desc">{mw.mm ? `${mw.mm}mm` : 'Your Size'}</span>
                 </button>
               ))}
             </div>
           </div>
+
+          {mountWidthId === 'custom' && (
+            <div className="sec-row" style={{ marginTop: -8 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <span className="sec-label">Enter Custom Width</span>
+                <div className="unit-toggle" style={{ flexDirection: 'row' }}>
+                  <button className={`unit-toggle__btn ${unit === 'imperial' ? 'active' : ''}`} onClick={() => setUnit('imperial')}>in</button>
+                  <button className={`unit-toggle__btn ${unit === 'metric' ? 'active' : ''}`} onClick={() => setUnit('metric')}>cm</button>
+                </div>
+              </div>
+              <div className="custom-size-inputs">
+                <div className="custom-size-field">
+                  <input
+                    type="number"
+                    className="custom-size-field__input"
+                    value={unit === 'imperial' ? ((customMountWidth || 50) / 25.4).toFixed(2).replace(/\.?0+$/, '') : ((customMountWidth || 50) / 10).toFixed(1).replace(/\.?0+$/, '')}
+                    onChange={(e) => {
+                      const val = parseFloat(e.target.value);
+                      if (isNaN(val)) {
+                         onUpdate({ customMountWidth: null });
+                         return;
+                      }
+                      const mm = unit === 'imperial' ? val * 25.4 : val * 10;
+                      onUpdate({ customMountWidth: mm });
+                    }}
+                    placeholder={unit === 'imperial' ? 'e.g. 2.5' : 'e.g. 6.5'}
+                    min={unit === 'imperial' ? 1 : 2}
+                    max={unit === 'imperial' ? 12 : 30}
+                    step="0.1"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="sec-row">
             <span className="sec-label">{isDouble ? 'Top Mount Colour' : 'Mount Colour'}</span>

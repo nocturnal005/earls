@@ -30,13 +30,25 @@ const DEFAULT_SELECTIONS = {
   mountColourId: 'bright-white',
   mountColourId2: 'deep-black',
   mountWidthId: 'standard',
+  customMountWidth: null,
   vGrooveColourId: null,
   glassId: 'standard',
   imageFit: 'fill',
 };
 
+const getInitialSelections = () => {
+  if (typeof window === 'undefined') return DEFAULT_SELECTIONS;
+  const params = new URLSearchParams(window.location.search);
+  const printParam = params.get('printType');
+  const validTypes = ['poster', 'art_paper', 'canvas', 'none'];
+  if (printParam && validTypes.includes(printParam)) {
+    return { ...DEFAULT_SELECTIONS, printType: printParam };
+  }
+  return DEFAULT_SELECTIONS;
+};
+
 export default function NewConfigurator() {
-  const [selections, setSelections] = useState(DEFAULT_SELECTIONS);
+  const [selections, setSelections] = useState(getInitialSelections);
   const [openSection, setOpenSection] = useState('size');
   const [showBreakdown, setShowBreakdown] = useState(false);
 
@@ -95,7 +107,9 @@ export default function NewConfigurator() {
     const round2 = n => Math.round(n * 100) / 100;
     const printPrice  = (!isCustom && selections.printType && size) ? (calcPrintPrice(selections.printType, selections.sizeId) || 0) : 0;
     const framePrice  = (frame && effW) ? calcFramePrice(frame, effW, effH) : 0;
-    const mountWidthMm = MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50;
+    const mountWidthMm = selections.mountWidthId === 'custom' 
+      ? (selections.customMountWidth || 50) 
+      : (MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50);
     const mountPrice  = (selections.mountTypeId !== 'none' && selections.printType !== 'canvas' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH, mountWidthMm) : 0;
     const glassPrice  = (selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && effW) ? calcGlassPrice(selections.glassId, effW, effH) : 0;
     const total = printPrice + framePrice + mountPrice + glassPrice;
@@ -110,7 +124,10 @@ export default function NewConfigurator() {
     ? (COLOUR_GROUPS.find(c => c.id === frame.colour)?.hex || '#2D2D2D')
     : 'transparent';
   const framePx = frame ? Math.max(8, Math.round(frame.widthMm * 0.6)) : 0;
-  const mountPadPx = mountWidth ? Math.round(mountWidth.mm * 0.7) : 35;
+  const activeMountWidthMm = selections.mountWidthId === 'custom' 
+      ? (selections.customMountWidth || 50) 
+      : (MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50);
+  const mountPadPx = Math.round(activeMountWidthMm * 0.7);
 
   const toggleSection = (id) => {
     setOpenSection(prev => prev === id ? null : id);
@@ -216,11 +233,18 @@ export default function NewConfigurator() {
             </div>
           )}
 
-          {/* Frame detail — moulding image + name */}
           {frame && (
             <div className="frame-detail">
               <div className="frame-detail__img">
-                <CroppedFrameThumb image={frame.image} name={frame.name} fallbackHex={frameColourHex} />
+                {frame.image ? (
+                  <img
+                    src={`${import.meta.env.BASE_URL}${frame.image}`}
+                    alt={frame.name}
+                    style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                  />
+                ) : (
+                  <MouldingCorner hex={frameColourHex} />
+                )}
               </div>
               <div className="frame-detail__info">
                 <span className="frame-detail__name">{frame.name}</span>

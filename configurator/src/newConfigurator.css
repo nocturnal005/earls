@@ -810,46 +810,21 @@
 }
 
 .colour-swatch {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 4px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  font-family: inherit;
-  min-width: 66px;
-  border-radius: 6px;
-  transition: background 0.2s ease;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  background: none; border: none; cursor: pointer; padding: 4px;
 }
-.colour-swatch:hover { background: var(--cfg-warm); }
-.colour-swatch--sel { background: rgba(196,30,30,0.04); }
-
 .colour-swatch__square {
-  width: 64px;
-  height: 54px;
-  border-radius: 5px;
-  overflow: hidden;
-  border: 2px solid transparent;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f9f8f6;
+  width: 64px; height: 64px; border-radius: 8px; overflow: hidden;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.3), inset 0 -2px 4px rgba(255,255,255,0.5);
+  transition: all 0.2s ease; border: 2px solid transparent;
 }
-.colour-swatch__square .colour-square {
-  width: 60px;
-  height: 50px;
-}
-.colour-swatch--sel .colour-swatch__square {
-  border-color: #C41E1E;
-  box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px #C41E1E;
-}
+.colour-swatch:hover .colour-swatch__square { transform: scale(1.05); }
+.colour-swatch--sel .colour-swatch__square { border-color: #C41E1E; box-shadow: 0 4px 12px rgba(196,30,30,0.3); }
+.colour-swatch__square .colour-square { width: 100%; height: 100%; }
 
-.colour-swatch__label { font-size: 10px; color: var(--cfg-muted); white-space: nowrap; }
-.colour-swatch--sel .colour-swatch__label { color: #C41E1E; font-weight: 600; }
-.colour-swatch__count { font-size: 9px; color: var(--cfg-muted); }
+.colour-swatch__label { font-family: 'Libre Baskerville', serif; font-size: 12px; color: #2D2D2D; font-weight: 700; }
+.colour-swatch--sel .colour-swatch__label { color: #C41E1E; }
+.colour-swatch__count { font-size: 10px; color: #888; }
 
 
 /* ── Finish Pills ────────────────────────────────────────────────────────── */
@@ -883,7 +858,7 @@
 
 .w-row {
   display: grid;
-  grid-template-columns: 108px 1fr minmax(60px, auto) 60px 32px;
+  grid-template-columns: 60px 1fr minmax(60px, auto) 60px 32px;
   align-items: center;
   gap: 8px;
   padding: 6px 10px;
@@ -901,8 +876,8 @@
 .w-row--sel { background: #fff; border-color: #C41E1E; box-shadow: 0 4px 12px rgba(196,30,30,0.1); color: #C41E1E; }
 
 .w-row__thumb {
-  width: 100px;
-  height: 80px;
+  width: 50px;
+  height: 90px;
   border-radius: 6px;
   overflow: hidden;
   flex-shrink: 0;
@@ -912,8 +887,8 @@
   background: #f9f8f6;
 }
 .w-row__thumb .colour-square {
-  width: 96px;
-  height: 76px;
+  width: 100%;
+  height: 100%;
 }
 .w-row__thumb img {
   width: 100%;
@@ -953,37 +928,81 @@
 
 /* ── Mount Colour Swatches — SQUARE ──────────────────────────────────────── */
 
-.mc-scroll { max-height: 280px; overflow-y: auto; padding-right: 4px; }
+.mc-scroll { 
+  max-height: 380px; 
+  overflow-y: auto; 
+  padding: 20px 16px; 
+  background-color: #ECEBE7;
+  background-image: radial-gradient(#D4D2CD 1px, transparent 1px);
+  background-size: 4px 4px;
+  border-radius: 8px;
+  box-shadow: inset 0px 4px 10px rgba(0,0,0,0.12), inset 0px 1px 4px rgba(0,0,0,0.15);
+  border: 1px solid #DEDCD7;
+  margin-top: 8px;
+}
 
-.mc-group { margin-bottom: 8px; }
-.mc-group__label { font-size: 10px; color: var(--cfg-muted); display: block; margin-bottom: 4px; }
+.mc-group { margin-bottom: 20px; }
+.mc-group__label { 
+  font-family: 'Libre Baskerville', serif;
+  font-size: 14px; 
+  color: #2D2D2D; 
+  font-weight: 700; 
+  text-transform: capitalize; 
+  letter-spacing: 0.02em; 
+  display: block; 
+  margin-bottom: 14px; 
+}
 
-.mc-row { display: flex; gap: 5px; flex-wrap: wrap; }
+.mc-row { display: flex; gap: 8px; flex-wrap: wrap; }
 
 .mc-swatch {
-  width: 42px;
-  height: 42px;
-  border-radius: 5px;
-  border: 2px solid transparent;
+  width: 84px;
+  height: 84px;
+  position: relative;
   cursor: pointer;
+  background: transparent;
+  border: none;
   padding: 0;
-  background: none;
   transition: all 0.2s ease;
-  overflow: hidden;
+  filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.3));
 }
-.mc-swatch:hover { transform: scale(1.12); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.mc-swatch:hover {
+  transform: scale(1.12) translateY(-3px);
+  filter: drop-shadow(0px 6px 10px rgba(0,0,0,0.4));
+  z-index: 2;
+}
+
 .mc-swatch--sel {
-  border-color: #C41E1E;
-  box-shadow: 0 0 0 2px #fff, 0 0 0 3px #C41E1E;
+  transform: scale(1.15) translateY(-3px);
+  filter: drop-shadow(0px 6px 12px rgba(0,0,0,0.5));
+  z-index: 3;
 }
 
 .mc-swatch__fill {
   display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 2px;
-  overflow: hidden;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.08), inset 0 -1px 1px rgba(255,255,255,0.15);
+  width: 64px;
+  height: 64px;
+  position: absolute;
+  top: 18px;
+  left: 10px;
+  transform: rotate(45deg);
+  border-radius: 1px;
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 40% 40%, 40% 100%, 0 100%);
+}
+
+/* Premium white bevel on the inner edge of the mount */
+.mc-swatch::after {
+  content: '';
+  display: block;
+  width: 64px;
+  height: 64px;
+  position: absolute;
+  top: 18px;
+  left: 10px;
+  transform: rotate(45deg);
+  background: rgba(255, 255, 255, 0.95);
+  clip-path: polygon(36% 36%, 100% 36%, 100% 40%, 40% 40%, 40% 100%, 36% 100%);
+  pointer-events: none;
 }
 .mc-swatch__fill img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -1154,7 +1173,7 @@
   .opt-grid--3 { grid-template-columns: repeat(2, 1fr); }
   .opt-grid--4 { grid-template-columns: 1fr; }
   .opt-grid--5 { grid-template-columns: repeat(2, 1fr); }
-  .w-row { grid-template-columns: 108px 1fr 50px 28px; }
+  .w-row { grid-template-columns: 60px 1fr 50px 28px; }
   .w-row__bar-wrap { display: none; }
   .chip { padding: 6px 10px; }
 }

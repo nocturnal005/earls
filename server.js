@@ -75,6 +75,30 @@ app.post('/api/upload', upload.single('photo'), (req, res) => {
     });
 });
 
+// Helper to resolve the correct moulding image filename dynamically (handles both .jpg and .png)
+const mouldingsDir = path.join(__dirname, 'configurator', 'public', 'mouldings');
+let mouldingFiles = [];
+try {
+    if (fs.existsSync(mouldingsDir)) {
+        mouldingFiles = fs.readdirSync(mouldingsDir);
+    }
+} catch (e) {
+    console.error('Error reading mouldings directory:', e);
+}
+
+function getMouldingImage(simonsCode) {
+    if (!simonsCode) return null;
+    const normalized = simonsCode.replace(/\//g, '_');
+    const matched = mouldingFiles.find(file => {
+        const nameWithoutExt = path.parse(file).name;
+        return nameWithoutExt === normalized;
+    });
+    if (matched) {
+        return `/configurator/public/mouldings/${matched}`;
+    }
+    return null;
+}
+
 // Get frames catalog (public — strips internal fields)
 app.get('/api/frames', (req, res) => {
     const framesPath = path.join(__dirname, 'data', 'frames.json');
@@ -95,8 +119,11 @@ app.get('/api/frames', (req, res) => {
         );
     }
 
-    // Strip internal fields (cost price, supplier code)
-    const publicFrames = frames.map(({ costPricePerMetre, simonsCode, ...rest }) => rest);
+    // Strip internal fields (cost price, but keep supplier code and resolve its image)
+    const publicFrames = frames.map(({ costPricePerMetre, ...rest }) => {
+        const image = getMouldingImage(rest.simonsCode);
+        return { ...rest, image };
+    });
     res.json(publicFrames);
 });
 
@@ -133,7 +160,7 @@ app.get('/api/papers', (req, res) => {
 // Create Stripe Checkout Session
 app.post('/api/create-checkout', async (req, res) => {
     try {
-        const { items, customerEmail, orderSummary } = req.body;
+        const { items, customerEmail, orderSummary, successUrl, cancelUrl } = req.body;
 
         const lineItems = items.map(item => ({
             price_data: {
@@ -152,8 +179,8 @@ app.post('/api/create-checkout', async (req, res) => {
             line_items: lineItems,
             mode: 'payment',
             customer_email: customerEmail || undefined,
-            success_url: `${req.protocol}://${req.get('host')}/frame-my-photo.html?payment=success&session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${req.protocol}://${req.get('host')}/frame-my-photo.html?payment=cancelled`,
+            success_url: successUrl || `${req.protocol}://${req.get('host')}/frame-my-photo.html?payment=success&session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: cancelUrl || `${req.protocol}://${req.get('host')}/frame-my-photo.html?payment=cancelled`,
             metadata: {
                 order_summary: JSON.stringify(orderSummary).substring(0, 500)
             }
@@ -185,6 +212,5 @@ app.listen(PORT, () => {
     console.log(`\n  🖼️  Earl's Picture Framing Server`);
     console.log(`  ──────────────────────────────────`);
     console.log(`  Local:   http://localhost:${PORT}`);
-    console.log(`  Frame:   http://localhost:${PORT}/frame-my-photo.html`);
-    console.log(`  Print:   http://localhost:${PORT}/fine-art-printing.html\n`);
+    console.log(`  Frame:   http://localhost:${PORT}/frame-my-photo.html\n`);
 });
