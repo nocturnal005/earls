@@ -1160,48 +1160,26 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   VARIANT 3: BOLD CRIMSON (DARK SIDEBAR / WHITE PREVIEW)
+   VARIANT 2: LIGHT & ELEGANT (CREAM SIDEBAR / SERIF HEADERS)
    ═══════════════════════════════════════════════════════════════════════════ */
-.cfg {
-  color: #FAFAFA; /* Light text for dark sidebar */
-}
 
-/* Stark white preview area */
-.cfg__preview {
-  background: #FFFFFF !important;
-}
-.cfg__preview::before {
-  display: none !important; /* Remove shadow gradients */
-}
-
-/* Deep black sidebar */
+/* Warm cream sidebar */
 .cfg__controls {
-  background: #1A1A1A !important;
-  border-left: 1px solid #333 !important;
+  background: var(--cfg-cream) !important;
 }
 
-/* Accordion Headers */
-.acc-panel {
-  border-bottom-color: #333 !important;
+/* Soft grey preview background for a clean, gallery-like feel */
+.cfg__preview {
+  background-color: #EFECE8 !important;
 }
-.acc-header {
-  border-bottom: none !important; /* managed by panel */
-}
-.acc-header:hover, .acc-panel--open .acc-header {
-  background: #2D2D2D !important;
-}
+
+/* Striking black serif headings */
 .acc-header__title {
-  color: #FAFAFA !important;
   font-family: 'Libre Baskerville', serif !important;
-}
-.acc-header__price {
-  color: #FAFAFA !important;
-}
-.acc-header__chevron {
-  color: #AAA !important;
+  color: #1A1A1A !important;
 }
 
-/* Section Labels (Bold Crimson) */
+/* Section Labels (Crimson Red & Serif to match branding) */
 .sec-label {
   color: #C41E1E !important; 
   font-family: 'Libre Baskerville', serif !important;
@@ -1210,146 +1188,41 @@
   letter-spacing: 0.05em !important;
 }
 
-/* Controls (Chips, Cards, Rows) */
-.chip, .opt-card, .w-row, .unit-toggle__btn, .pill, .tier-toggle__btn, .tier-toggle__btn.active {
-  background: #222 !important;
-  border-color: #333 !important;
-  color: #DDD !important;
-}
-.chip:hover, .opt-card:hover, .w-row:hover, .pill:hover {
-  background: #2D2D2D !important;
-}
-
-/* Selected States */
-.chip--sel, .opt-card--sel, .w-row--sel, .unit-toggle__btn.active, .pill--sel {
-  background: #2E1515 !important; /* Dark crimson tint */
-  border-color: #C41E1E !important;
-  color: #FFF !important;
-}
-.tier-toggle__btn.active {
-  background: #2E1515 !important;
-  color: #C41E1E !important;
-}
-
-/* Thumbnail and Detail overrides */
-.w-row__thumb {
-  background: #111 !important;
-  border-color: #333 !important;
-}
-.w-row--sel .w-row__thumb {
-  background: #1A0D0D !important;
-}
-
-/* Text overrides in cards */
-.chip__name, .opt-card__name, .w-row__mm {
-  color: #FAFAFA !important;
-}
-.w-row__price {
-  color: #FAFAFA !important;
-}
-.w-row__code {
-  color: #AAA !important;
-}
-.w-row--sel .w-row__code {
-  color: #FF6B6B !important;
-}
-.opt-card__price {
-  color: #FAFAFA !important;
-}
-
-/* Price Bar */
-.price-bar {
-  background: #1A1A1A !important;
-  border-top-color: #333 !important;
-  box-shadow: 0 -4px 24px rgba(0,0,0,0.5) !important;
-}
-.price-bar__total-label, .price-bar__total-value {
-  color: #FAFAFA !important;
-  font-family: 'Libre Baskerville', serif !important;
-}
-.price-line span:last-child {
-  color: #FAFAFA !important;
-}
-.price-divider {
-  border-top-color: #333 !important;
-}
-
-/* Action buttons */
+/* Prominent Crimson Red Action Buttons */
 .cta-btn {
   background: #C41E1E !important;
   color: #FFF !important;
   font-family: 'Libre Baskerville', serif !important;
+  box-shadow: 0 4px 16px rgba(196, 30, 30, 0.2) !important;
 }
 .cta-btn:hover {
   background: #A31818 !important;
+  box-shadow: 0 6px 20px rgba(196, 30, 30, 0.3) !important;
 }
 
-/* Custom Size Inputs */
-.custom-size-field__input {
-  background: #222 !important;
-  border-color: #333 !important;
-  color: #FAFAFA !important;
-}
-.custom-size-field__input:focus {
+/* Ensure active chips / rows use the brand crimson and contrast with cream */
+.w-row--sel {
   border-color: #C41E1E !important;
-  box-shadow: 0 0 0 3px rgba(196,30,30,0.2) !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 4px 12px rgba(196, 30, 30, 0.08) !important;
 }
-.custom-size-x {
-  color: #AAA !important;
-}
-
-/* Colour Swatches */
-.colour-swatch__square {
-  background: #222 !important;
-}
-.colour-swatch:hover {
-  background: #2D2D2D !important;
-}
-.colour-swatch--sel {
-  background: #2E1515 !important;
-}
-.colour-swatch--sel .colour-swatch__label {
+.chip--sel, .opt-card--sel, .pill--sel {
+  border-color: #C41E1E !important;
   color: #C41E1E !important;
+  background: #FFFFFF !important;
 }
 
-/* Preview Mount / Frame Details in the Sidebar */
-.frame-detail, .preview-actions .frame-detail {
-  background: #222 !important;
-  border-color: #333 !important;
-  color: #FAFAFA !important;
+/* Clean up card backgrounds to contrast with the cream sidebar */
+.opt-card, .chip, .w-row, .pill, .tier-toggle__btn {
+  background: #FFFFFF !important;
+  border-color: var(--cfg-border) !important;
 }
-.frame-detail__img {
-  background: #111 !important;
-  border-color: #333 !important;
+.opt-card:hover, .chip:hover, .w-row:hover, .pill:hover {
+  background: #FAFAFA !important;
 }
-.mount-profile-card {
-  background: #222 !important;
-  border-color: #333 !important;
+.w-row__thumb {
+  background: #F9F7F4 !important;
 }
-.mount-profile-card__spec-value {
-  color: #FAFAFA !important;
-}
-
-/* Reset buttons and generic text */
-.reset-btn {
-  color: #AAA !important;
-}
-.reset-btn:hover {
-  color: #C41E1E !important;
-}
-.sec-note {
-  color: #AAA !important;
-}
-.upload-btn, .orientation-toggle {
-  background: #222 !important;
-  border-color: #333 !important;
-  color: #DDD !important;
-}
-.upload-btn:hover, .orientation-toggle:hover {
-  background: #2D2D2D !important;
-  color: #FFF !important;
-}
-.preview-actions {
-  background: rgba(26,26,26,0.85) !important;
-  border-color: rgba(255,255,255,0.1) !important;
+.price-bar {
+  background: var(--cfg-cream) !important;
 }
