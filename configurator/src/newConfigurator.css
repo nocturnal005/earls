@@ -1158,3 +1158,198 @@
   .w-row__bar-wrap { display: none; }
   .chip { padding: 6px 10px; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   VARIANT 3: BOLD CRIMSON (DARK SIDEBAR / WHITE PREVIEW)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.cfg {
+  color: #FAFAFA; /* Light text for dark sidebar */
+}
+
+/* Stark white preview area */
+.cfg__preview {
+  background: #FFFFFF !important;
+}
+.cfg__preview::before {
+  display: none !important; /* Remove shadow gradients */
+}
+
+/* Deep black sidebar */
+.cfg__controls {
+  background: #1A1A1A !important;
+  border-left: 1px solid #333 !important;
+}
+
+/* Accordion Headers */
+.acc-panel {
+  border-bottom-color: #333 !important;
+}
+.acc-header {
+  border-bottom: none !important; /* managed by panel */
+}
+.acc-header:hover, .acc-panel--open .acc-header {
+  background: #2D2D2D !important;
+}
+.acc-header__title {
+  color: #FAFAFA !important;
+  font-family: 'Libre Baskerville', serif !important;
+}
+.acc-header__price {
+  color: #FAFAFA !important;
+}
+.acc-header__chevron {
+  color: #AAA !important;
+}
+
+/* Section Labels (Bold Crimson) */
+.sec-label {
+  color: #C41E1E !important; 
+  font-family: 'Libre Baskerville', serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* Controls (Chips, Cards, Rows) */
+.chip, .opt-card, .w-row, .unit-toggle__btn, .pill, .tier-toggle__btn, .tier-toggle__btn.active {
+  background: #222 !important;
+  border-color: #333 !important;
+  color: #DDD !important;
+}
+.chip:hover, .opt-card:hover, .w-row:hover, .pill:hover {
+  background: #2D2D2D !important;
+}
+
+/* Selected States */
+.chip--sel, .opt-card--sel, .w-row--sel, .unit-toggle__btn.active, .pill--sel {
+  background: #2E1515 !important; /* Dark crimson tint */
+  border-color: #C41E1E !important;
+  color: #FFF !important;
+}
+.tier-toggle__btn.active {
+  background: #2E1515 !important;
+  color: #C41E1E !important;
+}
+
+/* Thumbnail and Detail overrides */
+.w-row__thumb {
+  background: #111 !important;
+  border-color: #333 !important;
+}
+.w-row--sel .w-row__thumb {
+  background: #1A0D0D !important;
+}
+
+/* Text overrides in cards */
+.chip__name, .opt-card__name, .w-row__mm {
+  color: #FAFAFA !important;
+}
+.w-row__price {
+  color: #FAFAFA !important;
+}
+.w-row__code {
+  color: #AAA !important;
+}
+.w-row--sel .w-row__code {
+  color: #FF6B6B !important;
+}
+.opt-card__price {
+  color: #FAFAFA !important;
+}
+
+/* Price Bar */
+.price-bar {
+  background: #1A1A1A !important;
+  border-top-color: #333 !important;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.5) !important;
+}
+.price-bar__total-label, .price-bar__total-value {
+  color: #FAFAFA !important;
+  font-family: 'Libre Baskerville', serif !important;
+}
+.price-line span:last-child {
+  color: #FAFAFA !important;
+}
+.price-divider {
+  border-top-color: #333 !important;
+}
+
+/* Action buttons */
+.cta-btn {
+  background: #C41E1E !important;
+  color: #FFF !important;
+  font-family: 'Libre Baskerville', serif !important;
+}
+.cta-btn:hover {
+  background: #A31818 !important;
+}
+
+/* Custom Size Inputs */
+.custom-size-field__input {
+  background: #222 !important;
+  border-color: #333 !important;
+  color: #FAFAFA !important;
+}
+.custom-size-field__input:focus {
+  border-color: #C41E1E !important;
+  box-shadow: 0 0 0 3px rgba(196,30,30,0.2) !important;
+}
+.custom-size-x {
+  color: #AAA !important;
+}
+
+/* Colour Swatches */
+.colour-swatch__square {
+  background: #222 !important;
+}
+.colour-swatch:hover {
+  background: #2D2D2D !important;
+}
+.colour-swatch--sel {
+  background: #2E1515 !important;
+}
+.colour-swatch--sel .colour-swatch__label {
+  color: #C41E1E !important;
+}
+
+/* Preview Mount / Frame Details in the Sidebar */
+.frame-detail, .preview-actions .frame-detail {
+  background: #222 !important;
+  border-color: #333 !important;
+  color: #FAFAFA !important;
+}
+.frame-detail__img {
+  background: #111 !important;
+  border-color: #333 !important;
+}
+.mount-profile-card {
+  background: #222 !important;
+  border-color: #333 !important;
+}
+.mount-profile-card__spec-value {
+  color: #FAFAFA !important;
+}
+
+/* Reset buttons and generic text */
+.reset-btn {
+  color: #AAA !important;
+}
+.reset-btn:hover {
+  color: #C41E1E !important;
+}
+.sec-note {
+  color: #AAA !important;
+}
+.upload-btn, .orientation-toggle {
+  background: #222 !important;
+  border-color: #333 !important;
+  color: #DDD !important;
+}
+.upload-btn:hover, .orientation-toggle:hover {
+  background: #2D2D2D !important;
+  color: #FFF !important;
+}
+.preview-actions {
+  background: rgba(26,26,26,0.85) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+}
