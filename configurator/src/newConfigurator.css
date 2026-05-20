@@ -395,22 +395,33 @@
 .preview-actions {
   position: absolute;
   left: 24px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 32px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 16px;
+  gap: 10px;
   z-index: 10;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-  padding: 16px;
-  border-radius: 12px;
-  width: 170px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  padding: 10px;
+  border-radius: 10px;
+  width: 145px;
   box-sizing: border-box;
+}
+
+.preview-actions .upload-btn {
+  padding: 6px 12px;
+  font-size: 11px;
+  border-radius: 6px;
+  gap: 4px;
+}
+.preview-actions .unit-toggle__btn {
+  padding: 5px 8px !important;
+  font-size: 11px !important;
+  border-radius: 5px !important;
 }
 
 .orientation-toggle {
@@ -476,6 +487,27 @@
   border: 1px solid rgba(0,0,0,0.04);
   box-shadow: none;
   box-sizing: border-box;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 6px;
+}
+.preview-actions .frame-detail__img {
+  width: 36px;
+  height: 36px;
+}
+.preview-actions .frame-detail__info {
+  align-items: flex-start;
+  text-align: left;
+}
+.preview-actions .frame-detail__name {
+  text-align: left;
+  font-size: 10px;
+  line-height: 1.2;
+}
+.preview-actions .frame-detail__code {
+  font-size: 9px;
 }
 
 .frame-detail__img {
