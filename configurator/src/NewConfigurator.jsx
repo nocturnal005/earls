@@ -208,40 +208,79 @@ export default function NewConfigurator() {
             >
               {selections.mountTypeId !== 'none' && selections.printType !== 'canvas' && (
                 <div
-                  className="preview-mount"
+                  className={`preview-mount preview-mount--${selections.mountTypeId}`}
                   style={{
-                    padding: selections.mountTypeId === 'double' ? mountPadPx + 4 : mountPadPx,
+                    padding: selections.mountTypeId === 'double' ? Math.max(8, mountPadPx - 6) : mountPadPx,
                     backgroundColor: mountColour?.hex || '#F9F7F4',
+                    borderRadius: isOvalOrRound ? '50%' : 0,
                   }}
                 >
-                  {selections.mountTypeId === 'double' && (
-                    <div className="preview-mount-inner" style={{ border: `3px solid ${mountColour2?.hex || '#1A1A1A'}` }} />
-                  )}
                   {selections.mountTypeId === 'v_groove' && vGrooveColour && (
-                    <div className="preview-mount-line" style={{ border: `1px solid ${vGrooveColour.hex}` }} />
+                    <div 
+                      className="preview-mount-line" 
+                      style={{ 
+                        borderColor: vGrooveColour.hex,
+                        borderRadius: isOvalOrRound ? '50%' : 0,
+                      }} 
+                    />
                   )}
-                  <div
-                    className="preview-image"
-                    style={{
-                      aspectRatio: selections.mountTypeId === 'round' ? '1 / 1' : `${displayW} / ${displayH}`,
-                      borderRadius: isOvalOrRound ? '50%' : 0,
-                      overflow: 'hidden',
-                    }}
-                    onDragOver={(e) => e.preventDefault()}
-                    onDrop={handleDrop}
-                  >
-                    {selections.imageUrl ? (
-                      <img src={selections.imageUrl} alt="Preview" style={{ borderRadius: isOvalOrRound ? '50%' : 0, objectFit: selections.imageFit === 'fit' ? 'contain' : 'cover' }} />
-                    ) : (
-                      <div className="preview-placeholder">
-                        <span className="preview-placeholder__icon">+</span>
-                        <span>Drop photo here</span>
+                  
+                  {selections.mountTypeId === 'double' ? (
+                    <div
+                      className="preview-mount-double-reveal"
+                      style={{
+                        padding: '6px',
+                        backgroundColor: mountColour2?.hex || '#1A1A1A',
+                        borderRadius: isOvalOrRound ? '50%' : 0,
+                      }}
+                    >
+                      <div
+                        className="preview-image"
+                        style={{
+                          aspectRatio: selections.mountTypeId === 'round' ? '1 / 1' : `${displayW} / ${displayH}`,
+                          borderRadius: isOvalOrRound ? '50%' : 0,
+                          overflow: 'hidden',
+                        }}
+                        onDragOver={(e) => e.preventDefault()}
+                        onDrop={handleDrop}
+                      >
+                        {selections.imageUrl ? (
+                          <img src={selections.imageUrl} alt="Preview" style={{ borderRadius: isOvalOrRound ? '50%' : 0, objectFit: selections.imageFit === 'fit' ? 'contain' : 'cover' }} />
+                        ) : (
+                          <div className="preview-placeholder">
+                            <span className="preview-placeholder__icon">+</span>
+                            <span>Drop photo here</span>
+                          </div>
+                        )}
+                        {selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && (
+                          <div className={`glass-overlay glass-overlay--${selections.glassId}`} style={{ borderRadius: isOvalOrRound ? '50%' : 0 }} />
+                        )}
                       </div>
-                    )}
-                    {selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && (
-                      <div className={`glass-overlay glass-overlay--${selections.glassId}`} style={{ borderRadius: isOvalOrRound ? '50%' : 0 }} />
-                    )}
-                  </div>
+                    </div>
+                  ) : (
+                    <div
+                      className="preview-image"
+                      style={{
+                        aspectRatio: selections.mountTypeId === 'round' ? '1 / 1' : `${displayW} / ${displayH}`,
+                        borderRadius: isOvalOrRound ? '50%' : 0,
+                        overflow: 'hidden',
+                      }}
+                      onDragOver={(e) => e.preventDefault()}
+                      onDrop={handleDrop}
+                    >
+                      {selections.imageUrl ? (
+                        <img src={selections.imageUrl} alt="Preview" style={{ borderRadius: isOvalOrRound ? '50%' : 0, objectFit: selections.imageFit === 'fit' ? 'contain' : 'cover' }} />
+                      ) : (
+                        <div className="preview-placeholder">
+                          <span className="preview-placeholder__icon">+</span>
+                          <span>Drop photo here</span>
+                        </div>
+                      )}
+                      {selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && (
+                        <div className={`glass-overlay glass-overlay--${selections.glassId}`} style={{ borderRadius: isOvalOrRound ? '50%' : 0 }} />
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
 

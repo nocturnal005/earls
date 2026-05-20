@@ -313,6 +313,10 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
 
   const mountWidthMm = MOUNT_WIDTHS.find(mw => mw.id === mountWidthId)?.mm || 50;
 
+  const mountColour = MOUNT_COLOURS.find(mc => mc.id === mountColourId);
+  const mountColour2 = MOUNT_COLOURS.find(mc => mc.id === mountColourId2);
+  const vGrooveColour = VGROOVE_COLOURS.find(vc => vc.id === vGrooveColourId);
+
   return (
     <div className="sec-body">
       <div className="sec-row">
@@ -336,6 +340,65 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
 
       {mountTypeId !== 'none' && (
         <>
+          {/* Active Mount Profile Card */}
+          <div className="mount-profile-card">
+            <div className="mount-profile-card__preview-wrapper">
+              <div 
+                className="mount-profile-card__preview-top" 
+                style={{ backgroundColor: mountColour?.hex || '#F9F7F4' }}
+              >
+                {isDouble ? (
+                  <div 
+                    className="mount-profile-card__preview-bottom" 
+                    style={{ backgroundColor: mountColour2?.hex || '#1A1A1A' }}
+                  >
+                    <div className="mount-profile-card__preview-artwork" />
+                  </div>
+                ) : (
+                  <>
+                    {isVGroove && vGrooveColour && (
+                      <div 
+                        className="mount-profile-card__preview-vgroove" 
+                        style={{ borderColor: vGrooveColour.hex }}
+                      />
+                    )}
+                    <div className="mount-profile-card__preview-artwork" />
+                  </>
+                )}
+              </div>
+            </div>
+            
+            <div className="mount-profile-card__details">
+              <div className="mount-profile-card__title">Selected Specification</div>
+              <div className="mount-profile-card__spec">
+                <span className="mount-profile-card__spec-label">{isDouble ? 'Top Board:' : 'Board:'}</span>
+                <span className="mount-profile-card__spec-value">
+                  {mountColour ? `${mountColour.label}` : 'None'}
+                </span>
+              </div>
+              
+              {isDouble && (
+                <div className="mount-profile-card__spec">
+                  <span className="mount-profile-card__spec-label">Bottom Board:</span>
+                  <span className="mount-profile-card__spec-value">
+                    {mountColour2 ? `${mountColour2.label}` : 'None'}
+                  </span>
+                </div>
+              )}
+              
+              {isVGroove && vGrooveColour && (
+                <div className="mount-profile-card__spec">
+                  <span className="mount-profile-card__spec-label">V-Groove:</span>
+                  <span className="mount-profile-card__spec-value">{vGrooveColour.label}</span>
+                </div>
+              )}
+              
+              <div className="mount-profile-card__spec">
+                <span className="mount-profile-card__spec-label">Border Width:</span>
+                <span className="mount-profile-card__spec-value">{mountWidthMm}mm</span>
+              </div>
+            </div>
+          </div>
           <div className="sec-row">
             <span className="sec-label">Mount Width</span>
             <div className="opt-grid opt-grid--3">
