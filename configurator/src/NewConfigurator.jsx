@@ -26,7 +26,7 @@ const DEFAULT_SELECTIONS = {
   printType: null,
   frameId: null,
   mountTypeId: 'none',
-  mountColourId: 'pure-white',
+  mountColourId: 'bright-white',
   mountColourId2: 'deep-black',
   mountWidthId: 'standard',
   vGrooveColourId: null,
@@ -212,7 +212,6 @@ export default function NewConfigurator() {
                   style={{
                     padding: selections.mountTypeId === 'double' ? Math.max(8, mountPadPx - 6) : mountPadPx,
                     backgroundColor: mountColour?.hex || '#F9F7F4',
-                    borderRadius: isOvalOrRound ? '50%' : 0,
                   }}
                 >
                   {selections.mountTypeId === 'v_groove' && vGrooveColour && (
@@ -231,7 +230,6 @@ export default function NewConfigurator() {
                       style={{
                         padding: '6px',
                         backgroundColor: mountColour2?.hex || '#1A1A1A',
-                        borderRadius: isOvalOrRound ? '50%' : 0,
                       }}
                     >
                       <div
