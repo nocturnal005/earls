@@ -103,6 +103,7 @@
   max-height: 55vh;
   display: flex;
   justify-content: center;
+  align-items: center;
   transition: max-height 0.7s ease-in-out;
 }
 
