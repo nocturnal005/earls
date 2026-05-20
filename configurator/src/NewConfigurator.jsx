@@ -201,11 +201,56 @@ export default function NewConfigurator() {
             <div
               className={`preview-frame${!frame ? ' preview-frame--no-frame' : ''}`}
               style={{
-                borderWidth: framePx,
-                borderColor: frameColourHex,
-                borderStyle: 'solid',
+                padding: framePx,
+                '--frame-w': `${framePx}px`,
               }}
             >
+              {frame && (
+                <>
+                  <div 
+                    className="frame-bar frame-bar--top" 
+                    style={{ 
+                      backgroundColor: frameColourHex, 
+                      backgroundImage: `url(${import.meta.env.BASE_URL}${frame.image})` 
+                    }}
+                  >
+                    <div 
+                      className="frame-bar__texture" 
+                      style={{ 
+                        backgroundImage: `url(${import.meta.env.BASE_URL}${frame.image})` 
+                      }} 
+                    />
+                  </div>
+                  <div 
+                    className="frame-bar frame-bar--right" 
+                    style={{ 
+                      backgroundColor: frameColourHex, 
+                      backgroundImage: `url(${import.meta.env.BASE_URL}${frame.image})` 
+                    }}
+                  />
+                  <div 
+                    className="frame-bar frame-bar--bottom" 
+                    style={{ 
+                      backgroundColor: frameColourHex, 
+                      backgroundImage: `url(${import.meta.env.BASE_URL}${frame.image})` 
+                    }}
+                  >
+                    <div 
+                      className="frame-bar__texture" 
+                      style={{ 
+                        backgroundImage: `url(${import.meta.env.BASE_URL}${frame.image})` 
+                      }} 
+                    />
+                  </div>
+                  <div 
+                    className="frame-bar frame-bar--left" 
+                    style={{ 
+                      backgroundColor: frameColourHex, 
+                      backgroundImage: `url(${import.meta.env.BASE_URL}${frame.image})` 
+                    }}
+                  />
+                </>
+              )}
               {selections.mountTypeId !== 'none' && selections.printType !== 'canvas' && (
                 <div
                   className={`preview-mount preview-mount--${selections.mountTypeId}`}

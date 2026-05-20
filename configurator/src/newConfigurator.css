@@ -109,13 +109,83 @@
 
 .preview-frame {
   display: inline-block;
+  position: relative;
   border-radius: 2px;
   box-shadow: 6px 10px 30px rgba(0, 0, 0, 0.35), 2px 3px 8px rgba(0, 0, 0, 0.18);
-  transition: border-width 0.5s ease-in-out, border-color 0.5s ease-in-out, width 0.7s ease-in-out, height 0.7s ease-in-out;
+  transition: padding 0.5s ease-in-out, width 0.7s ease-in-out, height 0.7s ease-in-out;
+}
+
+/* Frame Bars - Option 2 (4-Bar clip-path) + Option 3 (3D Overlays) */
+.frame-bar {
+  position: absolute;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-size: cover;
+  pointer-events: none;
+}
+
+.frame-bar__texture {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2000px;
+  height: 2000px;
+  background-repeat: repeat;
+  background-position: center;
+  transform: translate(-50%, -50%) rotate(90deg);
+  background-size: var(--frame-w) auto;
+}
+
+.frame-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.frame-bar--top {
+  top: 0; left: 0; right: 0;
+  height: var(--frame-w);
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--frame-w)) 100%, var(--frame-w) 100%);
+}
+.frame-bar--top::after {
+  background: linear-gradient(to bottom, rgba(255,255,255,0.22) 0%, rgba(0,0,0,0.18) 100%);
+}
+
+.frame-bar--bottom {
+  bottom: 0; left: 0; right: 0;
+  height: var(--frame-w);
+  clip-path: polygon(var(--frame-w) 0, calc(100% - var(--frame-w)) 0, 100% 100%, 0 100%);
+}
+.frame-bar--bottom::after {
+  background: linear-gradient(to top, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.25) 100%);
+}
+
+.frame-bar--left {
+  top: 0; bottom: 0; left: 0;
+  width: var(--frame-w);
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  clip-path: polygon(0 0, 100% var(--frame-w), 100% calc(100% - var(--frame-w)), 0 100%);
+}
+.frame-bar--left::after {
+  background: linear-gradient(to right, rgba(255,255,255,0.18) 0%, rgba(0,0,0,0.2) 100%);
+}
+
+.frame-bar--right {
+  top: 0; bottom: 0; right: 0;
+  width: var(--frame-w);
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  clip-path: polygon(0 var(--frame-w), 100% 0, 100% 100%, 0 calc(100% - var(--frame-w)));
+}
+.frame-bar--right::after {
+  background: linear-gradient(to left, rgba(255,255,255,0.12) 0%, rgba(0,0,0,0.25) 100%);
 }
 
 .preview-frame--no-frame {
   box-shadow: none;
+  padding: 0 !important;
 }
 
 .preview-frame--no-frame .preview-image {
