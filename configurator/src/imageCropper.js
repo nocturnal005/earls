@@ -33,21 +33,25 @@ export function cropFrameImage(imageUrl) {
 
       const data = imgData.data;
 
-      // Threshold: pixels with R, G, B all > 245 are considered white background
+      // Noise-tolerant threshold: pixels with R, G, B all > 230 are considered white/light-grey background
       const isWhite = (idx) => {
         const r = data[idx];
         const g = data[idx + 1];
         const b = data[idx + 2];
         const a = data[idx + 3];
-        // Transparent pixels or very bright off-white pixels
-        return a < 15 || (r > 245 && g > 245 && b > 245);
+        // Transparent pixels or very bright background pixels
+        return a < 15 || (r > 230 && g > 230 && b > 230);
       };
 
-      // 2. Scan columns from Left to Right to find left crop bound
+      // We only scan the top 35% of the image. This isolates the vertical moulding bar of
+      // L-shaped corner samples, completely avoiding the horizontal bottom arm and floor shadows.
+      const scanHeight = Math.max(20, Math.floor(H * 0.35));
+
+      // 2. Scan columns from Left to Right (in top region) to find left crop bound
       let cropLeft = 0;
       for (let x = 0; x < W; x++) {
         let allWhite = true;
-        for (let y = 0; y < H; y++) {
+        for (let y = 0; y < scanHeight; y++) {
           const idx = (y * W + x) * 4;
           if (!isWhite(idx)) {
             allWhite = false;
@@ -60,11 +64,11 @@ export function cropFrameImage(imageUrl) {
         }
       }
 
-      // 3. Scan columns from Right to Left to find right crop bound
+      // 3. Scan columns from Right to Left (in top region) to find right crop bound
       let cropRight = W;
       for (let x = W - 1; x >= cropLeft; x--) {
         let allWhite = true;
-        for (let y = 0; y < H; y++) {
+        for (let y = 0; y < scanHeight; y++) {
           const idx = (y * W + x) * 4;
           if (!isWhite(idx)) {
             allWhite = false;
@@ -77,45 +81,15 @@ export function cropFrameImage(imageUrl) {
         }
       }
 
-      // 4. Scan rows from Top to Bottom to find top crop bound
-      let cropTop = 0;
-      for (let y = 0; y < H; y++) {
-        let allWhite = true;
-        for (let x = cropLeft; x < cropRight; x++) {
-          const idx = (y * W + x) * 4;
-          if (!isWhite(idx)) {
-            allWhite = false;
-            break;
-          }
-        }
-        if (!allWhite) {
-          cropTop = y;
-          break;
-        }
-      }
-
-      // 5. Scan rows from Bottom to Top to find bottom crop bound
-      let cropBottom = H;
-      for (let y = H - 1; y >= cropTop; y--) {
-        let allWhite = true;
-        for (let x = cropLeft; x < cropRight; x++) {
-          const idx = (y * W + x) * 4;
-          if (!isWhite(idx)) {
-            allWhite = false;
-            break;
-          }
-        }
-        if (!allWhite) {
-          cropBottom = y + 1;
-          break;
-        }
-      }
+      // 4. Set vertical crop boundaries to capture a clean straight segment from the top region
+      const cropTop = 0;
+      const cropBottom = scanHeight;
 
       const finalW = cropRight - cropLeft;
       const finalH = cropBottom - cropTop;
 
-      // If cropping result is valid and changed
-      if (finalW > 0 && finalH > 0 && (finalW < W || finalH < H)) {
+      // If cropping result is valid and represents a meaningful crop
+      if (finalW > 0 && finalH > 0 && finalW < W) {
         const cropCanvas = document.createElement('canvas');
         cropCanvas.width = finalW;
         cropCanvas.height = finalH;
@@ -131,7 +105,7 @@ export function cropFrameImage(imageUrl) {
         cropCache.set(imageUrl, croppedUrl);
         resolve(croppedUrl);
       } else {
-        // Fallback to original if no crop borders found
+        // Fallback to original if no crop bounds found
         cropCache.set(imageUrl, imageUrl);
         resolve(imageUrl);
       }
