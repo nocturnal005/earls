@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   PRINT_SIZES, PRINT_TYPES, PRINT_PRICES,
   GLASS_OPTIONS, MOUNT_TYPES, MOUNT_COLOURS, MOUNT_COLOUR_GROUPS, MOUNT_WIDTHS, VGROOVE_COLOURS,
@@ -12,6 +12,35 @@ import {
 export function MouldingCorner({ hex, className = '' }) {
   return <span className={`colour-square ${className}`} style={{ backgroundColor: hex }} />;
 }
+
+export function CroppedFrameThumb({ image, name, fallbackHex }) {
+  const [croppedUrl, setCroppedUrl] = useState(null);
+
+  useEffect(() => {
+    if (!image) return;
+    const fullUrl = `${import.meta.env.BASE_URL}${image}`;
+    import('./imageCropper.js').then(({ cropFrameImage }) => {
+      cropFrameImage(fullUrl).then(url => {
+        setCroppedUrl(url);
+      }).catch(() => {
+        setCroppedUrl(fullUrl);
+      });
+    });
+  }, [image]);
+
+  if (!image) {
+    return <MouldingCorner hex={fallbackHex} />;
+  }
+
+  return (
+    <img
+      src={croppedUrl || `${import.meta.env.BASE_URL}${image}`}
+      alt={name}
+      style={{ objectFit: 'cover', objectPosition: 'center top' }}
+    />
+  );
+}
+
 
 
 // ─── Size & Print Section ────────────────────────────────────────────────────
@@ -260,10 +289,7 @@ export function FrameSection({ selections, onUpdate, effW, effH }) {
                   onClick={() => onUpdate({ frameId: f.id })}
                 >
                   <span className="w-row__thumb">
-                    {f.image
-                      ? <img src={`${import.meta.env.BASE_URL}${f.image}`} alt={f.name} />
-                      : <MouldingCorner hex={cg?.hex || '#8A8A8A'} widthMm={f.widthMm} finish={f.finish} />
-                    }
+                    <CroppedFrameThumb image={f.image} name={f.name} fallbackHex={cg?.hex || '#8A8A8A'} />
                   </span>
                   <span className="w-row__info">
                     <span className="w-row__mm">{f.widthMm}mm</span>

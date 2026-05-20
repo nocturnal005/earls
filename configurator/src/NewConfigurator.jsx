@@ -6,8 +6,9 @@ import {
 } from './newData.js';
 import {
   SizePrintSection, FrameSection, MountSection, GlassSection,
-  MouldingCorner,
+  MouldingCorner, CroppedFrameThumb,
 } from './newPanels.jsx';
+
 
 const SECTIONS = [
   { id: 'size',  label: 'Size & Print' },
@@ -198,10 +199,7 @@ export default function NewConfigurator() {
           {frame && (
             <div className="frame-detail">
               <div className="frame-detail__img">
-                {frame.image
-                  ? <img src={`${import.meta.env.BASE_URL}${frame.image}`} alt={frame.name} />
-                  : <MouldingCorner hex={frameColourHex} />
-                }
+                <CroppedFrameThumb image={frame.image} name={frame.name} fallbackHex={frameColourHex} />
               </div>
               <div className="frame-detail__info">
                 <span className="frame-detail__name">{frame.name}</span>
