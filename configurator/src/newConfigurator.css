@@ -36,11 +36,23 @@
 }
 
 .cfg__preview {
-  padding: 16px 24px;
+  padding: 40px 24px 24px 140px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  background-color: #E5E2DD;
+  background-color: #EBEBE9;
+  position: relative;
+  transition: background-color 0.5s ease-in-out;
+  overflow: hidden;
+}
+
+.cfg__preview--detail {
+  background-image: url(./assets/blank-wall.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.cfg__preview--room {
   background-image:
     linear-gradient(to bottom,
       #E5E2DD 0%,
@@ -51,7 +63,6 @@
   background-size: 100% 100%, cover;
   background-position: top, center bottom;
   background-repeat: no-repeat;
-  position: relative;
 }
 
 .cfg__preview::before {
@@ -100,11 +111,16 @@
 
 .preview-frame-outer {
   width: 100%;
-  max-height: 55vh;
+  max-height: 75vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: max-height 0.7s ease-in-out;
+  transition: max-height 0.7s ease-in-out, transform 0.6s ease-in-out, margin 0.6s ease-in-out;
+  transform-origin: top center;
+}
+
+.preview-frame-outer--room {
+  margin-top: 0; /* Let flex-start handle vertical positioning */
 }
 
 .preview-frame {
@@ -336,13 +352,15 @@
 .preview-image {
   position: relative;
   background: #f0ede8;
-  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 3 / 4;
-  max-height: 45vh;
-  transition: aspect-ratio 0.6s ease-in-out, max-height 0.7s ease-in-out, width 0.7s ease-in-out;
+  transition: width 0.7s ease-in-out, height 0.7s ease-in-out;
+  container-type: size;
+}
+
+.preview-frame-outer:not(.preview-frame-outer--room) .preview-image--empty {
+  /* Dimensions handled dynamically in React */
 }
 
 .preview-image img {
@@ -359,7 +377,13 @@
   gap: 8px;
   color: var(--cfg-muted);
   font-size: 14px;
-  cursor: default;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  text-align: center;
+}
+
+.preview-placeholder:hover {
+  opacity: 0.8;
 }
 
 .preview-placeholder__icon {
@@ -374,9 +398,59 @@
   color: var(--cfg-border);
 }
 
+.change-photo-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  font-size: 14px;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.preview-image:hover .change-photo-overlay {
+  opacity: 1;
+}
+
+@container (max-width: 150px) or (max-height: 150px) {
+  .preview-placeholder__icon {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    border-width: 1px;
+  }
+  .preview-placeholder span {
+    font-size: 10px;
+  }
+  .change-photo-overlay {
+    font-size: 10px;
+  }
+}
+
+@container (max-width: 80px) or (max-height: 80px) {
+  .preview-placeholder__icon {
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    border-width: 1px;
+  }
+  .preview-placeholder span {
+    font-size: 8px;
+  }
+  .change-photo-overlay span:not(.preview-placeholder__icon) {
+    font-size: 8px;
+  }
+}
+
 /* Upload button */
 .upload-btn {
-  display: inline-flex;
+  display: none;
   align-items: center;
   gap: 6px;
   padding: 8px 20px;
@@ -392,36 +466,95 @@
 }
 .upload-btn:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-1px); color: #1a1a1a; }
 
-.preview-actions {
+.left-floating-panel {
   position: absolute;
   left: 24px;
-  top: 32px;
+  top: 24px;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  gap: 10px;
-  z-index: 10;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-  padding: 10px;
-  border-radius: 10px;
-  width: 145px;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.left-floating-panel > * {
+  pointer-events: auto;
+}
+
+.preview-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  padding: 24px 8px;
+  width: 110px;
+  border-radius: 60px;
   box-sizing: border-box;
 }
 
-.preview-actions .upload-btn {
-  padding: 6px 12px;
-  font-size: 11px;
-  border-radius: 6px;
-  gap: 4px;
+.action-item-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 70px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  gap: 8px;
 }
-.preview-actions .unit-toggle__btn {
-  padding: 5px 8px !important;
-  font-size: 11px !important;
-  border-radius: 5px !important;
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  background: transparent;
+  transition: all 0.3s ease;
+  color: #fff;
+}
+
+.action-item-btn:hover .icon-wrapper {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.action-item-btn.active .icon-wrapper {
+  background: linear-gradient(135deg, #931923, #540D14);
+  box-shadow: 0 8px 24px rgba(147, 25, 35, 0.5);
+  color: #fff;
+}
+
+.icon-wrapper svg {
+  width: 30px;
+  height: 30px;
+  stroke-width: 1.2;
+}
+
+.action-item-btn span {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.action-item-btn.active span {
+  color: #82161f;
+  font-weight: 700;
 }
 
 .orientation-toggle {
@@ -479,45 +612,43 @@
   margin-top: 4px;
   max-width: 130px;
 }
-.preview-actions .frame-detail {
-  margin-top: 4px;
-  width: 100%;
-  max-width: none;
-  background: rgba(255,255,255,0.6);
-  border: 1px solid rgba(0,0,0,0.04);
-  box-shadow: none;
-  box-sizing: border-box;
-  flex-direction: row;
+.frame-detail-floating {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 6px;
-  border-radius: 6px;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  padding: 24px 8px;
+  width: 110px;
+  border-radius: 60px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  gap: 12px;
+  z-index: 30;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-sizing: border-box;
 }
-.preview-actions .frame-detail__img {
-  width: 36px;
-  height: 36px;
-}
-.preview-actions .frame-detail__info {
-  align-items: flex-start;
-  text-align: left;
-}
-.preview-actions .frame-detail__name {
-  text-align: left;
-  font-size: 10px;
-  line-height: 1.2;
-}
-.preview-actions .frame-detail__code {
-  font-size: 9px;
+.frame-detail-floating .frame-detail__img {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+
 .frame-detail__img {
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 50%;
   overflow: hidden;
 }
 
@@ -529,13 +660,13 @@
 }
 
 .frame-detail__img .colour-square {
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
 }
 
-.frame-detail__info { display: flex; flex-direction: column; align-items: center; gap: 1px; }
-.frame-detail__name { font-weight: 600; font-size: 11px; text-align: center; }
-.frame-detail__code { font-size: 10px; color: var(--cfg-muted); font-family: monospace; }
+.frame-detail__info { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-align: center; width: 100%; }
+.frame-detail__name { font-weight: 500; font-size: 10px; color: #fff; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.05em; word-break: break-word; }
+.frame-detail__code { font-size: 9px; color: rgba(255,255,255,0.6); font-family: inherit; font-weight: 400; word-break: break-all; }
 
 
 /* ── Reset Bar ──────────────────────────────────────────────────────────── */
