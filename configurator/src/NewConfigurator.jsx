@@ -397,12 +397,15 @@ export default function NewConfigurator() {
                   />
                 </>
               )}
-              {selections.mountTypeId !== 'none' && selections.printType !== 'canvas' && (
+              {selections.printType !== 'canvas' ? (
                 <div
                   className={`preview-mount preview-mount--${selections.mountTypeId}`}
                   style={{
-                    padding: selections.mountTypeId === 'double' ? Math.max(8, mountPadPx - 6) : mountPadPx,
-                    backgroundColor: mountColour?.hex || '#F9F7F4',
+                    padding: selections.mountTypeId !== 'none' ? (selections.mountTypeId === 'double' ? Math.max(8, mountPadPx - 6) : mountPadPx) : 0,
+                    backgroundColor: selections.mountTypeId !== 'none' ? (mountColour?.hex || '#F9F7F4') : 'transparent',
+                    boxShadow: selections.mountTypeId !== 'none' ? 'inset 1px 1px 2px rgba(255, 255, 255, 0.4)' : 'none',
+                    transition: 'padding 0.6s ease-in-out, background-color 0.5s ease-in-out',
+                    borderRadius: isOvalOrRound ? '50%' : 0,
                   }}
                 >
                   {selections.mountTypeId === 'v_groove' && vGrooveColour && (
@@ -415,46 +418,24 @@ export default function NewConfigurator() {
                     />
                   )}
                   
-                  {selections.mountTypeId === 'double' ? (
-                    <div
-                      className="preview-mount-double-reveal"
-                      style={{
-                        padding: '6px',
-                        backgroundColor: mountColour2?.hex || '#1A1A1A',
-                      }}
-                    >
-                      <div
-                        className={`preview-image ${!selections.imageUrl ? 'preview-image--empty' : ''}`}
-                        style={{
-                        width: selections.mountTypeId === 'round' ? Math.min(artworkWidthPx, artworkHeightPx) : artworkWidthPx,
-                        height: selections.mountTypeId === 'round' ? Math.min(artworkWidthPx, artworkHeightPx) : artworkHeightPx,
-                          borderRadius: isOvalOrRound ? '50%' : 0,
-                          overflow: 'hidden',
-                          containerType: 'size'
-                        }}
-                        onDragOver={(e) => e.preventDefault()}
-                        onDrop={handleDrop}
-                      >
-                        {selections.imageUrl ? (
-                          <img src={selections.imageUrl} alt="Preview" style={{ borderRadius: isOvalOrRound ? '50%' : 0, objectFit: selections.imageFit === 'fit' ? 'contain' : 'cover' }} />
-                        ) : (
-                          <div className="preview-placeholder">
-                            <span className="preview-placeholder__icon">+</span>
-                            <span>Drop photo here</span>
-                          </div>
-                        )}
-                        {selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && (
-                          <div className={`glass-overlay glass-overlay--${selections.glassId}`} style={{ borderRadius: isOvalOrRound ? '50%' : 0 }} />
-                        )}
-                      </div>
-                    </div>
-                  ) : (
+                  <div
+                    className={selections.mountTypeId === 'double' ? 'preview-mount-double-reveal' : ''}
+                    style={{
+                      padding: selections.mountTypeId === 'double' ? '6px' : '0px',
+                      backgroundColor: selections.mountTypeId === 'double' ? (mountColour2?.hex || '#1A1A1A') : 'transparent',
+                      borderRadius: isOvalOrRound ? '50%' : 0,
+                      transition: 'padding 0.6s ease-in-out, background-color 0.5s ease-in-out',
+                      width: '100%', height: '100%', display: 'flex', boxSizing: 'border-box'
+                    }}
+                  >
                     <div
                       className={`preview-image ${!selections.imageUrl ? 'preview-image--empty' : ''}`}
                       style={{
-                        width: artworkWidthPx, height: artworkHeightPx,
+                        width: selections.mountTypeId === 'round' ? Math.min(artworkWidthPx, artworkHeightPx) : artworkWidthPx,
+                        height: selections.mountTypeId === 'round' ? Math.min(artworkWidthPx, artworkHeightPx) : artworkHeightPx,
                         borderRadius: isOvalOrRound ? '50%' : 0,
                         overflow: 'hidden',
+                        containerType: 'size'
                       }}
                       onDragOver={(e) => e.preventDefault()}
                       onDrop={handleDrop}
@@ -483,22 +464,25 @@ export default function NewConfigurator() {
                         <div className={`glass-overlay glass-overlay--${selections.glassId}`} style={{ borderRadius: isOvalOrRound ? '50%' : 0 }} />
                       )}
                     </div>
-                  )}
+                  </div>
                 </div>
-              )}
-
-              {(selections.mountTypeId === 'none' || selections.printType === 'canvas') && (
+              ) : (
                 <div
                   className={`preview-image ${!selections.imageUrl ? 'preview-image--empty' : ''}`}
-                  style={{ width: artworkWidthPx, height: artworkHeightPx }}
+                  style={{
+                    width: artworkWidthPx, height: artworkHeightPx,
+                    borderRadius: 0,
+                    overflow: 'hidden',
+                    containerType: 'size'
+                  }}
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={handleDrop}
                 >
                   {selections.imageUrl ? (
                     <label style={{ display: 'block', width: '100%', height: '100%', cursor: 'pointer', position: 'relative' }}>
                       <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
-                      <img src={selections.imageUrl} alt="Preview" style={{ width: '100%', height: '100%', borderRadius: isOvalOrRound ? '50%' : 0, objectFit: selections.imageFit === 'fit' ? 'contain' : 'cover' }} />
-                      <div className="change-photo-overlay" style={{ borderRadius: isOvalOrRound ? '50%' : 0 }}>
+                      <img src={selections.imageUrl} alt="Preview" style={{ width: '100%', height: '100%', borderRadius: 0, objectFit: selections.imageFit === 'fit' ? 'contain' : 'cover' }} />
+                      <div className="change-photo-overlay" style={{ borderRadius: 0 }}>
                         <span className="preview-placeholder__icon">↻</span>
                         <span>Change Photo</span>
                       </div>
@@ -513,9 +497,6 @@ export default function NewConfigurator() {
                       <span className="preview-placeholder__icon">+</span>
                       <span>Upload photo</span>
                     </label>
-                  )}
-                  {selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && (
-                    <div className={`glass-overlay glass-overlay--${selections.glassId}`} />
                   )}
                 </div>
               )}
