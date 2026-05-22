@@ -220,136 +220,118 @@ export default function NewConfigurator() {
         {/* Left Side Floating Elements */}
         <div className="left-floating-panel">
           <div className="preview-actions">
-          {/* Detail View */}
-          <button
-            className={`action-item-btn ${viewMode === 'detail' ? 'active' : ''}`}
-            onClick={() => setViewMode('detail')}
-          >
-            <div className="icon-wrapper">
-              <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                {/* Frame outer, broken bottom right */}
-                <polyline points="38,40 12,40 12,12 46,12 46,28" />
-                {/* Frame inner, broken bottom right */}
-                <polyline points="33,34 18,34 18,18 40,18 40,24" />
-                {/* Corner lines for 3D effect */}
-                <line x1="12" y1="12" x2="18" y2="18" />
-                <line x1="46" y1="12" x2="40" y2="18" />
-                <line x1="12" y1="40" x2="18" y2="34" />
-                
-                {/* Sun */}
-                <circle cx="25" cy="24" r="1.5" />
-                {/* Mountains */}
-                <path d="M 18 34 L 26 26 L 31 31 L 36 26 L 38 28" />
-                
-                {/* Magnifying Glass Outer */}
-                <circle cx="44" cy="38" r="10" />
-                {/* Magnifying Glass Inner */}
-                <circle cx="44" cy="38" r="6" />
-                {/* Handle */}
-                <rect x="50" y="46" width="4" height="12" rx="2" transform="rotate(-45 52 52)" />
-                
-                {/* Ruler */}
-                <rect x="12" y="46" width="24" height="6" rx="1" />
-                <line x1="16" y1="46" x2="16" y2="49" />
-                <line x1="20" y1="46" x2="20" y2="49" />
-                <line x1="24" y1="46" x2="24" y2="50" />
-                <line x1="28" y1="46" x2="28" y2="49" />
-                <line x1="32" y1="46" x2="32" y2="49" />
-              </svg>
-            </div>
-            <span>Detail View</span>
-          </button>
+            {/* View Modes */}
+            <button
+              className={`action-item-btn ${viewMode === 'detail' ? 'active' : ''}`}
+              onClick={() => setViewMode('detail')}
+            >
+              <div className="icon-wrapper">
+                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="38,40 12,40 12,12 46,12 46,28" />
+                  <polyline points="33,34 18,34 18,18 40,18 40,24" />
+                  <line x1="12" y1="12" x2="18" y2="18" />
+                  <line x1="46" y1="12" x2="40" y2="18" />
+                  <line x1="12" y1="40" x2="18" y2="34" />
+                  <circle cx="25" cy="24" r="1.5" />
+                  <path d="M 18 34 L 26 26 L 31 31 L 36 26 L 38 28" />
+                  <circle cx="44" cy="38" r="10" />
+                  <circle cx="44" cy="38" r="6" />
+                  <rect x="50" y="46" width="4" height="12" rx="2" transform="rotate(-45 52 52)" />
+                  <rect x="12" y="46" width="24" height="6" rx="1" />
+                  <line x1="16" y1="46" x2="16" y2="49" />
+                  <line x1="20" y1="46" x2="20" y2="49" />
+                  <line x1="24" y1="46" x2="24" y2="50" />
+                  <line x1="28" y1="46" x2="28" y2="49" />
+                  <line x1="32" y1="46" x2="32" y2="49" />
+                </svg>
+              </div>
+              <span>Detail View</span>
+            </button>
 
-          {/* Room View */}
-          <button
-            className={`action-item-btn ${viewMode === 'room' ? 'active' : ''}`}
-            onClick={() => setViewMode('room')}
-          >
-            <div className="icon-wrapper">
-              <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                {/* Wall Frame */}
-                <rect x="22" y="10" width="20" height="12" strokeWidth="1.5" />
-                <circle cx="36" cy="15" r="1" strokeWidth="1.5" />
-                <path d="M 22 22 L 28 17 L 33 22" strokeWidth="1.5" />
-                <path d="M 31 20 L 35 16 L 42 22" strokeWidth="1.5" />
-                
-                {/* Sofa Back */}
-                <path d="M 18 36 C 18 28 22 28 32 28 C 42 28 46 28 46 36" />
-                <line x1="32" y1="28" x2="32" y2="42" />
-                
-                {/* Sofa Armrests */}
-                <path d="M 18 32 C 12 32 10 36 10 40 L 10 44 L 16 44 L 16 38 C 16 36 18 36 18 36" />
-                <path d="M 46 32 C 52 32 54 36 54 40 L 54 44 L 48 44 L 48 38 C 48 36 46 36 46 36" />
-                
-                {/* Sofa Seats */}
-                <line x1="16" y1="42" x2="48" y2="42" />
-                <rect x="14" y="44" width="36" height="6" rx="2" />
-                
-                {/* Sofa Legs */}
-                <line x1="20" y1="50" x2="18" y2="54" />
-                <line x1="44" y1="50" x2="46" y2="54" />
-              </svg>
-            </div>
-            <span>Room View</span>
-          </button>
+            <button
+              className={`action-item-btn ${viewMode === 'room' ? 'active' : ''}`}
+              onClick={() => setViewMode('room')}
+            >
+              <div className="icon-wrapper">
+                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="22" y="10" width="20" height="12" strokeWidth="1.5" />
+                  <circle cx="36" cy="15" r="1" strokeWidth="1.5" />
+                  <path d="M 22 22 L 28 17 L 33 22" strokeWidth="1.5" />
+                  <path d="M 31 20 L 35 16 L 42 22" strokeWidth="1.5" />
+                  <path d="M 18 36 C 18 28 22 28 32 28 C 42 28 46 28 46 36" />
+                  <line x1="32" y1="28" x2="32" y2="42" />
+                  <path d="M 18 32 C 12 32 10 36 10 40 L 10 44 L 16 44 L 16 38 C 16 36 18 36 18 36" />
+                  <path d="M 46 32 C 52 32 54 36 54 40 L 54 44 L 48 44 L 48 38 C 48 36 46 36 46 36" />
+                  <line x1="16" y1="42" x2="48" y2="42" />
+                  <rect x="14" y="44" width="36" height="6" rx="2" />
+                  <line x1="20" y1="50" x2="18" y2="54" />
+                  <line x1="44" y1="50" x2="46" y2="54" />
+                </svg>
+              </div>
+              <span>Room View</span>
+            </button>
 
-          {/* Portrait */}
-          <button
-            className={`action-item-btn ${(selections.orientation || 'portrait') === 'portrait' ? 'active' : ''}`}
-            onClick={() => update({ orientation: 'portrait' })}
-          >
-            <div className="icon-wrapper">
-              <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="18" y="12" width="28" height="40" />
-                <rect x="24" y="18" width="16" height="28" />
-                <line x1="18" y1="12" x2="24" y2="18" />
-                <line x1="46" y1="12" x2="40" y2="18" />
-                <line x1="18" y1="52" x2="24" y2="46" />
-                <line x1="46" y1="52" x2="40" y2="46" />
-              </svg>
-            </div>
-            <span>Portrait</span>
-          </button>
+            <div className="pill-divider" />
 
-          {/* Landscape */}
-          <button
-            className={`action-item-btn ${(selections.orientation || 'portrait') === 'landscape' ? 'active' : ''}`}
-            onClick={() => update({ orientation: 'landscape' })}
-          >
-            <div className="icon-wrapper">
-              <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="12" y="18" width="40" height="28" />
-                <rect x="18" y="24" width="28" height="16" />
-                <line x1="12" y1="18" x2="18" y2="24" />
-                <line x1="52" y1="18" x2="46" y2="24" />
-                <line x1="12" y1="46" x2="18" y2="40" />
-                <line x1="52" y1="46" x2="46" y2="40" />
-              </svg>
-            </div>
-            <span>Landscape</span>
-          </button>
-        </div>
+            {/* Orientation Toggles */}
+            <button
+              className={`action-item-btn ${(selections.orientation || 'portrait') === 'portrait' ? 'active' : ''}`}
+              onClick={() => update({ orientation: 'portrait' })}
+            >
+              <div className="icon-wrapper">
+                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="18" y="12" width="28" height="40" />
+                  <rect x="24" y="18" width="16" height="28" />
+                  <line x1="18" y1="12" x2="24" y2="18" />
+                  <line x1="46" y1="12" x2="40" y2="18" />
+                  <line x1="18" y1="52" x2="24" y2="46" />
+                  <line x1="46" y1="52" x2="40" y2="46" />
+                </svg>
+              </div>
+              <span>Portrait</span>
+            </button>
 
-        {/* Bottom Left — Floating Frame Detail */}
-        {frame && (
-          <div className="frame-detail-floating">
-            <div className="frame-detail__img">
-              {frame.image ? (
-                <img
-                  src={`${import.meta.env.BASE_URL}${frame.image}`}
-                  alt={frame.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
-                />
-              ) : (
-                <MouldingCorner hex={frameColourHex} />
-              )}
-            </div>
-            <div className="frame-detail__info">
-              <span className="frame-detail__name">{frame.name}</span>
-              <span className="frame-detail__code">{frame.code}</span>
-            </div>
+            <button
+              className={`action-item-btn ${(selections.orientation || 'portrait') === 'landscape' ? 'active' : ''}`}
+              onClick={() => update({ orientation: 'landscape' })}
+            >
+              <div className="icon-wrapper">
+                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="12" y="18" width="40" height="28" />
+                  <rect x="18" y="24" width="28" height="16" />
+                  <line x1="12" y1="18" x2="18" y2="24" />
+                  <line x1="52" y1="18" x2="46" y2="24" />
+                  <line x1="12" y1="46" x2="18" y2="40" />
+                  <line x1="52" y1="46" x2="46" y2="40" />
+                </svg>
+              </div>
+              <span>Landscape</span>
+            </button>
+
+            {/* Frame Detail */}
+            {frame && (
+              <>
+                <div className="pill-divider" />
+                <div className="frame-detail-floating-inner">
+                  <div className="frame-detail__img">
+                    {frame.image ? (
+                      <img
+                        src={`${import.meta.env.BASE_URL}${frame.image}`}
+                        alt={frame.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+                      />
+                    ) : (
+                      <MouldingCorner hex={frameColourHex} />
+                    )}
+                  </div>
+                  <div className="frame-detail__info">
+                    <span className="frame-detail__name">{frame.name}</span>
+                    <span className="frame-detail__code">{frame.code}</span>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
-        )}
         </div>
 
         <div className="preview-sticky">

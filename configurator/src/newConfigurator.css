@@ -612,24 +612,48 @@
   margin-top: 4px;
   max-width: 130px;
 }
-.frame-detail-floating {
+.pill-divider {
+  width: 60px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 4px 0;
+}
+
+.frame-detail-floating-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  padding: 24px 8px;
-  width: 110px;
-  border-radius: 60px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  width: 100%;
   gap: 12px;
-  z-index: 30;
-  border: 1px solid rgba(255, 255, 255, 0.3);
   box-sizing: border-box;
 }
-.frame-detail-floating .frame-detail__img {
+
+.frame-detail-floating-inner .frame-detail__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.frame-detail-floating-inner .frame-detail__name {
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  max-width: 80px;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.frame-detail-floating-inner .frame-detail__code {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 8px;
+  font-family: monospace;
+}
+.frame-detail-floating-inner .frame-detail__img {
   width: 54px;
   height: 54px;
   border-radius: 50%;
