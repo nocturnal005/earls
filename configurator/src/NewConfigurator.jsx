@@ -63,6 +63,31 @@ export default function NewConfigurator() {
     setSelections(prev => ({ ...prev, ...partial }));
   }, []);
 
+  // Hook into the main website's header cart button
+  React.useEffect(() => {
+    const btn = document.getElementById('header-cart-btn');
+    const badge = document.getElementById('header-cart-count');
+    
+    if (btn) {
+      const handleClick = (e) => {
+        e.preventDefault();
+        setIsCartOpen(true);
+      };
+      btn.addEventListener('click', handleClick);
+      
+      if (badge) {
+        if (cartTotalCount > 0) {
+          badge.style.display = 'flex';
+          badge.textContent = cartTotalCount;
+        } else {
+          badge.style.display = 'none';
+        }
+      }
+      
+      return () => btn.removeEventListener('click', handleClick);
+    }
+  }, [cartTotalCount, setIsCartOpen]);
+
   const handleAddToCart = useCallback((pricingObj, currentFrame, sizeLabel) => {
     if (!pricingObj || pricingObj.total === 0) return;
     
@@ -244,16 +269,6 @@ export default function NewConfigurator() {
           {toastMessage}
         </div>
       )}
-
-      {/* Floating Basket Icon */}
-      <div className="cart-icon-floating" onClick={() => setIsCartOpen(true)}>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="9" cy="21" r="1"></circle>
-          <circle cx="20" cy="21" r="1"></circle>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-        </svg>
-        {cartTotalCount > 0 && <span className="cart-badge">{cartTotalCount}</span>}
-      </div>
 
       <div className="cfg">
         {/* LEFT — Preview */}
