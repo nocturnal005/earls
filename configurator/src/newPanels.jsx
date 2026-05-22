@@ -165,7 +165,7 @@ export function SizePrintSection({ selections, onUpdate }) {
 
       {isCustom && (
         <div className="sec-row">
-          <p className="sec-note">Custom sizes are for framing your own artwork — print service is available for standard sizes only.</p>
+          <p className="sec-note">Custom sizes are for framing your own artwork. Print service is available for standard sizes only.</p>
         </div>
       )}
     </div>
