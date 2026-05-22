@@ -8,6 +8,9 @@ import {
   SizePrintSection, FrameSection, MountSection, GlassSection,
   MouldingCorner, CroppedFrameThumb,
 } from './newPanels.jsx';
+import { useCart } from './CartContext.jsx';
+import CartDrawer from './CartDrawer.jsx';
+import CheckoutView from './CheckoutView.jsx';
 
 
 const SECTIONS = [
@@ -53,9 +56,28 @@ export default function NewConfigurator() {
   const [showBreakdown, setShowBreakdown] = useState(false);
   const [viewMode, setViewMode] = useState('detail');
 
+  const { addToCart, cartTotalCount, setIsCartOpen } = useCart();
+  const [toastMessage, setToastMessage] = useState('');
+
   const update = useCallback((partial) => {
     setSelections(prev => ({ ...prev, ...partial }));
   }, []);
+
+  const handleAddToCart = useCallback((pricingObj, currentFrame, sizeLabel) => {
+    if (!pricingObj || pricingObj.total === 0) return;
+    
+    const cartItem = {
+      frameName: currentFrame ? currentFrame.name : 'Unframed Print',
+      dimensions: sizeLabel,
+      mount: selections.mountTypeId !== 'none' ? MOUNT_COLOURS.find(m => m.id === selections.mountColourId)?.label || 'Mount' : null,
+      price: pricingObj.total,
+      image: selections.imageUrl || (currentFrame ? `${import.meta.env.BASE_URL}${currentFrame.image}` : null)
+    };
+    
+    addToCart(cartItem);
+    setToastMessage('Added to your basket');
+    setTimeout(() => setToastMessage(''), 3000);
+  }, [selections, addToCart]);
 
   const handleReset = useCallback(() => {
     setSelections(DEFAULT_SELECTIONS);
@@ -213,11 +235,31 @@ export default function NewConfigurator() {
   };
 
   return (
-    <div className="cfg">
-      {/* LEFT — Preview */}
-      <div className={`cfg__preview cfg__preview--${viewMode}`}>
-        
-        {/* Left Side Floating Elements */}
+    <>
+      <CartDrawer />
+      <CheckoutView />
+      
+      {toastMessage && (
+        <div className="cart-toast">
+          {toastMessage}
+        </div>
+      )}
+
+      {/* Floating Basket Icon */}
+      <div className="cart-icon-floating" onClick={() => setIsCartOpen(true)}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        {cartTotalCount > 0 && <span className="cart-badge">{cartTotalCount}</span>}
+      </div>
+
+      <div className="cfg">
+        {/* LEFT — Preview */}
+        <div className={`cfg__preview cfg__preview--${viewMode}`}>
+          
+          {/* Left Side Floating Elements */}
         <div className="left-floating-panel">
           <div className="preview-actions">
             {/* View Modes */}
@@ -566,9 +608,9 @@ export default function NewConfigurator() {
             <span className={`price-bar__chevron ${showBreakdown ? 'price-bar__chevron--open' : ''}`}>▴</span>
           </button>
 
-          <button className="cta-btn" disabled={pricing.total === 0}>Add to Cart — £{pricing.total.toFixed(2)}</button>
+          <button className="cta-btn" disabled={pricing.total === 0} onClick={() => handleAddToCart(pricing, frame, sectionSummary('size'))}>Add to Cart — £{pricing.total.toFixed(2)}</button>
         </div>
       </div>
-    </div>
+    </>
   );
 }
