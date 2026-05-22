@@ -1692,16 +1692,16 @@
 .payment-option:hover { background: #FAFAF8; }
 .payment-option.selected { background: #FAFAF8; }
 .radio-circle { width: 18px; height: 18px; border-radius: 50%; border: 1px solid #B0AAA4; display: flex; align-items: center; justify-content: center; }
-.payment-option.selected .radio-circle { border-color: #2A2725; }
-.payment-option.selected .radio-circle::after { content: ''; width: 10px; height: 10px; background: #2A2725; border-radius: 50%; }
+.payment-option.selected .radio-circle { border-color: #C41E1E; }
+.payment-option.selected .radio-circle::after { content: ''; width: 10px; height: 10px; background: #C41E1E; border-radius: 50%; }
 .payment-option span { font-size: 14px; font-weight: 500; color: #2A2725; }
 
 .card-details { background: #FAFAF8; padding: 20px; border: 1px solid #E8E4DE; border-radius: 6px; margin-bottom: 24px; }
 
 .pay-now-btn {
-  width: 100%; padding: 18px; background: #2A2725; color: #FFF; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s; letter-spacing: 0.05em; margin-top: 16px;
+  width: 100%; padding: 18px; background: #C41E1E; color: #FFF; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s; letter-spacing: 0.05em; margin-top: 16px;
 }
-.pay-now-btn:hover { background: #111; }
+.pay-now-btn:hover { background: #A01616; }
 
 .summary-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; margin: 0 0 24px 0; color: #2A2725; border-bottom: 1px solid #E8E4DE; padding-bottom: 16px; }
 .summary-items { display: flex; flexDirection: column; gap: 16px; margin-bottom: 24px; border-bottom: 1px solid #E8E4DE; padding-bottom: 24px; }
@@ -1709,7 +1709,7 @@
 .summary-item-img { position: relative; width: 64px; height: 64px; background: #FAF9F7; border: 1px solid #E8E4DE; border-radius: 6px; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
 .summary-item-img img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
 .summary-item-img .placeholder { width: 100%; height: 100%; background: #E8E4DE; }
-.summary-item-badge { position: absolute; top: -6px; right: -6px; background: rgba(42,39,37,0.9); color: #FFF; width: 20px; height: 20px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+.summary-item-badge { position: absolute; top: -6px; right: -6px; background: #C41E1E; color: #FFF; width: 20px; height: 20px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
 .summary-item-details { flex: 1; }
 .summary-item-details h4 { margin: 0 0 4px 0; font-size: 14px; font-weight: 600; color: #2A2725; }
 .summary-item-details p { margin: 0; font-size: 12px; color: #8A8580; }
