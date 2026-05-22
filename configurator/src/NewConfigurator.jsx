@@ -20,7 +20,7 @@ const SECTIONS = [
 const DEFAULT_SELECTIONS = {
   imageUrl: null,
   imageFile: null,
-  sizeId: 'A4',
+  sizeId: null,
   customW: null,
   customH: null,
   orientation: 'portrait',
@@ -108,7 +108,7 @@ export default function NewConfigurator() {
     const round2 = n => Math.round(n * 100) / 100;
     const printPrice  = (!isCustom && selections.printType && size) ? (calcPrintPrice(selections.printType, selections.sizeId) || 0) : 0;
     const mountWidthMm = selections.mountWidthId === 'custom'
-      ? (selections.customMountWidth || 50)
+      ? (selections.customMountWidth || 0)
       : (MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50);
     const framePrice  = (frame && effW) ? calcFramePrice(frame, effW, effH, selections.mountTypeId, mountWidthMm) : 0;
     const mountPrice  = (selections.mountTypeId !== 'none' && selections.printType !== 'canvas' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH, mountWidthMm) : 0;
@@ -122,10 +122,10 @@ export default function NewConfigurator() {
   }, [selections, frame, size, effW, effH, isCustom]);
 
   const previewScale = useMemo(() => {
-    if (!hasDims) return viewMode === 'detail' ? 25 : 2.2;
+    if (!hasDims) return 25; // Identical starting point for both views before any size is selected
     
     const activeMountCm = selections.mountTypeId !== 'none' && selections.printType !== 'canvas' 
-      ? (selections.mountWidthId === 'custom' ? (selections.customMountWidth || 50) : (MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50)) / 10 
+      ? (selections.mountWidthId === 'custom' ? (selections.customMountWidth || 0) : (MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50)) / 10 
       : 0;
     const frameCm = frame ? frame.widthMm / 10 : 0;
     
@@ -139,8 +139,15 @@ export default function NewConfigurator() {
        return Math.min(450 / maxTotalDimCm, 40); // Cap scale so tiny items don't blow up too much
     } else {
        // Fixed physical scale for room view so A4 looks small and A0 looks large.
-       // 2.2 ensures the absolute largest 40x60" prints (152cm) fit perfectly above the sofa (~330px tall)
-       return 2.2;
+       // 1.8 ensures realistic sizing against the room background.
+       // We cap the max pixel height to 220px so it NEVER hits the sofa.
+       const idealScale = 1.8;
+       const maxAllowedHeightPx = 220;
+       
+       if (totalPhysicalHeightCm * idealScale > maxAllowedHeightPx) {
+           return maxAllowedHeightPx / totalPhysicalHeightCm;
+       }
+       return idealScale;
     }
   }, [displayW, displayH, hasDims, viewMode, selections.mountTypeId, selections.mountWidthId, selections.printType, selections.customMountWidth, frame]);
 
@@ -150,7 +157,7 @@ export default function NewConfigurator() {
 
   const framePx = frame ? Math.max(4, Math.round((frame.widthMm / 10) * previewScale)) : 0;
   const activeMountWidthMm = selections.mountWidthId === 'custom' 
-      ? (selections.customMountWidth || 50) 
+      ? (selections.customMountWidth || 0) 
       : (MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50);
   const mountPadPx = Math.max(0, Math.round((activeMountWidthMm / 10) * previewScale));
 

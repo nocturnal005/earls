@@ -350,7 +350,7 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
   });
 
   const mountWidthMm = mountWidthId === 'custom' 
-    ? (customMountWidth || 50) 
+    ? (customMountWidth || 0) 
     : (MOUNT_WIDTHS.find(mw => mw.id === mountWidthId)?.mm || 50);
 
   const mountColour = MOUNT_COLOURS.find(mc => mc.id === mountColourId);
@@ -469,9 +469,9 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
                   <input
                     type="number"
                     className="custom-size-field__input"
-                    value={unit === 'imperial' ? ((customMountWidth || 50) / 25.4).toFixed(2).replace(/\.?0+$/, '') : ((customMountWidth || 50) / 10).toFixed(1).replace(/\.?0+$/, '')}
+                    value={customMountWidth === null ? 0 : (unit === 'imperial' ? Math.round(customMountWidth / 25.4) : Math.round(customMountWidth / 10))}
                     onChange={(e) => {
-                      const val = parseFloat(e.target.value);
+                      const val = parseInt(e.target.value, 10);
                       if (isNaN(val)) {
                          onUpdate({ customMountWidth: null });
                          return;
@@ -479,10 +479,9 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
                       const mm = unit === 'imperial' ? val * 25.4 : val * 10;
                       onUpdate({ customMountWidth: mm });
                     }}
-                    placeholder={unit === 'imperial' ? 'e.g. 2.5' : 'e.g. 6.5'}
-                    min={unit === 'imperial' ? 1 : 2}
+                    placeholder="0"
+                    min="0"
                     max={unit === 'imperial' ? 12 : 30}
-                    step="0.1"
                   />
                 </div>
               </div>
