@@ -611,6 +611,7 @@ export default function NewConfigurator() {
           <button className="cta-btn" disabled={pricing.total === 0} onClick={() => handleAddToCart(pricing, frame, sectionSummary('size'))}>Add to Cart — £{pricing.total.toFixed(2)}</button>
         </div>
       </div>
+    </div>
     </>
   );
 }
