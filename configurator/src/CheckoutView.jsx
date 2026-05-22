@@ -17,8 +17,9 @@ export default function CheckoutView() {
         
         {/* Header */}
         <header className="checkout-header">
-          <div className="checkout-logo">
-            <span>FRAME</span><span style={{fontWeight: 300, marginLeft: 3}}>STUDIO</span>
+          <div className="checkout-logo" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <img src="/earls_logo.png" alt="Earl's Picture Framing Logo" style={{ height: '40px' }} />
+            <span style={{ fontSize: '20px', fontWeight: 600, letterSpacing: '0.05em', color: '#2A2725' }}>EARL'S PICTURE FRAMING</span>
           </div>
           <button className="back-btn" onClick={() => setIsCheckoutOpen(false)}>
             ← Back to Configurator
@@ -57,7 +58,7 @@ export default function CheckoutView() {
                   onClick={() => setPaymentMethod('card')}
                 >
                   <div className="radio-circle"></div>
-                  <span>Credit Card</span>
+                  <span>Credit / Debit Card (Visa, Mastercard, etc.)</span>
                 </div>
                 <div 
                   className={`payment-option ${paymentMethod === 'paypal' ? 'selected' : ''}`}
@@ -72,6 +73,13 @@ export default function CheckoutView() {
                 >
                   <div className="radio-circle"></div>
                   <span>Apple Pay</span>
+                </div>
+                <div 
+                  className={`payment-option ${paymentMethod === 'googlepay' ? 'selected' : ''}`}
+                  onClick={() => setPaymentMethod('googlepay')}
+                >
+                  <div className="radio-circle"></div>
+                  <span>Google Pay</span>
                 </div>
               </div>
 
