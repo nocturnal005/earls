@@ -122,9 +122,12 @@ export default function NewConfigurator() {
   }, [selections, frame, size, effW, effH, isCustom]);
 
   const previewScale = useMemo(() => {
-    if (!hasDims) return 25; // Identical starting point for both views before any size is selected
-    
-    const activeMountCm = selections.mountTypeId !== 'none' && selections.printType !== 'canvas' 
+    if (!hasDims) {
+       // Detail view uses a large scale (25) to fill the screen.
+       // Room view must use a smaller scale (8.5) so the empty placeholder doesn't explode to 600px and hit the sofa.
+       return viewMode === 'detail' ? 25 : 8.5; 
+    }
+    const activeMountCm = selections.mountTypeId !== 'none' && selections.printType !== 'canvas'
       ? (selections.mountWidthId === 'custom' ? (selections.customMountWidth || 0) : (MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50)) / 10 
       : 0;
     const frameCm = frame ? frame.widthMm / 10 : 0;
