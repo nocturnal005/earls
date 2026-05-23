@@ -1632,120 +1632,305 @@
   transition: background 0.2s;
 }
 .checkout-btn:hover { background: #111; }
+.continue-framing-btn {
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  color: #2A2725;
+  border: 1.5px solid #2A2725;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 10px;
+  font-family: 'Libre Franklin', sans-serif;
+}
+.continue-framing-btn:hover { background: #2A2725; color: #FFF; }
 
-/* Checkout Overlay */
-.checkout-overlay {
+/* =============================================
+   CHECKOUT — Variant 3 Split-Screen Layout
+   ============================================= */
+
+/* Overlay: linear-gradient guarantees left-white / right-dark split extends
+   all the way down regardless of which column is taller. */
+.co-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: #FFF;
+  inset: 0;
   z-index: 3000;
   display: flex;
-  overflow-y: auto;
+  background: linear-gradient(to right, #FFFFFF 55%, #1A1A1A 55%);
+  overflow: hidden;
   font-family: 'Libre Franklin', sans-serif;
-  animation: fadeIn 0.3s ease;
+  animation: coFadeIn 0.35s ease;
 }
-@keyframes fadeIn {
-  from { opacity: 0; } to { opacity: 1; }
-}
+@keyframes coFadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* Split Container */
-.checkout-split-container {
+/* ---------- LEFT PANE (Form) ---------- */
+.co-left {
+  width: 55%;
+  height: 100vh;
+  overflow-y: auto;
   display: flex;
-  width: 100%;
-  min-height: 100vh;
+  justify-content: flex-end;
 }
-
-/* Left Pane (Form) */
-.checkout-left-pane {
-  flex: 1.1;
-  background: #FFF;
+.co-left-inner {
+  width: 100%;
+  max-width: 560px;
+  padding: 0 60px 60px 40px;
   display: flex;
   flex-direction: column;
 }
 
-.checkout-header-split {
-  padding: 32px 8%;
+/* Header */
+.co-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 28px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #E8E4DE;
 }
-.checkout-logo { font-size: 20px; font-weight: 700; letter-spacing: 0.07em; color: #2A2725; }
-.back-btn { background: none; border: none; font-size: 13px; color: #C41E1E; cursor: pointer; }
-.back-btn:hover { color: #2A2725; text-decoration: underline; }
-
-.checkout-form-content {
-  padding: 20px 8% 60px 8%;
-  max-width: 650px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.checkout-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; margin: 0 0 40px 0; color: #2A2725; }
-
-.form-group { margin-bottom: 32px; }
-.form-group > label { display: block; font-size: 18px; font-weight: 600; color: #2A2725; margin-bottom: 16px; font-family: 'Cormorant Garamond', serif; }
-.form-input {
-  width: 100%; padding: 14px 16px; border: 1px solid #DDD8D2; border-radius: 6px; font-size: 14px; margin-bottom: 12px; background: #FFF; transition: border-color 0.2s; outline: none; font-family: 'Libre Franklin', sans-serif; box-sizing: border-box;
-}
-.form-input:focus { border-color: #2A2725; }
-.form-row { display: flex; gap: 12px; }
-.form-input.half { flex: 1; }
-
-.payment-methods {
-  border: 1px solid #DDD8D2; border-radius: 6px; background: #FFF; overflow: hidden; margin-bottom: 16px;
-}
-.payment-option {
-  padding: 16px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #E8E4DE; cursor: pointer; transition: background 0.2s;
-}
-.payment-option:last-child { border-bottom: none; }
-.payment-option:hover { background: #FAFAF8; }
-.payment-option.selected { background: #FAFAF8; }
-.radio-circle { width: 18px; height: 18px; border-radius: 50%; border: 1px solid #B0AAA4; display: flex; align-items: center; justify-content: center; }
-.payment-option.selected .radio-circle { border-color: #C41E1E; }
-.payment-option.selected .radio-circle::after { content: ''; width: 10px; height: 10px; background: #C41E1E; border-radius: 50%; }
-.payment-option span { font-size: 14px; font-weight: 500; color: #2A2725; }
-
-.card-details { background: #FAFAF8; padding: 20px; border: 1px solid #E8E4DE; border-radius: 6px; margin-bottom: 24px; }
-
-.pay-now-btn {
-  width: 100%; padding: 18px; background: #C41E1E; color: #FFF; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s; letter-spacing: 0.05em; margin-top: 24px;
-}
-.pay-now-btn:hover { background: #A01616; }
-
-/* Right Pane (Summary - Dark) */
-.checkout-right-pane {
-  flex: 0.9;
-  background: #1A1A1A;
-  color: #FAFAFA;
-  padding: 60px 8%;
+.co-header-brand {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.co-header-logo {
+  height: 36px;
+  width: auto;
+}
+.co-header-name {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #2A2725;
+  font-family: 'Libre Franklin', sans-serif;
 }
 
-.checkout-summary-content {
-  max-width: 500px;
+/* Back link (inside header) */
+.co-back {
+  background: none; border: none; font-size: 13px; color: #C41E1E;
+  cursor: pointer; padding: 0;
+  font-family: 'Libre Franklin', sans-serif;
+  white-space: nowrap;
+}
+.co-back:hover { text-decoration: underline; color: #2A2725; }
+
+/* Progress bar */
+.co-progress { display: flex; gap: 12px; margin-bottom: 28px; }
+.co-progress-step { height: 4px; border-radius: 2px; flex: 1; background: #E0DCD7; }
+.co-progress-step.done { background: #1A1A1A; }
+.co-progress-step.active { background: #1A1A1A; }
+
+/* Heading */
+.co-heading {
+  font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 700;
+  color: #1A1A1A; margin: 0 0 40px 0; line-height: 1.15;
+}
+
+/* Sections */
+.co-section { margin-bottom: 36px; }
+.co-section-title {
+  font-size: 16px; font-weight: 700; color: #1A1A1A;
+  margin: 0 0 16px 0; font-family: 'Libre Franklin', sans-serif;
+}
+
+/* Inputs */
+.co-input {
+  width: 100%; padding: 14px 16px; border: 1px solid #D5D0CA; border-radius: 6px;
+  font-size: 14px; margin-bottom: 12px; background: #FFF; outline: none;
+  font-family: 'Libre Franklin', sans-serif; box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.co-input:focus { border-color: #1A1A1A; }
+.co-input::placeholder { color: #A09A94; }
+.co-row { display: flex; gap: 12px; }
+.co-row .co-input { flex: 1; }
+.co-grow { flex: 2 !important; }
+.co-small { flex: 0.6 !important; max-width: 100px; }
+
+/* Shipping toggle */
+.co-shipping-toggle { display: flex; gap: 0; border: 1px solid #D5D0CA; border-radius: 6px; overflow: hidden; }
+.co-ship-btn {
+  flex: 1; padding: 14px 20px; border: none; background: #FFF; cursor: pointer;
+  font-size: 14px; font-weight: 600; color: #2A2725; display: flex;
+  justify-content: space-between; align-items: center; transition: all 0.2s;
+  font-family: 'Libre Franklin', sans-serif;
+}
+.co-ship-btn + .co-ship-btn { border-left: 1px solid #D5D0CA; }
+.co-ship-btn.active { background: #1A1A1A; color: #FFF; }
+.co-ship-price { font-weight: 500; }
+
+/* Payment tabs */
+.co-pay-tabs { display: flex; gap: 0; border: 1px solid #D5D0CA; border-radius: 6px; overflow: hidden; margin-bottom: 20px; }
+.co-pay-tab {
+  flex: 1; padding: 12px 16px; border: none; background: #FFF; cursor: pointer;
+  font-size: 13px; font-weight: 600; color: #2A2725; text-align: center;
+  transition: all 0.2s; font-family: 'Libre Franklin', sans-serif;
+}
+.co-pay-tab + .co-pay-tab { border-left: 1px solid #D5D0CA; }
+.co-pay-tab.active { background: #1A1A1A; color: #FFF; }
+
+.co-card-fields { animation: coFadeIn 0.25s ease; }
+.co-alt-pay-msg { padding: 24px; background: #F6F5F3; border-radius: 6px; font-size: 14px; color: #6B6560; text-align: center; }
+
+
+/* Footer */
+.co-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid #E8E4DE;
+  text-align: center;
+}
+.co-footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.co-footer-links a {
+  font-size: 12px;
+  color: #8A8580;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.co-footer-links a:hover { color: #2A2725; text-decoration: underline; }
+.co-footer-dot { color: #D5D0CA; font-size: 12px; }
+.co-footer-copy {
+  font-size: 11px;
+  color: #B0AAA4;
+  margin: 0;
+}
+
+
+/* ---------- RIGHT PANE (Dark Summary) ---------- */
+.co-right {
+  width: 45%;
+  height: 100vh;
+  color: #FAFAFA;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.co-right::-webkit-scrollbar { display: none; }
+.co-right-inner {
   width: 100%;
+  max-width: 480px;
+  padding: 32px 40px 80px 60px;
 }
 
-.summary-title-dark { font-family: 'Cormorant Garamond', serif; font-size: 28px; margin: 0 0 32px 0; color: #FAFAFA; border-bottom: 1px solid #333; padding-bottom: 16px; }
-.summary-items-dark { display: flex; flexDirection: column; gap: 20px; margin-bottom: 32px; border-bottom: 1px solid #333; padding-bottom: 24px; }
-.summary-item-dark { display: flex; gap: 20px; align-items: center; }
-.summary-item-img-dark { position: relative; width: 72px; height: 72px; background: rgba(255,255,255,0.05); border: 1px solid #333; border-radius: 6px; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
-.summary-item-img-dark img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
-.summary-item-img-dark .placeholder-dark { width: 100%; height: 100%; background: #333; }
-.summary-item-badge { position: absolute; top: -6px; right: -6px; background: #C41E1E; color: #FFF; width: 22px; height: 22px; border-radius: 50%; font-size: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; z-index: 10; }
-.summary-item-details-dark { flex: 1; }
-.summary-item-details-dark h4 { margin: 0 0 6px 0; font-size: 15px; font-weight: 600; color: #FAFAFA; }
-.summary-item-details-dark p { margin: 0; font-size: 13px; color: #A0A0A0; }
-.summary-item-price-dark { font-size: 15px; font-weight: 600; color: #FAFAFA; }
+/* Frame Gallery */
+.co-frame-gallery {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.co-frame-card {
+  flex: 1;
+  aspect-ratio: 3 / 4;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #FFFFFF;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+.co-frame-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.co-frame-card-ph {
+  width: 100%;
+  height: 100%;
+  background: #333;
+}
 
-.summary-totals-dark { display: flex; flex-direction: column; gap: 16px; }
-.summary-row-dark { display: flex; justify-content: space-between; font-size: 15px; color: #CCC; }
-.total-row-dark { margin-top: 16px; padding-top: 20px; border-top: 1px solid #333; font-size: 20px; font-weight: 600; color: #FAFAFA; align-items: center; }
-.total-price-dark { font-size: 28px; }
-.currency-dark { font-size: 13px; color: #A0A0A0; font-weight: 500; vertical-align: middle; margin-right: 6px; }
+/* Order title */
+.co-order-title {
+  font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600;
+  color: #FAFAFA; margin: 0 0 24px 0;
+  font-style: italic;
+}
 
+/* Order items */
+.co-order-items { margin-bottom: 28px; }
+.co-order-item {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.co-order-item:first-child { padding-top: 0; }
+
+.co-order-thumb {
+  width: 72px; height: 72px; border-radius: 6px; overflow: hidden; flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05);
+}
+.co-order-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.co-order-thumb-ph { width: 100%; height: 100%; background: #333; }
+
+.co-order-info { flex: 1; }
+.co-order-info h4 { margin: 0 0 4px 0; font-size: 15px; font-weight: 600; color: #FAFAFA; }
+.co-order-info p { margin: 0 0 10px 0; font-size: 12px; color: #A0A0A0; }
+
+/* Quantity stepper */
+.co-qty { display: inline-flex; align-items: center; gap: 0; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; overflow: hidden; }
+.co-qty-btn {
+  width: 28px; height: 28px; border: none; background: transparent; color: #FAFAFA;
+  font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.co-qty-btn:hover { background: rgba(255,255,255,0.1); }
+.co-qty-val { width: 24px; text-align: center; font-size: 13px; font-weight: 600; color: #FAFAFA; }
+
+/* Remove button */
+.co-remove-btn {
+  background: none; border: none; color: #C41E1E; font-size: 12px;
+  cursor: pointer; padding: 0; margin-top: 8px; display: block;
+  font-family: 'Libre Franklin', sans-serif; opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.co-remove-btn:hover { opacity: 1; text-decoration: underline; }
+
+.co-order-price { font-size: 15px; font-weight: 600; color: #FAFAFA; white-space: nowrap; padding-top: 2px; }
+
+/* Totals */
+.co-totals { padding-top: 8px; }
+.co-totals-row { display: flex; justify-content: space-between; font-size: 14px; color: #CCC; padding: 6px 0; }
+.co-totals-final {
+  margin-top: 12px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.15);
+  font-size: 18px; font-weight: 700; color: #FAFAFA;
+}
+.co-grand-total { font-size: 24px; font-weight: 700; }
+
+/* Pay button (dark pane version) */
+.co-pay-btn-dark {
+  width: 100%; padding: 18px; background: #C41E1E; color: #FFF; border: none;
+  border-radius: 6px; font-size: 18px; font-weight: 700; cursor: pointer;
+  letter-spacing: 0.04em; margin-top: 28px; transition: background 0.2s;
+  font-family: 'Libre Franklin', sans-serif;
+}
+.co-pay-btn-dark:hover { background: #A01616; }
+.co-secure-text-dark { text-align: center; font-size: 13px; color: #888; margin-top: 10px; }
+
+/* Trust section */
+.co-trust { margin-top: 28px; text-align: center; }
+.co-trust-label { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #AAA; margin: 0 0 8px 0; }
+.co-trust-sub { font-size: 13px; color: #888; margin: 0; }
+
+
+/* ---------- RESPONSIVE ---------- */
 @media (max-width: 900px) {
-  .checkout-split-container { flex-direction: column-reverse; }
-  .checkout-left-pane, .checkout-right-pane { flex: none; width: 100%; padding: 40px 5%; }
+  .co-overlay {
+    flex-direction: column-reverse;
+    background: #FFF;
+    overflow-y: auto;
+  }
+  .co-left, .co-right { width: 100%; height: auto; overflow: visible; }
+  .co-right { background: #1A1A1A; }
+  .co-left-inner, .co-right-inner {
+    max-width: 100%; padding: 32px 24px;
+  }
+  .co-frame-gallery { display: none; }
 }

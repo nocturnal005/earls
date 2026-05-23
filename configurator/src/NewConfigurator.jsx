@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
 import {
   PRINT_SIZES, FRAME_CATALOGUE, MOUNT_COLOURS, COLOUR_GROUPS, MOUNT_TYPES,
   GLASS_OPTIONS, VGROOVE_COLOURS, MOUNT_WIDTHS,
@@ -11,6 +11,7 @@ import {
 import { useCart } from './CartContext.jsx';
 import CartDrawer from './CartDrawer.jsx';
 import CheckoutView from './CheckoutView.jsx';
+import html2canvas from 'html2canvas';
 
 
 const SECTIONS = [
@@ -28,7 +29,7 @@ const DEFAULT_SELECTIONS = {
   customH: null,
   orientation: 'portrait',
   printType: 'poster',
-  frameId: 'E003',
+  frameId: null,
   mountTypeId: 'plain',
   mountColourId: 'bright-white',
   mountColourId2: 'deep-black',
@@ -88,15 +89,34 @@ export default function NewConfigurator() {
     }
   }, [cartTotalCount, setIsCartOpen]);
 
-  const handleAddToCart = useCallback((pricingObj, currentFrame, sizeLabel) => {
+  const handleAddToCart = useCallback(async (pricingObj, currentFrame, sizeLabel) => {
     if (!pricingObj || pricingObj.total === 0) return;
+
+    // Capture configured frame preview as image
+    let configuredImage = null;
+    const previewEl = document.querySelector('.preview-frame');
+    if (previewEl) {
+      try {
+        const canvas = await html2canvas(previewEl, {
+          backgroundColor: '#FFFFFF',
+          scale: 4,
+          useCORS: true,
+          allowTaint: true,
+          imageTimeout: 0,
+          logging: false,
+        });
+        configuredImage = canvas.toDataURL('image/png');
+      } catch (e) {
+        console.warn('Could not capture frame preview:', e);
+      }
+    }
     
     const cartItem = {
       frameName: currentFrame ? currentFrame.name : 'Unframed Print',
       dimensions: sizeLabel,
       mount: selections.mountTypeId !== 'none' ? MOUNT_COLOURS.find(m => m.id === selections.mountColourId)?.label || 'Mount' : null,
       price: pricingObj.total,
-      image: selections.imageUrl || (currentFrame ? `${import.meta.env.BASE_URL}${currentFrame.image}` : null)
+      image: configuredImage || selections.imageUrl || (currentFrame ? `${import.meta.env.BASE_URL}${currentFrame.image}` : null)
     };
     
     addToCart(cartItem);

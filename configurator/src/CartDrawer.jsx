@@ -82,6 +82,9 @@ export default function CartDrawer() {
             <button className="checkout-btn" onClick={handleCheckoutClick}>
               Proceed to Checkout
             </button>
+            <button className="continue-framing-btn" onClick={() => setIsCartOpen(false)}>
+              Continue Framing
+            </button>
           </div>
         )}
       </div>

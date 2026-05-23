@@ -17,7 +17,10 @@ export function CartProvider({ children }) {
   };
 
   const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return;
+    if (newQuantity < 1) {
+      removeFromCart(id);
+      return;
+    }
     setCartItems((prev) =>
       prev.map((item) => (item.id === id ? { ...item, quantity: newQuantity } : item))
     );
