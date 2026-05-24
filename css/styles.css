@@ -650,18 +650,21 @@ img {
     width: 100%;
     padding: var(--space-xl) 0;
     display: flex;
-    justify-content: center;
-    perspective: 1000px;
+    justify-content: flex-start;
+    overflow: hidden;
 }
 
 .gallery-immersive__track {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0;
-    width: 100%;
-    max-width: 1800px;
-    padding: 0 5vw;
+    gap: 30px;
+    width: max-content;
+    padding: 40px 0;
+    animation: marquee-scroll 40s linear infinite;
+}
+
+.gallery-immersive__track:hover {
+    animation-play-state: paused;
 }
 
 .gallery-immersive__item {
@@ -670,31 +673,37 @@ img {
     aspect-ratio: 9/16;
     border-radius: var(--radius-sm);
     overflow: hidden;
-    transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: all 0.5s ease;
     z-index: 1;
-    margin: 0 -1.5vw; /* Slightly reduced overlap */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    filter: brightness(0.5) contrast(1.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     cursor: pointer;
-    transform-style: preserve-3d;
 }
 
-/* Vertical Staggering */
+/* Vertical Staggering (using margin to prevent transform conflicts on hover) */
 .gallery-immersive__item:nth-child(even) {
-    transform: translateY(20px);
+    margin-top: 40px;
 }
 .gallery-immersive__item:nth-child(odd) {
-    transform: translateY(-20px);
+    margin-bottom: 40px;
 }
 
-/* Active / Hover State */
-.gallery-immersive__item:hover,
-.gallery-immersive__item.active {
-    transform: translateY(0) scale(1.15) translateZ(30px) !important;
-    z-index: 10;
-    filter: brightness(1) contrast(1);
+/* Track hover state (blurs all) */
+.gallery-immersive__track:hover .gallery-immersive__item {
+    filter: blur(5px) brightness(0.4);
+    transform: scale(0.95);
+}
+
+/* Item hover state (focuses single item) */
+.gallery-immersive__track .gallery-immersive__item:hover {
+    filter: blur(0) brightness(1.1) !important;
+    transform: scale(1.15) !important;
     box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.2);
-    margin: 0 1vw; /* Push siblings away slightly less */
+    z-index: 10;
+}
+
+@keyframes marquee-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
 .gallery-immersive__image-wrap {
@@ -712,28 +721,24 @@ img {
     transform: translate3d(0, 0, 0);
 }
 
-.gallery-immersive__item:hover img,
-.gallery-immersive__item.active img {
-    /* Smooth deliberate scroll revealing detail */
+.gallery-immersive__item:hover img {
     transform: translate3d(-15%, -15%, 0);
     transition: transform 12s cubic-bezier(0.1, 0.8, 0.3, 1);
 }
 
 @media (max-width: 768px) {
     .gallery-immersive__track {
-        flex-wrap: wrap;
-        gap: var(--space-md);
-        margin-top: var(--space-lg);
+        gap: 15px;
+        animation: marquee-scroll 25s linear infinite; /* Faster on mobile */
     }
     .gallery-immersive__item {
         width: clamp(140px, 40vw, 200px);
-        margin: 0;
-        transform: none !important;
     }
-    .gallery-immersive__item:hover,
-    .gallery-immersive__item.active {
-        transform: scale(1.05) translateZ(10px) !important;
-        margin: 0;
+    .gallery-immersive__item:nth-child(even) {
+        margin-top: 20px;
+    }
+    .gallery-immersive__item:nth-child(odd) {
+        margin-bottom: 20px;
     }
 }
 
@@ -870,6 +875,16 @@ img {
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 600;
+}
+
+.review-card__image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    margin-top: var(--space-lg);
+    background-color: var(--warm-grey);
+    display: block;
 }
 
 /* === CONTACT SECTION === */
