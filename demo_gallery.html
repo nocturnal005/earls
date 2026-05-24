@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animation Prototypes | Earl's Framing</title>
+<style>
+  body { 
+      font-family: 'Source Sans 3', sans-serif; 
+      background: #121212; 
+      color: #fff; 
+      margin: 0; 
+      padding: 0; 
+  }
+  h1 { text-align: center; margin-top: 40px; font-family: 'Libre Baskerville', serif; font-size: 2.5rem; }
+  h2 { text-align: center; margin-bottom: 20px; font-weight: 400; color: #aaa; }
+  .desc { text-align: center; max-width: 600px; margin: 0 auto 40px; color: #888; line-height: 1.6; }
+  
+  .demo-section { 
+      padding: 60px 0; 
+      border-bottom: 1px solid #333; 
+      overflow: hidden; 
+  }
+
+  /* Base Image Styles */
+  .img-card { 
+      width: 240px; 
+      height: 360px; 
+      border-radius: 8px; 
+      object-fit: cover; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  /* =========================================
+     Variant 1: Infinite Cinematic Marquee
+     ========================================= */
+  .v1-wrapper { overflow: hidden; padding: 40px 0; }
+  .v1-marquee {
+      display: flex; 
+      gap: 30px; 
+      width: max-content;
+      animation: scroll 20s linear infinite;
+  }
+  .v1-marquee:hover { 
+      animation-play-state: paused; 
+  }
+  .v1-marquee:hover .img-card { 
+      filter: blur(5px) brightness(0.4); 
+      transform: scale(0.95); 
+      transition: all 0.5s ease;
+  }
+  .v1-marquee .img-card {
+      transition: all 0.5s ease;
+  }
+  .v1-marquee .img-card:hover { 
+      filter: blur(0) brightness(1) !important; 
+      transform: scale(1.1) !important; 
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+      z-index: 10; 
+  }
+  @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+  }
+
+
+  /* =========================================
+     Variant 2: Mouse-Tracked Parallax & Blur
+     ========================================= */
+  .v2-container { 
+      display: flex; 
+      justify-content: center; 
+      align-items: center;
+      gap: -40px; /* Slight overlap */
+      perspective: 1200px; 
+      padding: 60px 0;
+  }
+  .v2-container:hover .v2-card { 
+      filter: blur(6px) brightness(0.4); 
+  }
+  .v2-card { 
+      width: 220px; 
+      height: 330px; 
+      margin: 0 -15px; 
+      transition: filter 0.4s ease, transform 0.2s ease-out; 
+      transform-style: preserve-3d;
+      will-change: transform;
+  }
+  .v2-card img { 
+      width: 100%; 
+      height: 100%; 
+      border-radius: 8px; 
+      object-fit: cover; 
+      pointer-events: none; /* Let the wrapper handle mouse events */
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .v2-card:hover { 
+      filter: blur(0) brightness(1.1) !important; 
+      z-index: 10; 
+  }
+
+
+  /* =========================================
+     Variant 3: 3D Coverflow Carousel
+     ========================================= */
+  .v3-container {
+      position: relative;
+      display: flex; 
+      justify-content: center; 
+      perspective: 1200px; 
+      padding: 60px 0; 
+      transform-style: preserve-3d;
+      height: 400px;
+  }
+  .v3-card {
+      width: 250px; 
+      height: 380px; 
+      transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: absolute; 
+      left: 50%; 
+      margin-left: -125px; /* Half of width */
+  }
+  .v3-card img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      border-radius: 8px; 
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+  }
+  .v3-nav { 
+      text-align: center; 
+      margin-top: 20px; 
+  }
+  .v3-nav button { 
+      background: #C41E1E; 
+      color: white; 
+      border: none; 
+      padding: 12px 24px; 
+      margin: 5px; 
+      cursor: pointer; 
+      border-radius: 4px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+  }
+  .v3-nav button:hover { background: #A31818; }
+
+</style>
+</head>
+<body>
+
+    <h1>Interactive Gallery Prototypes</h1>
+    <p class="desc">Play with the three sections below. Notice how each handles hover states, focus, and depth differently without causing the layout to stutter.</p>
+
+    <!-- Variant 1 -->
+    <div class="demo-section">
+        <h2>1. The Infinite Cinematic Marquee</h2>
+        <p class="desc">Hover anywhere to slow/pause the track. Hover a specific image to bring it into sharp focus while the rest fade away. No jittering margins.</p>
+        <div class="v1-wrapper">
+            <div class="v1-marquee">
+                <!-- Duplicated for seamless scrolling -->
+                <img src="assets/images/ourwork-1.png" class="img-card">
+                <img src="assets/images/ourwork-2.png" class="img-card">
+                <img src="assets/images/ourwork-3.png" class="img-card">
+                <img src="assets/images/ourwork-4.png" class="img-card">
+                <img src="assets/images/ourwork-5.png" class="img-card">
+                
+                <img src="assets/images/ourwork-1.png" class="img-card">
+                <img src="assets/images/ourwork-2.png" class="img-card">
+                <img src="assets/images/ourwork-3.png" class="img-card">
+                <img src="assets/images/ourwork-4.png" class="img-card">
+                <img src="assets/images/ourwork-5.png" class="img-card">
+            </div>
+        </div>
+    </div>
+
+    <!-- Variant 2 -->
+    <div class="demo-section">
+        <h2>2. Mouse-Tracked Parallax & Depth of Field</h2>
+        <p class="desc">Move your mouse quickly across the images. The cards will literally physically tilt to follow your cursor in 3D space. Intense depth-of-field blur draws focus.</p>
+        <div class="v2-container">
+            <div class="v2-card"><img src="assets/images/ourwork-1.png"></div>
+            <div class="v2-card"><img src="assets/images/ourwork-2.png"></div>
+            <div class="v2-card"><img src="assets/images/ourwork-3.png"></div>
+            <div class="v2-card"><img src="assets/images/ourwork-4.png"></div>
+            <div class="v2-card"><img src="assets/images/ourwork-5.png"></div>
+        </div>
+    </div>
+
+    <!-- Variant 3 -->
+    <div class="demo-section" style="border-bottom: none;">
+        <h2>3. 3D Interactive Coverflow</h2>
+        <p class="desc">A physical, museum-like browsing experience in a curved plane. Items pushed to the sides rotate away from the viewer.</p>
+        <div class="v3-container" id="v3-carousel">
+            <div class="v3-card"><img src="assets/images/ourwork-1.png"></div>
+            <div class="v3-card"><img src="assets/images/ourwork-2.png"></div>
+            <div class="v3-card"><img src="assets/images/ourwork-3.png"></div>
+            <div class="v3-card"><img src="assets/images/ourwork-4.png"></div>
+            <div class="v3-card"><img src="assets/images/ourwork-5.png"></div>
+        </div>
+        <div class="v3-nav">
+            <button onclick="v3Move(-1)">&#8592; Prev</button>
+            <button onclick="v3Move(1)">Next &#8594;</button>
+        </div>
+    </div>
+
+<script>
+    // ==========================================
+    // V2: Parallax Tilt Logic
+    // ==========================================
+    const v2Cards = document.querySelectorAll('.v2-card');
+    v2Cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            // Calculate mouse position relative to center of the card
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // Calculate rotation (max 25 degrees)
+            const rotateX = ((y - centerY) / centerY) * -25;
+            const rotateY = ((x - centerX) / centerX) * 25;
+            
+            // Apply scale, rotation, and pull forward in Z space
+            card.style.transform = `scale(1.15) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(50px)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            // Reset to flat
+            card.style.transform = 'scale(1) rotateX(0) rotateY(0) translateZ(0)';
+        });
+    });
+
+    // ==========================================
+    // V3: Coverflow Logic
+    // ==========================================
+    const v3Cards = document.querySelectorAll('.v3-card');
+    let currentIndex = 2; // Start in the middle
+
+    function updateCoverflow() {
+        v3Cards.forEach((card, i) => {
+            let offset = i - currentIndex;
+            let absOffset = Math.abs(offset);
+            
+            // Calculate 3D transforms based on distance from center
+            let translateX = offset * 140; // Horizontal spread
+            let scale = Math.max(0.6, 1 - (absOffset * 0.15));
+            let rotateY = offset * -40; // Spin away from center
+            let translateZ = absOffset * -150; // Push back in depth
+            let zIndex = 10 - absOffset;
+            let opacity = Math.max(0, 1 - (absOffset * 0.3));
+            
+            card.style.transform = `translateX(${translateX}px) scale(${scale}) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
+            card.style.zIndex = zIndex;
+            card.style.opacity = opacity;
+            
+            // Dim inactive cards
+            if(offset === 0) {
+                card.style.filter = 'brightness(1) contrast(1.1)';
+            } else {
+                card.style.filter = 'brightness(0.3) blur(2px)';
+            }
+        });
+    }
+
+    function v3Move(dir) {
+        currentIndex += dir;
+        // Keep within bounds
+        if(currentIndex < 0) currentIndex = 0;
+        if(currentIndex >= v3Cards.length) currentIndex = v3Cards.length - 1;
+        updateCoverflow();
+    }
+    
+    // Initialize coverflow
+    updateCoverflow();
+</script>
+</body>
+</html>
