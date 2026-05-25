@@ -213,6 +213,14 @@ export default function NewConfigurator() {
   // Locked per-moulding face colour — no image-processing dependency
   const frameFaceHex = frame?.faceHex || frameColourHex;
 
+  const [frameStripUrl, frameStripUrlV] = useMemo(() => {
+    if (!frame?.image) return [null, null];
+    const filename = frame.image.split('/').pop();
+    const base = filename.replace(/\.[^.]+$/, '');
+    const baseUrl = `${import.meta.env.BASE_URL}mouldings/strips/${base}`;
+    return [`${baseUrl}_strip.png`, `${baseUrl}_strip_v.png`];
+  }, [frame]);
+
   const framePx = frame ? Math.max(4, Math.round((frame.widthMm / 10) * previewScale)) : 0;
   const activeMountWidthMm = selections.mountWidthId === 'custom' 
       ? (selections.customMountWidth || 0) 
@@ -407,25 +415,37 @@ export default function NewConfigurator() {
             >
               {frame && (
                 <>
-                  <div
-                    className="frame-bar frame-bar--top"
-                    style={{ backgroundColor: frameFaceHex }}
-                  >
-                    <div className="frame-bar__texture" />
-                  </div>
-                  <div
-                    className="frame-bar frame-bar--right"
-                    style={{ backgroundColor: frameFaceHex }}
+                  <div className="frame-bar frame-bar--top"
+                    style={{
+                      backgroundImage: frameStripUrl ? `url(${frameStripUrl})` : 'none',
+                      backgroundColor: frameFaceHex,
+                      backgroundSize: '100% 100%',
+                      backgroundRepeat: 'no-repeat',
+                    }}
                   />
-                  <div
-                    className="frame-bar frame-bar--bottom"
-                    style={{ backgroundColor: frameFaceHex }}
-                  >
-                    <div className="frame-bar__texture" />
-                  </div>
-                  <div
-                    className="frame-bar frame-bar--left"
-                    style={{ backgroundColor: frameFaceHex }}
+                  <div className="frame-bar frame-bar--right"
+                    style={{
+                      backgroundImage: frameStripUrlV ? `url(${frameStripUrlV})` : 'none',
+                      backgroundColor: frameFaceHex,
+                      backgroundSize: '100% 100%',
+                      backgroundRepeat: 'no-repeat',
+                    }}
+                  />
+                  <div className="frame-bar frame-bar--bottom"
+                    style={{
+                      backgroundImage: frameStripUrl ? `url(${frameStripUrl})` : 'none',
+                      backgroundColor: frameFaceHex,
+                      backgroundSize: '100% 100%',
+                      backgroundRepeat: 'no-repeat',
+                    }}
+                  />
+                  <div className="frame-bar frame-bar--left"
+                    style={{
+                      backgroundImage: frameStripUrlV ? `url(${frameStripUrlV})` : 'none',
+                      backgroundColor: frameFaceHex,
+                      backgroundSize: '100% 100%',
+                      backgroundRepeat: 'no-repeat',
+                    }}
                   />
                 </>
               )}
