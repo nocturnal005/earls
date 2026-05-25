@@ -15,8 +15,7 @@ export function MouldingCorner({ hex, className = '' }) {
 
 /**
  * MouldingThumb — shows the full supplier image (face on top, profile below).
- * PNGs (L-shaped corners) position toward the right where the face is.
- * JPGs (vertical strips) position toward the top where the face is.
+ * All images are oriented with face colour at the top, cut-out/backing below.
  * Falls back to a flat hex swatch if no image is available.
  */
 export function MouldingThumb({ image, name, fallbackHex }) {
@@ -24,15 +23,13 @@ export function MouldingThumb({ image, name, fallbackHex }) {
     return <MouldingCorner hex={fallbackHex} />;
   }
 
-  const isPng = image.endsWith('.png');
-
   return (
     <img
       src={`${import.meta.env.BASE_URL}${image}`}
       alt={name}
       style={{
         objectFit: 'cover',
-        objectPosition: isPng ? 'right top' : 'center top',
+        objectPosition: 'center top',
       }}
     />
   );
