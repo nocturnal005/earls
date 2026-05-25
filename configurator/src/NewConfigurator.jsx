@@ -6,7 +6,7 @@ import {
 } from './newData.js';
 import {
   SizePrintSection, FrameSection, MountSection, GlassSection,
-  MouldingCorner, CroppedFrameThumb,
+  MouldingCorner, MouldingThumb,
 } from './newPanels.jsx';
 import { useCart } from './CartContext.jsx';
 import CartDrawer from './CartDrawer.jsx';
@@ -140,21 +140,6 @@ export default function NewConfigurator() {
   const glass = GLASS_OPTIONS.find(g => g.id === selections.glassId);
   const isOvalOrRound = selections.mountTypeId === 'oval' || selections.mountTypeId === 'round';
 
-  const [croppedFrameUrl, setCroppedFrameUrl] = useState(null);
-
-  React.useEffect(() => {
-    if (!frame || !frame.image) {
-      setCroppedFrameUrl(null);
-      return;
-    }
-    const fullUrl = `${import.meta.env.BASE_URL}${frame.image}`;
-    import('./imageCropper.js').then(({ cropFrameImage }) => {
-      cropFrameImage(fullUrl).then(croppedUrl => {
-        setCroppedFrameUrl(croppedUrl);
-      });
-    });
-  }, [frame]);
-
   const isCustom = selections.sizeId === 'custom';
   const rawW = isCustom ? selections.customW : size?.w_cm;
   const rawH = isCustom ? selections.customH : size?.h_cm;
@@ -224,6 +209,9 @@ export default function NewConfigurator() {
   const frameColourHex = frame
     ? (COLOUR_GROUPS.find(c => c.id === frame.colour)?.hex || '#2D2D2D')
     : 'transparent';
+
+  // Locked per-moulding face colour — no image-processing dependency
+  const frameFaceHex = frame?.faceHex || frameColourHex;
 
   const framePx = frame ? Math.max(4, Math.round((frame.widthMm / 10) * previewScale)) : 0;
   const activeMountWidthMm = selections.mountWidthId === 'custom' 
@@ -391,19 +379,16 @@ export default function NewConfigurator() {
                 <div className="pill-divider" />
                 <div className="frame-detail-floating-inner">
                   <div className="frame-detail__img">
-                    {frame.image ? (
-                      <img
-                        src={`${import.meta.env.BASE_URL}${frame.image}`}
-                        alt={frame.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
-                      />
-                    ) : (
-                      <MouldingCorner hex={frameColourHex} />
-                    )}
+                    <MouldingThumb
+                      image={frame.image}
+                      name={frame.name}
+                      fallbackHex={frameFaceHex}
+                    />
                   </div>
                   <div className="frame-detail__info">
                     <span className="frame-detail__name">{frame.name}</span>
                     <span className="frame-detail__code">{frame.code}</span>
+                    <span className="frame-detail__dims">{frame.widthMm}mm × {frame.heightMm}mm · {frame.profile}</span>
                   </div>
                 </div>
               </>
@@ -422,47 +407,25 @@ export default function NewConfigurator() {
             >
               {frame && (
                 <>
-                  <div 
-                    className="frame-bar frame-bar--top" 
-                    style={{ 
-                      backgroundColor: frameColourHex, 
-                      backgroundImage: `url(${croppedFrameUrl || `${import.meta.env.BASE_URL}${frame.image}`})` 
-                    }}
+                  <div
+                    className="frame-bar frame-bar--top"
+                    style={{ backgroundColor: frameFaceHex }}
                   >
-                    <div 
-                      className="frame-bar__texture" 
-                      style={{ 
-                        backgroundImage: `url(${croppedFrameUrl || `${import.meta.env.BASE_URL}${frame.image}`})` 
-                      }} 
-                    />
+                    <div className="frame-bar__texture" />
                   </div>
-                  <div 
-                    className="frame-bar frame-bar--right" 
-                    style={{ 
-                      backgroundColor: frameColourHex, 
-                      backgroundImage: `url(${croppedFrameUrl || `${import.meta.env.BASE_URL}${frame.image}`})` 
-                    }}
+                  <div
+                    className="frame-bar frame-bar--right"
+                    style={{ backgroundColor: frameFaceHex }}
                   />
-                  <div 
-                    className="frame-bar frame-bar--bottom" 
-                    style={{ 
-                      backgroundColor: frameColourHex, 
-                      backgroundImage: `url(${croppedFrameUrl || `${import.meta.env.BASE_URL}${frame.image}`})` 
-                    }}
+                  <div
+                    className="frame-bar frame-bar--bottom"
+                    style={{ backgroundColor: frameFaceHex }}
                   >
-                    <div 
-                      className="frame-bar__texture" 
-                      style={{ 
-                        backgroundImage: `url(${croppedFrameUrl || `${import.meta.env.BASE_URL}${frame.image}`})` 
-                      }} 
-                    />
+                    <div className="frame-bar__texture" />
                   </div>
-                  <div 
-                    className="frame-bar frame-bar--left" 
-                    style={{ 
-                      backgroundColor: frameColourHex, 
-                      backgroundImage: `url(${croppedFrameUrl || `${import.meta.env.BASE_URL}${frame.image}`})` 
-                    }}
+                  <div
+                    className="frame-bar frame-bar--left"
+                    style={{ backgroundColor: frameFaceHex }}
                   />
                 </>
               )}
