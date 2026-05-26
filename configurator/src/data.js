@@ -31,13 +31,16 @@ export const FRAME_CATEGORIES = [
 
 export const FRAME_CATALOGUE = [
   // Classic Wood (8)
+  { id: 1,  code:'000J/0082', name:'Light Oak Flat',          category:'classic-wood',      colour:'Brown',   hex:'#C4A265', finish:'Stain',      profile:'Flat',    widthMm:20,  depthMm:12, retailPerM:4.32 , image: 'mouldings/000J_0082.png'},
   { id: 2,  code:'000J/0095', name:'Medium Oak',              category:'classic-wood',      colour:'Brown',   hex:'#A0804A', finish:'Stain',      profile:'Flat',    widthMm:35,  depthMm:14, retailPerM:12.60 , image: 'mouldings/000J_0095.jpg'},
   { id: 3,  code:'000J/0097', name:'Dark Walnut',             category:'classic-wood',      colour:'Brown',   hex:'#5C3D2E', finish:'Stain',      profile:'Flat',    widthMm:35,  depthMm:14, retailPerM:12.60 , image: 'mouldings/000J_0097.png'},
   { id: 4,  code:'0001/T',    name:'Two Tone Oak Gold',       category:'classic-wood',      colour:'Brown',   hex:'#8B7340', finish:'Stain',      profile:'Raised',  widthMm:29,  depthMm:14, retailPerM:8.85 , image: 'mouldings/0001_T.jpg'},
   { id: 5,  code:'000K/0890', name:'Cherry Scoop',            category:'classic-wood',      colour:'Brown',   hex:'#7B3B2D', finish:'Polish',     profile:'Flat',    widthMm:64,  depthMm:20, retailPerM:21.00 },
   { id: 6,  code:'444343000', name:'Curl Walnut Veneer',      category:'classic-wood',      colour:'Brown',   hex:'#6B4226', finish:'Veneer',     profile:'Flat',    widthMm:30,  depthMm:14, retailPerM:14.76 , image: 'mouldings/444343000.jpg'},
+  { id: 7,  code:'000J/13',   name:'Plain Pine Slim',         category:'classic-wood',      colour:'Natural', hex:'#D4B882', finish:'Raw',        profile:'Flat',    widthMm:15,  depthMm:10, retailPerM:4.23 , image: 'mouldings/000J_13.png'},
   { id: 8,  code:'DAN/21',    name:'Rough Hewn Pine',         category:'classic-wood',      colour:'Natural', hex:'#C8A96E', finish:'Raw',        profile:'Flat',    widthMm:33,  depthMm:16, retailPerM:5.22 , image: 'mouldings/DAN_21.jpg'},
   // Modern Flat (10)
+  { id: 9,  code:'000J/0086', name:'Flat Ebony',              category:'modern-flat',       colour:'Black',   hex:'#1A1A1A', finish:'Stain',      profile:'Flat',    widthMm:20,  depthMm:12, retailPerM:4.32 , image: 'mouldings/000J_0086.png'},
   { id: 10, code:'000J/241',  name:'Matt Black Lacquer',      category:'modern-flat',       colour:'Black',   hex:'#222222', finish:'Lacquer',    profile:'Flat',    widthMm:20,  depthMm:12, retailPerM:7.47 },
   { id: 11, code:'000J/242',  name:'Slim Matt Black',         category:'modern-flat',       colour:'Black',   hex:'#1C1C1C', finish:'Lacquer',    profile:'Flat',    widthMm:14,  depthMm:10, retailPerM:5.70 },
   { id: 12, code:'COSM/0027', name:'Black Gloss Flat',        category:'modern-flat',       colour:'Black',   hex:'#0D0D0D', finish:'Gloss',      profile:'Flat',    widthMm:21,  depthMm:12, retailPerM:7.29 , image: 'mouldings/COSM_0027.jpg'},
@@ -51,6 +54,7 @@ export const FRAME_CATALOGUE = [
   { id: 19, code:'DECO/0003', name:'Ornate Gold Embossed',    category:'ornate-swept',      colour:'Gold',    hex:'#C5A240', finish:'Gilt',       profile:'Ornate',  widthMm:62,  depthMm:22, retailPerM:39.18 , image: 'mouldings/DECO_0003.jpg'},
   { id: 20, code:'DECO/0001', name:'Ornate White Embossed',   category:'ornate-swept',      colour:'White',   hex:'#EDE8DE', finish:'Paint',      profile:'Ornate',  widthMm:62,  depthMm:22, retailPerM:39.18 , image: 'mouldings/DECO_0001.jpg'},
   { id: 21, code:'DECO/0004', name:'Ornate Silver Embossed',  category:'ornate-swept',      colour:'Silver',  hex:'#B0B0B0', finish:'Gilt',       profile:'Ornate',  widthMm:62,  depthMm:22, retailPerM:39.18 , image: 'mouldings/DECO_0004.jpg'},
+  { id: 22, code:'000K/0678', name:'Grand Gold Ornate',       category:'ornate-swept',      colour:'Gold',    hex:'#D4A840', finish:'Gilt',       profile:'Ornate',  widthMm:72,  depthMm:28, retailPerM:55.11 , image: 'mouldings/000K_0678.jpg'},
   { id: 23, code:'ROYAL/0001',name:'Royal Gold Scoop',        category:'ornate-swept',      colour:'Gold',    hex:'#BF9B30', finish:'Embossed',   profile:'Scoop',   widthMm:65,  depthMm:24, retailPerM:44.28 , image: 'mouldings/ROYAL_0001.jpg'},
   { id: 24, code:'ROYAL/0002',name:'Royal Silver Scoop',      category:'ornate-swept',      colour:'Silver',  hex:'#A8A8A8', finish:'Embossed',   profile:'Scoop',   widthMm:65,  depthMm:24, retailPerM:44.28 , image: 'mouldings/ROYAL_0002.jpg'},
   { id: 25, code:'LOUI/0001', name:'Gold Embossed Lip',       category:'ornate-swept',      colour:'Gold',    hex:'#C9A84C', finish:'Embossed',   profile:'Raised',  widthMm:26,  depthMm:14, retailPerM:16.23 },
@@ -73,6 +77,8 @@ export const FRAME_CATALOGUE = [
   { id: 40, code:'YORK/0005', name:'Black Wash Scoop',        category:'distressed-rustic', colour:'Black',   hex:'#3A3A3A', finish:'Wash',       profile:'Scoop',   widthMm:26,  depthMm:14, retailPerM:8.46 , image: 'mouldings/YORK_0005.jpg'},
   // Painted & Colour (7)
   { id: 41, code:'DISP/0003', name:'Painted White Wide',      category:'painted-colour',    colour:'White',   hex:'#F0F0F0', finish:'Paint',      profile:'Flat',    widthMm:82,  depthMm:22, retailPerM:18.69 , image: 'mouldings/DISP_0003.jpg'},
+  { id: 42, code:'DISP/0002', name:'Painted Black Wide',      category:'painted-colour',    colour:'Black',   hex:'#141414', finish:'Paint',      profile:'Flat',    widthMm:82,  depthMm:22, retailPerM:18.69 , image: 'mouldings/DISP_0002.jpg'},
+  { id: 43, code:'2935/3303', name:'Sloped Green',            category:'painted-colour',    colour:'Green',   hex:'#5A7A5C', finish:'Paint',      profile:'Sloped',  widthMm:16,  depthMm:10, retailPerM:14.97 , image: 'mouldings/2935_3303.jpg'},
   { id: 44, code:'2935/3301', name:'Sloped Charcoal',         category:'painted-colour',    colour:'Grey',    hex:'#3C3C3C', finish:'Paint',      profile:'Sloped',  widthMm:16,  depthMm:10, retailPerM:14.97 , image: 'mouldings/2935_3301.jpg'},
   { id: 45, code:'COSM/0024', name:'Blue Gloss Chamford',     category:'painted-colour',    colour:'Blue',    hex:'#2C5288', finish:'Gloss',      profile:'Chamford',widthMm:30,  depthMm:14, retailPerM:9.84 },
   { id: 46, code:'COSM/0025', name:'Grey Gloss Chamford',     category:'painted-colour',    colour:'Grey',    hex:'#6A6A6A', finish:'Gloss',      profile:'Chamford',widthMm:30,  depthMm:14, retailPerM:9.84 , image: 'mouldings/COSM_0025.jpg'},
@@ -83,6 +89,7 @@ export const FRAME_CATALOGUE = [
   { id: 50, code:'000K/0342', name:'Oak Cushion',             category:'cushion-scoop',     colour:'Brown',   hex:'#A88850', finish:'Stain',      profile:'Cushion', widthMm:40,  depthMm:16, retailPerM:9.45 , image: 'mouldings/000K_0342.png'},
   { id: 51, code:'000K/0558', name:'Silver Scoop Wide',       category:'cushion-scoop',     colour:'Silver',  hex:'#B0B0B0', finish:'Leaf',       profile:'Scoop',   widthMm:80,  depthMm:24, retailPerM:33.96 },
   { id: 52, code:'000K/0758', name:'Natural Obeche Scoop',    category:'cushion-scoop',     colour:'Natural', hex:'#C0A868', finish:'Raw',        profile:'Scoop',   widthMm:48,  depthMm:18, retailPerM:13.77 , image: 'mouldings/000K_0758.png'},
+  { id: 53, code:'YORK/0001', name:'Light Brown Wash Scoop',  category:'cushion-scoop',     colour:'Brown',   hex:'#B09060', finish:'Wash',       profile:'Scoop',   widthMm:26,  depthMm:14, retailPerM:8.46 , image: 'mouldings/YORK_0001.png'},
   { id: 54, code:'YORK/0003', name:'Pastel Pink Scoop',       category:'cushion-scoop',     colour:'Pink',    hex:'#D8A8A0', finish:'Wash',       profile:'Scoop',   widthMm:26,  depthMm:14, retailPerM:8.46 },
   // Box & Tray (5)
   { id: 55, code:'000K/0477B',name:'Black Box Frame',         category:'box-tray',          colour:'Black',   hex:'#181818', finish:'Paint',      profile:'Box',     widthMm:30,  depthMm:30, retailPerM:12.30 },
