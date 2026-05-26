@@ -670,13 +670,17 @@ function RoomView({ imgSrc, colour, borderW, mountObj, state, dispatch }) {
               {/* True Texture Mapping Strips */}
               {colour.stripUrl && (
                 <>
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: outerFrameWidth, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'center', clipPath: `polygon(0 0, 100% 0, calc(100% - ${outerFrameWidth}px) 100%, ${outerFrameWidth}px 100%)`, zIndex: 1 }} />
-                  <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: outerFrameWidth, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'center', clipPath: `polygon(100% 0, 100% 100%, 0 calc(100% - ${outerFrameWidth}px), 0 ${outerFrameWidth}px)`, zIndex: 1 }} />
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: outerFrameWidth, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'center', clipPath: `polygon(${outerFrameWidth}px 0, calc(100% - ${outerFrameWidth}px) 0, 100% 100%, 0 100%)`, zIndex: 1, transform: 'rotate(180deg)' }} />
-                  <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: outerFrameWidth, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'center', clipPath: `polygon(0 0, 100% ${outerFrameWidth}px, 100% calc(100% - ${outerFrameWidth}px), 0 100%)`, zIndex: 1, transform: 'rotate(180deg)' }} />
+                  {/* TOP edge — horizontal strip, height=mouldingWidth maps to border thickness */}
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: outerFrameWidth, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'left top', clipPath: `polygon(0 0, 100% 0, calc(100% - ${outerFrameWidth}px) 100%, ${outerFrameWidth}px 100%)`, zIndex: 1 }} />
+                  {/* RIGHT edge — vertical strip, width=mouldingWidth maps to border thickness */}
+                  <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: outerFrameWidth, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'left top', clipPath: `polygon(100% 0, 100% 100%, 0 calc(100% - ${outerFrameWidth}px), 0 ${outerFrameWidth}px)`, zIndex: 1 }} />
+                  {/* BOTTOM edge — horizontal strip, flipped */}
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: outerFrameWidth, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'left top', clipPath: `polygon(${outerFrameWidth}px 0, calc(100% - ${outerFrameWidth}px) 0, 100% 100%, 0 100%)`, zIndex: 1, transform: 'scaleY(-1)' }} />
+                  {/* LEFT edge — vertical strip, flipped */}
+                  <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: outerFrameWidth, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'left top', clipPath: `polygon(0 0, 100% ${outerFrameWidth}px, 100% calc(100% - ${outerFrameWidth}px), 0 100%)`, zIndex: 1, transform: 'scaleX(-1)' }} />
                   
                   {/* Subtle lighting overlay to simulate 3D bevels over the true texture */}
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, boxShadow: `inset 1.5px 1.5px 0px rgba(255,255,255,0.2), inset -1.5px -1.5px 0px rgba(0,0,0,0.4), inset 0 0 8px rgba(0,0,0,0.5)`, pointerEvents: 'none', zIndex: 2 }} />
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, boxShadow: `inset 2px 2px 1px rgba(255,255,255,0.15), inset -2px -2px 1px rgba(0,0,0,0.25), inset 0 0 6px rgba(0,0,0,0.3)`, pointerEvents: 'none', zIndex: 2 }} />
                 </>
               )}
 
@@ -1000,12 +1004,16 @@ function ThreeDView({ imgSrc, colour, borderW, mountObj, state, dispatch }) {
               const b = Math.max(8, borderW);
               return (
                 <>
-                  <div style={{ position: 'absolute', top: -b, left: -b, right: -b, height: b, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'center', clipPath: `polygon(0 0, 100% 0, calc(100% - ${b}px) 100%, ${b}px 100%)`, zIndex: 10 }} />
-                  <div style={{ position: 'absolute', top: -b, right: -b, bottom: -b, width: b, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'center', clipPath: `polygon(100% 0, 100% 100%, 0 calc(100% - ${b}px), 0 ${b}px)`, zIndex: 10 }} />
-                  <div style={{ position: 'absolute', bottom: -b, left: -b, right: -b, height: b, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'center', clipPath: `polygon(${b}px 0, calc(100% - ${b}px) 0, 100% 100%, 0 100%)`, zIndex: 10, transform: 'rotate(180deg)' }} />
-                  <div style={{ position: 'absolute', top: -b, left: -b, bottom: -b, width: b, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'center', clipPath: `polygon(0 0, 100% ${b}px, 100% calc(100% - ${b}px), 0 100%)`, zIndex: 10, transform: 'rotate(180deg)' }} />
+                  {/* TOP edge */}
+                  <div style={{ position: 'absolute', top: -b, left: -b, right: -b, height: b, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'left top', clipPath: `polygon(0 0, 100% 0, calc(100% - ${b}px) 100%, ${b}px 100%)`, zIndex: 10 }} />
+                  {/* RIGHT edge */}
+                  <div style={{ position: 'absolute', top: -b, right: -b, bottom: -b, width: b, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'left top', clipPath: `polygon(100% 0, 100% 100%, 0 calc(100% - ${b}px), 0 ${b}px)`, zIndex: 10 }} />
+                  {/* BOTTOM edge */}
+                  <div style={{ position: 'absolute', bottom: -b, left: -b, right: -b, height: b, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'left top', clipPath: `polygon(${b}px 0, calc(100% - ${b}px) 0, 100% 100%, 0 100%)`, zIndex: 10, transform: 'scaleY(-1)' }} />
+                  {/* LEFT edge */}
+                  <div style={{ position: 'absolute', top: -b, left: -b, bottom: -b, width: b, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'left top', clipPath: `polygon(0 0, 100% ${b}px, 100% calc(100% - ${b}px), 0 100%)`, zIndex: 10, transform: 'scaleX(-1)' }} />
                   {/* Subtle edge bevel lighting */}
-                  <div style={{ position: 'absolute', top: -b, left: -b, right: -b, bottom: -b, boxShadow: `inset 1.5px 1.5px 0px rgba(255,255,255,0.2), inset -1.5px -1.5px 0px rgba(0,0,0,0.4), inset 0 0 6px rgba(0,0,0,0.5)`, pointerEvents: 'none', zIndex: 11 }} />
+                  <div style={{ position: 'absolute', top: -b, left: -b, right: -b, bottom: -b, boxShadow: `inset 2px 2px 1px rgba(255,255,255,0.15), inset -2px -2px 1px rgba(0,0,0,0.25), inset 0 0 5px rgba(0,0,0,0.3)`, pointerEvents: 'none', zIndex: 11 }} />
                 </>
               );
             })()}
@@ -1017,44 +1025,44 @@ function ThreeDView({ imgSrc, colour, borderW, mountObj, state, dispatch }) {
             </div>
           </div>
 
-          {/* RIGHT EDGE — center aligned with right wall of container */}
+          {/* RIGHT EDGE — shows the moulding face texture on the side */}
           <div style={{
             position: 'absolute', top: 0,
             right: `${-D / 2}px`,
             width: `${D}px`, height: '100%',
-            background: colour.stripVUrl ? `url(${colour.stripVUrl}) right center/cover` : edgeGrain(colour.hex),
+            background: colour.stripVUrl ? `url(${colour.stripVUrl}) left top / 100% auto repeat-y` : edgeGrain(colour.hex),
             transform: 'rotateY(90deg)',
             filter: `brightness(${rightBr})`,
           }} />
 
-          {/* LEFT EDGE — center aligned with left wall of container */}
+          {/* LEFT EDGE */}
           <div style={{
             position: 'absolute', top: 0,
             left: `${-D / 2}px`,
             width: `${D}px`, height: '100%',
-            background: colour.stripVUrl ? `url(${colour.stripVUrl}) right center/cover` : edgeGrain(colour.hex),
+            background: colour.stripVUrl ? `url(${colour.stripVUrl}) left top / 100% auto repeat-y` : edgeGrain(colour.hex),
             transform: 'rotateY(-90deg)',
             filter: `brightness(${leftBr})`,
           }} />
 
-          {/* TOP EDGE — center aligned with top wall */}
+          {/* TOP EDGE */}
           <div style={{
             position: 'absolute',
             top: `${-D / 2}px`,
             left: 0,
             width: '100%', height: `${D}px`,
-            background: colour.stripUrl ? `url(${colour.stripUrl}) center top/cover` : colour.hex,
+            background: colour.stripUrl ? `url(${colour.stripUrl}) left top / auto 100% repeat-x` : colour.hex,
             transform: 'rotateX(90deg)',
             filter: `brightness(${0.88 - (Math.max(0, rotX) / 40) * 0.2})`,
           }} />
 
-          {/* BOTTOM EDGE — center aligned with bottom wall */}
+          {/* BOTTOM EDGE */}
           <div style={{
             position: 'absolute',
             bottom: `${-D / 2}px`,
             left: 0,
             width: '100%', height: `${D}px`,
-            background: colour.stripUrl ? `url(${colour.stripUrl}) center top/cover` : colour.hex,
+            background: colour.stripUrl ? `url(${colour.stripUrl}) left top / auto 100% repeat-x` : colour.hex,
             transform: 'rotateX(-90deg)',
             filter: `brightness(${0.55 + (Math.max(0, rotX) / 40) * 0.2})`,
           }} />
