@@ -164,9 +164,9 @@ export default function NewConfigurator() {
   const rawH = isCustom ? selections.customH : size?.h_cm;
   const hasDims = rawW > 0 && rawH > 0;
 
-  // 16×20" (≈40.6 × 50.8 cm) default gives a realistic preview before any selection
+  // 30×40" (≈76.2 × 101.6 cm) default gives a prominent preview before any selection
   const [displayW, displayH] = useMemo(() => {
-    if (!hasDims) return [40.64, 50.80];
+    if (!hasDims) return [76.20, 101.60];
     const w = rawW, h = rawH;
     if (selections.orientation === 'landscape') return w >= h ? [w, h] : [h, w];
     if (selections.orientation === 'portrait') return h >= w ? [w, h] : [h, w];
