@@ -210,8 +210,14 @@ export default function NewConfigurator() {
     const maxTotalDimCm = Math.max(totalPhysicalWidthCm, totalPhysicalHeightCm);
 
     if (viewMode === 'detail') {
-       // Fit entire assembly within ~450px for detail view
-       return Math.min(450 / maxTotalDimCm, 40); // Cap scale so tiny items don't blow up too much
+       // Fixed physical scale so size differences are visible (A4 small → A0 large).
+       // Cap at 520px so oversized prints don't overflow the panel.
+       const detailScale = 5.5;
+       const maxDetailPx = 520;
+       if (maxTotalDimCm * detailScale > maxDetailPx) {
+           return maxDetailPx / maxTotalDimCm;
+       }
+       return detailScale;
     } else {
        // Fixed physical scale for room view so A4 looks small and A0 looks large.
        // 1.8 ensures realistic sizing against the room background.
