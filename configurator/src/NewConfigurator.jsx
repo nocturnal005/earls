@@ -31,13 +31,13 @@ const DEFAULT_SELECTIONS = {
   orientation: 'portrait',
   printType: 'poster',
   frameId: null,
-  mountTypeId: 'plain',
+  mountTypeId: 'none',
   mountColourId: 'bright-white',
   mountColourId2: 'deep-black',
   mountWidthId: 'standard',
   customMountWidth: null,
   vGrooveColourId: null,
-  glassId: 'standard',
+  glassId: 'none',
   imageFit: 'fill',
 };
 
@@ -62,7 +62,25 @@ export default function NewConfigurator() {
   const [toastMessage, setToastMessage] = useState('');
 
   const update = useCallback((partial) => {
-    setSelections(prev => ({ ...prev, ...partial }));
+    setSelections(prev => {
+      const next = { ...prev, ...partial };
+
+      // Frame just selected (was none → now has a frame)
+      // Auto-select sensible mount + glass defaults for non-canvas prints
+      if ('frameId' in partial && partial.frameId && !prev.frameId) {
+        if (next.mountTypeId === 'none' && next.printType !== 'canvas') next.mountTypeId = 'plain';
+        if (next.glassId === 'none' && next.printType !== 'canvas') next.glassId = 'standard';
+      }
+
+      // Frame removed (had a frame → now none)
+      // Reset mount + glass — no frame means nothing to hold them
+      if ('frameId' in partial && !partial.frameId && prev.frameId) {
+        next.mountTypeId = 'none';
+        next.glassId = 'none';
+      }
+
+      return next;
+    });
   }, []);
 
   // Hook into the main website's header cart button
