@@ -164,8 +164,9 @@ export default function NewConfigurator() {
   const rawH = isCustom ? selections.customH : size?.h_cm;
   const hasDims = rawW > 0 && rawH > 0;
 
+  // 16×20" (≈40.6 × 50.8 cm) default gives a realistic preview before any selection
   const [displayW, displayH] = useMemo(() => {
-    if (!hasDims) return [3, 4];
+    if (!hasDims) return [40.64, 50.80];
     const w = rawW, h = rawH;
     if (selections.orientation === 'landscape') return w >= h ? [w, h] : [h, w];
     if (selections.orientation === 'portrait') return h >= w ? [w, h] : [h, w];
@@ -198,11 +199,6 @@ export default function NewConfigurator() {
   }, [selections, frame, size, effW, effH, isCustom]);
 
   const previewScale = useMemo(() => {
-    if (!hasDims) {
-       // Detail view uses a large scale (25) to fill the screen.
-       // Room view must use a smaller scale (8.5) so the empty placeholder doesn't explode to 600px and hit the sofa.
-       return viewMode === 'detail' ? 25 : 8.5; 
-    }
     const activeMountCm = selections.mountTypeId !== 'none' && selections.printType !== 'canvas'
       ? (selections.mountWidthId === 'custom' ? (selections.customMountWidth || 0) : (MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50)) / 10 
       : 0;
