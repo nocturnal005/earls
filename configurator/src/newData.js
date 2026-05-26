@@ -277,7 +277,7 @@ export const FRAME_CATALOGUE = [
   { id: 'E042', code: 'ECON/0010', name: '28mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 28, heightMm: 20, costPerM: 2.03, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0010.jpg', faceHex: '#f2f2f3' },
   { id: 'E043', code: 'ECON/0013', name: '29mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 29, heightMm: 13, costPerM: 1.80, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0013.jpg', faceHex: '#f2f2f7' },
   { id: 'E044', code: 'ECON/0009', name: '38mm Matt White (deep)',    colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.61, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0009.jpg', faceHex: '#f2f2f5' },
-  { id: 'E045', code: 'ECON/0012', name: '39mm Matt White (slim)',    colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 39, heightMm: 13, costPerM: 2.30, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0012.jpg', faceHex: '#f5f6fb' },
+  { id: 'E045', code: 'ECON/0012', name: '39mm Matt White (slim)',    colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 39, heightMm: 13, costPerM: 2.30, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0012.png', faceHex: '#f5f6fb' },
 
   // ── WHITE — Stained / Obeche (4) ──
   { id: 'E046', code: 'ECON/0033', name: '15mm Obeche White',         colour: 'white', finish: 'Stained',    profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0033.jpg', faceHex: '#dee1e5' },
@@ -388,7 +388,7 @@ export const FRAME_CATALOGUE = [
   { id: 'P017', code: 'DECO/0001', name: 'Ornate White Embossed',     colour: 'white',  finish: 'Gilt',      profile: 'Ornate', widthMm: 62, heightMm: 22, costPerM: 13.06, hasPhoto: true, tier: 'premium' , image: 'mouldings/DECO_0001.jpg', faceHex: '#e8ddd0'},
   { id: 'P018', code: 'DECO/0004', name: 'Ornate Silver Embossed',    colour: 'silver', finish: 'Gilt',      profile: 'Ornate', widthMm: 62, heightMm: 22, costPerM: 13.06, tier: 'premium' , image: 'mouldings/DECO_0004.jpg', faceHex: '#83796d'},
   { id: 'P019', code: '000K/0678', name: 'Grand Gold Ornate',         colour: 'gold',   finish: 'Gilt',      profile: 'Ornate', widthMm: 72, heightMm: 28, costPerM: 18.37, hasPhoto: true, tier: 'premium' , image: 'mouldings/000K_0678.jpg', faceHex: '#e6cc85'},
-  { id: 'P020', code: 'ROYAL/0001',name: 'Royal Gold Scoop',          colour: 'gold',   finish: 'Embossed',  profile: 'Scoop',  widthMm: 65, heightMm: 24, costPerM: 14.76, hasPhoto: true, tier: 'premium' , image: 'mouldings/ROYAL_0001.jpg', faceHex: '#9a7a3e'},
+  { id: 'P020', code: 'ROYAL/0001',name: 'Royal Gold Scoop',          colour: 'gold',   finish: 'Embossed',  profile: 'Scoop',  widthMm: 65, heightMm: 24, costPerM: 14.76, hasPhoto: true, tier: 'premium' , image: 'mouldings/ROYAL_0001.png', faceHex: '#9a7a3e'},
   { id: 'P021', code: 'ROYAL/0002',name: 'Royal Silver Scoop',        colour: 'silver', finish: 'Embossed',  profile: 'Scoop',  widthMm: 65, heightMm: 24, costPerM: 14.76, hasPhoto: true, tier: 'premium' , image: 'mouldings/ROYAL_0002.jpg', faceHex: '#bbd0cf'},
   { id: 'P022', code: 'GENO/0002', name: 'Silver with Silver Lip',    colour: 'silver', finish: 'Embossed',  profile: 'Raised', widthMm: 26, heightMm: 14, costPerM: 5.41,  tier: 'premium', image: 'mouldings/GENO_0002.jpg', faceHex: '#d8c4ae' },
 
@@ -418,7 +418,7 @@ export const FRAME_CATALOGUE = [
   { id: 'P041', code: '2935/3301', name: 'Sloped Charcoal',           colour: 'grey',   finish: 'Painted',   profile: 'Sloped', widthMm: 16, heightMm: 10, costPerM: 4.99, hasPhoto: true, tier: 'premium' , image: 'mouldings/2935_3301.jpg', faceHex: '#4a4a4e'},
   { id: 'P042', code: 'BRISTOL/09',name: 'Brushed Gold',              colour: 'gold',   finish: 'Brushed',   profile: 'Chamford',widthMm:30, heightMm: 14, costPerM: 3.28, tier: 'premium', image: 'mouldings/BRISTOL_09.jpg', faceHex: '#d8bba1' },
   { id: 'P043', code: 'COSM/0025', name: 'Grey Gloss Chamford',       colour: 'grey',   finish: 'Gloss',     profile: 'Chamford',widthMm:30, heightMm: 14, costPerM: 3.28, hasPhoto: true, tier: 'premium' , image: 'mouldings/COSM_0025.jpg', faceHex: '#9eb8bf'},
-  { id: 'P044', code: 'BRISTOL/0007',name:'Brushed Gold',             colour: 'gold',   finish: 'Brushed',   profile: 'Chamford',widthMm:30, heightMm: 14, costPerM: 3.28, tier: 'premium', image: 'mouldings/BRISTOL_0007.jpg', faceHex: '#9c835f' },
+  { id: 'P044', code: 'BRISTOL/0007',name:'Brushed Gold',             colour: 'gold',   finish: 'Brushed',   profile: 'Chamford',widthMm:30, heightMm: 14, costPerM: 3.28, tier: 'premium', image: 'mouldings/BRISTOL_0007.png', faceHex: '#9c835f' },
 
   // ── Cushion & Scoop (5 — deduplicated: 000J/304 already in everyday) ──
   { id: 'P045', code: 'GRAF/0002', name: 'Pewter Graphite Ovaloe',    colour: 'grey',   finish: 'Brushed',   profile: 'Ovaloe', widthMm: 13, heightMm: 10, costPerM: 2.17, tier: 'premium', image: 'mouldings/GRAF_0002.jpg', faceHex: '#4e6561' },
