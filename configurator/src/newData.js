@@ -422,7 +422,7 @@ export const FRAME_CATALOGUE = [
 
   // ── Cushion & Scoop (5 — deduplicated: 000J/304 already in everyday) ──
   { id: 'P045', code: 'GRAF/0002', name: 'Pewter Graphite Ovaloe',    colour: 'grey',   finish: 'Brushed',   profile: 'Ovaloe', widthMm: 13, heightMm: 10, costPerM: 2.17, tier: 'premium', image: 'mouldings/GRAF_0002.jpg', faceHex: '#4e6561' },
-  { id: 'P047', code: 'CAPR/0010', name: 'Silver Scoop',              colour: 'silver', finish: 'Leaf',      profile: 'Scoop',  widthMm: 80, heightMm: 24, costPerM: 11.32, tier: 'premium', image: 'mouldings/CAPR_0010.jpg', faceHex: '#c3ac9b' },
+  { id: 'P047', code: 'CAPR/0010', name: 'Silver Scoop',              colour: 'silver', finish: 'Leaf',      profile: 'Scoop',  widthMm: 80, heightMm: 24, costPerM: 11.32, tier: 'premium', image: 'mouldings/CAPR_0010.png', faceHex: '#c3ac9b' },
   { id: 'P048', code: '000K/0758', name: 'Natural Obeche Scoop',      colour: 'natural-wood', finish: 'Raw', profile: 'Scoop',  widthMm: 48, heightMm: 18, costPerM: 4.59, hasPhoto: true, tier: 'premium' , image: 'mouldings/000K_0758.png', faceHex: '#a35623'},
   { id: 'P049', code: 'YORK/0001', name: 'Light Brown Wash Scoop',    colour: 'dark-wood', finish: 'Wash',   profile: 'Scoop',  widthMm: 26, heightMm: 14, costPerM: 2.82, hasPhoto: true, tier: 'premium' , image: 'mouldings/YORK_0001.png', faceHex: '#f7cfa1'},
 
