@@ -244,7 +244,6 @@ export const FRAME_CATALOGUE = [
   { id: 'E016', code: 'ECON/0073', name: '30mm Open Grain Black',     colour: 'black', finish: 'Open Grain', profile: 'Flat',    widthMm: 30, heightMm: 20, costPerM: 2.43, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0073.png', faceHex: '#302c2e' },
   { id: 'E017', code: 'ECON/0070', name: '40mm Open Grain Black',     colour: 'black', finish: 'Open Grain', profile: 'Flat',    widthMm: 40, heightMm: 20, costPerM: 2.89, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0070.png', faceHex: '#151518' },
   { id: 'E018', code: 'ECON/0067', name: '55mm Open Grain Black',     colour: 'black', finish: 'Open Grain', profile: 'Flat',    widthMm: 55, heightMm: 20, costPerM: 4.00, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0067.png', faceHex: '#18191d' },
-  { id: 'E019', code: 'ECON/0086', name: '22mm Smooth Black',         colour: 'black', finish: 'Open Grain', profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.84, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0086.png', faceHex: '#34302e' },
 
   // ── BLACK — Deep Rebate (1) ──
   { id: 'E020', code: 'ECON/0065', name: '20mm Deep Rebate Black',    colour: 'black', finish: 'Matt',       profile: 'Deep Rebate', widthMm: 20, heightMm: 33, costPerM: 2.30, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0065.jpg', faceHex: '#262628' },
@@ -270,36 +269,17 @@ export const FRAME_CATALOGUE = [
   { id: 'E036', code: '000S/447/3',name: '64mm Gold/Black Outer',     colour: 'black', finish: 'Specialty',  profile: 'Reverse', widthMm: 64,   heightMm: 20, costPerM: 10.11, hasPhoto: true, tier: 'everyday', image: 'mouldings/000S_447_3.jpg', faceHex: '#141213' },
 
   // ── WHITE — Matt (8) ──
-  { id: 'E038', code: 'ECON/0016', name: '14mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 14, heightMm: 13, costPerM: 1.12, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0016.jpg', faceHex: '#f5f6fa' },
-  { id: 'E039', code: 'ECON/0015', name: '19mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 19, heightMm: 13, costPerM: 1.25, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0015.jpg', faceHex: '#e0e3e8' },
-  { id: 'E040', code: 'ECON/0011', name: '21mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 21, heightMm: 23, costPerM: 1.90, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0011.jpg', faceHex: '#f7f7f9' },
-  { id: 'E041', code: 'ECON/0014', name: '24mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 24, heightMm: 13, costPerM: 1.51, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0014.jpg', faceHex: '#f0eff5' },
-  { id: 'E042', code: 'ECON/0010', name: '28mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 28, heightMm: 20, costPerM: 2.03, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0010.jpg', faceHex: '#f2f2f3' },
-  { id: 'E043', code: 'ECON/0013', name: '29mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 29, heightMm: 13, costPerM: 1.80, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0013.jpg', faceHex: '#f2f2f7' },
-  { id: 'E044', code: 'ECON/0009', name: '38mm Matt White (deep)',    colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.61, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0009.jpg', faceHex: '#f2f2f5' },
-  { id: 'E045', code: 'ECON/0012', name: '39mm Matt White (slim)',    colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 39, heightMm: 13, costPerM: 2.30, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0012.png', faceHex: '#f5f6fb' },
 
   // ── WHITE — Stained / Obeche (4) ──
-  { id: 'E046', code: 'ECON/0033', name: '15mm Obeche White',         colour: 'white', finish: 'Stained',    profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0033.jpg', faceHex: '#dee1e5' },
-  { id: 'E047', code: 'ECON/0024', name: '20mm Obeche White',         colour: 'white', finish: 'Stained',    profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.51, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0024.jpg', faceHex: '#dedbda' },
-  { id: 'E048', code: 'ECON/0019', name: '35mm Obeche White',         colour: 'white', finish: 'Stained',    profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 1.90, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0019.jpg', faceHex: '#fafcff' },
   { id: 'E049', code: 'ECON/0035', name: '38mm Stained White',        colour: 'white', finish: 'Stained',    profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.81, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0035.jpg', faceHex: '#e0e0e0' },
 
   // ── WHITE — Open Grain (4) ──
   { id: 'E050', code: 'ECON/0077', name: '22mm Open Grain White',     colour: 'white', finish: 'Open Grain', profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0077.png', faceHex: '#e6ddd2' },
-  { id: 'E051', code: 'ECON/0074', name: '30mm Open Grain White',     colour: 'white', finish: 'Open Grain', profile: 'Flat',    widthMm: 30, heightMm: 20, costPerM: 2.43, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0074.png', faceHex: '#f9f8f8' },
-  { id: 'E052', code: 'ECON/0071', name: '40mm Open Grain White',     colour: 'white', finish: 'Open Grain', profile: 'Flat',    widthMm: 40, heightMm: 20, costPerM: 2.89, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0071.png', faceHex: '#f2f1f0' },
-  { id: 'E053', code: 'ECON/0068', name: '55mm Open Grain White',     colour: 'white', finish: 'Open Grain', profile: 'Flat',    widthMm: 55, heightMm: 20, costPerM: 4.00, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0068.png', faceHex: '#f0eeed' },
 
   // ── WHITE — Compo & Rebate (4) ──
-  { id: 'E054', code: 'ECON/0048', name: '25mm Flat Compo White',     colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 25, heightMm: 56, costPerM: 4.46, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0048.jpg', faceHex: '#fbfbfa' },
-  { id: 'E055', code: 'ECON/0050', name: '14mm Flat Compo White',     colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 14, heightMm: 25, costPerM: 1.80, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0050.jpg', faceHex: '#f8f8f6' },
-  { id: 'E056', code: 'ECON/0064', name: '20mm Deep Rebate White',    colour: 'white', finish: 'Matt',       profile: 'Deep Rebate', widthMm: 20, heightMm: 33, costPerM: 2.30, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0064.jpg', faceHex: '#f4f4f4' },
-  { id: 'E057', code: 'ECON/0087', name: '22mm Smooth White',         colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.84, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0087.png', faceHex: '#fcfafa' },
 
   // ── GREY — Light Grey (4) ──
   { id: 'E058', code: 'ECON/0046', name: '15mm Light Grey',           colour: 'grey', finish: 'Light Grey',  profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0046.png', faceHex: '#58595d' },
-  { id: 'E059', code: 'ECON/0045', name: '20mm Light Grey',           colour: 'grey', finish: 'Light Grey',  profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.57, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0045.png', faceHex: '#545559' },
   { id: 'E060', code: 'ECON/0044', name: '35mm Light Grey',           colour: 'grey', finish: 'Light Grey',  profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0044.png', faceHex: '#545559' },
   { id: 'E061', code: 'ECON/0043', name: '38mm Light Grey',           colour: 'grey', finish: 'Light Grey',  profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.67, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0043.png', faceHex: '#545459' },
 
@@ -347,10 +327,6 @@ export const FRAME_CATALOGUE = [
   { id: 'E094', code: 'ECON/0079', name: '22mm Light Oak Open Grain', colour: 'natural-wood', finish: 'Light Oak', profile: 'Flat', widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0079.png', faceHex: '#d5a364' },
 
   // ── CREAM (4) ──
-  { id: 'E095', code: 'ECON/0042', name: '15mm Stained Cream',        colour: 'cream', finish: 'Stained',    profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0042.png', faceHex: '#cabca4' },
-  { id: 'E096', code: 'ECON/0041', name: '20mm Stained Cream',        colour: 'cream', finish: 'Stained',    profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.57, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0041.png', faceHex: '#c4b69e' },
-  { id: 'E097', code: 'ECON/0040', name: '35mm Stained Cream',        colour: 'cream', finish: 'Stained',    profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0040.png', faceHex: '#cdbfa2' },
-  { id: 'E098', code: 'ECON/0039', name: '38mm Stained Cream',        colour: 'cream', finish: 'Stained',    profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.81, hasPhoto: true, tier: 'everyday', image: 'mouldings/ECON_0039.png', faceHex: '#d4c5a8' },
 
   // ── COLOUR (4) ──
   { id: 'E099', code: 'ECON/0063', name: '35mm Green Painted',        colour: 'colour', finish: 'Painted',   profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 2.13, tier: 'everyday', image: 'mouldings/ECON_0063.png', faceHex: '#454b27' },
@@ -367,16 +343,13 @@ export const FRAME_CATALOGUE = [
   // ═══════════════════════════════════════════════════════════════════════════
 
   // ── Classic Wood (8) ──
-  { id: 'P001', code: '000J/0082', name: 'Light Oak Flat',            colour: 'natural-wood', finish: 'Stained', profile: 'Flat',   widthMm: 20, heightMm: 12, costPerM: 1.44, hasPhoto: true, tier: 'premium' , image: 'mouldings/000J_0082.png', faceHex: '#f7cfa1'},
   { id: 'P002', code: '000J/0095', name: 'Medium Oak',                colour: 'natural-wood', finish: 'Stained', profile: 'Flat',   widthMm: 35, heightMm: 14, costPerM: 4.20, hasPhoto: true, tier: 'premium' , image: 'mouldings/000J_0095.jpg', faceHex: '#c5a279'},
   { id: 'P004', code: '0001/T',    name: 'Two Tone Oak Gold',         colour: 'natural-wood', finish: 'Stained', profile: 'Raised', widthMm: 29, heightMm: 14, costPerM: 2.95, tier: 'premium' , image: 'mouldings/0001_T.jpg', faceHex: '#815f43'},
   { id: 'P005', code: '000S/926',  name: 'Reverse Silver Leaf',        colour: 'silver', finish: 'Leaf',          profile: 'Scoop',  widthMm: 64, heightMm: 20, costPerM: 7.00, tier: 'premium', image: 'mouldings/000S_926.jpg', faceHex: '#b2ae8b' },
   { id: 'P006', code: '444343000', name: 'Curl Walnut Veneer',        colour: 'dark-wood', finish: 'Veneer',     profile: 'Flat',   widthMm: 30, heightMm: 14, costPerM: 4.92, hasPhoto: true, tier: 'premium' , image: 'mouldings/444343000.jpg', faceHex: '#9fb9c0'},
-  { id: 'P007', code: '000J/13',   name: 'Plain Pine Slim',           colour: 'natural-wood', finish: 'Raw',     profile: 'Flat',   widthMm: 15, heightMm: 10, costPerM: 1.41, hasPhoto: true, tier: 'premium' , image: 'mouldings/000J_13.png', faceHex: '#f7cfa1'},
   { id: 'P008', code: 'DAN/21',    name: 'Rough Hewn Pine',           colour: 'natural-wood', finish: 'Raw',     profile: 'Flat',   widthMm: 33, heightMm: 16, costPerM: 1.74, hasPhoto: true, tier: 'premium' , image: 'mouldings/DAN_21.jpg', faceHex: '#b68b57'},
 
   // ── Modern Flat (6 — deduplicated: 000J/241, 000J/242 already in everyday) ──
-  { id: 'P009', code: '000J/0086', name: 'Flat Ebony',                colour: 'black', finish: 'Stained',        profile: 'Flat',   widthMm: 20, heightMm: 12, costPerM: 1.44, hasPhoto: true, tier: 'premium' , image: 'mouldings/000J_0086.png', faceHex: '#1c1815'},
   { id: 'P010', code: 'COSM/0027', name: 'Black Gloss Flat',          colour: 'black', finish: 'Gloss',          profile: 'Flat',   widthMm: 21, heightMm: 12, costPerM: 2.43, hasPhoto: true, tier: 'premium' , image: 'mouldings/COSM_0027.jpg', faceHex: '#1a1a1e'},
   { id: 'P011', code: 'LUNA/0002', name: 'White Deep Rebate',         colour: 'white', finish: 'Painted',        profile: 'Flat',   widthMm: 13, heightMm: 22, costPerM: 3.28, hasPhoto: true, tier: 'premium' , image: 'mouldings/LUNA_0002.jpg', faceHex: '#f2efe8'},
   { id: 'P012', code: 'LUNA/0005', name: 'Dark Grey Flat',            colour: 'grey',  finish: 'Painted',        profile: 'Flat',   widthMm: 13, heightMm: 14, costPerM: 1.71, tier: 'premium', image: 'mouldings/LUNA_0005.jpg', faceHex: '#a88e7a' },
@@ -387,7 +360,6 @@ export const FRAME_CATALOGUE = [
   { id: 'P016', code: 'DECO/0003', name: 'Ornate Gold Embossed',      colour: 'gold',   finish: 'Gilt',      profile: 'Ornate', widthMm: 62, heightMm: 22, costPerM: 13.06, hasPhoto: true, tier: 'premium' , image: 'mouldings/DECO_0003.jpg', faceHex: '#d9af5e'},
   { id: 'P017', code: 'DECO/0001', name: 'Ornate White Embossed',     colour: 'white',  finish: 'Gilt',      profile: 'Ornate', widthMm: 62, heightMm: 22, costPerM: 13.06, hasPhoto: true, tier: 'premium' , image: 'mouldings/DECO_0001.jpg', faceHex: '#e8ddd0'},
   { id: 'P018', code: 'DECO/0004', name: 'Ornate Silver Embossed',    colour: 'silver', finish: 'Gilt',      profile: 'Ornate', widthMm: 62, heightMm: 22, costPerM: 13.06, tier: 'premium' , image: 'mouldings/DECO_0004.jpg', faceHex: '#83796d'},
-  { id: 'P019', code: '000K/0678', name: 'Grand Gold Ornate',         colour: 'gold',   finish: 'Gilt',      profile: 'Ornate', widthMm: 72, heightMm: 28, costPerM: 18.37, hasPhoto: true, tier: 'premium' , image: 'mouldings/000K_0678.jpg', faceHex: '#e6cc85'},
   { id: 'P020', code: 'ROYAL/0001',name: 'Royal Gold Scoop',          colour: 'gold',   finish: 'Embossed',  profile: 'Scoop',  widthMm: 65, heightMm: 24, costPerM: 14.76, hasPhoto: true, tier: 'premium' , image: 'mouldings/ROYAL_0001.png', faceHex: '#9a7a3e'},
   { id: 'P021', code: 'ROYAL/0002',name: 'Royal Silver Scoop',        colour: 'silver', finish: 'Embossed',  profile: 'Scoop',  widthMm: 65, heightMm: 24, costPerM: 14.76, hasPhoto: true, tier: 'premium' , image: 'mouldings/ROYAL_0002.jpg', faceHex: '#bbd0cf'},
   { id: 'P022', code: 'GENO/0002', name: 'Silver with Silver Lip',    colour: 'silver', finish: 'Embossed',  profile: 'Raised', widthMm: 26, heightMm: 14, costPerM: 5.41,  tier: 'premium', image: 'mouldings/GENO_0002.jpg', faceHex: '#d8c4ae' },
@@ -398,7 +370,6 @@ export const FRAME_CATALOGUE = [
   { id: 'P025', code: '5401/6018', name: 'Brushed Gold Ovaloe',       colour: 'gold',   finish: 'Brushed',   profile: 'Ovaloe', widthMm: 50, heightMm: 18, costPerM: 9.02, tier: 'premium', image: 'mouldings/5401_6018.jpg', faceHex: '#efd087' },
   { id: 'P026', code: 'ROYAL/0018',name: 'Silver Leaf',               colour: 'silver', finish: 'Leaf',      profile: 'L-Shape',widthMm: 38, heightMm: 20, costPerM: 6.89, tier: 'premium', image: 'mouldings/ROYAL_0018.png', faceHex: '#cfb397' },
   { id: 'P027', code: '000S/21',   name: 'Antique Wood Gold Line',    colour: 'gold',   finish: 'Leaf',      profile: 'L-Shape',widthMm: 38, heightMm: 20, costPerM: 7.87, tier: 'premium', image: 'mouldings/000S_21.jpg', faceHex: '#8b7340' },
-  { id: 'P028', code: '5403/7018', name: 'Brushed Silver Ovaloe',     colour: 'silver', finish: 'Brushed',   profile: 'Ovaloe', widthMm: 66, heightMm: 22, costPerM: 7.38, tier: 'premium', image: 'mouldings/5403_7018.jpg', faceHex: '#bab795' },
   { id: 'P029', code: '0135/0001', name: 'Scratched Gold Raised',     colour: 'gold',   finish: 'Antiqued',  profile: 'Raised', widthMm: 35, heightMm: 16, costPerM: 6.56, hasPhoto: true, tier: 'premium' , image: 'mouldings/0135_0001.jpg', faceHex: '#7a6545'},
   { id: 'P030', code: '0135/0002', name: 'Scratched Silver Raised',   colour: 'silver', finish: 'Antiqued',  profile: 'Raised', widthMm: 35, heightMm: 16, costPerM: 6.56, hasPhoto: true, tier: 'premium' , image: 'mouldings/0135_0002.png', faceHex: '#7a7575'},
 
@@ -413,8 +384,6 @@ export const FRAME_CATALOGUE = [
 
   // ── Painted & Colour (7) ──
   { id: 'P038', code: 'DISP/0003', name: 'Painted White Wide',        colour: 'white',  finish: 'Painted',   profile: 'Flat',   widthMm: 82, heightMm: 22, costPerM: 6.23, hasPhoto: true, tier: 'premium' , image: 'mouldings/DISP_0003.jpg', faceHex: '#f0ede5'},
-  { id: 'P039', code: 'DISP/0002', name: 'Painted Black Wide',        colour: 'black',  finish: 'Painted',   profile: 'Flat',   widthMm: 82, heightMm: 22, costPerM: 6.23, hasPhoto: true, tier: 'premium' , image: 'mouldings/DISP_0002.jpg', faceHex: '#1c1c20'},
-  { id: 'P040', code: '2935/3303', name: 'Sloped Green',              colour: 'colour', finish: 'Painted',   profile: 'Sloped', widthMm: 16, heightMm: 10, costPerM: 4.99, hasPhoto: true, tier: 'premium' , image: 'mouldings/2935_3303.jpg', faceHex: '#5a7a50'},
   { id: 'P041', code: '2935/3301', name: 'Sloped Charcoal',           colour: 'grey',   finish: 'Painted',   profile: 'Sloped', widthMm: 16, heightMm: 10, costPerM: 4.99, hasPhoto: true, tier: 'premium' , image: 'mouldings/2935_3301.jpg', faceHex: '#4a4a4e'},
   { id: 'P042', code: 'BRISTOL/09',name: 'Brushed Gold',              colour: 'gold',   finish: 'Brushed',   profile: 'Chamford',widthMm:30, heightMm: 14, costPerM: 3.28, tier: 'premium', image: 'mouldings/BRISTOL_09.jpg', faceHex: '#d8bba1' },
   { id: 'P043', code: 'COSM/0025', name: 'Grey Gloss Chamford',       colour: 'grey',   finish: 'Gloss',     profile: 'Chamford',widthMm:30, heightMm: 14, costPerM: 3.28, hasPhoto: true, tier: 'premium' , image: 'mouldings/COSM_0025.jpg', faceHex: '#9eb8bf'},
@@ -424,7 +393,6 @@ export const FRAME_CATALOGUE = [
   { id: 'P045', code: 'GRAF/0002', name: 'Pewter Graphite Ovaloe',    colour: 'grey',   finish: 'Brushed',   profile: 'Ovaloe', widthMm: 13, heightMm: 10, costPerM: 2.17, tier: 'premium', image: 'mouldings/GRAF_0002.jpg', faceHex: '#4e6561' },
   { id: 'P047', code: 'CAPR/0010', name: 'Silver Scoop',              colour: 'silver', finish: 'Leaf',      profile: 'Scoop',  widthMm: 80, heightMm: 24, costPerM: 11.32, tier: 'premium', image: 'mouldings/CAPR_0010.png', faceHex: '#c3ac9b' },
   { id: 'P048', code: '000K/0758', name: 'Natural Obeche Scoop',      colour: 'natural-wood', finish: 'Raw', profile: 'Scoop',  widthMm: 48, heightMm: 18, costPerM: 4.59, hasPhoto: true, tier: 'premium' , image: 'mouldings/000K_0758.png', faceHex: '#a35623'},
-  { id: 'P049', code: 'YORK/0001', name: 'Light Brown Wash Scoop',    colour: 'dark-wood', finish: 'Wash',   profile: 'Scoop',  widthMm: 26, heightMm: 14, costPerM: 2.82, hasPhoto: true, tier: 'premium' , image: 'mouldings/YORK_0001.png', faceHex: '#f7cfa1'},
 
   // ── Box & Tray (5 — deduplicated: 000K/0477 vs 0477B, kept one) ──
   { id: 'P050', code: '000K/0477', name: 'Black Box Frame',           colour: 'black',  finish: 'Painted',   profile: 'Box',    widthMm: 30, heightMm: 30, costPerM: 4.10, hasPhoto: true, tier: 'premium' , image: 'mouldings/000K_0477.jpg', faceHex: '#1e1e22'},
