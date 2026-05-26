@@ -8,7 +8,18 @@ export default function PreviewPanel({ state, dispatch }) {
   
   // Resolve frame colour — catalogue frame takes priority
   const catalogueFrame = state.selectedCatalogueFrame ? FRAME_CATALOGUE.find(f => f.id === state.selectedCatalogueFrame) : null;
-  const colour = catalogueFrame ? { id: 'catalogue', name: catalogueFrame.name, hex: catalogueFrame.hex } : (FRAME_COLOURS.find(c => c.id === state.selectedColour) || FRAME_COLOURS[1]);
+  let colour = catalogueFrame ? { 
+    id: 'catalogue', 
+    name: catalogueFrame.name, 
+    hex: catalogueFrame.faceHex || catalogueFrame.hex || '#3B2316',
+    isMoulding: true,
+  } : (FRAME_COLOURS.find(c => c.id === state.selectedColour) || FRAME_COLOURS[1]);
+
+  if (catalogueFrame && catalogueFrame.image) {
+    const baseName = catalogueFrame.image.split('/').pop().replace(/\.(png|jpg|jpeg)$/i, '');
+    colour.stripUrl = `${import.meta.env.BASE_URL}mouldings/strips/${baseName}_strip.png`;
+    colour.stripVUrl = `${import.meta.env.BASE_URL}mouldings/strips/${baseName}_strip_v.png`;
+  }
   const profile = FRAME_PROFILES.find(p => p.id === state.selectedProfile) || FRAME_PROFILES[0];
   const mountObj = MOUNTING_OPTIONS.find(m => m.id === state.selectedMounting) || MOUNTING_OPTIONS.find(m => m.id === 'wc-pure-white');
   const borderW = Math.max(6, profile.width * 0.8);
@@ -618,8 +629,8 @@ function RoomView({ imgSrc, colour, borderW, mountObj, state, dispatch }) {
             <div style={{
               padding: outerFrameWidth,
               position: 'relative',
-              /* Wood grain texture via layered gradients */
-              background: `
+              /* Wood grain texture fallback */
+              background: colour.stripUrl ? '#111' : `
                 repeating-linear-gradient(
                   92deg,
                   transparent 0px,
@@ -656,6 +667,19 @@ function RoomView({ imgSrc, colour, borderW, mountObj, state, dispatch }) {
                 inset 1px 1px 3px rgba(255,255,255,0.08)
               `,
             }}>
+              {/* True Texture Mapping Strips */}
+              {colour.stripUrl && (
+                <>
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: outerFrameWidth, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: '100% 100%', backgroundPosition: 'center', clipPath: `polygon(0 0, 100% 0, calc(100% - ${outerFrameWidth}px) 100%, ${outerFrameWidth}px 100%)`, zIndex: 1 }} />
+                  <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: outerFrameWidth, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% 100%', backgroundPosition: 'center', clipPath: `polygon(100% 0, 100% 100%, 0 calc(100% - ${outerFrameWidth}px), 0 ${outerFrameWidth}px)`, zIndex: 1 }} />
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: outerFrameWidth, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: '100% 100%', backgroundPosition: 'center', clipPath: `polygon(${outerFrameWidth}px 0, calc(100% - ${outerFrameWidth}px) 0, 100% 100%, 0 100%)`, zIndex: 1, transform: 'rotate(180deg)' }} />
+                  <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: outerFrameWidth, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% 100%', backgroundPosition: 'center', clipPath: `polygon(0 0, 100% ${outerFrameWidth}px, 100% calc(100% - ${outerFrameWidth}px), 0 100%)`, zIndex: 1, transform: 'rotate(180deg)' }} />
+                  
+                  {/* Subtle lighting overlay to simulate 3D bevels over the true texture */}
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, boxShadow: `inset 1.5px 1.5px 0px rgba(255,255,255,0.2), inset -1.5px -1.5px 0px rgba(0,0,0,0.4), inset 0 0 8px rgba(0,0,0,0.5)`, pointerEvents: 'none', zIndex: 2 }} />
+                </>
+              )}
+
               {/* Mitered corner accents — subtle diagonal lines at corners */}
               {[
                 { top: 0, left: 0, bg: `linear-gradient(135deg, ${woodLighter} 0%, transparent 50%)` },
@@ -668,7 +692,7 @@ function RoomView({ imgSrc, colour, borderW, mountObj, state, dispatch }) {
                   width: outerFrameWidth * 1.4,
                   height: outerFrameWidth * 1.4,
                   background: corner.bg,
-                  opacity: 0.5,
+                  opacity: colour.stripUrl ? 0 : 0.5,
                   pointerEvents: 'none',
                   zIndex: 2,
                   ...corner,
@@ -679,6 +703,7 @@ function RoomView({ imgSrc, colour, borderW, mountObj, state, dispatch }) {
               <div style={{
                 padding: matWidth,
                 position: 'relative',
+                zIndex: 5,
                 /* Multi-ply mat texture — very subtle warm white with fiber texture */
                 background: `
                   repeating-linear-gradient(
@@ -962,12 +987,28 @@ function ThreeDView({ imgSrc, colour, borderW, mountObj, state, dispatch }) {
           {/* FRONT — print with frame border */}
           <div style={{
             transform: `translateZ(${D / 2}px)`,
-            border: `${Math.max(8, borderW)}px solid ${colour.hex}`,
+            border: `${Math.max(8, borderW)}px solid ${colour.stripUrl ? 'transparent' : colour.hex}`,
+            backgroundClip: 'padding-box',
             boxShadow: '0 4px 20px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.08)',
             background: mountObj?.hex || '#ffffff',
             padding: Math.max(20, Math.min(38, W * 0.08)),
             backfaceVisibility: 'hidden',
+            position: 'relative',
           }}>
+            {/* True Texture Mapping for Front Frame Border */}
+            {colour.stripUrl && (() => {
+              const b = Math.max(8, borderW);
+              return (
+                <>
+                  <div style={{ position: 'absolute', top: -b, left: -b, right: -b, height: b, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: '100% 100%', backgroundPosition: 'center', clipPath: `polygon(0 0, 100% 0, calc(100% - ${b}px) 100%, ${b}px 100%)`, zIndex: 10 }} />
+                  <div style={{ position: 'absolute', top: -b, right: -b, bottom: -b, width: b, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% 100%', backgroundPosition: 'center', clipPath: `polygon(100% 0, 100% 100%, 0 calc(100% - ${b}px), 0 ${b}px)`, zIndex: 10 }} />
+                  <div style={{ position: 'absolute', bottom: -b, left: -b, right: -b, height: b, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: '100% 100%', backgroundPosition: 'center', clipPath: `polygon(${b}px 0, calc(100% - ${b}px) 0, 100% 100%, 0 100%)`, zIndex: 10, transform: 'rotate(180deg)' }} />
+                  <div style={{ position: 'absolute', top: -b, left: -b, bottom: -b, width: b, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% 100%', backgroundPosition: 'center', clipPath: `polygon(0 0, 100% ${b}px, 100% calc(100% - ${b}px), 0 100%)`, zIndex: 10, transform: 'rotate(180deg)' }} />
+                  {/* Subtle edge bevel lighting */}
+                  <div style={{ position: 'absolute', top: -b, left: -b, right: -b, bottom: -b, boxShadow: `inset 1.5px 1.5px 0px rgba(255,255,255,0.2), inset -1.5px -1.5px 0px rgba(0,0,0,0.4), inset 0 0 6px rgba(0,0,0,0.5)`, pointerEvents: 'none', zIndex: 11 }} />
+                </>
+              );
+            })()}
             <div style={{
               background: '#111',
               boxShadow: 'inset 0 1px 4px rgba(0,0,0,0.25), inset 1px 0 3px rgba(0,0,0,0.15)',
@@ -981,7 +1022,7 @@ function ThreeDView({ imgSrc, colour, borderW, mountObj, state, dispatch }) {
             position: 'absolute', top: 0,
             right: `${-D / 2}px`,
             width: `${D}px`, height: '100%',
-            background: edgeGrain(colour.hex),
+            background: colour.stripVUrl ? `url(${colour.stripVUrl}) left center/cover` : edgeGrain(colour.hex),
             transform: 'rotateY(90deg)',
             filter: `brightness(${rightBr})`,
           }} />
@@ -991,7 +1032,7 @@ function ThreeDView({ imgSrc, colour, borderW, mountObj, state, dispatch }) {
             position: 'absolute', top: 0,
             left: `${-D / 2}px`,
             width: `${D}px`, height: '100%',
-            background: edgeGrain(colour.hex),
+            background: colour.stripVUrl ? `url(${colour.stripVUrl}) right center/cover` : edgeGrain(colour.hex),
             transform: 'rotateY(-90deg)',
             filter: `brightness(${leftBr})`,
           }} />
@@ -1002,7 +1043,7 @@ function ThreeDView({ imgSrc, colour, borderW, mountObj, state, dispatch }) {
             top: `${-D / 2}px`,
             left: 0,
             width: '100%', height: `${D}px`,
-            background: colour.hex,
+            background: colour.stripUrl ? `url(${colour.stripUrl}) center bottom/cover` : colour.hex,
             transform: 'rotateX(90deg)',
             filter: `brightness(${0.88 - (Math.max(0, rotX) / 40) * 0.2})`,
           }} />
@@ -1013,7 +1054,7 @@ function ThreeDView({ imgSrc, colour, borderW, mountObj, state, dispatch }) {
             bottom: `${-D / 2}px`,
             left: 0,
             width: '100%', height: `${D}px`,
-            background: colour.hex,
+            background: colour.stripUrl ? `url(${colour.stripUrl}) center top/cover` : colour.hex,
             transform: 'rotateX(-90deg)',
             filter: `brightness(${0.55 + (Math.max(0, rotX) / 40) * 0.2})`,
           }} />
