@@ -65,13 +65,6 @@ export default function NewConfigurator() {
     setSelections(prev => {
       const next = { ...prev, ...partial };
 
-      // Frame just selected (was none → now has a frame)
-      // Auto-select sensible mount + glass defaults for non-canvas prints
-      if ('frameId' in partial && partial.frameId && !prev.frameId) {
-        if (next.mountTypeId === 'none' && next.printType !== 'canvas') next.mountTypeId = 'plain';
-        if (next.glassId === 'none' && next.printType !== 'canvas') next.glassId = 'standard';
-      }
-
       // Frame removed (had a frame → now none)
       // Reset mount + glass — no frame means nothing to hold them
       if ('frameId' in partial && !partial.frameId && prev.frameId) {
