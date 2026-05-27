@@ -135,7 +135,7 @@ export default function NewConfigurator() {
       dimensions: sizeLabel,
       mount: selections.mountTypeId !== 'none' ? MOUNT_COLOURS.find(m => m.id === selections.mountColourId)?.label || 'Mount' : null,
       price: pricingObj.total,
-      image: configuredImage || selections.imageUrl || (currentFrame ? `${import.meta.env.BASE_URL}${currentFrame.image}` : null)
+      image: configuredImage || selections.imageUrl || (currentFrame ? `${import.meta.env.BASE_URL}${currentFrame.uiThumbnail}` : null)
     };
     
     addToCart(cartItem);
@@ -240,11 +240,9 @@ export default function NewConfigurator() {
   const frameFaceHex = frame?.faceHex || frameColourHex;
 
   const [frameStripUrl, frameStripUrlV] = useMemo(() => {
-    if (!frame?.image) return [null, null];
-    const filename = frame.image.split('/').pop();
-    const base = filename.replace(/\.[^.]+$/, '');
-    const baseUrl = `${import.meta.env.BASE_URL}mouldings/strips/${base}`;
-    return [`${baseUrl}_strip.png`, `${baseUrl}_strip_v.png`];
+    if (!frame?.textureMap) return [null, null];
+    // Return texture map with strip extensions and a cache-buster
+    return [`${import.meta.env.BASE_URL}${frame.textureMap}_strip.png?v=3`, `${import.meta.env.BASE_URL}${frame.textureMap}_strip_v.png?v=3`];
   }, [frame]);
 
   const framePx = frame ? Math.max(4, Math.round((frame.widthMm / 10) * previewScale)) : 0;
@@ -414,7 +412,7 @@ export default function NewConfigurator() {
                 <div className="frame-detail-floating-inner">
                   <div className="frame-detail__img">
                     <MouldingThumb
-                      image={frame.image}
+                      image={frame.uiThumbnail}
                       name={frame.name}
                       fallbackHex={frameFaceHex}
                     />
@@ -445,32 +443,36 @@ export default function NewConfigurator() {
                     style={{
                       backgroundImage: frameStripUrl ? `url(${frameStripUrl})` : 'none',
                       backgroundColor: frameFaceHex,
-                      backgroundSize: '100% 100%',
-                      backgroundRepeat: 'no-repeat',
+                      backgroundSize: 'auto 100%',
+                      backgroundRepeat: 'repeat-x',
                     }}
                   />
                   <div className="frame-bar frame-bar--right"
                     style={{
                       backgroundImage: frameStripUrlV ? `url(${frameStripUrlV})` : 'none',
                       backgroundColor: frameFaceHex,
-                      backgroundSize: '100% 100%',
-                      backgroundRepeat: 'no-repeat',
+                      backgroundSize: '100% auto',
+                      backgroundRepeat: 'repeat-y',
                     }}
                   />
                   <div className="frame-bar frame-bar--bottom"
                     style={{
                       backgroundImage: frameStripUrl ? `url(${frameStripUrl})` : 'none',
                       backgroundColor: frameFaceHex,
-                      backgroundSize: '100% 100%',
-                      backgroundRepeat: 'no-repeat',
+                      backgroundSize: 'auto 100%',
+                      backgroundRepeat: 'repeat-x',
+                      clipPath: 'polygon(0 0, 100% 0, calc(100% - var(--frame-w)) 100%, var(--frame-w) 100%)',
+                      transform: 'scaleY(-1)'
                     }}
                   />
                   <div className="frame-bar frame-bar--left"
                     style={{
                       backgroundImage: frameStripUrlV ? `url(${frameStripUrlV})` : 'none',
                       backgroundColor: frameFaceHex,
-                      backgroundSize: '100% 100%',
-                      backgroundRepeat: 'no-repeat',
+                      backgroundSize: '100% auto',
+                      backgroundRepeat: 'repeat-y',
+                      clipPath: 'polygon(0 var(--frame-w), 100% 0, 100% 100%, 0 calc(100% - var(--frame-w)))',
+                      transform: 'scaleX(-1)'
                     }}
                   />
                 </>

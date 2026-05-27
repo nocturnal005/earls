@@ -287,7 +287,7 @@ export function FrameSection({ selections, onUpdate, effW, effH }) {
                 >
                   <span className="w-row__thumb">
                     <MouldingThumb
-                      image={f.image}
+                      image={f.uiThumbnail}
                       name={f.name}
                       fallbackHex={f.faceHex || cg?.hex || '#8A8A8A'}
                     />
