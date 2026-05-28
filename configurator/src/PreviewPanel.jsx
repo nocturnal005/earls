@@ -670,13 +670,13 @@ function RoomView({ imgSrc, colour, borderW, mountObj, state, dispatch }) {
               {colour.stripUrl && (
                 <>
                   {/* TOP edge — horizontal strip, height=mouldingWidth maps to border thickness */}
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: outerFrameWidth, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'left top', clipPath: `polygon(0 0, 100% 0, calc(100% - ${outerFrameWidth}px) 100%, ${outerFrameWidth}px 100%)`, zIndex: 1 }} />
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: outerFrameWidth, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'left top', clipPath: `polygon(0 0, 100% 0, calc(100% - ${outerFrameWidth - 0.5}px) 100%, ${outerFrameWidth - 0.5}px 100%)`, zIndex: 1 }} />
                   {/* RIGHT edge — vertical strip, width=mouldingWidth maps to border thickness */}
-                  <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: outerFrameWidth, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'left top', clipPath: `polygon(100% 0, 100% 100%, 0 calc(100% - ${outerFrameWidth}px), 0 ${outerFrameWidth}px)`, zIndex: 1 }} />
+                  <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: outerFrameWidth, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'left top', clipPath: `polygon(100% 0, 100% 100%, 0 calc(100% - ${outerFrameWidth - 0.5}px), 0 ${outerFrameWidth - 0.5}px)`, zIndex: 1 }} />
                   {/* BOTTOM edge — horizontal strip, flipped */}
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: outerFrameWidth, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'left top', clipPath: `polygon(${outerFrameWidth}px 0, calc(100% - ${outerFrameWidth}px) 0, 100% 100%, 0 100%)`, zIndex: 1, transform: 'scaleY(-1)' }} />
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: outerFrameWidth, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'left top', clipPath: `polygon(${outerFrameWidth - 0.5}px 0, calc(100% - ${outerFrameWidth - 0.5}px) 0, 100% 100%, 0 100%)`, zIndex: 1, transform: 'scaleY(-1)' }} />
                   {/* LEFT edge — vertical strip, flipped */}
-                  <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: outerFrameWidth, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'left top', clipPath: `polygon(0 0, 100% ${outerFrameWidth}px, 100% calc(100% - ${outerFrameWidth}px), 0 100%)`, zIndex: 1, transform: 'scaleX(-1)' }} />
+                  <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: outerFrameWidth, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'left top', clipPath: `polygon(0 0, 100% ${outerFrameWidth - 0.5}px, 100% calc(100% - ${outerFrameWidth - 0.5}px), 0 100%)`, zIndex: 1, transform: 'scaleX(-1)' }} />
                   
                   {/* Subtle edge bevels over the true texture */}
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, boxShadow: `inset 2px 2px 3px rgba(255,255,255,0.4), inset -2px -2px 4px rgba(0,0,0,0.5), inset 0 0 10px rgba(0,0,0,0.2)`, pointerEvents: 'none', zIndex: 2 }} />
@@ -694,10 +694,10 @@ function RoomView({ imgSrc, colour, borderW, mountObj, state, dispatch }) {
 
               {/* Mitered corner accents — subtle diagonal lines at corners */}
               {[
-                { top: 0, left: 0, bg: colour.stripUrl ? `linear-gradient(135deg, transparent 49.5%, rgba(0,0,0,0.6) 50%, transparent 50.5%)` : `linear-gradient(135deg, ${woodLighter} 0%, transparent 50%)` },
-                { top: 0, right: 0, bg: colour.stripUrl ? `linear-gradient(225deg, transparent 49.5%, rgba(0,0,0,0.6) 50%, transparent 50.5%)` : `linear-gradient(225deg, ${woodLighter} 0%, transparent 50%)` },
-                { bottom: 0, left: 0, bg: colour.stripUrl ? `linear-gradient(45deg, transparent 49.5%, rgba(0,0,0,0.6) 50%, transparent 50.5%)` : `linear-gradient(45deg, ${woodDarker} 0%, transparent 50%)` },
-                { bottom: 0, right: 0, bg: colour.stripUrl ? `linear-gradient(315deg, transparent 49.5%, rgba(0,0,0,0.6) 50%, transparent 50.5%)` : `linear-gradient(315deg, ${woodDarker} 0%, transparent 50%)` },
+                { top: 0, left: 0, bg: `linear-gradient(135deg, transparent 49.5%, rgba(0,0,0,0.3) 50%, transparent 50.5%)` },
+                { top: 0, right: 0, bg: `linear-gradient(225deg, transparent 49.5%, rgba(0,0,0,0.3) 50%, transparent 50.5%)` },
+                { bottom: 0, left: 0, bg: `linear-gradient(45deg, transparent 49.5%, rgba(0,0,0,0.4) 50%, transparent 50.5%)` },
+                { bottom: 0, right: 0, bg: `linear-gradient(315deg, transparent 49.5%, rgba(0,0,0,0.4) 50%, transparent 50.5%)` },
               ].map((corner, i) => (
                 <div key={i} style={{
                   position: 'absolute',
@@ -1013,13 +1013,13 @@ function ThreeDView({ imgSrc, colour, borderW, mountObj, state, dispatch }) {
               return (
                 <>
                   {/* TOP edge */}
-                  <div style={{ position: 'absolute', top: -b, left: -b, right: -b, height: b, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'left top', clipPath: `polygon(0 0, 100% 0, calc(100% - ${b}px) 100%, ${b}px 100%)`, zIndex: 10 }} />
+                  <div style={{ position: 'absolute', top: -b, left: -b, right: -b, height: b, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'left top', clipPath: `polygon(0 0, 100% 0, calc(100% - ${b - 0.5}px) 100%, ${b - 0.5}px 100%)`, zIndex: 10 }} />
                   {/* RIGHT edge */}
-                  <div style={{ position: 'absolute', top: -b, right: -b, bottom: -b, width: b, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'left top', clipPath: `polygon(100% 0, 100% 100%, 0 calc(100% - ${b}px), 0 ${b}px)`, zIndex: 10 }} />
+                  <div style={{ position: 'absolute', top: -b, right: -b, bottom: -b, width: b, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'left top', clipPath: `polygon(100% 0, 100% 100%, 0 calc(100% - ${b - 0.5}px), 0 ${b - 0.5}px)`, zIndex: 10 }} />
                   {/* BOTTOM edge */}
-                  <div style={{ position: 'absolute', bottom: -b, left: -b, right: -b, height: b, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'left top', clipPath: `polygon(${b}px 0, calc(100% - ${b}px) 0, 100% 100%, 0 100%)`, zIndex: 10, transform: 'scaleY(-1)' }} />
+                  <div style={{ position: 'absolute', bottom: -b, left: -b, right: -b, height: b, backgroundImage: `url(${colour.stripUrl})`, backgroundSize: 'auto 100%', backgroundRepeat: 'repeat-x', backgroundPosition: 'left top', clipPath: `polygon(${b - 0.5}px 0, calc(100% - ${b - 0.5}px) 0, 100% 100%, 0 100%)`, zIndex: 10, transform: 'scaleY(-1)' }} />
                   {/* LEFT edge */}
-                  <div style={{ position: 'absolute', top: -b, left: -b, bottom: -b, width: b, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'left top', clipPath: `polygon(0 0, 100% ${b}px, 100% calc(100% - ${b}px), 0 100%)`, zIndex: 10, transform: 'scaleX(-1)' }} />
+                  <div style={{ position: 'absolute', top: -b, left: -b, bottom: -b, width: b, backgroundImage: `url(${colour.stripVUrl})`, backgroundSize: '100% auto', backgroundRepeat: 'repeat-y', backgroundPosition: 'left top', clipPath: `polygon(0 0, 100% ${b - 0.5}px, 100% calc(100% - ${b - 0.5}px), 0 100%)`, zIndex: 10, transform: 'scaleX(-1)' }} />
                   {/* Subtle edge bevel lighting */}
                   <div style={{ position: 'absolute', top: -b, left: -b, right: -b, bottom: -b, boxShadow: `inset 2px 2px 1px rgba(255,255,255,0.15), inset -2px -2px 1px rgba(0,0,0,0.25), inset 0 0 5px rgba(0,0,0,0.3)`, pointerEvents: 'none', zIndex: 11 }} />
                 </>
