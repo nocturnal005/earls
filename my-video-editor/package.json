@@ -1,0 +1,26 @@
+{
+  "name": "my-video-editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "remotion studio",
+    "build": "remotion render EarlsHero out/earls-hero.mp4 --codec h264",
+    "render": "remotion render EarlsHero out/earls-hero.mp4 --codec h264"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@remotion/cli": "4.0.468",
+    "@remotion/google-fonts": "4.0.468",
+    "@remotion/player": "4.0.468",
+    "@types/react": "19.2.15",
+    "@types/react-dom": "19.2.3",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "remotion": "4.0.468",
+    "typescript": "6.0.3"
+  }
+}

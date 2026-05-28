@@ -247,7 +247,7 @@ export const FRAME_CATALOGUE = [
   { id: 'E019', code: 'ECON/0086', name: '22mm Smooth Black',         colour: 'black', finish: 'Open Grain', profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.84, hasPhoto: true, tier: 'everyday', uiThumbnail: 'mouldings/ECON_0086.png', textureMap: 'mouldings/strips/ECON_0086', faceHex: '#34302e' },
 
   // ── BLACK — Deep Rebate (1) ──
-  { id: 'E020', code: 'ECON/0065', name: '20mm Deep Rebate Black',    colour: 'black', finish: 'Matt',       profile: 'Deep Rebate', widthMm: 20, heightMm: 33, costPerM: 2.30, hasPhoto: true, tier: 'everyday', uiThumbnail: 'mouldings/ECON_0065.jpg', textureMap: 'mouldings/strips/ECON_0065', faceHex: '#262628' },
+  { id: 'E020', code: 'ECON/0065', name: '20mm Deep Rebate Black',    colour: 'black', finish: 'Matt',       profile: 'Deep Rebate', widthMm: 20, heightMm: 33, costPerM: 2.30, hasPhoto: true, tier: 'everyday', uiThumbnail: 'mouldings/ECON_0065.png', textureMap: 'mouldings/strips/ECON_0065', faceHex: '#262628' },
 
   // ── BLACK — Cushion (7) ──
   { id: 'E021', code: '0075',      name: '½" Black Cushion',          colour: 'black', finish: 'Cushion',    profile: 'Cushion', widthMm: 12.7, heightMm: 10, costPerM: 1.18, tier: 'everyday', uiThumbnail: 'mouldings/0075.jpg', textureMap: 'mouldings/strips/0075', faceHex: '#373636' },
@@ -267,7 +267,7 @@ export const FRAME_CATALOGUE = [
   { id: 'E033', code: '0075/B',    name: '½" Black Stain Cushion',    colour: 'black', finish: 'Cushion',    profile: 'Cushion', widthMm: 12.7, heightMm: 10, costPerM: 1.31, hasPhoto: true, tier: 'everyday', uiThumbnail: 'mouldings/0075_B.jpg', textureMap: 'mouldings/strips/0075_B', faceHex: '#3f404a' },
   { id: 'E034', code: '0076',      name: '½" Stained Black Cushion',  colour: 'black', finish: 'Cushion',    profile: 'Cushion', widthMm: 12.7, heightMm: 10, costPerM: 1.31, tier: 'everyday', uiThumbnail: 'mouldings/0076.jpg', textureMap: 'mouldings/strips/0076', faceHex: '#40414a' },
   { id: 'E035', code: '0349/17',   name: '56mm Black Statement',      colour: 'black', finish: 'Specialty',  profile: 'Flat',    widthMm: 56,   heightMm: 20, costPerM: 14.27, hasPhoto: true, tier: 'everyday', uiThumbnail: 'mouldings/0349_17.jpg', textureMap: 'mouldings/strips/0349_17', faceHex: '#222225' },
-  { id: 'E036', code: '000S/447/3',name: '64mm Gold/Black Outer',     colour: 'black', finish: 'Specialty',  profile: 'Reverse', widthMm: 64,   heightMm: 20, costPerM: 10.11, hasPhoto: true, tier: 'everyday', uiThumbnail: 'mouldings/000S_447_3.jpg', textureMap: 'mouldings/strips/000S_447_3', faceHex: '#141213' },
+  { id: 'E036', code: '000S/447/3',name: '64mm Gold/Black Outer',     colour: 'black', finish: 'Specialty',  profile: 'Reverse', widthMm: 64,   heightMm: 20, costPerM: 10.11, hasPhoto: true, tier: 'everyday', uiThumbnail: 'mouldings/000S_447_3.png', textureMap: 'mouldings/strips/000S_447_3', faceHex: '#141213' },
 
   // ── WHITE — Matt (8) ──
   { id: 'E038', code: 'ECON/0016', name: '14mm Matt White',           colour: 'white', finish: 'Matt',       profile: 'Flat',    widthMm: 14, heightMm: 13, costPerM: 1.12, hasPhoto: true, tier: 'everyday', uiThumbnail: 'mouldings/ECON_0016.jpg', textureMap: 'mouldings/strips/ECON_0016', faceHex: '#f5f6fa' },
@@ -384,7 +384,7 @@ export const FRAME_CATALOGUE = [
   { id: 'P015', code: '000J/10',   name: 'Raw Pine Wide',             colour: 'natural-wood', finish: 'Raw',     profile: 'Flat',   widthMm: 44, heightMm: 16, costPerM: 1.74, hasPhoto: true, tier: 'premium' , uiThumbnail: 'mouldings/000J_10.png', textureMap: 'mouldings/strips/000J_10', faceHex: '#b3b2ae'},
 
   // ── Ornate & Swept (7) ──
-  { id: 'P016', code: 'DECO/0003', name: 'Ornate Gold Embossed',      colour: 'gold',   finish: 'Gilt',      profile: 'Ornate', widthMm: 62, heightMm: 22, costPerM: 13.06, hasPhoto: true, tier: 'premium' , uiThumbnail: 'mouldings/DECO_0003.jpg', textureMap: 'mouldings/strips/DECO_0003', faceHex: '#d9af5e'},
+  { id: 'P016', code: 'DECO/0003', name: 'Ornate Gold Embossed',      colour: 'gold',   finish: 'Gilt',      profile: 'Ornate', widthMm: 62, heightMm: 22, costPerM: 13.06, hasPhoto: true, tier: 'premium' , uiThumbnail: 'mouldings/DECO_0003.png', textureMap: 'mouldings/strips/DECO_0003', faceHex: '#d9af5e'},
   { id: 'P017', code: 'DECO/0001', name: 'Ornate White Embossed',     colour: 'white',  finish: 'Gilt',      profile: 'Ornate', widthMm: 62, heightMm: 22, costPerM: 13.06, hasPhoto: true, tier: 'premium' , uiThumbnail: 'mouldings/DECO_0001.jpg', textureMap: 'mouldings/strips/DECO_0001', faceHex: '#e8ddd0'},
   { id: 'P018', code: 'DECO/0004', name: 'Ornate Silver Embossed',    colour: 'silver', finish: 'Gilt',      profile: 'Ornate', widthMm: 62, heightMm: 22, costPerM: 13.06, tier: 'premium' , uiThumbnail: 'mouldings/DECO_0004.jpg', textureMap: 'mouldings/strips/DECO_0004', faceHex: '#83796d'},
   { id: 'P019', code: '000K/0678', name: 'Grand Gold Ornate',         colour: 'gold',   finish: 'Gilt',      profile: 'Ornate', widthMm: 72, heightMm: 28, costPerM: 18.37, hasPhoto: true, tier: 'premium' , uiThumbnail: 'mouldings/000K_0678.jpg', textureMap: 'mouldings/strips/000K_0678', faceHex: '#e6cc85'},

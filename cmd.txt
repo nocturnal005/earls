@@ -1,0 +1,2 @@
+"Copy-Item \"C:\\Users\\44755\\Desktop\\new moulding list\\Econ_0046_strip.png\" -Destination \"C:\\Users\\44755\\Desktop\\earls\\configurator\\public\\mouldings\\strips\\ECON_0046_strip.png\" -Force; Copy-Item \"C:\\Users\\44755\\Desktop\\new moulding lis
+<truncated 148 bytes>
