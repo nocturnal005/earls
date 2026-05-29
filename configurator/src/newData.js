@@ -394,7 +394,6 @@ export const FRAME_CATALOGUE = [
 
   // ── Gold & Silver (8) ──
   { id: 'P023', code: '5404/6008', name: 'Flat Gold',                 colour: 'gold',   finish: 'Gilt',      profile: 'Flat',   widthMm: 23, heightMm: 12, costPerM: 2.95, hasPhoto: true, tier: 'premium' , uiThumbnail: 'mouldings/5404_6008.png', textureMap: 'mouldings/strips/5404_6008', faceHex: '#e5bb8e'},
-  { id: 'P024', code: '5401/7018', name: 'Brushed Silver Ovaloe',     colour: 'silver', finish: 'Brushed',   profile: 'Ovaloe', widthMm: 25, heightMm: 14, costPerM: 6.23, hasPhoto: true, tier: 'premium' , uiThumbnail: 'mouldings/5401_7018.jpg', textureMap: 'mouldings/strips/5401_7018', faceHex: '#9eb8bf'},
   { id: 'P025', code: '5401/6018', name: 'Brushed Gold Ovaloe',       colour: 'gold',   finish: 'Brushed',   profile: 'Ovaloe', widthMm: 50, heightMm: 18, costPerM: 9.02, tier: 'premium', uiThumbnail: 'mouldings/5401_6018.jpg', textureMap: 'mouldings/strips/5401_6018', faceHex: '#efd087' },
   { id: 'P026', code: 'ROYAL/0018',name: 'Silver Leaf',               colour: 'silver', finish: 'Leaf',      profile: 'L-Shape',widthMm: 38, heightMm: 20, costPerM: 6.89, tier: 'premium', uiThumbnail: 'mouldings/ROYAL_0018.png', textureMap: 'mouldings/strips/ROYAL_0018', faceHex: '#cfb397' },
   { id: 'P027', code: '000S/21',   name: 'Antique Wood Gold Line',    colour: 'gold',   finish: 'Leaf',      profile: 'L-Shape',widthMm: 38, heightMm: 20, costPerM: 7.87, tier: 'premium', uiThumbnail: 'mouldings/000S_21.jpg', textureMap: 'mouldings/strips/000S_21', faceHex: '#8b7340' },
@@ -408,7 +407,6 @@ export const FRAME_CATALOGUE = [
   { id: 'P033', code: 'DAVINCI/0005',name:'Dove Scoop Distressed',    colour: 'grey',   finish: 'Distressed',profile: 'Scoop',  widthMm: 30, heightMm: 16, costPerM: 5.74, tier: 'premium' , uiThumbnail: 'mouldings/DAVINCI_0005.jpg', textureMap: 'mouldings/strips/DAVINCI_0005', faceHex: '#d3af7f'},
   { id: 'P034', code: '860A/2/S',  name: 'Silver Distressed Leaf',    colour: 'silver', finish: 'Distressed',profile: 'Spoon',  widthMm: 22, heightMm: 12, costPerM: 5.09, tier: 'premium', uiThumbnail: 'mouldings/860A_2_S.jpg', textureMap: 'mouldings/strips/860A_2_S', faceHex: '#88817c' },
   { id: 'P035', code: '860A/3/S',  name: 'Distressed Silver Leaf',    colour: 'silver', finish: 'Distressed',profile: 'Spoon',  widthMm: 22, heightMm: 12, costPerM: 5.09, tier: 'premium', uiThumbnail: 'mouldings/860A_3_S.jpg', textureMap: 'mouldings/strips/860A_3_S', faceHex: '#ada293' },
-  { id: 'P036', code: 'PALE/0002', name: 'Silver Box Distressed',     colour: 'silver', finish: 'Distressed',profile: 'Flat',   widthMm: 50, heightMm: 22, costPerM: 9.19, hasPhoto: true, tier: 'premium' , uiThumbnail: 'mouldings/PALE_0002.png', textureMap: 'mouldings/strips/PALE_0002', faceHex: '#9a9590'},
   { id: 'P037', code: 'YORK/0005', name: 'Black Wash Scoop',          colour: 'black',  finish: 'Wash',      profile: 'Scoop',  widthMm: 26, heightMm: 14, costPerM: 2.82, hasPhoto: true, tier: 'premium' , uiThumbnail: 'mouldings/YORK_0005.jpg', textureMap: 'mouldings/strips/YORK_0005', faceHex: '#101e23'},
 
   // ── Painted & Colour (7) ──
