@@ -16,8 +16,8 @@ export default function PreviewPanel({ state, dispatch }) {
   } : (FRAME_COLOURS.find(c => c.id === state.selectedColour) || FRAME_COLOURS[1]);
 
   if (catalogueFrame && catalogueFrame.textureMap) {
-    colour.stripUrl = `${import.meta.env.BASE_URL}${catalogueFrame.textureMap}_strip.png`;
-    colour.stripVUrl = `${import.meta.env.BASE_URL}${catalogueFrame.textureMap}_strip_v.png`;
+    colour.stripUrl = `${import.meta.env.BASE_URL}${catalogueFrame.textureMap}_strip.png?v=9`;
+    colour.stripVUrl = `${import.meta.env.BASE_URL}${catalogueFrame.textureMap}_strip_v.png?v=9`;
   }
   const profile = FRAME_PROFILES.find(p => p.id === state.selectedProfile) || FRAME_PROFILES[0];
   const mountObj = MOUNTING_OPTIONS.find(m => m.id === state.selectedMounting) || MOUNTING_OPTIONS.find(m => m.id === 'wc-pure-white');
