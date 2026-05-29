@@ -25,11 +25,11 @@ export function MouldingThumb({ image, name, fallbackHex }) {
 
   return (
     <img
-      src={`${import.meta.env.BASE_URL}${image}`}
+      src={`${import.meta.env.BASE_URL}${image}?v=20250529b`}
       alt={name}
       style={{
         objectFit: 'cover',
-        objectPosition: 'center top',
+        objectPosition: 'center bottom',
       }}
     />
   );

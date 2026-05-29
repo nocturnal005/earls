@@ -235,7 +235,7 @@ export default function NewConfigurator() {
   const [frameStripUrl, frameStripUrlV] = useMemo(() => {
     if (!frame?.textureMap) return [null, null];
     // Return texture map with strip extensions and a cache-buster
-    return [`${import.meta.env.BASE_URL}${frame.textureMap}_strip.png?v=9`, `${import.meta.env.BASE_URL}${frame.textureMap}_strip_v.png?v=9`];
+    return [`${import.meta.env.BASE_URL}${frame.textureMap}_strip.png?v=20250529`, `${import.meta.env.BASE_URL}${frame.textureMap}_strip_v.png?v=20250529`];
   }, [frame]);
 
   const framePx = frame ? Math.max(4, Math.round((frame.widthMm / 10) * previewScale)) : 0;

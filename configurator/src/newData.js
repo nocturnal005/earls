@@ -306,7 +306,7 @@ export const FRAME_CATALOGUE = [
   // ── GREY — Taupe (4) ──
   { id: 'E062', code: 'ECON/0058', name: '15mm Taupe',                colour: 'grey', finish: 'Taupe',       profile: 'Flat',    widthMm: 15, heightMm: 13, costPerM: 1.15, hasPhoto: true, tier: 'everyday', uiThumbnail: 'mouldings/ECON_0058.jpg', textureMap: 'mouldings/strips/ECON_0058', faceHex: '#b69a85' },
   { id: 'E063', code: 'ECON/0057', name: '20mm Taupe',                colour: 'grey', finish: 'Taupe',       profile: 'Flat',    widthMm: 20, heightMm: 15, costPerM: 1.57, hasPhoto: true, tier: 'everyday', uiThumbnail: 'mouldings/ECON_0057.jpg', textureMap: 'mouldings/strips/ECON_0057', faceHex: '#b29781' },
-  { id: 'E064', code: 'ECON/0056', name: '35mm Taupe',                colour: 'grey', finish: 'Taupe',       profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday', uiThumbnail: 'mouldings/ECON_0056.jpg', textureMap: 'mouldings/strips/ECON_0056', faceHex: '#b0947f' },
+  { id: 'E064', code: 'ECON/0056', name: '35mm Taupe',                colour: 'grey', finish: 'Taupe',       profile: 'Flat',    widthMm: 35, heightMm: 15, costPerM: 2.13, hasPhoto: true, tier: 'everyday', uiThumbnail: 'mouldings/ECON_0056.png', textureMap: 'mouldings/strips/ECON_0056', faceHex: '#b0947f' },
   { id: 'E065', code: 'ECON/0055', name: '38mm Taupe',                colour: 'grey', finish: 'Taupe',       profile: 'Flat',    widthMm: 38, heightMm: 30, costPerM: 3.35, tier: 'everyday', uiThumbnail: 'mouldings/ECON_0055.jpg', textureMap: 'mouldings/strips/ECON_0055', faceHex: '#b0947f' },
 
   // ── GREY — Washed Light Grey (4) ──
