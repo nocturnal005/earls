@@ -39,6 +39,8 @@ const DEFAULT_SELECTIONS = {
   vGrooveColourId: null,
   glassId: 'none',
   imageFit: 'fill',
+  imageOffsetX: 50,
+  imageOffsetY: 50,
 };
 
 const getInitialSelections = () => {
@@ -255,7 +257,7 @@ export default function NewConfigurator() {
     const file = e.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
-      update({ imageUrl: url, imageFile: file });
+      update({ imageUrl: url, imageFile: file, imageOffsetX: 50, imageOffsetY: 50 });
     }
   };
 
@@ -264,8 +266,57 @@ export default function NewConfigurator() {
     const file = e.dataTransfer.files?.[0];
     if (file && file.type.startsWith('image/')) {
       const url = URL.createObjectURL(file);
-      update({ imageUrl: url, imageFile: file });
+      update({ imageUrl: url, imageFile: file, imageOffsetX: 50, imageOffsetY: 50 });
     }
+  };
+
+  /* ── Image pan (drag to reposition) ── */
+  const panRef = useRef({ dragging: false, startX: 0, startY: 0, startOffX: 50, startOffY: 50 });
+  const imgRefs = useRef([]);
+
+  const applyOffset = (x, y) => {
+    imgRefs.current.forEach(el => {
+      if (el) {
+        el.style.objectPosition = `${x}% ${y}%`;
+      }
+    });
+  };
+
+  const onPanStart = (e) => {
+    if (!selections.imageUrl || selections.imageFit === 'fit') return;
+    e.preventDefault();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    panRef.current = { dragging: true, startX: clientX, startY: clientY, startOffX: selections.imageOffsetX, startOffY: selections.imageOffsetY, lastX: selections.imageOffsetX, lastY: selections.imageOffsetY };
+
+    const onMove = (ev) => {
+      if (!panRef.current.dragging) return;
+      ev.preventDefault();
+      const cx = ev.touches ? ev.touches[0].clientX : ev.clientX;
+      const cy = ev.touches ? ev.touches[0].clientY : ev.clientY;
+      const dx = cx - panRef.current.startX;
+      const dy = cy - panRef.current.startY;
+      const sensitivity = 0.25;
+      const newX = Math.min(100, Math.max(0, panRef.current.startOffX - dx * sensitivity));
+      const newY = Math.min(100, Math.max(0, panRef.current.startOffY - dy * sensitivity));
+      panRef.current.lastX = newX;
+      panRef.current.lastY = newY;
+      applyOffset(newX, newY);
+    };
+
+    const onEnd = () => {
+      panRef.current.dragging = false;
+      update({ imageOffsetX: panRef.current.lastX, imageOffsetY: panRef.current.lastY });
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onEnd);
+      window.removeEventListener('touchmove', onMove);
+      window.removeEventListener('touchend', onEnd);
+    };
+
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onEnd);
+    window.addEventListener('touchmove', onMove, { passive: false });
+    window.addEventListener('touchend', onEnd);
   };
 
   const sectionSummary = (id) => {
@@ -514,16 +565,24 @@ export default function NewConfigurator() {
                       onDrop={handleDrop}
                     >
                       {selections.imageUrl ? (
-                        <label style={{ display: 'block', width: '100%', height: '100%', cursor: 'pointer', position: 'relative' }}>
-                          <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
-                          <img src={selections.imageUrl} alt="Preview" style={{ width: '100%', height: '100%', borderRadius: isOvalOrRound ? '50%' : 0, objectFit: selections.imageFit === 'fit' ? 'contain' : 'cover' }} />
-                          <div className="change-photo-overlay" style={{ borderRadius: isOvalOrRound ? '50%' : 0 }}>
+                        <div style={{ display: 'block', width: '100%', height: '100%', position: 'relative' }}>
+                          <img
+                            ref={el => { imgRefs.current[0] = el; }}
+                            src={selections.imageUrl} alt="Preview"
+                            style={{ width: '100%', height: '100%', borderRadius: isOvalOrRound ? '50%' : 0, objectFit: selections.imageFit === 'fit' ? 'contain' : 'cover', objectPosition: `${selections.imageOffsetX}% ${selections.imageOffsetY}%`, cursor: selections.imageFit === 'fit' ? 'default' : 'grab', userSelect: 'none' }}
+                            onMouseDown={onPanStart}
+                            onTouchStart={onPanStart}
+                            draggable={false}
+                          />
+                          <label className="change-photo-overlay">
+                            <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
                             <span className="preview-placeholder__icon">↻</span>
-                            <span>Change Photo</span>
-                          </div>
-                        </label>
+                            <span>Change</span>
+                          </label>
+                          {selections.imageFit !== 'fit' && <div className="adjust-hint">Drag to adjust</div>}
+                        </div>
                       ) : (
-                        <label 
+                        <label
                           className="preview-placeholder"
                           onDragOver={(e) => e.preventDefault()}
                           onDrop={handleDrop}
@@ -552,16 +611,24 @@ export default function NewConfigurator() {
                   onDrop={handleDrop}
                 >
                   {selections.imageUrl ? (
-                    <label style={{ display: 'block', width: '100%', height: '100%', cursor: 'pointer', position: 'relative' }}>
-                      <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
-                      <img src={selections.imageUrl} alt="Preview" style={{ width: '100%', height: '100%', borderRadius: 0, objectFit: selections.imageFit === 'fit' ? 'contain' : 'cover' }} />
-                      <div className="change-photo-overlay" style={{ borderRadius: 0 }}>
+                    <div style={{ display: 'block', width: '100%', height: '100%', position: 'relative' }}>
+                      <img
+                        ref={el => { imgRefs.current[1] = el; }}
+                        src={selections.imageUrl} alt="Preview"
+                        style={{ width: '100%', height: '100%', borderRadius: 0, objectFit: selections.imageFit === 'fit' ? 'contain' : 'cover', objectPosition: `${selections.imageOffsetX}% ${selections.imageOffsetY}%`, cursor: selections.imageFit === 'fit' ? 'default' : 'grab', userSelect: 'none' }}
+                        onMouseDown={onPanStart}
+                        onTouchStart={onPanStart}
+                        draggable={false}
+                      />
+                      <label className="change-photo-overlay">
+                        <input type="file" accept="image/*" onChange={handleImageUpload} hidden />
                         <span className="preview-placeholder__icon">↻</span>
-                        <span>Change Photo</span>
-                      </div>
-                    </label>
+                        <span>Change</span>
+                      </label>
+                      {selections.imageFit !== 'fit' && <div className="adjust-hint">Drag to adjust</div>}
+                    </div>
                   ) : (
-                    <label 
+                    <label
                       className="preview-placeholder"
                       onDragOver={(e) => e.preventDefault()}
                       onDrop={handleDrop}

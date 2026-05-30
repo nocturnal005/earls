@@ -148,7 +148,7 @@ export function SizePrintSection({ selections, onUpdate }) {
                   <span className="opt-card__name">{pt.label}</span>
                   <span className="opt-card__desc">{pt.desc}</span>
                   <span className="opt-card__price">
-                    {unavailable ? 'N/A' : pt.id === 'none' ? '—' : `£${price?.toFixed(2)}`}
+                    {unavailable ? 'N/A' : pt.id === 'none' ? '—' : printType === 'none' ? '' : `£${price?.toFixed(2)}`}
                   </span>
                 </button>
               );
