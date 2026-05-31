@@ -70,7 +70,6 @@ export const FRAME_CATALOGUE = [
   // Distressed & Rustic (7)
   { id: 34, code:'0321/1265', name:'Gold Distressed Red',     category:'distressed-rustic', colour:'Gold',    hex:'#A0783C', finish:'Distressed', profile:'Panel',   widthMm:22,  depthMm:14, retailPerM:18.69 , image: 'mouldings/0321_1265.png'},
   { id: 35, code:'0321/1268', name:'Silver Blue Distressed',  category:'distressed-rustic', colour:'Silver',  hex:'#8890A0', finish:'Distressed', profile:'Panel',   widthMm:22,  depthMm:14, retailPerM:18.69 , image: 'mouldings/0321_1268.jpg'},
-  { id: 36, code:'DAVINCI/0005',name:'Dove Scoop Distressed', category:'distressed-rustic', colour:'Grey',    hex:'#9A9690', finish:'Distressed', profile:'Scoop',   widthMm:30,  depthMm:16, retailPerM:17.22 , image: 'mouldings/DAVINCI_0005.jpg'},
   { id: 37, code:'SALZ/0001', name:'Black Spoon Distressed',  category:'distressed-rustic', colour:'Black',   hex:'#2C2C2C', finish:'Distressed', profile:'Spoon',   widthMm:22,  depthMm:12, retailPerM:15.27 },
   { id: 38, code:'SALZ/0003', name:'White Spoon Distressed',  category:'distressed-rustic', colour:'White',   hex:'#E8E4DC', finish:'Distressed', profile:'Spoon',   widthMm:22,  depthMm:12, retailPerM:15.27 },
   { id: 39, code:'PALE/0002', name:'Silver Box Distressed',   category:'distressed-rustic', colour:'Silver',  hex:'#98989C', finish:'Distressed', profile:'Flat',    widthMm:50,  depthMm:22, retailPerM:27.57 , image: 'mouldings/PALE_0002.png'},
