@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 // Earl's Frame Studio — Data Layer (Rebuild)
 // Merged catalogue: 104 ECON + ~54 premium frames
-// Component-based pricing: print + frame + mount + glass + handling + VAT
+// Component-based pricing: print + frame + mount + glass + VAT
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // ── PRINT SIZES & PRICES ────────────────────────────────────────────────────
@@ -59,11 +59,11 @@ export const SQCM_PER_SQFT = 929.0304;
 
 export const GLASS_OPTIONS = [
   { id: 'none',       label: 'None',             desc: 'No glazing',                            ratePerSqFt: 0 },
-  { id: 'standard',   label: 'Standard Glass',   desc: 'Clear float glass',                     ratePerSqFt: 10.00 },
-  { id: 'acrylic',    label: 'Acrylic',          desc: 'Lightweight, shatterproof',              ratePerSqFt: 12.50 },
-  { id: 'non_refl',   label: 'Non-Reflective',   desc: 'Anti-glare coating',                    ratePerSqFt: 15.00 },
-  { id: 'uv',         label: 'UV Conservation',   desc: '99% UV protection',                     ratePerSqFt: 18.00 },
-  { id: 'museum',     label: 'Museum Quality',    desc: 'Anti-reflective + UV protection',       ratePerSqFt: 25.00 },
+  { id: 'standard',   label: 'Standard Glass',   desc: 'Clear float glass',                     ratePerSqFt: 4.50 },
+  { id: 'acrylic',    label: 'Acrylic',          desc: 'Lightweight, shatterproof',              ratePerSqFt: 6.00 },
+  { id: 'non_refl',   label: 'Non-Reflective',   desc: 'Anti-glare coating',                    ratePerSqFt: 7.50 },
+  { id: 'uv',         label: 'UV Conservation',   desc: '99% UV protection',                     ratePerSqFt: 9.00 },
+  { id: 'museum',     label: 'Museum Quality',    desc: 'Anti-reflective + UV protection',       ratePerSqFt: 12.50 },
 ];
 
 
@@ -180,11 +180,6 @@ export const MOUNT_COLOURS = [
 ];
 
 
-// ── HANDLING / CRAFTING ──────────────────────────────────────────────────────
-
-export const HANDLING_FEE = 5.00;
-
-
 // ── VAT ──────────────────────────────────────────────────────────────────────
 
 export const VAT_RATE = 0.20;
@@ -192,7 +187,15 @@ export const VAT_RATE = 0.20;
 
 // ── FRAME MOULDING MARKUP ────────────────────────────────────────────────────
 
-export const FRAME_MARKUP = 3.0;
+export const FRAME_MARKUP = 4.0;
+
+
+// ── BASE PRICES ─────────────────────────────────────────────────────────────
+// Fixed cost added to each component regardless of size (labour, materials min)
+
+export const FRAME_BASE = 3.00;
+export const MOUNT_BASE = 3.00;
+export const GLASS_BASE = 0.50;
 
 
 // ── COLOUR GROUPS (for frame selector Step 1) ────────────────────────────────
@@ -450,7 +453,6 @@ export function calcPrintPrice(printType, sizeId) {
 }
 
 export function calcFramePrice(frame, w_cm, h_cm, mountTypeId = 'none', mountWidthMm = 50) {
-  // Frame moulding goes around the full assembly — artwork + mount borders
   let frameW = w_cm, frameH = h_cm;
   if (mountTypeId !== 'none') {
     const borderCm = mountWidthMm / 10;
@@ -458,7 +460,9 @@ export function calcFramePrice(frame, w_cm, h_cm, mountTypeId = 'none', mountWid
     frameH = h_cm + 2 * borderCm;
   }
   const perimM = ((frameW + frameH) * 2) / 100;
-  return perimM * frame.costPerM * FRAME_MARKUP;
+  // Mitre joints consume extra moulding proportional to width (2× per corner, 4 corners)
+  const mitreM = (8 * frame.widthMm) / 1000;
+  return (perimM + mitreM) * frame.costPerM * FRAME_MARKUP + FRAME_BASE;
 }
 
 export function calcMountPrice(mountTypeId, w_cm, h_cm, mountWidthMm = 50) {
@@ -467,13 +471,12 @@ export function calcMountPrice(mountTypeId, w_cm, h_cm, mountWidthMm = 50) {
   const borderCm = mountWidthMm / 10;
   const outerArea = (w_cm + 2 * borderCm) * (h_cm + 2 * borderCm);
   const mountAreaSqFt = (outerArea - w_cm * h_cm) / SQCM_PER_SQFT;
-  return (mountAreaSqFt * MOUNT_BASE_RATE_PER_SQFT * mt.multiplier) + mt.surcharge;
+  return (mountAreaSqFt * MOUNT_BASE_RATE_PER_SQFT * mt.multiplier) + mt.surcharge + MOUNT_BASE;
 }
 
 export function calcGlassPrice(glassId, w_cm, h_cm, mountTypeId = 'none', mountWidthMm = 50) {
   const glass = GLASS_OPTIONS.find(g => g.id === glassId);
   if (!glass || glass.ratePerSqFt === 0) return 0;
-  // Glass covers the full frame opening — artwork + mount borders when present
   let glassW = w_cm, glassH = h_cm;
   if (mountTypeId !== 'none') {
     const borderCm = mountWidthMm / 10;
@@ -481,7 +484,7 @@ export function calcGlassPrice(glassId, w_cm, h_cm, mountTypeId = 'none', mountW
     glassH = h_cm + 2 * borderCm;
   }
   const areaSqFt = (glassW * glassH) / SQCM_PER_SQFT;
-  return areaSqFt * glass.ratePerSqFt;
+  return areaSqFt * glass.ratePerSqFt + GLASS_BASE;
 }
 
 export function calcTotal(selections) {
@@ -493,9 +496,8 @@ export function calcTotal(selections) {
   const framePrice   = calcFramePrice(frame, size.w_cm, size.h_cm, mountTypeId, mountWidthMm);
   const mountPrice   = calcMountPrice(mountTypeId, size.w_cm, size.h_cm, mountWidthMm);
   const glassPrice   = calcGlassPrice(glassId, size.w_cm, size.h_cm, mountTypeId, mountWidthMm);
-  const handlingPrice = HANDLING_FEE;
 
-  const subtotal = printPrice + framePrice + mountPrice + glassPrice + handlingPrice;
+  const subtotal = printPrice + framePrice + mountPrice + glassPrice;
   const vat      = subtotal * VAT_RATE;
   const total    = subtotal + vat;
 
@@ -504,7 +506,6 @@ export function calcTotal(selections) {
     framePrice:   round2(framePrice),
     mountPrice:   round2(mountPrice),
     glassPrice:   round2(glassPrice),
-    handlingPrice: round2(handlingPrice),
     subtotal:     round2(subtotal),
     vat:          round2(vat),
     total:        round2(total),

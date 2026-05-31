@@ -3,7 +3,7 @@ import {
   PRINT_SIZES, FRAME_CATALOGUE, MOUNT_COLOURS, COLOUR_GROUPS, MOUNT_TYPES,
   GLASS_OPTIONS, VGROOVE_COLOURS, MOUNT_WIDTHS,
   calcFramePrice, calcPrintPrice, calcMountPrice, calcGlassPrice,
-  HANDLING_FEE, VAT_RATE,
+  VAT_RATE,
 } from './newData.js';
 import {
   SizePrintSection, FrameSection, MountSection, GlassSection,
@@ -180,16 +180,13 @@ export default function NewConfigurator() {
     const framePrice  = (frame && effW) ? calcFramePrice(frame, effW, effH, selections.mountTypeId, mountWidthMm) : 0;
     const mountPrice  = (selections.mountTypeId !== 'none' && selections.printType !== 'canvas' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH, mountWidthMm) : 0;
     const glassPrice  = (selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && effW) ? calcGlassPrice(selections.glassId, effW, effH, selections.mountTypeId, mountWidthMm) : 0;
-    const hasItems = (printPrice + framePrice + mountPrice + glassPrice) > 0;
-    const handlingPrice = hasItems ? HANDLING_FEE : 0;
-    const subtotal = printPrice + framePrice + mountPrice + glassPrice + handlingPrice;
+    const subtotal = printPrice + framePrice + mountPrice + glassPrice;
     const vat = subtotal * VAT_RATE;
     const total = subtotal + vat;
     return {
       printPrice: round2(printPrice), framePrice: round2(framePrice),
       mountPrice: round2(mountPrice), glassPrice: round2(glassPrice),
-      handlingPrice: round2(handlingPrice), subtotal: round2(subtotal),
-      vat: round2(vat), total: round2(total),
+      subtotal: round2(subtotal), vat: round2(vat), total: round2(total),
     };
   }, [selections, frame, size, effW, effH, isCustom]);
 
@@ -704,7 +701,6 @@ export default function NewConfigurator() {
             <div className="price-line"><span>Frame</span><span>£{pricing.framePrice.toFixed(2)}</span></div>
             <div className="price-line"><span>Mount</span><span>£{pricing.mountPrice.toFixed(2)}</span></div>
             <div className="price-line"><span>Glass</span><span>£{pricing.glassPrice.toFixed(2)}</span></div>
-            <div className="price-line"><span>Handling</span><span>£{pricing.handlingPrice.toFixed(2)}</span></div>
             <hr className="price-divider" />
             <div className="price-line"><span>Subtotal</span><span>£{pricing.subtotal.toFixed(2)}</span></div>
             <div className="price-line price-line--muted"><span>VAT (20%)</span><span>£{pricing.vat.toFixed(2)}</span></div>
