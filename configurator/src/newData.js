@@ -360,7 +360,7 @@ export const FRAME_CATALOGUE = [
   { id: 'E102', code: 'ECON/0085', name: '22mm Green Open Grain',     colour: 'colour', finish: 'Open Grain',profile: 'Flat',    widthMm: 22, heightMm: 22, costPerM: 1.71, hasPhoto: true, tier: 'everyday', uiThumbnail: 'mouldings/ECON_0085.png', textureMap: 'mouldings/strips/ECON_0085', faceHex: '#567563' },
 
   // ── OTHER (1) ──
-  { id: 'E103', code: 'M0093',     name: '¾" Flat Picture Moulding',  colour: 'natural-wood', finish: 'Raw', profile: 'Flat',    widthMm: 19, heightMm: 16, costPerM: 1.64, tier: 'everyday', uiThumbnail: 'mouldings/M0093.jpg', textureMap: 'mouldings/strips/M0093', faceHex: '#d5b693' },
+  { id: 'E103', code: 'M0093',     name: '¾" Flat Picture Moulding',  colour: 'natural-wood', finish: 'Raw', profile: 'Flat',    widthMm: 19, heightMm: 16, costPerM: 1.64, tier: 'everyday', uiThumbnail: 'mouldings/M0093.png', textureMap: 'mouldings/strips/M0093', faceHex: '#d5b693' },
 
 
   // ═══════════════════════════════════════════════════════════════════════════
