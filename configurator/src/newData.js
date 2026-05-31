@@ -193,9 +193,9 @@ export const FRAME_MARKUP = 4.0;
 // ── BASE PRICES ─────────────────────────────────────────────────────────────
 // Fixed cost added to each component regardless of size (labour, materials min)
 
-export const FRAME_BASE = 3.00;
-export const MOUNT_BASE = 3.00;
-export const GLASS_BASE = 0.50;
+export const FRAME_BASE = 6.00;
+export const MOUNT_BASE = 5.50;
+export const GLASS_BASE = 0.85;
 
 
 // ── COLOUR GROUPS (for frame selector Step 1) ────────────────────────────────
