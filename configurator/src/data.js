@@ -49,7 +49,6 @@ export const FRAME_CATALOGUE = [
   { id: 15, code:'000K/0477', name:'Wide Black Box',          category:'modern-flat',       colour:'Black',   hex:'#181818', finish:'Paint',      profile:'Flat',    widthMm:30,  depthMm:30, retailPerM:12.30 , image: 'mouldings/000K_0477.jpg'},
   { id: 16, code:'WRAP/20',   name:'Beech Angled Edge',       category:'modern-flat',       colour:'Natural', hex:'#C8B078', finish:'Lacquer',    profile:'Flat',    widthMm:35,  depthMm:14, retailPerM:5.31 },
   { id: 17, code:'000J/1064', name:'Wide Flat Rounded',       category:'modern-flat',       colour:'Natural', hex:'#BFA870', finish:'Raw',        profile:'Flat',    widthMm:64,  depthMm:16, retailPerM:10.05 },
-  { id: 18, code:'000J/10',   name:'Raw Pine Wide',           category:'modern-flat',       colour:'Natural', hex:'#D2B97A', finish:'Raw',        profile:'Flat',    widthMm:44,  depthMm:16, retailPerM:5.22 , image: 'mouldings/000J_10.png'},
   // Ornate & Swept (7)
   { id: 19, code:'DECO/0003', name:'Ornate Gold Embossed',    category:'ornate-swept',      colour:'Gold',    hex:'#C5A240', finish:'Gilt',       profile:'Ornate',  widthMm:62,  depthMm:22, retailPerM:39.18 , image: 'mouldings/DECO_0003.jpg'},
   { id: 20, code:'DECO/0001', name:'Ornate White Embossed',   category:'ornate-swept',      colour:'White',   hex:'#EDE8DE', finish:'Paint',      profile:'Ornate',  widthMm:62,  depthMm:22, retailPerM:39.18 , image: 'mouldings/DECO_0001.jpg'},
@@ -87,12 +86,10 @@ export const FRAME_CATALOGUE = [
   { id: 49, code:'528568000', name:'White Lacquer Cushion',   category:'cushion-scoop',     colour:'White',   hex:'#F8F8F4', finish:'Lacquer',    profile:'Cushion', widthMm:13,  depthMm:10, retailPerM:6.51 },
   { id: 50, code:'000K/0342', name:'Oak Cushion',             category:'cushion-scoop',     colour:'Brown',   hex:'#A88850', finish:'Stain',      profile:'Cushion', widthMm:40,  depthMm:16, retailPerM:9.45 , image: 'mouldings/000K_0342.png'},
   { id: 51, code:'000K/0558', name:'Silver Scoop Wide',       category:'cushion-scoop',     colour:'Silver',  hex:'#B0B0B0', finish:'Leaf',       profile:'Scoop',   widthMm:80,  depthMm:24, retailPerM:33.96 },
-  { id: 52, code:'000K/0758', name:'Natural Obeche Scoop',    category:'cushion-scoop',     colour:'Natural', hex:'#C0A868', finish:'Raw',        profile:'Scoop',   widthMm:48,  depthMm:18, retailPerM:13.77 , image: 'mouldings/000K_0758.png'},
   { id: 53, code:'YORK/0001', name:'Light Brown Wash Scoop',  category:'cushion-scoop',     colour:'Brown',   hex:'#B09060', finish:'Wash',       profile:'Scoop',   widthMm:26,  depthMm:14, retailPerM:8.46 , image: 'mouldings/YORK_0001.png'},
   { id: 54, code:'YORK/0003', name:'Pastel Pink Scoop',       category:'cushion-scoop',     colour:'Pink',    hex:'#D8A8A0', finish:'Wash',       profile:'Scoop',   widthMm:26,  depthMm:14, retailPerM:8.46 },
   // Box & Tray (5)
   { id: 55, code:'000K/0477B',name:'Black Box Frame',         category:'box-tray',          colour:'Black',   hex:'#181818', finish:'Paint',      profile:'Box',     widthMm:30,  depthMm:30, retailPerM:12.30 },
-  { id: 56, code:'DISP/0001', name:'Unfinished Pine Box',     category:'box-tray',          colour:'Natural', hex:'#C8A870', finish:'Raw',        profile:'Box',     widthMm:45,  depthMm:30, retailPerM:5.22 , image: 'mouldings/DISP_0001.png'},
   { id: 57, code:'LUNA/0001', name:'Black Deep Rebate',       category:'box-tray',          colour:'Black',   hex:'#1A1A1A', finish:'Paint',      profile:'Flat',    widthMm:13,  depthMm:22, retailPerM:9.84 , image: 'mouldings/LUNA_0001.jpg'},
   { id: 58, code:'LUNA/0004', name:'Light Grey Deep Rebate',  category:'box-tray',          colour:'Grey',    hex:'#A8A8A4', finish:'Paint',      profile:'Flat',    widthMm:13,  depthMm:22, retailPerM:9.84 },
   { id: 59, code:'LUNA/0008', name:'Taupe Deep Rebate',       category:'box-tray',          colour:'Grey',    hex:'#8A8480', finish:'Paint',      profile:'Flat',    widthMm:13,  depthMm:22, retailPerM:9.84 },
@@ -100,7 +97,6 @@ export const FRAME_CATALOGUE = [
   { id: 60, code:'REMB/0009', name:'Black Stain Floater',     category:'canvas-floater',    colour:'Black',   hex:'#1A1A1A', finish:'Stain',      profile:'Floater', widthMm:84,  depthMm:35, retailPerM:33.96 , image: 'mouldings/REMB_0009.png'},
   { id: 61, code:'REMB/0011', name:'Brown Stain Floater',     category:'canvas-floater',    colour:'Brown',   hex:'#6B4A2A', finish:'Stain',      profile:'Floater', widthMm:84,  depthMm:35, retailPerM:29.52 },
   { id: 62, code:'REMB/0013', name:'White Gloss Floater',     category:'canvas-floater',    colour:'White',   hex:'#F5F5F5', finish:'Gloss',      profile:'Floater', widthMm:84,  depthMm:35, retailPerM:43.32 , image: 'mouldings/REMB_0013.jpg'},
-  { id: 63, code:'REMB/0014', name:'Natural Floater',         category:'canvas-floater',    colour:'Natural', hex:'#BFA060', finish:'Raw',        profile:'Floater', widthMm:84,  depthMm:35, retailPerM:29.52 , image: 'mouldings/REMB_0014.png'},
   // Slips & Fillets (7)
   { id: 64, code:'0006/G',    name:'Plain Gold Slip',         category:'slips-fillets',     colour:'Gold',    hex:'#C8A84E', finish:'Gilt',       profile:'Slip',    widthMm:13,  depthMm:6,  retailPerM:5.52 },
   { id: 65, code:'0006/S',    name:'Plain Silver Slip',       category:'slips-fillets',     colour:'Silver',  hex:'#B0B0B0', finish:'Gilt',       profile:'Slip',    widthMm:13,  depthMm:6,  retailPerM:5.52 },
