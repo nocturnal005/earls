@@ -1677,8 +1677,10 @@
   inset: 0;
   z-index: 3000;
   display: flex;
-  background: linear-gradient(to right, #FFFFFF 55%, #1A1A1A 55%);
-  overflow: hidden;
+  background: linear-gradient(to right, #FFFFFF 55%, #000000 55%);
+  overflow-y: auto;
+  overflow-x: hidden;
+  align-items: flex-start;
   font-family: 'Libre Franklin', sans-serif;
   animation: coFadeIn 0.35s ease;
 }
@@ -1687,8 +1689,7 @@
 /* ---------- LEFT PANE (Form) ---------- */
 .co-left {
   width: 55%;
-  height: 100vh;
-  overflow-y: auto;
+  min-height: 100vh;
   display: flex;
   justify-content: flex-end;
 }
@@ -1722,7 +1723,7 @@
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: #2A2725;
+  color: #000000;
   font-family: 'Libre Franklin', sans-serif;
 }
 
@@ -1744,24 +1745,24 @@
 /* Heading */
 .co-heading {
   font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 700;
-  color: #1A1A1A; margin: 0 0 40px 0; line-height: 1.15;
+  color: #000000; margin: 0 0 40px 0; line-height: 1.15;
 }
 
 /* Sections */
 .co-section { margin-bottom: 36px; }
 .co-section-title {
-  font-size: 16px; font-weight: 700; color: #1A1A1A;
+  font-size: 16px; font-weight: 700; color: #000000;
   margin: 0 0 16px 0; font-family: 'Libre Franklin', sans-serif;
 }
 
 /* Inputs */
 .co-input {
-  width: 100%; padding: 14px 16px; border: 1px solid #D5D0CA; border-radius: 6px;
+  width: 100%; padding: 14px 16px; border: 1px solid #DDDDDD; border-radius: 6px; color: #000000;
   font-size: 14px; margin-bottom: 12px; background: #FFF; outline: none;
   font-family: 'Libre Franklin', sans-serif; box-sizing: border-box;
   transition: border-color 0.2s;
 }
-.co-input:focus { border-color: #1A1A1A; }
+.co-input:focus { border-color: #C41E1E; }
 .co-input::placeholder { color: #A09A94; }
 .co-row { display: flex; gap: 12px; }
 .co-row .co-input { flex: 1; }
@@ -1769,15 +1770,15 @@
 .co-small { flex: 0.6 !important; max-width: 100px; }
 
 /* Shipping toggle */
-.co-shipping-toggle { display: flex; gap: 0; border: 1px solid #D5D0CA; border-radius: 6px; overflow: hidden; }
+.co-shipping-toggle { display: flex; gap: 0; border: 1px solid #DDDDDD; border-radius: 6px; overflow: hidden; }
 .co-ship-btn {
   flex: 1; padding: 14px 20px; border: none; background: #FFF; cursor: pointer;
-  font-size: 14px; font-weight: 600; color: #2A2725; display: flex;
+  font-size: 14px; font-weight: 600; color: #000000; display: flex;
   justify-content: space-between; align-items: center; transition: all 0.2s;
   font-family: 'Libre Franklin', sans-serif;
 }
-.co-ship-btn + .co-ship-btn { border-left: 1px solid #D5D0CA; }
-.co-ship-btn.active { background: #1A1A1A; color: #FFF; }
+.co-ship-btn + .co-ship-btn { border-left: 1px solid #DDDDDD; }
+.co-ship-btn.active { background: #C41E1E; color: #FFF; }
 .co-ship-price { font-weight: 500; }
 
 /* Payment tabs */
@@ -1826,17 +1827,15 @@
 /* ---------- RIGHT PANE (Dark Summary) ---------- */
 .co-right {
   width: 45%;
-  height: 100vh;
+  min-height: 100vh;
   color: #FAFAFA;
-  overflow-y: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
-.co-right::-webkit-scrollbar { display: none; }
 .co-right-inner {
   width: 100%;
   max-width: 480px;
-  padding: 32px 40px 80px 60px;
+  padding: 28px 40px 80px 60px;
+  position: sticky;
+  top: 28px;
 }
 
 /* Frame Gallery */
@@ -1867,9 +1866,8 @@
 
 /* Order title */
 .co-order-title {
-  font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600;
+  font-size: 26px; font-weight: 600;
   color: #FAFAFA; margin: 0 0 24px 0;
-  font-style: italic;
 }
 
 /* Order items */
@@ -1881,13 +1879,13 @@
 .co-order-item:first-child { padding-top: 0; }
 
 .co-order-thumb {
-  width: 72px; height: 72px; border-radius: 6px; overflow: hidden; flex-shrink: 0;
-  border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05);
+  width: 120px; height: 120px; border-radius: 6px; overflow: hidden; flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.12); background: #FFFFFF; padding: 6px;
 }
-.co-order-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.co-order-thumb-ph { width: 100%; height: 100%; background: #333; }
+.co-order-thumb img { width: 100%; height: 100%; object-fit: contain; }
+.co-order-thumb-ph { width: 100%; height: 100%; background: #FFFFFF; }
 
-.co-order-info { flex: 1; }
+.co-order-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
 .co-order-info h4 { margin: 0 0 4px 0; font-size: 15px; font-weight: 600; color: #FAFAFA; }
 .co-order-info p { margin: 0 0 10px 0; font-size: 12px; color: #A0A0A0; }
 
@@ -1942,10 +1940,9 @@
   .co-overlay {
     flex-direction: column-reverse;
     background: #FFF;
-    overflow-y: auto;
   }
-  .co-left, .co-right { width: 100%; height: auto; overflow: visible; }
-  .co-right { background: #1A1A1A; }
+  .co-left, .co-right { width: 100%; min-height: auto; }
+  .co-right { background: #000000; }
   .co-left-inner, .co-right-inner {
     max-width: 100%; padding: 32px 24px;
   }

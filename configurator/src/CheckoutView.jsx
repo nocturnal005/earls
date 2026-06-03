@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from './CartContext';
 
 export default function CheckoutView() {
   const { cartItems, cartTotalPrice, isCheckoutOpen, setIsCheckoutOpen, updateQuantity, removeFromCart } = useCart();
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [shippingMethod, setShippingMethod] = useState('standard');
+
+  useEffect(() => {
+    if (isCheckoutOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isCheckoutOpen]);
 
   if (!isCheckoutOpen) return null;
 
@@ -29,19 +40,12 @@ export default function CheckoutView() {
             </button>
           </header>
 
-          {/* Progress Bar */}
-          <div className="co-progress">
-            <div className="co-progress-step done"></div>
-            <div className="co-progress-step active"></div>
-          </div>
-
           {/* Page Title */}
           <h1 className="co-heading">Checkout</h1>
 
           {/* 1. Customer Information */}
           <div className="co-section">
             <h2 className="co-section-title">1. Customer Information</h2>
-            <input type="text" placeholder="Full Name" className="co-input" />
             <div className="co-row">
               <input type="email" placeholder="Email" className="co-input" />
               <input type="tel" placeholder="Phone" className="co-input" />
@@ -84,54 +88,6 @@ export default function CheckoutView() {
             </div>
           </div>
 
-          {/* 4. Payment */}
-          <div className="co-section">
-            <h2 className="co-section-title">4. Payment</h2>
-
-            <div className="co-pay-tabs">
-              <button
-                className={`co-pay-tab ${paymentMethod === 'card' ? 'active' : ''}`}
-                onClick={() => setPaymentMethod('card')}
-              >
-                Credit Card
-              </button>
-              <button
-                className={`co-pay-tab ${paymentMethod === 'paypal' ? 'active' : ''}`}
-                onClick={() => setPaymentMethod('paypal')}
-              >
-                PayPal
-              </button>
-              <button
-                className={`co-pay-tab ${paymentMethod === 'googlepay' ? 'active' : ''}`}
-                onClick={() => setPaymentMethod('googlepay')}
-              >
-                Google Pay
-              </button>
-            </div>
-
-            {paymentMethod === 'card' && (
-              <div className="co-card-fields">
-                <input type="text" placeholder="Cardholder Name" className="co-input" />
-                <input type="text" placeholder="Card Number" className="co-input" />
-                <div className="co-row">
-                  <input type="text" placeholder="Expiry" className="co-input" />
-                  <input type="text" placeholder="CVV" className="co-input" />
-                </div>
-              </div>
-            )}
-
-            {paymentMethod === 'paypal' && (
-              <div className="co-alt-pay-msg">
-                You will be redirected to PayPal to complete payment.
-              </div>
-            )}
-
-            {paymentMethod === 'googlepay' && (
-              <div className="co-alt-pay-msg">
-                You will be redirected to Google Pay to complete payment.
-              </div>
-            )}
-          </div>
 
           {/* Footer */}
           <footer className="co-footer">
@@ -150,19 +106,6 @@ export default function CheckoutView() {
       {/* Right Pane — Order Summary (Dark) */}
       <div className="co-right">
         <div className="co-right-inner">
-
-          {/* Frame Gallery — show user's actual ordered frames, max 3 */}
-          <div className="co-frame-gallery">
-            {cartItems.slice(0, 3).map((item, i) => (
-              <div key={`hero-${i}`} className="co-frame-card">
-                {item.image ? (
-                  <img src={item.image} alt={item.frameName} />
-                ) : (
-                  <div className="co-frame-card-ph" />
-                )}
-              </div>
-            ))}
-          </div>
 
           {/* Order Items */}
           <h3 className="co-order-title">Your Order</h3>
@@ -227,11 +170,9 @@ export default function CheckoutView() {
             </div>
           </div>
 
-          {/* Pay Button — directly beneath the total */}
           <button className="co-pay-btn-dark">
-            Pay Now &nbsp;→
+            Make Payment
           </button>
-          <p className="co-secure-text-dark">🔒 Proceed Securely</p>
 
           {/* Trust Badges */}
           <div className="co-trust">

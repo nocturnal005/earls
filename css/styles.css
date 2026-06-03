@@ -497,28 +497,17 @@ img {
 
 /* Custom Picture Mounts 2x2 Grid Image */
 .framing-rect-wrapper--mounts {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 550px;
-  background-color: #ffffff; /* Clean white background */
-  box-shadow: none; 
-  overflow: visible; 
+  background-color: #ffffff;
 }
 
-.mount-grid-image {
-  width: 80%; /* Reduced from 100% to balance the layout */
-  max-width: 550px;
-  height: auto;
-  aspect-ratio: 1 / 1;
+.framing-rect-wrapper--mounts img {
   object-fit: contain;
+  transform: scale(0.85);
   transition: transform var(--transition-slow);
-  filter: drop-shadow(0 10px 25px rgba(0,0,0,0.08));
 }
 
-.poseify-service-row:hover .mount-grid-image {
-  transform: scale(1.02);
+.poseify-service-row:hover .framing-rect-wrapper--mounts img {
+  transform: scale(0.88);
 }
 
 .poseify-service-row:hover .framing-rect-wrapper--bespoke img {
