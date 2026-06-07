@@ -593,7 +593,8 @@ export function GlassSection({ selections, onUpdate, effW, effH }) {
                 <span className="opt-card__price">
                   {g.id === 'none' ? '—' : price !== null ? `£${price.toFixed(2)}` : '—'}
                 </span>
-                {g.ratePerSqFt > 0 && <span className="opt-card__rate">£{g.ratePerSqFt.toFixed(2)}/sq ft</span>}
+                {g.ratePerSqFt > 0 && !dimW && <span className="opt-card__rate">£{g.ratePerSqFt.toFixed(2)}/sq ft</span>}
+                {g.ratePerSqFt > 0 && dimW && price !== null && <span className="opt-card__rate">for selected size</span>}
               </button>
             );
           })}
