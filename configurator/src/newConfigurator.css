@@ -827,6 +827,63 @@
 .acc-header__title { font-family: 'Libre Baskerville', serif; font-weight: 700; font-size: 15px; white-space: nowrap; }
 .acc-header__summary { font-size: 13px; color: var(--cfg-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+.acc-header__optional {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #8A8580;
+  background: #F0EDE8;
+  padding: 2px 8px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+/* Print Only quick-add bar */
+.print-only-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: #F5F3EF;
+  border-bottom: 1px solid var(--cfg-border);
+}
+
+.print-only-bar__left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.print-only-bar__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cfg-text);
+}
+
+.print-only-bar__price {
+  font-size: 12px;
+  color: var(--cfg-muted);
+}
+
+.print-only-bar__btn {
+  padding: 8px 18px;
+  background: #3D6B35;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.print-only-bar__btn:hover {
+  background: #2F5429;
+}
+
 .acc-header__right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .acc-header__price { font-weight: 600; font-size: 14px; }
 .acc-header__chevron { font-size: 16px; color: var(--cfg-muted); transition: transform 0.2s; }
@@ -913,6 +970,10 @@
 
 .chip--custom { border-style: dashed; }
 .chip--custom.chip--sel { border-style: solid; }
+
+.chip--disabled { opacity: 0.35; cursor: not-allowed; }
+
+.sec-label--muted { color: var(--cfg-muted); font-size: 12px; }
 
 /* ── Custom Size Inputs ──────────────────────────────────────────────────── */
 

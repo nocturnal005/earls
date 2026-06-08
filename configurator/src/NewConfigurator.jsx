@@ -3,7 +3,7 @@ import {
   PRINT_SIZES, FRAME_CATALOGUE, MOUNT_COLOURS, COLOUR_GROUPS, MOUNT_TYPES,
   GLASS_OPTIONS, VGROOVE_COLOURS, MOUNT_WIDTHS,
   calcFramePrice, calcPrintPrice, calcMountPrice, calcGlassPrice,
-  VAT_RATE,
+  VAT_RATE, FLAT_VAT, PACKING_DELIVERY,
 } from './newData.js';
 import {
   SizePrintSection, FrameSection, MountSection, GlassSection,
@@ -193,12 +193,15 @@ export default function NewConfigurator() {
     const mountPrice  = (selections.mountTypeId !== 'none' && selections.printType !== 'canvas' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH, mountWidthMm) : 0;
     const glassPrice  = (selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && effW) ? calcGlassPrice(selections.glassId, effW, effH, selections.mountTypeId, mountWidthMm) : 0;
     const subtotal = printPrice + framePrice + mountPrice + glassPrice;
-    const vat = subtotal * VAT_RATE;
-    const total = subtotal + vat;
+    const hasItems = subtotal > 0;
+    const packingDelivery = hasItems ? PACKING_DELIVERY : 0;
+    const vat = hasItems ? FLAT_VAT : 0;
+    const total = subtotal + packingDelivery + vat;
     return {
       printPrice: round2(printPrice), framePrice: round2(framePrice),
       mountPrice: round2(mountPrice), glassPrice: round2(glassPrice),
-      subtotal: round2(subtotal), vat: round2(vat), total: round2(total),
+      subtotal: round2(subtotal), packingDelivery: round2(packingDelivery),
+      vat: round2(vat), total: round2(total),
     };
   }, [selections, frame, size, effW, effH, isCustom]);
 
@@ -714,25 +717,48 @@ export default function NewConfigurator() {
               const isOpen = openSection === sec.id;
               const price = sectionPrice(sec.id);
               const summary = sectionSummary(sec.id);
+              const isOptional = sec.id !== 'size';
               return (
-                <div key={sec.id} className={`acc-panel ${isOpen ? 'acc-panel--open' : ''}`}>
-                  <button className="acc-header" onClick={() => toggleSection(sec.id)}>
-                    <div className="acc-header__left">
-                      <span className="acc-header__title">{sec.label}</span>
-                      {!isOpen && summary && <span className="acc-header__summary">{summary}</span>}
+                <React.Fragment key={sec.id}>
+                  <div className={`acc-panel ${isOpen ? 'acc-panel--open' : ''}`}>
+                    <button className="acc-header" onClick={() => toggleSection(sec.id)}>
+                      <div className="acc-header__left">
+                        <span className="acc-header__title">{sec.label}</span>
+                        {isOptional && <span className="acc-header__optional">Optional</span>}
+                        {!isOpen && summary && <span className="acc-header__summary">{summary}</span>}
+                      </div>
+                      <div className="acc-header__right">
+                        {price > 0 && <span className="acc-header__price">£{price.toFixed(2)}</span>}
+                        <span className={`acc-header__chevron ${isOpen ? 'acc-header__chevron--open' : ''}`}>&#9662;</span>
+                      </div>
+                    </button>
+                    <div className={`acc-body ${isOpen ? 'acc-body--open' : ''}`}>
+                      {sec.id === 'size' && <SizePrintSection selections={selections} onUpdate={update} />}
+                      {sec.id === 'frame' && <FrameSection selections={selections} onUpdate={update} effW={effW} effH={effH} />}
+                      {sec.id === 'mount' && <MountSection selections={selections} onUpdate={update} effW={effW} effH={effH} />}
+                      {sec.id === 'glass' && <GlassSection selections={selections} onUpdate={update} effW={effW} effH={effH} />}
                     </div>
-                    <div className="acc-header__right">
-                      {price > 0 && <span className="acc-header__price">£{price.toFixed(2)}</span>}
-                      <span className={`acc-header__chevron ${isOpen ? 'acc-header__chevron--open' : ''}`}>&#9662;</span>
-                    </div>
-                  </button>
-                  <div className={`acc-body ${isOpen ? 'acc-body--open' : ''}`}>
-                    {sec.id === 'size' && <SizePrintSection selections={selections} onUpdate={update} />}
-                    {sec.id === 'frame' && <FrameSection selections={selections} onUpdate={update} effW={effW} effH={effH} />}
-                    {sec.id === 'mount' && <MountSection selections={selections} onUpdate={update} effW={effW} effH={effH} />}
-                    {sec.id === 'glass' && <GlassSection selections={selections} onUpdate={update} effW={effW} effH={effH} />}
                   </div>
-                </div>
+                  {/* Print Only quick-add — appears after Size & Print section */}
+                  {sec.id === 'size' && pricing.printPrice > 0 && !frame && (
+                    <div className="print-only-bar">
+                      <div className="print-only-bar__left">
+                        <span className="print-only-bar__label">Just want a print?</span>
+                        <span className="print-only-bar__price">£{(pricing.printPrice + PACKING_DELIVERY + FLAT_VAT).toFixed(2)} inc. VAT &amp; delivery</span>
+                      </div>
+                      <button
+                        className="print-only-bar__btn"
+                        onClick={() => handleAddToCart(
+                          { ...pricing, framePrice: 0, mountPrice: 0, glassPrice: 0, subtotal: pricing.printPrice, packingDelivery: PACKING_DELIVERY, vat: FLAT_VAT, total: pricing.printPrice + PACKING_DELIVERY + FLAT_VAT },
+                          null,
+                          sectionSummary('size')
+                        )}
+                      >
+                        Add Print to Cart
+                      </button>
+                    </div>
+                  )}
+                </React.Fragment>
               );
             })}
           </div>
@@ -747,8 +773,8 @@ export default function NewConfigurator() {
             <div className="price-line"><span>Glass</span><span>£{pricing.glassPrice.toFixed(2)}</span></div>
             <hr className="price-divider" />
             <div className="price-line"><span>Subtotal</span><span>£{pricing.subtotal.toFixed(2)}</span></div>
-            <div className="price-line price-line--muted"><span>VAT (20%)</span><span>£{pricing.vat.toFixed(2)}</span></div>
-            <div className="price-line price-line--muted"><span>Shipping calculated at checkout</span><span></span></div>
+            <div className="price-line price-line--muted"><span>Packing &amp; Delivery</span><span>£{pricing.packingDelivery.toFixed(2)}</span></div>
+            <div className="price-line price-line--muted"><span>VAT</span><span>£{pricing.vat.toFixed(2)}</span></div>
           </div>
 
           <button className="price-bar__toggle" onClick={() => setShowBreakdown(p => !p)}>
@@ -757,7 +783,9 @@ export default function NewConfigurator() {
             <span className={`price-bar__chevron ${showBreakdown ? 'price-bar__chevron--open' : ''}`}>▴</span>
           </button>
 
-          <button className="cta-btn" disabled={pricing.total === 0} onClick={() => handleAddToCart(pricing, frame, sectionSummary('size'))}>Add to Cart — £{pricing.total.toFixed(2)}</button>
+          <button className="cta-btn" disabled={pricing.total === 0} onClick={() => handleAddToCart(pricing, frame, sectionSummary('size'))}>
+            {frame ? 'Add Framed Print to Cart' : pricing.printPrice > 0 ? 'Add Print to Cart' : 'Add to Cart'} — £{pricing.total.toFixed(2)}
+          </button>
         </div>
       </div>
     </div>

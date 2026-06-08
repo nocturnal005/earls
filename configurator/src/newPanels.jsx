@@ -43,12 +43,13 @@ export function SizePrintSection({ selections, onUpdate }) {
   const { sizeId, printType, customW, customH } = selections;
   const [unit, setUnit] = useState('imperial');
   const isCustom = sizeId === 'custom';
+  const isNoPrint = printType === 'none';
 
   const isoSizes = PRINT_SIZES.filter(s => s.group === 'ISO');
   const impSizes = PRINT_SIZES.filter(s => s.group === 'Imperial');
 
   const toDisplay = (cm) => {
-    if (cm == null) return '';
+    if (cm == null || cm <= 0) return '';
     return unit === 'imperial' ? Math.round(cm / 2.54) : Math.round(cm);
   };
 
@@ -62,93 +63,67 @@ export function SizePrintSection({ selections, onUpdate }) {
 
   return (
     <div className="sec-body">
+      {/* 1. Print Type — always visible, choose first */}
       <div className="sec-row">
-        <div className="sec-row__head">
-          <span className="sec-label">Print Size</span>
-          <div className="unit-toggle">
-            <button className={`unit-toggle__btn ${unit === 'imperial' ? 'active' : ''}`} onClick={() => setUnit('imperial')}>in</button>
-            <button className={`unit-toggle__btn ${unit === 'metric' ? 'active' : ''}`} onClick={() => setUnit('metric')}>cm</button>
-          </div>
-        </div>
-        <div className="chip-grid">
-          {[...isoSizes, ...impSizes].map(s => (
-            <button
-              key={s.id}
-              className={`chip ${sizeId === s.id ? 'chip--sel' : ''}`}
-              onClick={() => onUpdate({ sizeId: s.id, orientation: null })}
-            >
-              <span className="chip__name">{s.label}</span>
-              <span className="chip__dim">
-                {unit === 'imperial' ? `${s.w_in} × ${s.h_in}` : `${s.w_cm} × ${s.h_cm} cm`}
-              </span>
-            </button>
-          ))}
-          <button
-            className={`chip chip--custom ${isCustom ? 'chip--sel' : ''}`}
-            onClick={() => onUpdate({ sizeId: 'custom', printType: 'none', orientation: null })}
-          >
-            <span className="chip__name">Custom</span>
-            <span className="chip__dim">Enter size</span>
-          </button>
+        <span className="sec-label">Print Type</span>
+        <div className="opt-grid opt-grid--4">
+          {PRINT_TYPES.map(pt => {
+            const price = sizeId && !isCustom ? calcPrintPrice(pt.id, sizeId) : null;
+            const unavailable = pt.id !== 'none' && sizeId && !isCustom && price === null;
+            return (
+              <button
+                key={pt.id}
+                className={`opt-card ${printType === pt.id ? 'opt-card--sel' : ''} ${unavailable ? 'opt-card--off' : ''}`}
+                onClick={() => {
+                  if (unavailable) return;
+                  if (pt.id === 'none') {
+                    onUpdate({ printType: 'none' });
+                  } else {
+                    // Switching from No Print to a print type — clear custom size
+                    if (isCustom) {
+                      onUpdate({ printType: pt.id, sizeId: null, customW: null, customH: null });
+                    } else {
+                      onUpdate({ printType: pt.id });
+                    }
+                  }
+                }}
+                disabled={unavailable}
+              >
+                <span className="opt-card__name">{pt.label}</span>
+                <span className="opt-card__desc">{pt.desc}</span>
+                <span className="opt-card__price">
+                  {unavailable ? 'N/A' : pt.id === 'none' ? '—' : price != null ? `£${price.toFixed(2)}` : ''}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {isCustom && (
+      {/* 2. Size selection — depends on print type */}
+      {!isNoPrint && (
         <div className="sec-row">
-          <span className="sec-label">Enter Dimensions ({unit === 'imperial' ? 'inches' : 'cm'})</span>
-          <div className="custom-size-inputs">
-            <div className="custom-size-field">
-              <label className="custom-size-field__label">Width</label>
-              <input
-                type="number"
-                className={`custom-size-field__input ${!isValidDim(customW) ? 'custom-size-field__input--err' : ''}`}
-                value={toDisplay(customW)}
-                onChange={(e) => onUpdate({ customW: fromInput(e.target.value) })}
-                placeholder={unit === 'imperial' ? 'e.g. 18' : 'e.g. 45'}
-                min={unit === 'imperial' ? 4 : 10}
-                max={unit === 'imperial' ? 79 : 200}
-                step="1"
-              />
-            </div>
-            <span className="custom-size-x">×</span>
-            <div className="custom-size-field">
-              <label className="custom-size-field__label">Height</label>
-              <input
-                type="number"
-                className={`custom-size-field__input ${!isValidDim(customH) ? 'custom-size-field__input--err' : ''}`}
-                value={toDisplay(customH)}
-                onChange={(e) => onUpdate({ customH: fromInput(e.target.value) })}
-                placeholder={unit === 'imperial' ? 'e.g. 24' : 'e.g. 60'}
-                min={unit === 'imperial' ? 4 : 10}
-                max={unit === 'imperial' ? 79 : 200}
-                step="1"
-              />
+          <div className="sec-row__head">
+            <span className="sec-label">Print Size</span>
+            <div className="unit-toggle">
+              <button className={`unit-toggle__btn ${unit === 'imperial' ? 'active' : ''}`} onClick={() => setUnit('imperial')}>in</button>
+              <button className={`unit-toggle__btn ${unit === 'metric' ? 'active' : ''}`} onClick={() => setUnit('metric')}>cm</button>
             </div>
           </div>
-          {(!isValidDim(customW) || !isValidDim(customH)) && (
-            <span className="custom-size-hint">Size must be between 10–200 cm (4–79 in) per side</span>
-          )}
-        </div>
-      )}
-
-      {sizeId && !isCustom && (
-        <div className="sec-row">
-          <span className="sec-label">Print Type</span>
-          <div className="opt-grid opt-grid--4">
-            {PRINT_TYPES.map(pt => {
-              const price = calcPrintPrice(pt.id, sizeId);
-              const unavailable = pt.id !== 'none' && price === null;
+          <div className="chip-grid">
+            {[...isoSizes, ...impSizes].map(s => {
+              const price = calcPrintPrice(printType, s.id);
+              const unavailable = price === null;
               return (
                 <button
-                  key={pt.id}
-                  className={`opt-card ${printType === pt.id ? 'opt-card--sel' : ''} ${unavailable ? 'opt-card--off' : ''}`}
-                  onClick={() => !unavailable && onUpdate({ printType: pt.id })}
+                  key={s.id}
+                  className={`chip ${sizeId === s.id ? 'chip--sel' : ''} ${unavailable ? 'chip--disabled' : ''}`}
+                  onClick={() => !unavailable && onUpdate({ sizeId: s.id, orientation: null })}
                   disabled={unavailable}
                 >
-                  <span className="opt-card__name">{pt.label}</span>
-                  <span className="opt-card__desc">{pt.desc}</span>
-                  <span className="opt-card__price">
-                    {unavailable ? 'N/A' : pt.id === 'none' ? '—' : printType === 'none' ? '' : `£${price?.toFixed(2)}`}
+                  <span className="chip__name">{s.label}</span>
+                  <span className="chip__dim">
+                    {unit === 'imperial' ? `${s.w_in} × ${s.h_in}` : `${s.w_cm} × ${s.h_cm} cm`}
                   </span>
                 </button>
               );
@@ -157,10 +132,69 @@ export function SizePrintSection({ selections, onUpdate }) {
         </div>
       )}
 
-      {isCustom && (
-        <div className="sec-row">
-          <p className="sec-note">Custom sizes are for framing your own artwork. Print service is available for standard sizes only.</p>
-        </div>
+      {/* 3. No Print — custom dimensions + standard size presets */}
+      {isNoPrint && (
+        <>
+          <div className="sec-row">
+            <div className="sec-row__head">
+              <span className="sec-label">Your Artwork Size</span>
+              <div className="unit-toggle">
+                <button className={`unit-toggle__btn ${unit === 'imperial' ? 'active' : ''}`} onClick={() => setUnit('imperial')}>in</button>
+                <button className={`unit-toggle__btn ${unit === 'metric' ? 'active' : ''}`} onClick={() => setUnit('metric')}>cm</button>
+              </div>
+            </div>
+            <div className="custom-size-inputs">
+              <div className="custom-size-field">
+                <label className="custom-size-field__label">Width</label>
+                <input
+                  type="number"
+                  className={`custom-size-field__input ${isCustom && !isValidDim(customW) ? 'custom-size-field__input--err' : ''}`}
+                  value={isCustom ? toDisplay(customW) : ''}
+                  onChange={(e) => onUpdate({ sizeId: 'custom', customW: fromInput(e.target.value) })}
+                  placeholder={unit === 'imperial' ? 'e.g. 18' : 'e.g. 45'}
+                  min={unit === 'imperial' ? 4 : 10}
+                  max={unit === 'imperial' ? 79 : 200}
+                  step="1"
+                />
+              </div>
+              <span className="custom-size-x">&times;</span>
+              <div className="custom-size-field">
+                <label className="custom-size-field__label">Height</label>
+                <input
+                  type="number"
+                  className={`custom-size-field__input ${isCustom && !isValidDim(customH) ? 'custom-size-field__input--err' : ''}`}
+                  value={isCustom ? toDisplay(customH) : ''}
+                  onChange={(e) => onUpdate({ sizeId: 'custom', customH: fromInput(e.target.value) })}
+                  placeholder={unit === 'imperial' ? 'e.g. 24' : 'e.g. 60'}
+                  min={unit === 'imperial' ? 4 : 10}
+                  max={unit === 'imperial' ? 79 : 200}
+                  step="1"
+                />
+              </div>
+            </div>
+            {isCustom && (!isValidDim(customW) || !isValidDim(customH)) && (
+              <span className="custom-size-hint">Size must be between 10–200 cm (4–79 in) per side</span>
+            )}
+          </div>
+
+          <div className="sec-row">
+            <span className="sec-label sec-label--muted">Or choose a standard size</span>
+            <div className="chip-grid">
+              {[...isoSizes, ...impSizes].map(s => (
+                <button
+                  key={s.id}
+                  className={`chip ${sizeId === s.id ? 'chip--sel' : ''}`}
+                  onClick={() => onUpdate({ sizeId: s.id, customW: null, customH: null, orientation: null })}
+                >
+                  <span className="chip__name">{s.label}</span>
+                  <span className="chip__dim">
+                    {unit === 'imperial' ? `${s.w_in} × ${s.h_in}` : `${s.w_cm} × ${s.h_cm} cm`}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
@@ -459,7 +493,7 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
                   <input
                     type="number"
                     className="custom-size-field__input"
-                    value={customMountWidth === null ? 0 : (unit === 'imperial' ? Math.round(customMountWidth / 25.4) : Math.round(customMountWidth / 10))}
+                    value={customMountWidth == null || customMountWidth <= 0 ? '' : (unit === 'imperial' ? Math.round(customMountWidth / 25.4) : Math.round(customMountWidth / 10))}
                     onChange={(e) => {
                       const val = parseInt(e.target.value, 10);
                       if (isNaN(val)) {

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from './CartContext';
+import { FLAT_VAT, PACKING_DELIVERY } from './newData';
 
 export default function CheckoutView() {
   const { cartItems, cartTotalPrice, isCheckoutOpen, setIsCheckoutOpen, updateQuantity, removeFromCart } = useCart();
   const [paymentMethod, setPaymentMethod] = useState('card');
-  const [shippingMethod, setShippingMethod] = useState('standard');
 
   useEffect(() => {
     if (isCheckoutOpen) {
@@ -19,8 +19,8 @@ export default function CheckoutView() {
 
   if (!isCheckoutOpen) return null;
 
-  const shippingCost = shippingMethod === 'express' ? 30 : 15;
-  const tax = cartTotalPrice * 0.20;
+  const shippingCost = PACKING_DELIVERY;
+  const tax = FLAT_VAT;
   const orderTotal = cartTotalPrice + shippingCost + tax;
 
   return (
@@ -35,9 +35,6 @@ export default function CheckoutView() {
               <img src={`${import.meta.env.BASE_URL}earls_logo.png`} alt="Earl's Picture Framing" className="co-header-logo" />
               <span className="co-header-name">EARL'S PICTURE FRAMING</span>
             </div>
-            <button className="co-back" onClick={() => setIsCheckoutOpen(false)}>
-              ← Back to Configurator
-            </button>
           </header>
 
           {/* Page Title */}
@@ -69,21 +66,12 @@ export default function CheckoutView() {
             </div>
           </div>
 
-          {/* 3. Shipping Method */}
+          {/* 3. Packing & Delivery */}
           <div className="co-section">
-            <h2 className="co-section-title">3. Shipping Method</h2>
+            <h2 className="co-section-title">3. Packing &amp; Delivery</h2>
             <div className="co-shipping-toggle">
-              <button
-                className={`co-ship-btn ${shippingMethod === 'standard' ? 'active' : ''}`}
-                onClick={() => setShippingMethod('standard')}
-              >
-                Standard <span className="co-ship-price">£15</span>
-              </button>
-              <button
-                className={`co-ship-btn ${shippingMethod === 'express' ? 'active' : ''}`}
-                onClick={() => setShippingMethod('express')}
-              >
-                Express <span className="co-ship-price">£30</span>
+              <button className="co-ship-btn active" style={{ cursor: 'default' }}>
+                Standard <span className="co-ship-price">£{PACKING_DELIVERY.toFixed(2)}</span>
               </button>
             </div>
           </div>
@@ -157,11 +145,11 @@ export default function CheckoutView() {
               <span>£{cartTotalPrice.toFixed(2)}</span>
             </div>
             <div className="co-totals-row">
-              <span>Shipping</span>
+              <span>Packing &amp; Delivery</span>
               <span>£{shippingCost.toFixed(2)}</span>
             </div>
             <div className="co-totals-row">
-              <span>Tax</span>
+              <span>VAT</span>
               <span>£{tax.toFixed(2)}</span>
             </div>
             <div className="co-totals-row co-totals-final">
@@ -179,6 +167,10 @@ export default function CheckoutView() {
             <p className="co-trust-label">SECURE CHECKOUT</p>
             <p className="co-trust-sub">Free Returns &amp; Expert Framing Guarantee</p>
           </div>
+
+          <button className="co-back" onClick={() => setIsCheckoutOpen(false)} style={{ marginTop: '20px', alignSelf: 'flex-end' }}>
+            ← Back to Configurator
+          </button>
         </div>
       </div>
     </div>

@@ -63,7 +63,6 @@ export const GLASS_OPTIONS = [
   { id: 'acrylic',    label: 'Acrylic',          desc: 'Lightweight, shatterproof',              ratePerSqFt: 6.00 },
   { id: 'non_refl',   label: 'Non-Reflective',   desc: 'Anti-glare coating',                    ratePerSqFt: 7.50 },
   { id: 'uv',         label: 'UV Conservation',   desc: '99% UV protection',                     ratePerSqFt: 9.00 },
-  { id: 'museum',     label: 'Museum Quality',    desc: 'Anti-reflective + UV protection',       ratePerSqFt: 12.50 },
 ];
 
 
@@ -76,7 +75,7 @@ export const MOUNT_TYPES = [
   { id: 'none',       label: 'No Mount',          multiplier: 0,    surcharge: 0 },
   { id: 'plain',      label: 'Plain Mount',       multiplier: 1.0,  surcharge: 0 },
   { id: 'v_groove',   label: 'Mount + V-Groove',  multiplier: 1.0,  surcharge: 3.50 },
-  { id: 'double',     label: 'Double Mount',      multiplier: 1.6,  surcharge: 0 },
+  { id: 'double',     label: 'Double Mount',      multiplier: 2.0,  surcharge: 0 },
   { id: 'oval',       label: 'Oval Mount',        multiplier: 1.0,  surcharge: 5.00 },
   { id: 'round',      label: 'Round Mount',       multiplier: 1.0,  surcharge: 5.00 },
 ];
@@ -180,9 +179,11 @@ export const MOUNT_COLOURS = [
 ];
 
 
-// ── VAT ──────────────────────────────────────────────────────────────────────
+// ── VAT & DELIVERY ───────────────────────────────────────────────────────────
 
-export const VAT_RATE = 0.20;
+export const VAT_RATE = 0.20; // kept for reference — flat amounts used instead
+export const FLAT_VAT = 8.50;
+export const PACKING_DELIVERY = 5.00;
 
 
 // ── FRAME MOULDING MARKUP ────────────────────────────────────────────────────

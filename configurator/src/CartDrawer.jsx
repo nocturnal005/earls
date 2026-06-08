@@ -78,7 +78,6 @@ export default function CartDrawer() {
               <span>Subtotal</span>
               <span className="cart-price">£{cartTotalPrice.toFixed(2)}</span>
             </div>
-            <p className="cart-vat-note">Shipping & taxes calculated at checkout</p>
             <button className="checkout-btn" onClick={handleCheckoutClick}>
               Proceed to Checkout
             </button>
