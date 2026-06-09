@@ -551,7 +551,7 @@ export default function NewConfigurator() {
                     backgroundColor: selections.mountTypeId !== 'none' ? (mountColour?.hex || '#F9F7F4') : 'transparent',
                     boxShadow: selections.mountTypeId !== 'none' ? 'inset 1px 1px 2px rgba(255, 255, 255, 0.4)' : 'none',
                     transition: 'padding 0.6s ease-in-out, background-color 0.5s ease-in-out',
-                    borderRadius: isOvalOrRound ? '50%' : 0,
+                    borderRadius: 0,
                   }}
                 >
                   {selections.mountTypeId === 'v_groove' && vGrooveColour && (
@@ -571,7 +571,7 @@ export default function NewConfigurator() {
                       backgroundColor: selections.mountTypeId === 'double' ? (mountColour2?.hex || '#1A1A1A') : 'transparent',
                       borderRadius: isOvalOrRound ? '50%' : 0,
                       transition: 'padding 0.6s ease-in-out, background-color 0.5s ease-in-out',
-                      width: '100%', height: '100%', display: 'flex', boxSizing: 'border-box'
+                      width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box'
                     }}
                   >
                     <div
