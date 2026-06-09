@@ -12,16 +12,20 @@ module.exports = async (req, res) => {
     const stripe = require('stripe')(stripeKey);
     const { items, customerEmail, orderSummary } = req.body;
 
+    if (!items || items.length === 0) {
+      return res.status(400).json({ error: 'No items in order.' });
+    }
+
     const lineItems = items.map(item => ({
       price_data: {
         currency: 'gbp',
         product_data: {
           name: item.name,
-          description: item.description || ''
+          description: item.description || '',
         },
-        unit_amount: Math.round(item.price * 100)
+        unit_amount: Math.round(item.price * 100),
       },
-      quantity: 1
+      quantity: item.quantity || 1,
     }));
 
     const host = req.headers.host;
@@ -32,11 +36,14 @@ module.exports = async (req, res) => {
       line_items: lineItems,
       mode: 'payment',
       customer_email: customerEmail || undefined,
-      success_url: `${protocol}://${host}/frame-my-photo.html?payment=success&session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${protocol}://${host}/success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${protocol}://${host}/frame-my-photo.html?payment=cancelled`,
+      shipping_address_collection: undefined,
       metadata: {
-        order_summary: JSON.stringify(orderSummary).substring(0, 500)
-      }
+        order_summary: JSON.stringify(orderSummary).substring(0, 500),
+        customer_phone: orderSummary?.customer?.phone || '',
+        shipping_address: orderSummary?.shipping ? `${orderSummary.shipping.address}, ${orderSummary.shipping.city}, ${orderSummary.shipping.postcode}` : '',
+      },
     });
 
     res.status(200).json({ sessionId: session.id, url: session.url });

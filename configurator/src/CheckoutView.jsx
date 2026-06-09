@@ -3,8 +3,19 @@ import { useCart } from './CartContext';
 import { FLAT_VAT, PACKING_DELIVERY } from './newData';
 
 export default function CheckoutView() {
-  const { cartItems, cartTotalPrice, isCheckoutOpen, setIsCheckoutOpen, updateQuantity, removeFromCart } = useCart();
-  const [paymentMethod, setPaymentMethod] = useState('card');
+  const { cartItems, cartTotalPrice, isCheckoutOpen, setIsCheckoutOpen, updateQuantity, removeFromCart, clearCart } = useCart();
+
+  // Form state
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [address, setAddress] = useState('');
+  const [apt, setApt] = useState('');
+  const [city, setCity] = useState('');
+  const [postcode, setPostcode] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (isCheckoutOpen) {
@@ -22,6 +33,84 @@ export default function CheckoutView() {
   const shippingCost = PACKING_DELIVERY;
   const tax = FLAT_VAT;
   const orderTotal = cartTotalPrice + shippingCost + tax;
+
+  const isFormValid = email && firstName && lastName && address && city && postcode;
+
+  const handlePayment = async () => {
+    if (!isFormValid) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+    setError('');
+    setIsProcessing(true);
+
+    try {
+      // Build line items for Stripe
+      const items = [];
+
+      // Add each cart item
+      cartItems.forEach(item => {
+        items.push({
+          name: item.frameName,
+          description: `${item.dimensions}${item.mount ? ' + ' + item.mount + ' mount' : ''}`,
+          price: item.price,
+          quantity: item.quantity,
+        });
+      });
+
+      // Add packing & delivery as a line item
+      items.push({
+        name: 'Packing & Delivery',
+        description: 'Standard packing and delivery',
+        price: PACKING_DELIVERY,
+        quantity: 1,
+      });
+
+      // Add VAT as a line item
+      items.push({
+        name: 'VAT',
+        description: 'Value Added Tax',
+        price: FLAT_VAT,
+        quantity: 1,
+      });
+
+      const orderSummary = {
+        customer: { email, phone, firstName, lastName },
+        shipping: { address, apt, city, postcode },
+        items: cartItems.map(i => ({
+          name: i.frameName,
+          dims: i.dimensions,
+          mount: i.mount,
+          price: i.price,
+          qty: i.quantity,
+        })),
+      };
+
+      const response = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items,
+          customerEmail: email,
+          orderSummary,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Payment failed. Please try again.');
+      }
+
+      // Redirect to Stripe Checkout
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (err) {
+      setError(err.message);
+      setIsProcessing(false);
+    }
+  };
 
   return (
     <div className="co-overlay">
@@ -44,8 +133,8 @@ export default function CheckoutView() {
           <div className="co-section">
             <h2 className="co-section-title">1. Customer Information</h2>
             <div className="co-row">
-              <input type="email" placeholder="Email" className="co-input" />
-              <input type="tel" placeholder="Phone" className="co-input" />
+              <input type="email" placeholder="Email *" className="co-input" value={email} onChange={e => setEmail(e.target.value)} required />
+              <input type="tel" placeholder="Phone" className="co-input" value={phone} onChange={e => setPhone(e.target.value)} />
             </div>
           </div>
 
@@ -53,16 +142,16 @@ export default function CheckoutView() {
           <div className="co-section">
             <h2 className="co-section-title">2. Shipping Address</h2>
             <div className="co-row">
-              <input type="text" placeholder="First Name" className="co-input" />
-              <input type="text" placeholder="Last Name" className="co-input" />
+              <input type="text" placeholder="First Name *" className="co-input" value={firstName} onChange={e => setFirstName(e.target.value)} required />
+              <input type="text" placeholder="Last Name *" className="co-input" value={lastName} onChange={e => setLastName(e.target.value)} required />
             </div>
             <div className="co-row">
-              <input type="text" placeholder="Street Address" className="co-input co-grow" />
-              <input type="text" placeholder="Apt" className="co-input co-small" />
+              <input type="text" placeholder="Street Address *" className="co-input co-grow" value={address} onChange={e => setAddress(e.target.value)} required />
+              <input type="text" placeholder="Apt" className="co-input co-small" value={apt} onChange={e => setApt(e.target.value)} />
             </div>
             <div className="co-row">
-              <input type="text" placeholder="City" className="co-input" />
-              <input type="text" placeholder="Postcode" className="co-input" />
+              <input type="text" placeholder="City *" className="co-input" value={city} onChange={e => setCity(e.target.value)} required />
+              <input type="text" placeholder="Postcode *" className="co-input" value={postcode} onChange={e => setPostcode(e.target.value)} required />
             </div>
           </div>
 
@@ -76,6 +165,12 @@ export default function CheckoutView() {
             </div>
           </div>
 
+          {/* Error Message */}
+          {error && (
+            <div style={{ padding: '12px 16px', background: '#FEE2E2', color: '#991B1B', borderRadius: '8px', fontSize: '14px', margin: '0 0 16px' }}>
+              {error}
+            </div>
+          )}
 
           {/* Footer */}
           <footer className="co-footer">
@@ -158,8 +253,13 @@ export default function CheckoutView() {
             </div>
           </div>
 
-          <button className="co-pay-btn-dark">
-            Make Payment
+          <button
+            className="co-pay-btn-dark"
+            onClick={handlePayment}
+            disabled={isProcessing}
+            style={{ opacity: isProcessing ? 0.6 : 1, cursor: isProcessing ? 'not-allowed' : 'pointer' }}
+          >
+            {isProcessing ? 'Redirecting to payment...' : 'Make Payment'}
           </button>
 
           {/* Trust Badges */}
