@@ -184,6 +184,7 @@ export const MOUNT_COLOURS = [
 export const VAT_RATE = 0.20; // kept for reference — flat amounts used instead
 export const FLAT_VAT = 8.50;
 export const PACKING_DELIVERY = 5.00;
+export const EXPRESS_DELIVERY = 15.00;
 
 
 // ── FRAME MOULDING MARKUP ────────────────────────────────────────────────────

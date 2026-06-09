@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from './CartContext';
-import { FLAT_VAT, PACKING_DELIVERY } from './newData';
+import { FLAT_VAT, PACKING_DELIVERY, EXPRESS_DELIVERY } from './newData';
 
 export default function CheckoutView() {
   const { cartItems, cartTotalPrice, isCheckoutOpen, setIsCheckoutOpen, updateQuantity, removeFromCart, clearCart } = useCart();
@@ -14,6 +14,7 @@ export default function CheckoutView() {
   const [apt, setApt] = useState('');
   const [city, setCity] = useState('');
   const [postcode, setPostcode] = useState('');
+  const [shippingMethod, setShippingMethod] = useState('standard');
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState('');
 
@@ -30,7 +31,7 @@ export default function CheckoutView() {
 
   if (!isCheckoutOpen) return null;
 
-  const shippingCost = PACKING_DELIVERY;
+  const shippingCost = shippingMethod === 'express' ? EXPRESS_DELIVERY : PACKING_DELIVERY;
   const tax = FLAT_VAT;
   const orderTotal = cartTotalPrice + shippingCost + tax;
 
@@ -58,11 +59,11 @@ export default function CheckoutView() {
         });
       });
 
-      // Add packing & delivery as a line item
+      // Add shipping as a line item
       items.push({
-        name: 'Packing & Delivery',
-        description: 'Standard packing and delivery',
-        price: PACKING_DELIVERY,
+        name: shippingMethod === 'express' ? 'Express Delivery' : 'Standard Delivery',
+        description: shippingMethod === 'express' ? '3–5 working days' : '10–12 working days',
+        price: shippingCost,
         quantity: 1,
       });
 
@@ -155,12 +156,25 @@ export default function CheckoutView() {
             </div>
           </div>
 
-          {/* 3. Packing & Delivery */}
+          {/* 3. Shipping Method */}
           <div className="co-section">
-            <h2 className="co-section-title">3. Packing &amp; Delivery</h2>
+            <h2 className="co-section-title">3. Shipping Method</h2>
             <div className="co-shipping-toggle">
-              <button className="co-ship-btn active" style={{ cursor: 'default' }}>
-                Standard <span className="co-ship-price">£{PACKING_DELIVERY.toFixed(2)}</span>
+              <button
+                className={`co-ship-btn ${shippingMethod === 'standard' ? 'active' : ''}`}
+                onClick={() => setShippingMethod('standard')}
+              >
+                <span>Standard</span>
+                <span className="co-ship-detail">10–12 working days</span>
+                <span className="co-ship-price">£{PACKING_DELIVERY.toFixed(2)}</span>
+              </button>
+              <button
+                className={`co-ship-btn ${shippingMethod === 'express' ? 'active' : ''}`}
+                onClick={() => setShippingMethod('express')}
+              >
+                <span>Express</span>
+                <span className="co-ship-detail">3–5 working days</span>
+                <span className="co-ship-price">£{EXPRESS_DELIVERY.toFixed(2)}</span>
               </button>
             </div>
           </div>
@@ -240,7 +254,7 @@ export default function CheckoutView() {
               <span>£{cartTotalPrice.toFixed(2)}</span>
             </div>
             <div className="co-totals-row">
-              <span>Packing &amp; Delivery</span>
+              <span>{shippingMethod === 'express' ? 'Express Delivery' : 'Standard Delivery'}</span>
               <span>£{shippingCost.toFixed(2)}</span>
             </div>
             <div className="co-totals-row">
@@ -268,8 +282,8 @@ export default function CheckoutView() {
             <p className="co-trust-sub">Free Returns &amp; Expert Framing Guarantee</p>
           </div>
 
-          <button className="co-back" onClick={() => setIsCheckoutOpen(false)} style={{ marginTop: '20px', alignSelf: 'flex-end' }}>
-            ← Back to Configurator
+          <button className="co-back" onClick={() => setIsCheckoutOpen(false)} style={{ marginTop: '20px', alignSelf: 'flex-end', color: '#FFFFFF' }}>
+            ← Back to Framing
           </button>
         </div>
       </div>
