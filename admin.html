@@ -630,13 +630,15 @@
         const email = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value;
 
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
         if (error) {
           errEl.textContent = error.message;
           errEl.classList.add('show');
           btn.disabled = false;
           btn.textContent = 'Sign In';
+        } else if (data.session) {
+          onLogin(data.session);
         }
       });
 
