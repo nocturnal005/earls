@@ -571,7 +571,7 @@
       const SUPABASE_URL = 'https://nytevdjawjoxqfkafwxg.supabase.co';
       const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55dGV2ZGphd2pveHFma2Fmd3hnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MDc3OTQsImV4cCI6MjA5NjQ4Mzc5NH0.wHh0rIioMpwtHWGnYeZn51IMCs5cK1Rohd7QXuc2DNY';
 
-      const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
       let accessToken = null;
       let allOrders = [];
@@ -586,14 +586,14 @@
           return;
         }
 
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session } } = await sb.auth.getSession();
         if (session) {
           onLogin(session);
         } else {
           showScreen('login');
         }
 
-        supabase.auth.onAuthStateChange((event, session) => {
+        sb.auth.onAuthStateChange((event, session) => {
           if (event === 'PASSWORD_RECOVERY') {
             showScreen('update-pw');
           } else if (event === 'SIGNED_IN' && session) {
@@ -630,7 +630,7 @@
         const email = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value;
 
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await sb.auth.signInWithPassword({ email, password });
 
         if (error) {
           errEl.textContent = error.message;
@@ -664,7 +664,7 @@
         btn.textContent = 'Sending…';
 
         const email = document.getElementById('reset-email').value.trim();
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        const { error } = await sb.auth.resetPasswordForEmail(email, {
           redirectTo: window.location.origin + '/admin.html',
         });
 
@@ -706,7 +706,7 @@
         btn.disabled = true;
         btn.textContent = 'Updating…';
 
-        const { error } = await supabase.auth.updateUser({ password: pw });
+        const { error } = await sb.auth.updateUser({ password: pw });
 
         btn.disabled = false;
         btn.textContent = 'Update Password';
@@ -726,7 +726,7 @@
 
       // ── Logout ──
       document.getElementById('logout-btn').addEventListener('click', async () => {
-        await supabase.auth.signOut();
+        await sb.auth.signOut();
         accessToken = null;
         allOrders = [];
         showScreen('login');
@@ -740,7 +740,7 @@
             headers: { 'Authorization': 'Bearer ' + accessToken },
           });
           if (res.status === 401) {
-            await supabase.auth.signOut();
+            await sb.auth.signOut();
             showScreen('login');
             return;
           }
@@ -915,7 +915,7 @@
             body: JSON.stringify({ id, status }),
           });
           if (res.status === 401) {
-            await supabase.auth.signOut();
+            await sb.auth.signOut();
             showScreen('login');
             return;
           }
