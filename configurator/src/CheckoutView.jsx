@@ -84,6 +84,7 @@ export default function CheckoutView() {
           mount: i.mount,
           price: i.price,
           qty: i.quantity,
+          spec: i.spec || null,
         })),
       };
 
@@ -94,6 +95,13 @@ export default function CheckoutView() {
           items,
           customerEmail: email,
           orderSummary,
+          shippingMethod,
+          totals: {
+            subtotal: cartTotalPrice,
+            shippingCost,
+            vat: tax,
+            total: orderTotal,
+          },
         }),
       });
 

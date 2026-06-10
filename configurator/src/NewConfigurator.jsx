@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
 import {
-  PRINT_SIZES, FRAME_CATALOGUE, MOUNT_COLOURS, COLOUR_GROUPS, MOUNT_TYPES,
+  PRINT_SIZES, PRINT_TYPES, FRAME_CATALOGUE, MOUNT_COLOURS, COLOUR_GROUPS, MOUNT_TYPES,
   GLASS_OPTIONS, VGROOVE_COLOURS, MOUNT_WIDTHS,
   calcFramePrice, calcPrintPrice, calcMountPrice, calcGlassPrice,
   VAT_RATE, FLAT_VAT, PACKING_DELIVERY,
@@ -137,12 +137,62 @@ export default function NewConfigurator() {
       }
     }
     
+    const mountColourObj = MOUNT_COLOURS.find(m => m.id === selections.mountColourId);
+    const mountColourObj2 = MOUNT_COLOURS.find(m => m.id === selections.mountColourId2);
+    const mountTypeObj = MOUNT_TYPES.find(m => m.id === selections.mountTypeId);
+    const mountWidthObj = MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId);
+    const glassObj = GLASS_OPTIONS.find(g => g.id === selections.glassId);
+    const printTypeObj = PRINT_TYPES.find(p => p.id === selections.printType);
+    const vGrooveObj = VGROOVE_COLOURS.find(v => v.id === selections.vGrooveColourId);
+    const sizeObj = PRINT_SIZES.find(s => s.id === selections.sizeId);
+
     const cartItem = {
       frameName: currentFrame ? currentFrame.name : 'Unframed Print',
       dimensions: sizeLabel,
-      mount: selections.mountTypeId !== 'none' ? MOUNT_COLOURS.find(m => m.id === selections.mountColourId)?.label || 'Mount' : null,
+      mount: selections.mountTypeId !== 'none' ? mountColourObj?.label || 'Mount' : null,
       price: pricingObj.total,
-      image: configuredImage || selections.imageUrl || (currentFrame ? `${import.meta.env.BASE_URL}${currentFrame.uiThumbnail}` : null)
+      image: configuredImage || selections.imageUrl || (currentFrame ? `${import.meta.env.BASE_URL}${currentFrame.uiThumbnail}` : null),
+
+      // Full framing spec for order fulfilment
+      spec: {
+        frame: currentFrame ? {
+          code: currentFrame.code,
+          name: currentFrame.name,
+          widthMm: currentFrame.widthMm,
+          heightMm: currentFrame.heightMm,
+          finish: currentFrame.finish,
+          profile: currentFrame.profile,
+          colour: currentFrame.colour,
+        } : null,
+        print: {
+          type: printTypeObj?.label || selections.printType,
+          sizeLabel: sizeObj?.label || 'Custom',
+          widthCm: Math.round((selections.sizeId === 'custom' ? selections.customW : sizeObj?.w_cm) * 10) / 10 || null,
+          heightCm: Math.round((selections.sizeId === 'custom' ? selections.customH : sizeObj?.h_cm) * 10) / 10 || null,
+          orientation: selections.orientation,
+          isCustomSize: selections.sizeId === 'custom',
+        },
+        mount: selections.mountTypeId !== 'none' ? {
+          type: mountTypeObj?.label || selections.mountTypeId,
+          colour: mountColourObj?.label || null,
+          colourCode: mountColourObj?.code || null,
+          widthMm: selections.mountWidthId === 'custom' ? selections.customMountWidth : (mountWidthObj?.mm || 50),
+          widthLabel: mountWidthObj?.label || null,
+          secondColour: selections.mountTypeId === 'double' ? (mountColourObj2?.label || null) : null,
+          secondColourCode: selections.mountTypeId === 'double' ? (mountColourObj2?.code || null) : null,
+          vGrooveColour: selections.mountTypeId === 'v_groove' ? (vGrooveObj?.label || null) : null,
+        } : null,
+        glass: selections.glassId && selections.glassId !== 'none' ? {
+          type: glassObj?.label || selections.glassId,
+        } : null,
+        pricing: {
+          print: pricingObj.printPrice,
+          frame: pricingObj.framePrice,
+          mount: pricingObj.mountPrice,
+          glass: pricingObj.glassPrice,
+          subtotal: pricingObj.subtotal,
+        },
+      },
     };
     
     addToCart(cartItem);
