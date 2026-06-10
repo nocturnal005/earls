@@ -906,8 +906,8 @@
       async function updateStatus(id, status) {
         if (!accessToken) return;
         try {
-          const res = await fetch('/api/orders', {
-            method: 'PATCH',
+          const res = await fetch('/api/update-order', {
+            method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer ' + accessToken,
@@ -919,16 +919,14 @@
             showScreen('login');
             return;
           }
-          if (!res.ok) throw new Error('Failed to update');
-          const updated = await res.json();
-          const idx = allOrders.findIndex(o => o.id === id);
-          if (idx !== -1) allOrders[idx].status = updated.status;
-          updateStats();
-          renderOrders();
+          if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.error || 'Failed to update');
+          }
         } catch (err) {
-          alert('Failed to update order status. Please try again.');
-          fetchOrders();
+          alert('Failed to update order status: ' + err.message);
         }
+        await fetchOrders();
       }
 
       // Filter buttons
