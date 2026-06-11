@@ -26,12 +26,18 @@ async function uploadToStorage(blob, path) {
   const res = await fetch(`${SUPABASE_URL}/storage/v1/object/order-images/${path}`, {
     method: 'POST',
     headers: {
+      'apikey': SUPABASE_ANON_KEY,
       'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
       'Content-Type': blob.type,
+      'x-upsert': 'true',
     },
     body: blob,
   });
-  if (!res.ok) throw new Error('Upload failed');
+  if (!res.ok) {
+    const err = await res.text().catch(() => '');
+    console.error('Storage upload failed:', res.status, err);
+    throw new Error('Upload failed: ' + res.status);
+  }
   return `${SUPABASE_URL}/storage/v1/object/public/order-images/${path}`;
 }
 
@@ -111,18 +117,29 @@ export default function CheckoutView() {
       const imageUrls = {};
       for (const item of cartItems) {
         imageUrls[item.id] = {};
+        const uid = crypto.randomUUID();
         try {
-          const uid = crypto.randomUUID();
           if (item.image && item.image.startsWith('data:')) {
+            console.log('Uploading framed preview for item', item.id);
             const previewBlob = await dataUrlToJpegBlob(item.image);
+            console.log('Preview blob size:', previewBlob.size, 'type:', previewBlob.type);
             imageUrls[item.id].preview = await uploadToStorage(previewBlob, `previews/${uid}.jpg`);
-          }
-          if (item.rawImageFile) {
-            const ext = item.rawImageFile.name.split('.').pop() || 'jpg';
-            imageUrls[item.id].raw = await uploadToStorage(item.rawImageFile, `originals/${uid}.${ext}`);
+            console.log('Preview uploaded:', imageUrls[item.id].preview);
+          } else {
+            console.log('No data URL preview for item', item.id, 'image type:', typeof item.image, item.image?.substring?.(0, 30));
           }
         } catch (e) {
-          console.warn('Image upload failed for cart item:', e);
+          console.error('Preview upload failed:', e);
+        }
+        try {
+          if (item.rawImageFile) {
+            console.log('Uploading raw image for item', item.id, 'file:', item.rawImageFile.name);
+            const ext = item.rawImageFile.name.split('.').pop() || 'jpg';
+            imageUrls[item.id].raw = await uploadToStorage(item.rawImageFile, `originals/${uid}.${ext}`);
+            console.log('Raw image uploaded:', imageUrls[item.id].raw);
+          }
+        } catch (e) {
+          console.error('Raw image upload failed:', e);
         }
       }
 
