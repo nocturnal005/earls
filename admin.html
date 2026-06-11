@@ -310,6 +310,21 @@
       .status-in_progress { background: #FEF3C7; color: #92400E; }
       .status-completed { background: #D1FAE5; color: #065F46; }
       .status-shipped { background: #E0E7FF; color: #3730A3; }
+      .status-archived { background: #F0EDEA; color: #8A8580; }
+
+      .archive-btn {
+        padding: 5px 12px;
+        background: none;
+        border: 1px solid #D5D0CB;
+        border-radius: 5px;
+        font-size: 13px;
+        font-family: inherit;
+        cursor: pointer;
+        color: #8A8580;
+        transition: all 0.15s;
+        margin-left: 6px;
+      }
+      .archive-btn:hover { border-color: #8A8580; color: #2A2725; }
 
       /* Status select */
       .status-select {
@@ -544,6 +559,7 @@
           <button class="filter-btn" data-status="in_progress">In Progress</button>
           <button class="filter-btn" data-status="completed">Completed</button>
           <button class="filter-btn" data-status="shipped">Shipped</button>
+          <button class="filter-btn" data-status="archived">Archived</button>
         </div>
 
         <div class="orders-table">
@@ -788,7 +804,7 @@
       function renderOrders() {
         const tbody = document.getElementById('orders-body');
         const filtered = currentFilter === 'all'
-          ? allOrders
+          ? allOrders.filter(o => o.status !== 'archived')
           : allOrders.filter(o => o.status === currentFilter);
 
         if (filtered.length === 0) {
@@ -822,6 +838,10 @@
                   <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Completed</option>
                   <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
                 </select>
+                ${order.status !== 'archived'
+                  ? '<button class="archive-btn" onclick="archiveOrder(\'' + order.id + '\')">Archive</button>'
+                  : '<button class="archive-btn" onclick="updateStatus(\'' + order.id + '\', \'shipped\')">Restore</button>'
+                }
               </td>
             </tr>
             <tr class="order-detail" id="detail-${order.id}">
@@ -966,6 +986,11 @@
           alert('Failed to update order status: ' + err.message);
         }
         await fetchOrders();
+      }
+
+      async function archiveOrder(id) {
+        if (!confirm('Archive this order? It will be hidden from the main view.')) return;
+        await updateStatus(id, 'archived');
       }
 
       // Filter buttons

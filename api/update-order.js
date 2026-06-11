@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'Missing id or status.' });
   }
 
-  const allowed = ['new', 'in_progress', 'completed', 'shipped'];
+  const allowed = ['new', 'in_progress', 'completed', 'shipped', 'archived'];
   if (!allowed.includes(status)) {
     return res.status(400).json({ error: 'Invalid status.' });
   }
