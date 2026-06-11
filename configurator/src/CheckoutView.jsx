@@ -5,9 +5,10 @@ import { FLAT_VAT, PACKING_DELIVERY, EXPRESS_DELIVERY } from './newData';
 const SUPABASE_URL = 'https://nytevdjawjoxqfkafwxg.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55dGV2ZGphd2pveHFma2Fmd3hnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MDc3OTQsImV4cCI6MjA5NjQ4Mzc5NH0.wHh0rIioMpwtHWGnYeZn51IMCs5cK1Rohd7QXuc2DNY';
 
-function dataUrlToJpegBlob(dataUrl) {
-  return new Promise((resolve) => {
+function imageToJpegBlob(src) {
+  return new Promise((resolve, reject) => {
     const img = new Image();
+    img.crossOrigin = 'anonymous';
     img.onload = () => {
       const canvas = document.createElement('canvas');
       canvas.width = img.width;
@@ -16,9 +17,10 @@ function dataUrlToJpegBlob(dataUrl) {
       ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0);
-      canvas.toBlob(resolve, 'image/jpeg', 0.85);
+      canvas.toBlob((b) => b ? resolve(b) : reject(new Error('toBlob returned null')), 'image/jpeg', 0.85);
     };
-    img.src = dataUrl;
+    img.onerror = () => reject(new Error('Image load failed for ' + src?.substring(0, 40)));
+    img.src = src;
   });
 }
 
@@ -29,7 +31,6 @@ async function uploadToStorage(blob, path) {
       'apikey': SUPABASE_ANON_KEY,
       'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
       'Content-Type': blob.type,
-      'x-upsert': 'true',
     },
     body: blob,
   });
@@ -115,37 +116,47 @@ export default function CheckoutView() {
       });
 
       const imageUrls = {};
+      const uploadDebug = [];
       for (const item of cartItems) {
         imageUrls[item.id] = {};
         const uid = crypto.randomUUID();
+        const dbg = {
+          id: item.id,
+          imageType: item.image ? (item.image.startsWith('data:') ? 'dataUrl' : item.image.substring(0, 30)) : 'none',
+          hasRawFile: !!item.rawImageFile,
+          rawFileName: item.rawImageFile?.name || null,
+          previewResult: null,
+          rawResult: null,
+        };
         try {
-          if (item.image && item.image.startsWith('data:')) {
-            console.log('Uploading framed preview for item', item.id);
-            const previewBlob = await dataUrlToJpegBlob(item.image);
-            console.log('Preview blob size:', previewBlob.size, 'type:', previewBlob.type);
+          if (item.image && (item.image.startsWith('data:') || item.image.startsWith('blob:'))) {
+            const previewBlob = await imageToJpegBlob(item.image);
             imageUrls[item.id].preview = await uploadToStorage(previewBlob, `previews/${uid}.jpg`);
-            console.log('Preview uploaded:', imageUrls[item.id].preview);
+            dbg.previewResult = 'ok';
           } else {
-            console.log('No data URL preview for item', item.id, 'image type:', typeof item.image, item.image?.substring?.(0, 30));
+            dbg.previewResult = 'skipped';
           }
         } catch (e) {
-          console.error('Preview upload failed:', e);
+          dbg.previewResult = 'error: ' + e.message;
         }
         try {
           if (item.rawImageFile) {
-            console.log('Uploading raw image for item', item.id, 'file:', item.rawImageFile.name);
             const ext = item.rawImageFile.name.split('.').pop() || 'jpg';
             imageUrls[item.id].raw = await uploadToStorage(item.rawImageFile, `originals/${uid}.${ext}`);
-            console.log('Raw image uploaded:', imageUrls[item.id].raw);
+            dbg.rawResult = 'ok';
+          } else {
+            dbg.rawResult = 'skipped';
           }
         } catch (e) {
-          console.error('Raw image upload failed:', e);
+          dbg.rawResult = 'error: ' + e.message;
         }
+        uploadDebug.push(dbg);
       }
 
       const orderSummary = {
         customer: { email, phone, firstName, lastName },
         shipping: { address, apt, city, postcode },
+        _uploadDebug: uploadDebug,
         items: cartItems.map(i => ({
           name: i.frameName,
           dims: i.dimensions,
