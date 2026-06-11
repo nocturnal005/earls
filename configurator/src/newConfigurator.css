@@ -120,7 +120,29 @@
 }
 
 .preview-frame-outer--room {
-  margin-top: 0; /* Let flex-start handle vertical positioning */
+  margin-top: 0;
+}
+
+.room-size-label {
+  text-align: center;
+  margin-top: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(60, 55, 50, 0.7);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 4px 14px;
+  border-radius: 20px;
+  display: inline-block;
+  animation: labelFadeIn 0.4s ease 0.3s both;
+}
+
+@keyframes labelFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .preview-frame {

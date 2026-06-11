@@ -743,6 +743,14 @@ export default function NewConfigurator() {
             </div>
           </div>
 
+          {viewMode === 'room' && hasDims && (
+            <div style={{ textAlign: 'center' }}>
+              <span className="room-size-label" key={viewMode}>
+                {isCustom ? `${Math.round(displayW)} × ${Math.round(displayH)} cm` : size?.label || ''}
+              </span>
+            </div>
+          )}
+
         </div>
       </div>
 
