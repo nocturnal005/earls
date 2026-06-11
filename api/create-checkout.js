@@ -17,6 +17,7 @@ module.exports = async (req, res) => {
 
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const webhookConfigured = !!process.env.STRIPE_WEBHOOK_SECRET;
 
   try {
     const stripe = require('stripe')(stripeKey);
@@ -98,12 +99,15 @@ module.exports = async (req, res) => {
         spec: item.spec || null,
       }));
 
-      // Saved as pending until Stripe confirms payment via the webhook
-      // (api/stripe-webhook.js flips it to 'new'). Abandoned/failed checkouts
-      // stay 'pending_payment' and never reach the framer's queue.
+      // When the Stripe webhook is configured (production), save as
+      // 'pending_payment' so api/stripe-webhook.js can confirm it to 'new' only
+      // after payment — abandoned/failed checkouts never reach the framer's
+      // queue. When it is NOT configured (testing), save directly as 'new' so
+      // orders show immediately without a webhook. This switches automatically
+      // the moment STRIPE_WEBHOOK_SECRET is set in the environment.
       await supabase.from('orders').insert({
         stripe_session_id: session.id,
-        status: 'pending_payment',
+        status: webhookConfigured ? 'pending_payment' : 'new',
         customer_email: cust.email || customerEmail || null,
         customer_phone: cust.phone || null,
         customer_first_name: cust.firstName || null,
