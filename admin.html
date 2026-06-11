@@ -615,6 +615,7 @@
         accessToken = session.access_token;
         document.getElementById('admin-user').textContent = session.user.email;
         showScreen('admin');
+        resetInactivityTimer();
         fetchOrders();
       }
 
@@ -724,8 +725,29 @@
         }
       });
 
+      // ── Inactivity timeout (10 minutes) ──
+      const INACTIVITY_LIMIT = 10 * 60 * 1000;
+      let inactivityTimer = null;
+
+      function resetInactivityTimer() {
+        if (inactivityTimer) clearTimeout(inactivityTimer);
+        if (!accessToken) return;
+        inactivityTimer = setTimeout(async () => {
+          await sb.auth.signOut();
+          accessToken = null;
+          allOrders = [];
+          showScreen('login');
+          alert('You have been signed out due to inactivity.');
+        }, INACTIVITY_LIMIT);
+      }
+
+      ['mousemove', 'click', 'keydown', 'scroll', 'touchstart'].forEach(evt => {
+        document.addEventListener(evt, resetInactivityTimer, { passive: true });
+      });
+
       // ── Logout ──
       document.getElementById('logout-btn').addEventListener('click', async () => {
+        if (inactivityTimer) clearTimeout(inactivityTimer);
         await sb.auth.signOut();
         accessToken = null;
         allOrders = [];

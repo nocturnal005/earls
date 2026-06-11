@@ -26,6 +26,11 @@ module.exports = async (req, res) => {
     return res.status(401).json({ error: 'Invalid or expired session.' });
   }
 
+  const adminEmail = process.env.ADMIN_EMAIL;
+  if (!adminEmail || user.email !== adminEmail) {
+    return res.status(403).json({ error: 'Access denied.' });
+  }
+
   const { id, status } = req.body;
 
   if (!id || !status) {
