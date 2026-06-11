@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /api/
+Disallow: /configurator/src/
+
+Sitemap: https://earlsframes.vercel.app/sitemap.xml
