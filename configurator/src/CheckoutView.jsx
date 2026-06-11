@@ -116,47 +116,30 @@ export default function CheckoutView() {
       });
 
       const imageUrls = {};
-      const uploadDebug = [];
       for (const item of cartItems) {
         imageUrls[item.id] = {};
         const uid = crypto.randomUUID();
-        const dbg = {
-          id: item.id,
-          imageType: item.image ? (item.image.startsWith('data:') ? 'dataUrl' : item.image.substring(0, 30)) : 'none',
-          hasRawFile: !!item.rawImageFile,
-          rawFileName: item.rawImageFile?.name || null,
-          previewResult: null,
-          rawResult: null,
-        };
         try {
           if (item.image && (item.image.startsWith('data:') || item.image.startsWith('blob:'))) {
             const previewBlob = await imageToJpegBlob(item.image);
             imageUrls[item.id].preview = await uploadToStorage(previewBlob, `previews/${uid}.jpg`);
-            dbg.previewResult = 'ok';
-          } else {
-            dbg.previewResult = 'skipped';
           }
         } catch (e) {
-          dbg.previewResult = 'error: ' + e.message;
+          console.error('Preview upload failed:', e);
         }
         try {
           if (item.rawImageFile) {
             const ext = item.rawImageFile.name.split('.').pop() || 'jpg';
             imageUrls[item.id].raw = await uploadToStorage(item.rawImageFile, `originals/${uid}.${ext}`);
-            dbg.rawResult = 'ok';
-          } else {
-            dbg.rawResult = 'skipped';
           }
         } catch (e) {
-          dbg.rawResult = 'error: ' + e.message;
+          console.error('Raw image upload failed:', e);
         }
-        uploadDebug.push(dbg);
       }
 
       const orderSummary = {
         customer: { email, phone, firstName, lastName },
         shipping: { address, apt, city, postcode },
-        _uploadDebug: uploadDebug,
         items: cartItems.map(i => ({
           name: i.frameName,
           dims: i.dimensions,

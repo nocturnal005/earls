@@ -123,6 +123,8 @@ export default function NewConfigurator() {
     const previewEl = document.querySelector('.preview-frame');
     if (previewEl) {
       try {
+        const hints = previewEl.querySelectorAll('.adjust-hint');
+        hints.forEach(h => h.style.display = 'none');
         const canvas = await html2canvas(previewEl, {
           backgroundColor: '#FFFFFF',
           scale: 4,
@@ -132,6 +134,7 @@ export default function NewConfigurator() {
           logging: false,
         });
         configuredImage = canvas.toDataURL('image/png');
+        hints.forEach(h => h.style.display = '');
       } catch (e) {
         console.warn('Could not capture frame preview:', e);
       }
