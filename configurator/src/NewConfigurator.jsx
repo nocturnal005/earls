@@ -146,12 +146,15 @@ export default function NewConfigurator() {
     const vGrooveObj = VGROOVE_COLOURS.find(v => v.id === selections.vGrooveColourId);
     const sizeObj = PRINT_SIZES.find(s => s.id === selections.sizeId);
 
+    const isCustomerImage = selections.imageUrl !== SAMPLE_IMAGE_URL && selections.imageFile;
+
     const cartItem = {
       frameName: currentFrame ? currentFrame.name : 'Unframed Print',
       dimensions: sizeLabel,
       mount: selections.mountTypeId !== 'none' ? mountColourObj?.label || 'Mount' : null,
       price: pricingObj.total,
       image: configuredImage || selections.imageUrl || (currentFrame ? `${import.meta.env.BASE_URL}${currentFrame.uiThumbnail}` : null),
+      rawImageFile: isCustomerImage ? selections.imageFile : null,
 
       // Full framing spec for order fulfilment
       spec: {

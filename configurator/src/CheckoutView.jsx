@@ -2,6 +2,39 @@ import React, { useState, useEffect } from 'react';
 import { useCart } from './CartContext';
 import { FLAT_VAT, PACKING_DELIVERY, EXPRESS_DELIVERY } from './newData';
 
+const SUPABASE_URL = 'https://nytevdjawjoxqfkafwxg.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55dGV2ZGphd2pveHFma2Fmd3hnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MDc3OTQsImV4cCI6MjA5NjQ4Mzc5NH0.wHh0rIioMpwtHWGnYeZn51IMCs5cK1Rohd7QXuc2DNY';
+
+function dataUrlToJpegBlob(dataUrl) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(resolve, 'image/jpeg', 0.85);
+    };
+    img.src = dataUrl;
+  });
+}
+
+async function uploadToStorage(blob, path) {
+  const res = await fetch(`${SUPABASE_URL}/storage/v1/object/order-images/${path}`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+      'Content-Type': blob.type,
+    },
+    body: blob,
+  });
+  if (!res.ok) throw new Error('Upload failed');
+  return `${SUPABASE_URL}/storage/v1/object/public/order-images/${path}`;
+}
+
 export default function CheckoutView() {
   const { cartItems, cartTotalPrice, isCheckoutOpen, setIsCheckoutOpen, updateQuantity, removeFromCart, clearCart } = useCart();
 
@@ -75,6 +108,24 @@ export default function CheckoutView() {
         quantity: 1,
       });
 
+      const imageUrls = {};
+      for (const item of cartItems) {
+        imageUrls[item.id] = {};
+        try {
+          const uid = crypto.randomUUID();
+          if (item.image && item.image.startsWith('data:')) {
+            const previewBlob = await dataUrlToJpegBlob(item.image);
+            imageUrls[item.id].preview = await uploadToStorage(previewBlob, `previews/${uid}.jpg`);
+          }
+          if (item.rawImageFile) {
+            const ext = item.rawImageFile.name.split('.').pop() || 'jpg';
+            imageUrls[item.id].raw = await uploadToStorage(item.rawImageFile, `originals/${uid}.${ext}`);
+          }
+        } catch (e) {
+          console.warn('Image upload failed for cart item:', e);
+        }
+      }
+
       const orderSummary = {
         customer: { email, phone, firstName, lastName },
         shipping: { address, apt, city, postcode },
@@ -84,7 +135,11 @@ export default function CheckoutView() {
           mount: i.mount,
           price: i.price,
           qty: i.quantity,
-          spec: i.spec || null,
+          spec: {
+            ...(i.spec || {}),
+            previewImageUrl: imageUrls[i.id]?.preview || null,
+            rawImageUrl: imageUrls[i.id]?.raw || null,
+          },
         })),
       };
 

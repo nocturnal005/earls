@@ -891,6 +891,23 @@
                           html += '</div></div>';
                         }
                         html += '</div>';
+                        // Framed preview and customer image
+                        if (s.previewImageUrl || s.rawImageUrl) {
+                          html += '<div style="margin-top:12px;display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">';
+                          if (s.previewImageUrl) {
+                            html += '<div><div class="spec-label" style="margin-bottom:6px">Framed Preview</div>' +
+                              '<a href="' + escapeHtml(s.previewImageUrl) + '" target="_blank">' +
+                              '<img src="' + escapeHtml(s.previewImageUrl) + '" alt="Framed preview" style="max-width:220px;max-height:220px;border-radius:6px;border:1px solid #E8E4E0;cursor:pointer" />' +
+                              '</a></div>';
+                          }
+                          if (s.rawImageUrl) {
+                            html += '<div><div class="spec-label" style="margin-bottom:6px">Customer Image</div>' +
+                              '<a href="' + escapeHtml(s.rawImageUrl) + '" target="_blank">' +
+                              '<img src="' + escapeHtml(s.rawImageUrl) + '" alt="Customer image" style="max-width:220px;max-height:220px;border-radius:6px;border:1px solid #E8E4E0;cursor:pointer" />' +
+                              '</a></div>';
+                          }
+                          html += '</div>';
+                        }
                       } else {
                         html += '<p>' + escapeHtml(i.name || 'Frame') + ' — ' + escapeHtml(i.dims || '') + (i.mount ? ' + ' + escapeHtml(i.mount) + ' mount' : '') + ' &times;' + (i.qty||1) + ' &mdash; &pound;' + (Number(i.price||0)*(i.qty||1)).toFixed(2) + '</p>';
                       }
