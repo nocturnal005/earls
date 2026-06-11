@@ -803,8 +803,9 @@
 
       function renderOrders() {
         const tbody = document.getElementById('orders-body');
+        const hiddenFromAll = ['archived', 'pending_payment'];
         const filtered = currentFilter === 'all'
-          ? allOrders.filter(o => o.status !== 'archived')
+          ? allOrders.filter(o => !hiddenFromAll.includes(o.status))
           : allOrders.filter(o => o.status === currentFilter);
 
         if (filtered.length === 0) {

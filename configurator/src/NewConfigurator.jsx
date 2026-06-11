@@ -115,7 +115,7 @@ export default function NewConfigurator() {
     }
   }, [cartTotalCount, setIsCartOpen]);
 
-  const handleAddToCart = useCallback(async (pricingObj, currentFrame, sizeLabel) => {
+  const handleAddToCart = useCallback(async (pricingObj, currentFrame, sizeLabel, selectionOverride) => {
     if (!pricingObj || pricingObj.total === 0) return;
 
     // Capture configured frame preview as image
@@ -151,11 +151,28 @@ export default function NewConfigurator() {
 
     const isCustomerImage = selections.imageUrl !== SAMPLE_IMAGE_URL && selections.imageFile;
 
+    // Authoritative selection IDs sent to the server, which recomputes the price.
+    // The server never trusts the displayed `price` below — that is for UI only.
+    const selection = selectionOverride || {
+      frameId: selections.frameId || null,
+      printType: selections.printType,
+      sizeId: selections.sizeId,
+      customW: selections.sizeId === 'custom' ? selections.customW : null,
+      customH: selections.sizeId === 'custom' ? selections.customH : null,
+      mountTypeId: selections.mountTypeId,
+      mountWidthId: selections.mountWidthId,
+      customMountWidth: selections.mountWidthId === 'custom' ? selections.customMountWidth : null,
+      glassId: selections.glassId,
+    };
+
     const cartItem = {
       frameName: currentFrame ? currentFrame.name : 'Unframed Print',
       dimensions: sizeLabel,
       mount: selections.mountTypeId !== 'none' ? mountColourObj?.label || 'Mount' : null,
-      price: pricingObj.total,
+      // Per-item subtotal (excludes packing & VAT, which are applied once at the
+      // order level). Display only — the server is authoritative on price.
+      price: pricingObj.subtotal,
+      selection,
       image: configuredImage || selections.imageUrl || (currentFrame ? `${import.meta.env.BASE_URL}${currentFrame.uiThumbnail}` : null),
       rawImageFile: isCustomerImage ? selections.imageFile : null,
 
@@ -815,7 +832,18 @@ export default function NewConfigurator() {
                         onClick={() => handleAddToCart(
                           { ...pricing, framePrice: 0, mountPrice: 0, glassPrice: 0, subtotal: pricing.printPrice, packingDelivery: PACKING_DELIVERY, vat: FLAT_VAT, total: pricing.printPrice + PACKING_DELIVERY + FLAT_VAT },
                           null,
-                          sectionSummary('size')
+                          sectionSummary('size'),
+                          {
+                            frameId: null,
+                            printType: selections.printType,
+                            sizeId: selections.sizeId,
+                            customW: selections.sizeId === 'custom' ? selections.customW : null,
+                            customH: selections.sizeId === 'custom' ? selections.customH : null,
+                            mountTypeId: 'none',
+                            mountWidthId: selections.mountWidthId,
+                            customMountWidth: null,
+                            glassId: 'none',
+                          }
                         )}
                       >
                         Add Print to Cart

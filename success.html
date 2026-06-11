@@ -94,18 +94,63 @@
     </header>
 
     <main style="padding-top: 66px;">
-      <div class="success-page">
-        <div class="success-icon">&#10003;</div>
-        <h1 class="success-title">Order Confirmed!</h1>
-        <p class="success-sub">
-          Thank you for your order. We've received your payment and will begin crafting your bespoke frame. You'll receive a confirmation email shortly.
+      <div class="success-page" id="success-page">
+        <div class="success-icon" id="success-icon" style="background:#9A8F84;">…</div>
+        <h1 class="success-title" id="success-title">Confirming your payment…</h1>
+        <p class="success-sub" id="success-sub">
+          One moment while we confirm your order.
         </p>
-        <p class="success-details">
-          Standard delivery: 10-12 working days
-        </p>
+        <p class="success-details" id="success-details"></p>
         <a href="frame-my-photo.html" class="success-btn">Frame Another Photo</a>
       </div>
     </main>
+
+    <script>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var sessionId = params.get('session_id');
+        var iconEl = document.getElementById('success-icon');
+        var titleEl = document.getElementById('success-title');
+        var subEl = document.getElementById('success-sub');
+        var detailsEl = document.getElementById('success-details');
+
+        function confirmed(shippingMethod) {
+          iconEl.style.background = '#3D6B35';
+          iconEl.innerHTML = '&#10003;';
+          titleEl.textContent = 'Order Confirmed!';
+          subEl.textContent = "Thank you for your order. We've received your payment and will begin crafting your frame. You'll receive a confirmation email shortly.";
+          detailsEl.textContent = shippingMethod === 'express'
+            ? 'Express delivery: 3-5 working days'
+            : 'Standard delivery: 10-12 working days';
+        }
+
+        function notConfirmed(msg) {
+          iconEl.style.background = '#B8862F';
+          iconEl.innerHTML = '!';
+          titleEl.textContent = 'Payment not confirmed';
+          subEl.textContent = msg || "We couldn't confirm a completed payment for this order. If you were charged, please contact us and we'll sort it out right away.";
+          detailsEl.textContent = '';
+        }
+
+        if (!sessionId) {
+          notConfirmed('No order reference was found.');
+          return;
+        }
+
+        fetch('/api/verify-session?session_id=' + encodeURIComponent(sessionId))
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data && data.paid) {
+              confirmed(data.shippingMethod);
+            } else {
+              notConfirmed();
+            }
+          })
+          .catch(function () {
+            notConfirmed('We could not reach the payment service to confirm your order.');
+          });
+      })();
+    </script>
 
     <!-- FOOTER -->
     <footer class="footer">

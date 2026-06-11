@@ -1,0 +1,739 @@
+{
+  "_generated": "2026-06-11T14:43:34.764Z",
+  "_note": "AUTO-GENERATED from configurator/src/newData.js. Do not edit by hand. Regenerate: node scripts/gen-pricing.mjs",
+  "constants": {
+    "SQCM_PER_SQFT": 929.0304,
+    "MOUNT_BASE_RATE_PER_SQFT": 5,
+    "FRAME_MARKUP": 4,
+    "FRAME_BASE": 6,
+    "MOUNT_BASE": 5.5,
+    "GLASS_BASE": 0.85,
+    "FLAT_VAT": 8.5,
+    "PACKING_DELIVERY": 5,
+    "EXPRESS_DELIVERY": 15
+  },
+  "printPrices": {
+    "poster": {
+      "A4": 14.95,
+      "A3": 19.95,
+      "A2": 29.95,
+      "A1": 39.95,
+      "A0": 69.99,
+      "10x12": 16.95,
+      "12x16": 19.95,
+      "12x18": 23.95,
+      "16x20": 27.95,
+      "20x30": 33,
+      "30x40": 59.99,
+      "40x60": 89.99
+    },
+    "art_paper": {
+      "A4": 24.95,
+      "A3": 49.95,
+      "A2": 67.5,
+      "A1": 110,
+      "A0": 220,
+      "10x12": 44.95,
+      "12x16": 49.95,
+      "12x18": 59.95,
+      "16x20": 64.95,
+      "20x30": 89.95,
+      "30x40": 220,
+      "40x60": 400
+    },
+    "canvas": {
+      "A4": null,
+      "A3": null,
+      "A2": null,
+      "A1": null,
+      "A0": null,
+      "10x12": 39.95,
+      "12x16": 44.95,
+      "12x18": null,
+      "16x20": 59.95,
+      "20x30": 99.95,
+      "30x40": 189.95,
+      "40x60": 259.95
+    },
+    "none": {}
+  },
+  "printSizes": {
+    "A4": {
+      "w_cm": 29.7,
+      "h_cm": 21
+    },
+    "A3": {
+      "w_cm": 42,
+      "h_cm": 29.7
+    },
+    "A2": {
+      "w_cm": 59.4,
+      "h_cm": 42
+    },
+    "A1": {
+      "w_cm": 84.1,
+      "h_cm": 59.4
+    },
+    "A0": {
+      "w_cm": 118.9,
+      "h_cm": 84.1
+    },
+    "10x12": {
+      "w_cm": 25.4,
+      "h_cm": 30.5
+    },
+    "12x16": {
+      "w_cm": 30.5,
+      "h_cm": 40.6
+    },
+    "12x18": {
+      "w_cm": 30.5,
+      "h_cm": 45.7
+    },
+    "16x20": {
+      "w_cm": 40.6,
+      "h_cm": 50.8
+    },
+    "20x30": {
+      "w_cm": 50.8,
+      "h_cm": 76.2
+    },
+    "30x40": {
+      "w_cm": 76.2,
+      "h_cm": 101.6
+    },
+    "40x60": {
+      "w_cm": 101.6,
+      "h_cm": 152.4
+    }
+  },
+  "glassRates": {
+    "none": 0,
+    "standard": 4.5,
+    "acrylic": 6,
+    "non_refl": 7.5,
+    "uv": 9
+  },
+  "mountTypes": {
+    "none": {
+      "multiplier": 0,
+      "surcharge": 0
+    },
+    "plain": {
+      "multiplier": 1,
+      "surcharge": 0
+    },
+    "v_groove": {
+      "multiplier": 1,
+      "surcharge": 3.5
+    },
+    "double": {
+      "multiplier": 2,
+      "surcharge": 0
+    },
+    "oval": {
+      "multiplier": 1,
+      "surcharge": 5
+    },
+    "round": {
+      "multiplier": 1,
+      "surcharge": 5
+    }
+  },
+  "mountWidths": {
+    "standard": 50,
+    "wide": 70,
+    "extra": 90,
+    "custom": null
+  },
+  "frames": {
+    "E001": {
+      "costPerM": 1.12,
+      "widthMm": 14
+    },
+    "E002": {
+      "costPerM": 1.25,
+      "widthMm": 19
+    },
+    "E003": {
+      "costPerM": 1.9,
+      "widthMm": 21
+    },
+    "E004": {
+      "costPerM": 1.51,
+      "widthMm": 24
+    },
+    "E005": {
+      "costPerM": 2.03,
+      "widthMm": 28
+    },
+    "E006": {
+      "costPerM": 1.8,
+      "widthMm": 29
+    },
+    "E007": {
+      "costPerM": 3.61,
+      "widthMm": 38
+    },
+    "E008": {
+      "costPerM": 2.3,
+      "widthMm": 39
+    },
+    "E009": {
+      "costPerM": 1.15,
+      "widthMm": 15
+    },
+    "E010": {
+      "costPerM": 1.51,
+      "widthMm": 20
+    },
+    "E011": {
+      "costPerM": 1.9,
+      "widthMm": 35
+    },
+    "E012": {
+      "costPerM": 3.81,
+      "widthMm": 38
+    },
+    "E013": {
+      "costPerM": 4.46,
+      "widthMm": 25
+    },
+    "E014": {
+      "costPerM": 1.8,
+      "widthMm": 14
+    },
+    "E015": {
+      "costPerM": 1.71,
+      "widthMm": 22
+    },
+    "E016": {
+      "costPerM": 2.43,
+      "widthMm": 30
+    },
+    "E017": {
+      "costPerM": 2.89,
+      "widthMm": 40
+    },
+    "E018": {
+      "costPerM": 4,
+      "widthMm": 55
+    },
+    "E019": {
+      "costPerM": 1.84,
+      "widthMm": 22
+    },
+    "E020": {
+      "costPerM": 2.3,
+      "widthMm": 20
+    },
+    "E021": {
+      "costPerM": 1.18,
+      "widthMm": 12.7
+    },
+    "E022": {
+      "costPerM": 1.31,
+      "widthMm": 9.5
+    },
+    "E023": {
+      "costPerM": 1.97,
+      "widthMm": 9.5
+    },
+    "E024": {
+      "costPerM": 1.8,
+      "widthMm": 19
+    },
+    "E025": {
+      "costPerM": 1.97,
+      "widthMm": 20
+    },
+    "E026": {
+      "costPerM": 3.94,
+      "widthMm": 25.4
+    },
+    "E027": {
+      "costPerM": 2.13,
+      "widthMm": 30
+    },
+    "E028": {
+      "costPerM": 2.03,
+      "widthMm": 20
+    },
+    "E029": {
+      "costPerM": 2.49,
+      "widthMm": 20
+    },
+    "E030": {
+      "costPerM": 1.9,
+      "widthMm": 13.5
+    },
+    "E033": {
+      "costPerM": 1.31,
+      "widthMm": 12.7
+    },
+    "E034": {
+      "costPerM": 1.31,
+      "widthMm": 12.7
+    },
+    "E035": {
+      "costPerM": 14.27,
+      "widthMm": 56
+    },
+    "E036": {
+      "costPerM": 10.11,
+      "widthMm": 64
+    },
+    "E038": {
+      "costPerM": 1.12,
+      "widthMm": 14
+    },
+    "E039": {
+      "costPerM": 1.25,
+      "widthMm": 19
+    },
+    "E040": {
+      "costPerM": 1.9,
+      "widthMm": 21
+    },
+    "E041": {
+      "costPerM": 1.51,
+      "widthMm": 24
+    },
+    "E042": {
+      "costPerM": 2.03,
+      "widthMm": 28
+    },
+    "E043": {
+      "costPerM": 1.8,
+      "widthMm": 29
+    },
+    "E044": {
+      "costPerM": 3.61,
+      "widthMm": 38
+    },
+    "E045": {
+      "costPerM": 2.3,
+      "widthMm": 39
+    },
+    "E046": {
+      "costPerM": 1.15,
+      "widthMm": 15
+    },
+    "E047": {
+      "costPerM": 1.51,
+      "widthMm": 20
+    },
+    "E048": {
+      "costPerM": 1.9,
+      "widthMm": 35
+    },
+    "E049": {
+      "costPerM": 3.81,
+      "widthMm": 38
+    },
+    "E050": {
+      "costPerM": 1.71,
+      "widthMm": 22
+    },
+    "E051": {
+      "costPerM": 2.43,
+      "widthMm": 30
+    },
+    "E052": {
+      "costPerM": 2.89,
+      "widthMm": 40
+    },
+    "E053": {
+      "costPerM": 4,
+      "widthMm": 55
+    },
+    "E054": {
+      "costPerM": 4.46,
+      "widthMm": 25
+    },
+    "E055": {
+      "costPerM": 1.8,
+      "widthMm": 14
+    },
+    "E056": {
+      "costPerM": 2.3,
+      "widthMm": 20
+    },
+    "E057": {
+      "costPerM": 1.84,
+      "widthMm": 22
+    },
+    "E058": {
+      "costPerM": 1.15,
+      "widthMm": 15
+    },
+    "E059": {
+      "costPerM": 1.57,
+      "widthMm": 20
+    },
+    "E060": {
+      "costPerM": 2.13,
+      "widthMm": 35
+    },
+    "E061": {
+      "costPerM": 3.67,
+      "widthMm": 38
+    },
+    "E062": {
+      "costPerM": 1.15,
+      "widthMm": 15
+    },
+    "E063": {
+      "costPerM": 1.57,
+      "widthMm": 20
+    },
+    "E064": {
+      "costPerM": 2.13,
+      "widthMm": 35
+    },
+    "E065": {
+      "costPerM": 3.35,
+      "widthMm": 50
+    },
+    "E066": {
+      "costPerM": 1.15,
+      "widthMm": 15
+    },
+    "E067": {
+      "costPerM": 1.57,
+      "widthMm": 20
+    },
+    "E068": {
+      "costPerM": 2.13,
+      "widthMm": 35
+    },
+    "H001": {
+      "costPerM": 1.97,
+      "widthMm": 15
+    },
+    "H002": {
+      "costPerM": 2.79,
+      "widthMm": 28
+    },
+    "E070": {
+      "costPerM": 1.71,
+      "widthMm": 22
+    },
+    "E071": {
+      "costPerM": 1.71,
+      "widthMm": 22
+    },
+    "E072": {
+      "costPerM": 1.15,
+      "widthMm": 15
+    },
+    "E073": {
+      "costPerM": 1.51,
+      "widthMm": 20
+    },
+    "E074": {
+      "costPerM": 2.13,
+      "widthMm": 35
+    },
+    "E075": {
+      "costPerM": 3.81,
+      "widthMm": 38
+    },
+    "E076": {
+      "costPerM": 1.15,
+      "widthMm": 15
+    },
+    "E077": {
+      "costPerM": 1.57,
+      "widthMm": 20
+    },
+    "E078": {
+      "costPerM": 2.13,
+      "widthMm": 35
+    },
+    "E079": {
+      "costPerM": 3.81,
+      "widthMm": 38
+    },
+    "E080": {
+      "costPerM": 1.71,
+      "widthMm": 22
+    },
+    "E081": {
+      "costPerM": 2.43,
+      "widthMm": 30
+    },
+    "E082": {
+      "costPerM": 2.89,
+      "widthMm": 40
+    },
+    "E083": {
+      "costPerM": 4,
+      "widthMm": 55
+    },
+    "E084": {
+      "costPerM": 1.15,
+      "widthMm": 15
+    },
+    "E085": {
+      "costPerM": 1.15,
+      "widthMm": 15
+    },
+    "E086": {
+      "costPerM": 1.51,
+      "widthMm": 20
+    },
+    "E087": {
+      "costPerM": 1.51,
+      "widthMm": 20
+    },
+    "E088": {
+      "costPerM": 2.13,
+      "widthMm": 35
+    },
+    "E089": {
+      "costPerM": 2.13,
+      "widthMm": 35
+    },
+    "E090": {
+      "costPerM": 3.81,
+      "widthMm": 38
+    },
+    "E091": {
+      "costPerM": 3.81,
+      "widthMm": 38
+    },
+    "E092": {
+      "costPerM": 2.3,
+      "widthMm": 20
+    },
+    "E093": {
+      "costPerM": 1.71,
+      "widthMm": 22
+    },
+    "E094": {
+      "costPerM": 1.71,
+      "widthMm": 22
+    },
+    "E095": {
+      "costPerM": 1.15,
+      "widthMm": 15
+    },
+    "E096": {
+      "costPerM": 1.57,
+      "widthMm": 20
+    },
+    "E097": {
+      "costPerM": 2.13,
+      "widthMm": 35
+    },
+    "E098": {
+      "costPerM": 3.81,
+      "widthMm": 38
+    },
+    "E099": {
+      "costPerM": 2.13,
+      "widthMm": 35
+    },
+    "E100": {
+      "costPerM": 1.71,
+      "widthMm": 22
+    },
+    "E101": {
+      "costPerM": 1.71,
+      "widthMm": 22
+    },
+    "E102": {
+      "costPerM": 1.71,
+      "widthMm": 22
+    },
+    "E103": {
+      "costPerM": 1.64,
+      "widthMm": 19
+    },
+    "P001": {
+      "costPerM": 1.44,
+      "widthMm": 20
+    },
+    "P002": {
+      "costPerM": 4.2,
+      "widthMm": 35
+    },
+    "P004": {
+      "costPerM": 2.95,
+      "widthMm": 29
+    },
+    "P005": {
+      "costPerM": 7,
+      "widthMm": 64
+    },
+    "P006": {
+      "costPerM": 4.92,
+      "widthMm": 30
+    },
+    "P007": {
+      "costPerM": 1.41,
+      "widthMm": 15
+    },
+    "P008": {
+      "costPerM": 1.74,
+      "widthMm": 33
+    },
+    "P009": {
+      "costPerM": 1.44,
+      "widthMm": 20
+    },
+    "P010": {
+      "costPerM": 2.43,
+      "widthMm": 21
+    },
+    "P011": {
+      "costPerM": 3.28,
+      "widthMm": 13
+    },
+    "P012": {
+      "costPerM": 1.71,
+      "widthMm": 13
+    },
+    "P016": {
+      "costPerM": 13.06,
+      "widthMm": 62
+    },
+    "P017": {
+      "costPerM": 13.06,
+      "widthMm": 62
+    },
+    "P018": {
+      "costPerM": 13.06,
+      "widthMm": 62
+    },
+    "P019": {
+      "costPerM": 18.37,
+      "widthMm": 72
+    },
+    "P020": {
+      "costPerM": 14.76,
+      "widthMm": 65
+    },
+    "P021": {
+      "costPerM": 14.76,
+      "widthMm": 65
+    },
+    "P022": {
+      "costPerM": 5.41,
+      "widthMm": 26
+    },
+    "P023": {
+      "costPerM": 2.95,
+      "widthMm": 23
+    },
+    "P025": {
+      "costPerM": 9.02,
+      "widthMm": 50
+    },
+    "P026": {
+      "costPerM": 6.89,
+      "widthMm": 38
+    },
+    "P027": {
+      "costPerM": 7.87,
+      "widthMm": 38
+    },
+    "P028": {
+      "costPerM": 7.38,
+      "widthMm": 66
+    },
+    "P029": {
+      "costPerM": 6.56,
+      "widthMm": 35
+    },
+    "P030": {
+      "costPerM": 6.56,
+      "widthMm": 35
+    },
+    "P031": {
+      "costPerM": 6.23,
+      "widthMm": 22
+    },
+    "P032": {
+      "costPerM": 6.23,
+      "widthMm": 22
+    },
+    "P034": {
+      "costPerM": 5.09,
+      "widthMm": 22
+    },
+    "P035": {
+      "costPerM": 5.09,
+      "widthMm": 22
+    },
+    "P037": {
+      "costPerM": 2.82,
+      "widthMm": 26
+    },
+    "P038": {
+      "costPerM": 6.23,
+      "widthMm": 82
+    },
+    "P039": {
+      "costPerM": 1.84,
+      "widthMm": 15
+    },
+    "P040": {
+      "costPerM": 4.99,
+      "widthMm": 16
+    },
+    "P041": {
+      "costPerM": 4.99,
+      "widthMm": 16
+    },
+    "P042": {
+      "costPerM": 3.28,
+      "widthMm": 30
+    },
+    "P043": {
+      "costPerM": 3.28,
+      "widthMm": 30
+    },
+    "P044": {
+      "costPerM": 3.28,
+      "widthMm": 30
+    },
+    "P045": {
+      "costPerM": 2.17,
+      "widthMm": 13
+    },
+    "P047": {
+      "costPerM": 11.32,
+      "widthMm": 80
+    },
+    "P049": {
+      "costPerM": 2.82,
+      "widthMm": 26
+    },
+    "P050": {
+      "costPerM": 4.1,
+      "widthMm": 30
+    },
+    "P052": {
+      "costPerM": 3.28,
+      "widthMm": 13
+    },
+    "P059": {
+      "costPerM": 3.5,
+      "widthMm": 20
+    },
+    "P060": {
+      "costPerM": 5.5,
+      "widthMm": 45
+    },
+    "P055": {
+      "costPerM": 11.32,
+      "widthMm": 84
+    },
+    "P057": {
+      "costPerM": 14.44,
+      "widthMm": 84
+    }
+  }
+}

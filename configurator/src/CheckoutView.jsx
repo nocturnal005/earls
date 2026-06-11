@@ -86,35 +86,6 @@ export default function CheckoutView() {
     setIsProcessing(true);
 
     try {
-      // Build line items for Stripe
-      const items = [];
-
-      // Add each cart item
-      cartItems.forEach(item => {
-        items.push({
-          name: item.frameName,
-          description: `${item.dimensions}${item.mount ? ' + ' + item.mount + ' mount' : ''}`,
-          price: item.price,
-          quantity: item.quantity,
-        });
-      });
-
-      // Add shipping as a line item
-      items.push({
-        name: shippingMethod === 'express' ? 'Express Delivery' : 'Standard Delivery',
-        description: shippingMethod === 'express' ? '3–5 working days' : '10–12 working days',
-        price: shippingCost,
-        quantity: 1,
-      });
-
-      // Add VAT as a line item
-      items.push({
-        name: 'VAT',
-        description: 'Value Added Tax',
-        price: FLAT_VAT,
-        quantity: 1,
-      });
-
       const imageUrls = {};
       for (const item of cartItems) {
         imageUrls[item.id] = {};
@@ -137,37 +108,31 @@ export default function CheckoutView() {
         }
       }
 
-      const orderSummary = {
-        customer: { email, phone, firstName, lastName },
-        shipping: { address, apt, city, postcode },
-        items: cartItems.map(i => ({
-          name: i.frameName,
-          dims: i.dimensions,
-          mount: i.mount,
-          price: i.price,
-          qty: i.quantity,
-          spec: {
-            ...(i.spec || {}),
-            previewImageUrl: imageUrls[i.id]?.preview || null,
-            rawImageUrl: imageUrls[i.id]?.raw || null,
-          },
-        })),
-      };
+      // Send authoritative selection IDs (not prices). The server recomputes
+      // every price from the catalogue and ignores anything price-related here.
+      const lines = cartItems.map(i => ({
+        name: i.frameName,
+        description: `${i.dimensions}${i.mount ? ' + ' + i.mount + ' mount' : ''}`,
+        dims: i.dimensions,
+        mount: i.mount,
+        quantity: i.quantity,
+        selection: i.selection,
+        spec: {
+          ...(i.spec || {}),
+          previewImageUrl: imageUrls[i.id]?.preview || null,
+          rawImageUrl: imageUrls[i.id]?.raw || null,
+        },
+      }));
 
       const response = await fetch('/api/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items,
           customerEmail: email,
-          orderSummary,
+          customer: { email, phone, firstName, lastName },
+          shipping: { address, apt, city, postcode },
           shippingMethod,
-          totals: {
-            subtotal: cartTotalPrice,
-            shippingCost,
-            vat: tax,
-            total: orderTotal,
-          },
+          lines,
         }),
       });
 

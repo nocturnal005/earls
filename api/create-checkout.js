@@ -1,4 +1,9 @@
 const { createClient } = require('@supabase/supabase-js');
+const { priceOrder } = require('./_pricing');
+
+function clampStr(v, max) {
+  return (typeof v === 'string' ? v : '').slice(0, max);
+}
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
@@ -15,23 +20,50 @@ module.exports = async (req, res) => {
 
   try {
     const stripe = require('stripe')(stripeKey);
-    const { items, customerEmail, orderSummary, shippingMethod, totals } = req.body;
+    const { lines, customerEmail, customer, shipping, shippingMethod } = req.body || {};
 
-    if (!items || items.length === 0) {
+    if (!Array.isArray(lines) || lines.length === 0) {
       return res.status(400).json({ error: 'No items in order.' });
     }
 
-    const lineItems = items.map(item => ({
+    // Authoritative server-side pricing. Client-supplied prices are ignored.
+    const priced = priceOrder(lines, shippingMethod);
+    if (priced.error) {
+      return res.status(400).json({ error: priced.error });
+    }
+
+    const lineItems = lines.map((item, idx) => ({
       price_data: {
         currency: 'gbp',
         product_data: {
-          name: item.name,
-          description: item.description || '',
+          name: clampStr(item.name, 200) || 'Framed Print',
+          description: clampStr(item.description, 300) || undefined,
         },
-        unit_amount: Math.round(item.price * 100),
+        unit_amount: Math.round(priced.lines[idx].unit * 100),
       },
-      quantity: item.quantity || 1,
+      quantity: priced.lines[idx].qty,
     }));
+
+    // Packing & VAT as their own lines — once per order.
+    lineItems.push({
+      price_data: {
+        currency: 'gbp',
+        product_data: {
+          name: shippingMethod === 'express' ? 'Express Delivery' : 'Standard Delivery',
+          description: shippingMethod === 'express' ? '3-5 working days' : '10-12 working days',
+        },
+        unit_amount: Math.round(priced.packing * 100),
+      },
+      quantity: 1,
+    });
+    lineItems.push({
+      price_data: {
+        currency: 'gbp',
+        product_data: { name: 'VAT', description: 'Value Added Tax' },
+        unit_amount: Math.round(priced.vat * 100),
+      },
+      quantity: 1,
+    });
 
     const host = req.headers.host;
     const protocol = host.includes('localhost') ? 'http' : 'https';
@@ -43,37 +75,49 @@ module.exports = async (req, res) => {
       customer_email: customerEmail || undefined,
       success_url: `${protocol}://${host}/success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${protocol}://${host}/frame-my-photo.html?payment=cancelled`,
-      shipping_address_collection: undefined,
       metadata: {
-        order_summary: JSON.stringify(orderSummary).substring(0, 500),
-        customer_phone: orderSummary?.customer?.phone || '',
-        shipping_address: orderSummary?.shipping ? `${orderSummary.shipping.address}, ${orderSummary.shipping.city}, ${orderSummary.shipping.postcode}` : '',
+        customer_phone: customer?.phone || '',
+        shipping_address: shipping ? `${shipping.address || ''}, ${shipping.city || ''}, ${shipping.postcode || ''}` : '',
+        shipping_method: shippingMethod || 'standard',
+        order_total: String(priced.total),
       },
     });
 
-    // Save order to Supabase
+    // Persist the order. Prices come from the server-side calc, not the client.
     if (supabaseUrl && supabaseKey) {
       const supabase = createClient(supabaseUrl, supabaseKey);
-      const customer = orderSummary?.customer || {};
-      const shipping = orderSummary?.shipping || {};
+      const cust = customer || {};
+      const ship = shipping || {};
 
+      const items = lines.map((item, idx) => ({
+        name: clampStr(item.name, 200),
+        dims: item.dims || null,
+        mount: item.mount || null,
+        qty: priced.lines[idx].qty,
+        price: priced.lines[idx].unit,
+        spec: item.spec || null,
+      }));
+
+      // Saved as pending until Stripe confirms payment via the webhook
+      // (api/stripe-webhook.js flips it to 'new'). Abandoned/failed checkouts
+      // stay 'pending_payment' and never reach the framer's queue.
       await supabase.from('orders').insert({
         stripe_session_id: session.id,
-        status: 'new',
-        customer_email: customer.email || customerEmail || null,
-        customer_phone: customer.phone || null,
-        customer_first_name: customer.firstName || null,
-        customer_last_name: customer.lastName || null,
-        shipping_address: shipping.address || null,
-        shipping_apt: shipping.apt || null,
-        shipping_city: shipping.city || null,
-        shipping_postcode: shipping.postcode || null,
+        status: 'pending_payment',
+        customer_email: cust.email || customerEmail || null,
+        customer_phone: cust.phone || null,
+        customer_first_name: cust.firstName || null,
+        customer_last_name: cust.lastName || null,
+        shipping_address: ship.address || null,
+        shipping_apt: ship.apt || null,
+        shipping_city: ship.city || null,
+        shipping_postcode: ship.postcode || null,
         shipping_method: shippingMethod || 'standard',
-        items: orderSummary?.items || [],
-        subtotal: totals?.subtotal || 0,
-        shipping_cost: totals?.shippingCost || 0,
-        vat: totals?.vat || 0,
-        total: totals?.total || 0,
+        items,
+        subtotal: priced.subtotal,
+        shipping_cost: priced.packing,
+        vat: priced.vat,
+        total: priced.total,
       });
     }
 
