@@ -13,8 +13,7 @@
     }
   ],
   "rewrites": [
-    { "source": "/bespoke-framing", "destination": "/bespoke-framing.html" },
-    { "source": "/frame-my-photo", "destination": "/frame-my-photo.html" },
+{ "source": "/frame-my-photo", "destination": "/frame-my-photo.html" },
     { "source": "/fine-art-printing", "destination": "/frame-my-photo.html?printType=art_paper" },
     { "source": "/success", "destination": "/success.html" }
   ]
