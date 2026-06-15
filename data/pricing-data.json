@@ -1,5 +1,5 @@
 {
-  "_generated": "2026-06-11T14:43:34.764Z",
+  "_generated": "2026-06-15T13:34:45.830Z",
   "_note": "AUTO-GENERATED from configurator/src/newData.js. Do not edit by hand. Regenerate: node scripts/gen-pricing.mjs",
   "constants": {
     "SQCM_PER_SQFT": 929.0304,
@@ -652,10 +652,6 @@
       "widthMm": 35
     },
     "P031": {
-      "costPerM": 6.23,
-      "widthMm": 22
-    },
-    "P032": {
       "costPerM": 6.23,
       "widthMm": 22
     },
