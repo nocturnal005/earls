@@ -152,6 +152,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartBtn = document.getElementById('header-cart-btn');
     const cartCount = document.getElementById('header-cart-count');
 
+    // On the configurator page (#root present) the React app owns the basket
+    // and the header cart icon — so this lightweight header cart stays out of
+    // the way to avoid two carts fighting over the same button/badge.
+    const configuratorOwnsCart = !!document.getElementById('root');
+
     // Get cart from localStorage
     function getCart() {
         try {
@@ -298,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Cart button click
-    if (cartBtn) {
+    if (cartBtn && !configuratorOwnsCart) {
         cartBtn.addEventListener('click', (e) => {
             e.preventDefault();
             openCart();
@@ -307,10 +312,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Listen for cart updates from other tabs/pages
     window.addEventListener('storage', (e) => {
-        if (e.key === 'earls_cart') updateCartBadge();
+        if (e.key === 'earls_cart' && !configuratorOwnsCart) updateCartBadge();
     });
 
     // Initial badge update
-    updateCartBadge();
+    if (!configuratorOwnsCart) updateCartBadge();
 
 });
