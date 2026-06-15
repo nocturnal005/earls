@@ -18,7 +18,7 @@ export function MouldingCorner({ hex, className = '' }) {
  * All images are oriented with face colour at the top, cut-out/backing below.
  * Falls back to a flat hex swatch if no image is available.
  */
-export function MouldingThumb({ image, name, fallbackHex }) {
+export const MouldingThumb = React.memo(function MouldingThumb({ image, name, fallbackHex }) {
   if (!image) {
     return <MouldingCorner hex={fallbackHex} />;
   }
@@ -27,13 +27,15 @@ export function MouldingThumb({ image, name, fallbackHex }) {
     <img
       src={`${import.meta.env.BASE_URL}${image}?v=20250529b`}
       alt={name}
+      loading="lazy"
+      decoding="async"
       style={{
         objectFit: 'cover',
         objectPosition: 'center bottom',
       }}
     />
   );
-}
+});
 
 
 

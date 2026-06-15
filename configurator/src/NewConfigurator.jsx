@@ -12,7 +12,7 @@ import {
 import { useCart } from './CartContext.jsx';
 import CartDrawer from './CartDrawer.jsx';
 import CheckoutView from './CheckoutView.jsx';
-import html2canvas from 'html2canvas';
+import { prepareUpload } from './uploadPrep.js';
 
 
 const SECTIONS = [
@@ -118,22 +118,24 @@ export default function NewConfigurator() {
   const handleAddToCart = useCallback(async (pricingObj, currentFrame, sizeLabel, selectionOverride) => {
     if (!pricingObj || pricingObj.total === 0) return;
 
-    // Capture configured frame preview as image
+    // Capture configured frame preview as image. html2canvas is heavy, so it's
+    // loaded on demand here rather than bundled into the initial page load.
     let configuredImage = null;
     const previewEl = document.querySelector('.preview-frame');
     if (previewEl) {
       try {
+        const { default: html2canvas } = await import('html2canvas');
         const hints = previewEl.querySelectorAll('.adjust-hint');
         hints.forEach(h => h.style.display = 'none');
         const canvas = await html2canvas(previewEl, {
           backgroundColor: '#FFFFFF',
-          scale: 4,
+          scale: 2,
           useCORS: true,
           allowTaint: true,
           imageTimeout: 0,
           logging: false,
         });
-        configuredImage = canvas.toDataURL('image/png');
+        configuredImage = canvas.toDataURL('image/jpeg', 0.9);
         hints.forEach(h => h.style.display = '');
       } catch (e) {
         console.warn('Could not capture frame preview:', e);
@@ -278,6 +280,23 @@ export default function NewConfigurator() {
     };
   }, [selections, frame, size, effW, effH, isCustom]);
 
+  // Glass/mountboard come on standard sheets up to ~40×32". Warn (don't block)
+  // when the finished piece needs an oversize sheet, mirroring the Wessex tool.
+  const oversizeWarning = useMemo(() => {
+    if (!effW || !effH) return false;
+    const hasGlass = selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas';
+    const hasMount = selections.mountTypeId !== 'none' && selections.printType !== 'canvas';
+    if (!hasGlass && !hasMount) return false;
+    const borderCm = hasMount
+      ? (selections.mountWidthId === 'custom' ? (selections.customMountWidth || 0) : (MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50)) / 10
+      : 0;
+    const outerWin = (effW + 2 * borderCm) / 2.54;
+    const outerHin = (effH + 2 * borderCm) / 2.54;
+    const long = Math.max(outerWin, outerHin);
+    const short = Math.min(outerWin, outerHin);
+    return long > 40 || short > 32;
+  }, [effW, effH, selections.glassId, selections.mountTypeId, selections.mountWidthId, selections.customMountWidth, selections.printType]);
+
   const previewScale = useMemo(() => {
     const activeMountCm = selections.mountTypeId !== 'none' && selections.printType !== 'canvas'
       ? (selections.mountWidthId === 'custom' ? (selections.customMountWidth || 0) : (MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50)) / 10 
@@ -338,21 +357,30 @@ export default function NewConfigurator() {
     setOpenSection(prev => prev === id ? null : id);
   };
 
+  const showError = useCallback((msg) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(''), 4000);
+  }, []);
+
+  const acceptImage = useCallback(async (file) => {
+    if (!file) return;
+    try {
+      const { previewUrl, originalFile } = await prepareUpload(file);
+      update({ imageUrl: previewUrl, imageFile: originalFile, imageOffsetX: 50, imageOffsetY: 50 });
+    } catch (err) {
+      showError(err?.message || 'Sorry — we couldn’t load that image.');
+    }
+  }, [update, showError]);
+
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      update({ imageUrl: url, imageFile: file, imageOffsetX: 50, imageOffsetY: 50 });
-    }
+    acceptImage(file);
+    e.target.value = ''; // allow re-selecting the same file
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
-    const file = e.dataTransfer.files?.[0];
-    if (file && file.type.startsWith('image/')) {
-      const url = URL.createObjectURL(file);
-      update({ imageUrl: url, imageFile: file, imageOffsetX: 50, imageOffsetY: 50 });
-    }
+    acceptImage(e.dataTransfer.files?.[0]);
   };
 
   /* ── Image pan (drag to reposition — N/S/E/W) ── */
@@ -460,6 +488,8 @@ export default function NewConfigurator() {
             <button
               className={`action-item-btn ${viewMode === 'detail' ? 'active' : ''}`}
               onClick={() => setViewMode('detail')}
+              aria-pressed={viewMode === 'detail'}
+              aria-label="Detail view"
             >
               <div className="icon-wrapper">
                 <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -487,6 +517,8 @@ export default function NewConfigurator() {
             <button
               className={`action-item-btn ${viewMode === 'room' ? 'active' : ''}`}
               onClick={() => setViewMode('room')}
+              aria-pressed={viewMode === 'room'}
+              aria-label="Room view"
             >
               <div className="icon-wrapper">
                 <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -513,6 +545,8 @@ export default function NewConfigurator() {
             <button
               className={`action-item-btn ${(selections.orientation || 'portrait') === 'portrait' ? 'active' : ''}`}
               onClick={() => update({ orientation: 'portrait' })}
+              aria-pressed={(selections.orientation || 'portrait') === 'portrait'}
+              aria-label="Portrait orientation"
             >
               <div className="icon-wrapper">
                 <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -530,6 +564,8 @@ export default function NewConfigurator() {
             <button
               className={`action-item-btn ${(selections.orientation || 'portrait') === 'landscape' ? 'active' : ''}`}
               onClick={() => update({ orientation: 'landscape' })}
+              aria-pressed={(selections.orientation || 'portrait') === 'landscape'}
+              aria-label="Landscape orientation"
             >
               <div className="icon-wrapper">
                 <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -802,7 +838,7 @@ export default function NewConfigurator() {
               return (
                 <React.Fragment key={sec.id}>
                   <div className={`acc-panel ${isOpen ? 'acc-panel--open' : ''}`}>
-                    <button className="acc-header" onClick={() => toggleSection(sec.id)}>
+                    <button className="acc-header" onClick={() => toggleSection(sec.id)} aria-expanded={isOpen}>
                       <div className="acc-header__left">
                         <span className="acc-header__title">{sec.label}</span>
                         {isOptional && <span className="acc-header__optional">Optional</span>}
@@ -855,6 +891,13 @@ export default function NewConfigurator() {
             })}
           </div>
         </div>
+
+        {oversizeWarning && (
+          <div className="oversize-note" role="status">
+            <span aria-hidden="true">⚠</span>
+            <span>This size needs oversize glass/mountboard — we’ll confirm stock &amp; any handling cost before production. Delivery may take a little longer.</span>
+          </div>
+        )}
 
         {/* Sticky price bar — always visible */}
         <div className="price-bar">
