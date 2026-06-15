@@ -13,6 +13,7 @@ import { useCart } from './CartContext.jsx';
 import CartDrawer from './CartDrawer.jsx';
 import CheckoutView from './CheckoutView.jsx';
 import { prepareUpload } from './uploadPrep.js';
+import html2canvas from 'html2canvas';
 
 
 const SECTIONS = [
@@ -124,7 +125,6 @@ export default function NewConfigurator() {
     const previewEl = document.querySelector('.preview-frame');
     if (previewEl) {
       try {
-        const { default: html2canvas } = await import('html2canvas');
         const hints = previewEl.querySelectorAll('.adjust-hint');
         hints.forEach(h => h.style.display = 'none');
         const canvas = await html2canvas(previewEl, {
