@@ -3,7 +3,7 @@ import {
   PRINT_SIZES, PRINT_TYPES, FRAME_CATALOGUE, MOUNT_COLOURS, COLOUR_GROUPS, MOUNT_TYPES,
   GLASS_OPTIONS, VGROOVE_COLOURS, MOUNT_WIDTHS,
   calcFramePrice, calcPrintPrice, calcMountPrice, calcGlassPrice,
-  VAT_RATE, FLAT_VAT, PACKING_DELIVERY,
+  VAT_RATE, calcStandardDelivery,
 } from './newData.js';
 import {
   SizePrintSection, FrameSection, MountSection, GlassSection,
@@ -171,9 +171,11 @@ export default function NewConfigurator() {
       frameName: currentFrame ? currentFrame.name : 'Unframed Print',
       dimensions: sizeLabel,
       mount: selections.mountTypeId !== 'none' ? mountColourObj?.label || 'Mount' : null,
-      // Per-item subtotal (excludes packing & VAT, which are applied once at the
-      // order level). Display only — the server is authoritative on price.
-      price: pricingObj.subtotal,
+      // VAT-inclusive per-item price (print list + framing incl 20% VAT), excludes
+      // delivery which is applied once at order level. Display only — the server
+      // is authoritative on price.
+      price: pricingObj.itemPrice,
+      longestEdgeCm: pricingObj.longestEdgeCm,
       selection,
       image: configuredImage || selections.imageUrl || (currentFrame ? `${import.meta.env.BASE_URL}${currentFrame.uiThumbnail}` : null),
       rawImageFile: isCustomerImage ? selections.imageFile : null,
@@ -260,23 +262,38 @@ export default function NewConfigurator() {
 
   const pricing = useMemo(() => {
     const round2 = n => Math.round(n * 100) / 100;
+    // Print = framer's list (already VAT-inclusive). Frame/mount/glass = net,
+    // we add 20% VAT. The whole displayed total is VAT-inclusive (VAT = total/6).
     const printPrice  = (!isCustom && selections.printType && size) ? (calcPrintPrice(selections.printType, selections.sizeId) || 0) : 0;
     const mountWidthMm = selections.mountWidthId === 'custom'
       ? (selections.customMountWidth || 0)
       : (MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50);
-    const framePrice  = (frame && effW) ? calcFramePrice(frame, effW, effH, selections.mountTypeId, mountWidthMm) : 0;
-    const mountPrice  = (selections.mountTypeId !== 'none' && selections.printType !== 'canvas' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH, mountWidthMm) : 0;
-    const glassPrice  = (selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && effW) ? calcGlassPrice(selections.glassId, effW, effH, selections.mountTypeId, mountWidthMm) : 0;
-    const subtotal = printPrice + framePrice + mountPrice + glassPrice;
-    const hasItems = subtotal > 0;
-    const packingDelivery = hasItems ? PACKING_DELIVERY : 0;
-    const vat = hasItems ? FLAT_VAT : 0;
-    const total = subtotal + packingDelivery + vat;
+    const frameNet  = (frame && effW) ? calcFramePrice(frame, effW, effH, selections.mountTypeId, mountWidthMm) : 0;
+    const mountNet  = (selections.mountTypeId !== 'none' && selections.printType !== 'canvas' && effW) ? calcMountPrice(selections.mountTypeId, effW, effH, mountWidthMm) : 0;
+    const glassNet  = (selections.glassId && selections.glassId !== 'none' && selections.printType !== 'canvas' && effW) ? calcGlassPrice(selections.glassId, effW, effH, selections.mountTypeId, mountWidthMm) : 0;
+    const framingNet = frameNet + mountNet + glassNet;
+    const hasItems = (printPrice + framingNet) > 0;
+
+    // Delivery tier is keyed off the print/artwork size (A4/A3 → £5, A2 → £9, etc.).
+    const longestEdgeCm = effW ? Math.max(effW, effH) : 0;
+    const delivery = hasItems ? calcStandardDelivery(longestEdgeCm) : 0;
+
+    const framingInc = framingNet * (1 + VAT_RATE);
+    const itemPrice  = printPrice + framingInc;          // inclusive, per item, excludes delivery
+    const total      = itemPrice + delivery;             // configurator preview total (standard delivery)
+    const vat        = total - total / (1 + VAT_RATE);   // VAT element inside the inclusive total
+
     return {
-      printPrice: round2(printPrice), framePrice: round2(framePrice),
-      mountPrice: round2(mountPrice), glassPrice: round2(glassPrice),
-      subtotal: round2(subtotal), packingDelivery: round2(packingDelivery),
-      vat: round2(vat), total: round2(total),
+      printPrice: round2(printPrice),
+      framePrice: round2(frameNet),  mountPrice: round2(mountNet),  glassPrice: round2(glassNet),
+      frameInc:   round2(frameNet * (1 + VAT_RATE)),
+      mountInc:   round2(mountNet * (1 + VAT_RATE)),
+      glassInc:   round2(glassNet * (1 + VAT_RATE)),
+      itemPrice:  round2(itemPrice),
+      longestEdgeCm,
+      delivery:   round2(delivery),
+      vat:        round2(vat),
+      total:      round2(total),
     };
   }, [selections, frame, size, effW, effH, isCustom]);
 
@@ -857,16 +874,20 @@ export default function NewConfigurator() {
                     </div>
                   </div>
                   {/* Print Only quick-add — appears after Size & Print section */}
-                  {sec.id === 'size' && pricing.printPrice > 0 && !frame && (
+                  {sec.id === 'size' && pricing.printPrice > 0 && !frame && (() => {
+                    const poEdge = effW ? Math.max(effW, effH) : 0;
+                    const poDelivery = calcStandardDelivery(poEdge);
+                    const poTotal = pricing.printPrice + poDelivery;
+                    return (
                     <div className="print-only-bar">
                       <div className="print-only-bar__left">
                         <span className="print-only-bar__label">Just want a print?</span>
-                        <span className="print-only-bar__price">£{(pricing.printPrice + PACKING_DELIVERY + FLAT_VAT).toFixed(2)} inc. VAT &amp; delivery</span>
+                        <span className="print-only-bar__price">£{poTotal.toFixed(2)} inc. VAT &amp; delivery</span>
                       </div>
                       <button
                         className="print-only-bar__btn"
                         onClick={() => handleAddToCart(
-                          { ...pricing, framePrice: 0, mountPrice: 0, glassPrice: 0, subtotal: pricing.printPrice, packingDelivery: PACKING_DELIVERY, vat: FLAT_VAT, total: pricing.printPrice + PACKING_DELIVERY + FLAT_VAT },
+                          { ...pricing, framePrice: 0, mountPrice: 0, glassPrice: 0, frameInc: 0, mountInc: 0, glassInc: 0, itemPrice: pricing.printPrice, longestEdgeCm: poEdge, delivery: poDelivery, vat: poTotal - poTotal / (1 + VAT_RATE), total: poTotal },
                           null,
                           sectionSummary('size'),
                           {
@@ -885,7 +906,8 @@ export default function NewConfigurator() {
                         Add Print to Cart
                       </button>
                     </div>
-                  )}
+                    );
+                  })()}
                 </React.Fragment>
               );
             })}
@@ -903,13 +925,12 @@ export default function NewConfigurator() {
         <div className="price-bar">
           <div className={`price-bar__breakdown ${showBreakdown ? 'price-bar__breakdown--open' : ''}`}>
             <div className="price-line"><span>Print</span><span>£{pricing.printPrice.toFixed(2)}</span></div>
-            <div className="price-line"><span>Frame</span><span>£{pricing.framePrice.toFixed(2)}</span></div>
-            <div className="price-line"><span>Mount</span><span>£{pricing.mountPrice.toFixed(2)}</span></div>
-            <div className="price-line"><span>Glass</span><span>£{pricing.glassPrice.toFixed(2)}</span></div>
+            <div className="price-line"><span>Frame</span><span>£{pricing.frameInc.toFixed(2)}</span></div>
+            <div className="price-line"><span>Mount</span><span>£{pricing.mountInc.toFixed(2)}</span></div>
+            <div className="price-line"><span>Glass</span><span>£{pricing.glassInc.toFixed(2)}</span></div>
             <hr className="price-divider" />
-            <div className="price-line"><span>Subtotal</span><span>£{pricing.subtotal.toFixed(2)}</span></div>
-            <div className="price-line price-line--muted"><span>Packing &amp; Delivery</span><span>£{pricing.packingDelivery.toFixed(2)}</span></div>
-            <div className="price-line price-line--muted"><span>VAT</span><span>£{pricing.vat.toFixed(2)}</span></div>
+            <div className="price-line price-line--muted"><span>Delivery</span><span>£{pricing.delivery.toFixed(2)}</span></div>
+            <div className="price-line price-line--muted"><span>Includes VAT</span><span>£{pricing.vat.toFixed(2)}</span></div>
           </div>
 
           <button className="price-bar__toggle" onClick={() => setShowBreakdown(p => !p)}>

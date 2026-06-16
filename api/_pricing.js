@@ -42,7 +42,8 @@ function calcMountPrice(mountTypeId, w_cm, h_cm, mountWidthMm) {
   const borderCm = mountWidthMm / 10;
   const outerArea = (w_cm + 2 * borderCm) * (h_cm + 2 * borderCm);
   const mountAreaSqFt = (outerArea - w_cm * h_cm) / C.SQCM_PER_SQFT;
-  return (mountAreaSqFt * C.MOUNT_BASE_RATE_PER_SQFT * mt.multiplier) + mt.surcharge + C.MOUNT_BASE;
+  // Multiplier applies to the whole mount price (area + base) so Double = 2× Plain.
+  return ((mountAreaSqFt * C.MOUNT_BASE_RATE_PER_SQFT + C.MOUNT_BASE) * mt.multiplier) + mt.surcharge;
 }
 
 function calcGlassPrice(glassId, w_cm, h_cm, mountTypeId, mountWidthMm) {
@@ -84,19 +85,41 @@ function priceLineItem(sel) {
     frame = data.frames[sel.frameId];
     if (!frame) return null; // unknown frame id → reject rather than under/over-charge
   }
-  const framePrice = frame ? calcFramePrice(frame, w, h, mountTypeId, mountWidthMm) : 0;
-  const mountPrice = (mountTypeId !== 'none' && printType !== 'canvas')
+  const frameNet = frame ? calcFramePrice(frame, w, h, mountTypeId, mountWidthMm) : 0;
+  const mountNet = (mountTypeId !== 'none' && printType !== 'canvas')
     ? calcMountPrice(mountTypeId, w, h, mountWidthMm) : 0;
-  const glassPrice = (sel.glassId && sel.glassId !== 'none' && printType !== 'canvas')
+  const glassNet = (sel.glassId && sel.glassId !== 'none' && printType !== 'canvas')
     ? calcGlassPrice(sel.glassId, w, h, mountTypeId, mountWidthMm) : 0;
+  const framingNet = frameNet + mountNet + glassNet;
 
-  const subtotal = printPrice + framePrice + mountPrice + glassPrice;
-  if (!(subtotal > 0)) return null;
-  return round2(subtotal);
+  if (!(printPrice + framingNet > 0)) return null;
+
+  // Print = framer's list (already VAT-inclusive). Framing = net, + 20% VAT.
+  const VAT_RATE = (C.VAT_RATE != null ? C.VAT_RATE : 0.20);
+  const unit = printPrice + framingNet * (1 + VAT_RATE);   // inclusive per-item, excl delivery
+
+  // Delivery tier is keyed off the print/artwork size (A4/A3 → £5, A2 → £9, etc.).
+  const longestEdgeCm = Math.max(w, h);
+
+  return { unit: round2(unit), longestEdgeCm };
+}
+
+function deliveryFromTiers(tiers, longestEdgeCm) {
+  const list = tiers && tiers.length ? tiers : [{ maxEdgeCm: null, price: 5.95 }];
+  for (const t of list) {
+    if (t.maxEdgeCm == null || (longestEdgeCm || 0) <= t.maxEdgeCm) return t.price;
+  }
+  return list[list.length - 1].price;
+}
+function standardDelivery(longestEdgeCm) {
+  return deliveryFromTiers(data.standardDeliveryTiers, longestEdgeCm);
+}
+function expressDelivery(longestEdgeCm) {
+  return deliveryFromTiers(data.expressDeliveryTiers, longestEdgeCm);
 }
 
 // Price a whole order. `lines` is [{ selection, quantity }, ...].
-// Returns { lines:[{unit, qty}], subtotal, packing, vat, total } or { error }.
+// Returns { lines:[{unit, qty}], subtotal, delivery, vat, total } or { error }.
 function priceOrder(lines, shippingMethod) {
   if (!Array.isArray(lines) || lines.length === 0) {
     return { error: 'No items in order.' };
@@ -107,20 +130,26 @@ function priceOrder(lines, shippingMethod) {
 
   const priced = [];
   let subtotal = 0;
+  let maxStandard = 0;
+  let maxExpress = 0;
   for (const li of lines) {
-    const unit = priceLineItem(li && li.selection);
-    if (unit === null) return { error: 'Invalid item configuration.' };
+    const item = priceLineItem(li && li.selection);
+    if (item === null) return { error: 'Invalid item configuration.' };
     const qty = Math.max(1, Math.min(99, parseInt(li.quantity, 10) || 1));
-    subtotal += unit * qty;
-    priced.push({ unit, qty });
+    subtotal += item.unit * qty;
+    maxStandard = Math.max(maxStandard, standardDelivery(item.longestEdgeCm));
+    maxExpress = Math.max(maxExpress, expressDelivery(item.longestEdgeCm));
+    priced.push({ unit: item.unit, qty });
   }
   subtotal = round2(subtotal);
 
-  const packing = shippingMethod === 'express' ? C.EXPRESS_DELIVERY : C.PACKING_DELIVERY;
-  const vat = C.FLAT_VAT;
-  const total = round2(subtotal + packing + vat);
+  // Delivery scales with the largest item; express is its own (higher) tier.
+  const delivery = shippingMethod === 'express' ? maxExpress : maxStandard;
+  const total = round2(subtotal + delivery);
+  const VAT_RATE = (C.VAT_RATE != null ? C.VAT_RATE : 0.20);
+  const vat = round2(total - total / (1 + VAT_RATE)); // VAT element within the inclusive total
 
-  return { lines: priced, subtotal, packing, vat, total };
+  return { lines: priced, subtotal, delivery, vat, total };
 }
 
-module.exports = { priceLineItem, priceOrder, constants: C };
+module.exports = { priceLineItem, priceOrder, standardDelivery, expressDelivery, constants: C };

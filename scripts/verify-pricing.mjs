@@ -6,6 +6,7 @@ import { createRequire } from 'node:module';
 import {
   PRINT_SIZES, PRINT_TYPES, MOUNT_TYPES, MOUNT_WIDTHS, GLASS_OPTIONS,
   FRAME_CATALOGUE, calcPrintPrice, calcFramePrice, calcMountPrice, calcGlassPrice,
+  VAT_RATE,
 } from '../configurator/src/newData.js';
 
 const require = createRequire(import.meta.url);
@@ -13,8 +14,9 @@ const server = require('../api/_pricing.js');
 
 const round2 = n => Math.round(n * 100) / 100;
 
-// Replicate the client's per-item subtotal (the `pricing` useMemo logic).
-function clientSubtotal(sel) {
+// Replicate the client's VAT-inclusive per-item price (the `pricing` useMemo logic):
+// print (already inc-VAT) + framing (frame+mount+glass) × (1 + VAT).
+function clientUnit(sel) {
   const isCustom = sel.sizeId === 'custom';
   const size = PRINT_SIZES.find(s => s.id === sel.sizeId);
   const w = isCustom ? sel.customW : size?.w_cm;
@@ -29,9 +31,9 @@ function clientSubtotal(sel) {
   const framePrice = (frame && w) ? calcFramePrice(frame, w, h, sel.mountTypeId, mountWidthMm) : 0;
   const mountPrice = (sel.mountTypeId !== 'none' && sel.printType !== 'canvas' && w) ? calcMountPrice(sel.mountTypeId, w, h, mountWidthMm) : 0;
   const glassPrice = (sel.glassId && sel.glassId !== 'none' && sel.printType !== 'canvas' && w) ? calcGlassPrice(sel.glassId, w, h, sel.mountTypeId, mountWidthMm) : 0;
-  const subtotal = printPrice + framePrice + mountPrice + glassPrice;
-  if (!(subtotal > 0)) return null;
-  return round2(subtotal);
+  const framingNet = framePrice + mountPrice + glassPrice;
+  if (!(printPrice + framingNet > 0)) return null;
+  return round2(printPrice + framingNet * (1 + VAT_RATE));
 }
 
 let checked = 0, mismatches = 0;
@@ -51,8 +53,9 @@ for (const frameId of sampleFrames) {
             mountWidthId: 'standard', customMountWidth: null,
             glassId,
           };
-          const c = clientSubtotal(sel);
-          const s = server.priceLineItem(sel);
+          const c = clientUnit(sel);
+          const srv = server.priceLineItem(sel);
+          const s = srv ? srv.unit : null;
           checked++;
           if (c !== s) {
             mismatches++;
@@ -76,8 +79,9 @@ for (const frameId of [null, 'E001', 'P047']) {
       mountWidthId: 'custom', customMountWidth: mw,
       glassId: frameId ? 'uv' : 'none',
     };
-    const c = clientSubtotal(sel);
-    const s = server.priceLineItem(sel);
+    const c = clientUnit(sel);
+    const srv = server.priceLineItem(sel);
+    const s = srv ? srv.unit : null;
     checked++;
     if (c !== s) { mismatches++; console.log('CUSTOM MISMATCH', JSON.stringify(sel), 'client=', c, 'server=', s); }
   }

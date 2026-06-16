@@ -181,10 +181,38 @@ export const MOUNT_COLOURS = [
 
 // ── VAT & DELIVERY ───────────────────────────────────────────────────────────
 
-export const VAT_RATE = 0.20; // kept for reference — flat amounts used instead
-export const FLAT_VAT = 8.50;
-export const PACKING_DELIVERY = 5.00;
-export const EXPRESS_DELIVERY = 15.00;
+// Standard UK VAT. Applied to the framing (frame + mount + glass). Print prices
+// are the framer's retail list and are already VAT-inclusive, so VAT is not
+// re-added on top of them — the whole displayed total is VAT-inclusive and the
+// VAT element is total ÷ 6.
+export const VAT_RATE = 0.20;
+
+// Delivery scales with the print/artwork's longest edge (cm). Rates are
+// market-aligned for fragile, glazed picture frames. Express is a genuine
+// premium and, tier-for-tier, always sits above standard.
+export const STANDARD_DELIVERY_TIERS = [
+  { maxEdgeCm: 45, price: 5.95 },   // up to A3
+  { maxEdgeCm: 65, price: 8.95 },   // up to A2
+  { maxEdgeCm: 90, price: 12.95 },  // up to A1
+  { maxEdgeCm: Infinity, price: 19.95 }, // A0 / oversized
+];
+export const EXPRESS_DELIVERY_TIERS = [
+  { maxEdgeCm: 45, price: 9.95 },
+  { maxEdgeCm: 65, price: 12.95 },
+  { maxEdgeCm: 90, price: 16.95 },
+  { maxEdgeCm: Infinity, price: 24.95 },
+];
+
+function deliveryFromTiers(tiers, longestEdgeCm) {
+  const tier = tiers.find(t => (longestEdgeCm || 0) <= t.maxEdgeCm);
+  return tier ? tier.price : tiers[tiers.length - 1].price;
+}
+export function calcStandardDelivery(longestEdgeCm) {
+  return deliveryFromTiers(STANDARD_DELIVERY_TIERS, longestEdgeCm);
+}
+export function calcExpressDelivery(longestEdgeCm) {
+  return deliveryFromTiers(EXPRESS_DELIVERY_TIERS, longestEdgeCm);
+}
 
 
 // ── FRAME MOULDING MARKUP ────────────────────────────────────────────────────
@@ -472,7 +500,9 @@ export function calcMountPrice(mountTypeId, w_cm, h_cm, mountWidthMm = 50) {
   const borderCm = mountWidthMm / 10;
   const outerArea = (w_cm + 2 * borderCm) * (h_cm + 2 * borderCm);
   const mountAreaSqFt = (outerArea - w_cm * h_cm) / SQCM_PER_SQFT;
-  return (mountAreaSqFt * MOUNT_BASE_RATE_PER_SQFT * mt.multiplier) + mt.surcharge + MOUNT_BASE;
+  // Multiplier applies to the whole mount price (area + base), so a Double Mount
+  // (multiplier 2) is exactly twice a Plain Mount. Surcharge is a flat add-on.
+  return ((mountAreaSqFt * MOUNT_BASE_RATE_PER_SQFT + MOUNT_BASE) * mt.multiplier) + mt.surcharge;
 }
 
 export function calcGlassPrice(glassId, w_cm, h_cm, mountTypeId = 'none', mountWidthMm = 50) {

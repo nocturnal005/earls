@@ -25,9 +25,9 @@ import {
   FRAME_BASE,
   MOUNT_BASE,
   GLASS_BASE,
-  FLAT_VAT,
-  PACKING_DELIVERY,
-  EXPRESS_DELIVERY,
+  VAT_RATE,
+  STANDARD_DELIVERY_TIERS,
+  EXPRESS_DELIVERY_TIERS,
   FRAME_CATALOGUE,
 } from '../configurator/src/newData.js';
 
@@ -58,10 +58,17 @@ const out = {
     FRAME_BASE,
     MOUNT_BASE,
     GLASS_BASE,
-    FLAT_VAT,
-    PACKING_DELIVERY,
-    EXPRESS_DELIVERY,
+    VAT_RATE,
   },
+  // Infinity isn't valid JSON — store the open-ended tier with a null cap.
+  standardDeliveryTiers: STANDARD_DELIVERY_TIERS.map(t => ({
+    maxEdgeCm: t.maxEdgeCm === Infinity ? null : t.maxEdgeCm,
+    price: t.price,
+  })),
+  expressDeliveryTiers: EXPRESS_DELIVERY_TIERS.map(t => ({
+    maxEdgeCm: t.maxEdgeCm === Infinity ? null : t.maxEdgeCm,
+    price: t.price,
+  })),
   printPrices: PRINT_PRICES,
   printSizes,
   glassRates,

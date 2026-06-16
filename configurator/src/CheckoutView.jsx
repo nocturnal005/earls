@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from './CartContext';
-import { FLAT_VAT, PACKING_DELIVERY, EXPRESS_DELIVERY } from './newData';
+import { calcStandardDelivery, calcExpressDelivery, VAT_RATE } from './newData';
 
 const SUPABASE_URL = 'https://nytevdjawjoxqfkafwxg.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55dGV2ZGphd2pveHFma2Fmd3hnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MDc3OTQsImV4cCI6MjA5NjQ4Mzc5NH0.wHh0rIioMpwtHWGnYeZn51IMCs5cK1Rohd7QXuc2DNY';
@@ -71,9 +71,17 @@ export default function CheckoutView() {
 
   if (!isCheckoutOpen) return null;
 
-  const shippingCost = shippingMethod === 'express' ? EXPRESS_DELIVERY : PACKING_DELIVERY;
-  const tax = FLAT_VAT;
-  const orderTotal = cartTotalPrice + shippingCost + tax;
+  // Delivery scales with the largest item, for standard and express alike.
+  const standardDelivery = cartItems.length
+    ? Math.max(...cartItems.map(i => calcStandardDelivery(i.longestEdgeCm || 0)))
+    : 0;
+  const expressDelivery = cartItems.length
+    ? Math.max(...cartItems.map(i => calcExpressDelivery(i.longestEdgeCm || 0)))
+    : 0;
+  const shippingCost = shippingMethod === 'express' ? expressDelivery : standardDelivery;
+  // Prices are VAT-inclusive throughout, so the order total already contains VAT.
+  const orderTotal = cartTotalPrice + shippingCost;
+  const vatIncluded = orderTotal - orderTotal / (1 + VAT_RATE);
 
   const isFormValid = email && firstName && lastName && address && city && postcode;
 
@@ -136,15 +144,19 @@ export default function CheckoutView() {
         }),
       });
 
-      const data = await response.json();
+      // Parse defensively — a non-JSON/empty body (e.g. 404 or a server error
+      // page) must not surface as a raw "Unexpected end of JSON input".
+      const data = await response.json().catch(() => null);
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Payment failed. Please try again.');
+      if (!response.ok || !data) {
+        throw new Error((data && data.error) || 'We couldn’t reach the payment service. Please try again in a moment.');
       }
 
       // Redirect to Stripe Checkout
       if (data.url) {
         window.location.href = data.url;
+      } else {
+        throw new Error('Payment could not be started. Please try again.');
       }
     } catch (err) {
       setError(err.message);
@@ -205,7 +217,7 @@ export default function CheckoutView() {
               >
                 <span>Standard</span>
                 <span className="co-ship-detail">10–12 working days</span>
-                <span className="co-ship-price">£{PACKING_DELIVERY.toFixed(2)}</span>
+                <span className="co-ship-price">£{standardDelivery.toFixed(2)}</span>
               </button>
               <button
                 className={`co-ship-btn ${shippingMethod === 'express' ? 'active' : ''}`}
@@ -213,7 +225,7 @@ export default function CheckoutView() {
               >
                 <span>Express</span>
                 <span className="co-ship-detail">3–5 working days</span>
-                <span className="co-ship-price">£{EXPRESS_DELIVERY.toFixed(2)}</span>
+                <span className="co-ship-price">£{expressDelivery.toFixed(2)}</span>
               </button>
             </div>
           </div>
@@ -297,8 +309,8 @@ export default function CheckoutView() {
               <span>£{shippingCost.toFixed(2)}</span>
             </div>
             <div className="co-totals-row">
-              <span>VAT</span>
-              <span>£{tax.toFixed(2)}</span>
+              <span>Includes VAT</span>
+              <span>£{vatIncluded.toFixed(2)}</span>
             </div>
             <div className="co-totals-row co-totals-final">
               <span>Order Total:</span>

@@ -1,5 +1,5 @@
 {
-  "_generated": "2026-06-15T13:34:45.830Z",
+  "_generated": "2026-06-16T09:51:27.869Z",
   "_note": "AUTO-GENERATED from configurator/src/newData.js. Do not edit by hand. Regenerate: node scripts/gen-pricing.mjs",
   "constants": {
     "SQCM_PER_SQFT": 929.0304,
@@ -8,10 +8,44 @@
     "FRAME_BASE": 6,
     "MOUNT_BASE": 5.5,
     "GLASS_BASE": 0.85,
-    "FLAT_VAT": 8.5,
-    "PACKING_DELIVERY": 5,
-    "EXPRESS_DELIVERY": 15
+    "VAT_RATE": 0.2
   },
+  "standardDeliveryTiers": [
+    {
+      "maxEdgeCm": 45,
+      "price": 5.95
+    },
+    {
+      "maxEdgeCm": 65,
+      "price": 8.95
+    },
+    {
+      "maxEdgeCm": 90,
+      "price": 12.95
+    },
+    {
+      "maxEdgeCm": null,
+      "price": 19.95
+    }
+  ],
+  "expressDeliveryTiers": [
+    {
+      "maxEdgeCm": 45,
+      "price": 9.95
+    },
+    {
+      "maxEdgeCm": 65,
+      "price": 12.95
+    },
+    {
+      "maxEdgeCm": 90,
+      "price": 16.95
+    },
+    {
+      "maxEdgeCm": null,
+      "price": 24.95
+    }
+  ],
   "printPrices": {
     "poster": {
       "A4": 14.95,

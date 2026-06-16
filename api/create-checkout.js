@@ -45,7 +45,8 @@ module.exports = async (req, res) => {
       quantity: priced.lines[idx].qty,
     }));
 
-    // Packing & VAT as their own lines — once per order.
+    // Delivery as its own line. Item prices and delivery are VAT-inclusive,
+    // so there is no separate VAT line (VAT is contained within the totals).
     lineItems.push({
       price_data: {
         currency: 'gbp',
@@ -53,15 +54,7 @@ module.exports = async (req, res) => {
           name: shippingMethod === 'express' ? 'Express Delivery' : 'Standard Delivery',
           description: shippingMethod === 'express' ? '3-5 working days' : '10-12 working days',
         },
-        unit_amount: Math.round(priced.packing * 100),
-      },
-      quantity: 1,
-    });
-    lineItems.push({
-      price_data: {
-        currency: 'gbp',
-        product_data: { name: 'VAT', description: 'Value Added Tax' },
-        unit_amount: Math.round(priced.vat * 100),
+        unit_amount: Math.round(priced.delivery * 100),
       },
       quantity: 1,
     });
@@ -119,7 +112,7 @@ module.exports = async (req, res) => {
         shipping_method: shippingMethod || 'standard',
         items,
         subtotal: priced.subtotal,
-        shipping_cost: priced.packing,
+        shipping_cost: priced.delivery,
         vat: priced.vat,
         total: priced.total,
       });
