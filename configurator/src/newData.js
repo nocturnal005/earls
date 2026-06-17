@@ -73,8 +73,7 @@ export const MOUNT_BASE_RATE_PER_SQFT = 5.00;
 
 export const MOUNT_TYPES = [
   { id: 'none',       label: 'No Mount',          multiplier: 0,    surcharge: 0 },
-  { id: 'plain',      label: 'Plain Mount',       multiplier: 1.0,  surcharge: 0 },
-  { id: 'v_groove',   label: 'Mount + V-Groove',  multiplier: 1.0,  surcharge: 3.50 },
+  { id: 'plain',      label: 'Single Mount',      multiplier: 1.0,  surcharge: 0 },
   { id: 'double',     label: 'Double Mount',      multiplier: 2.0,  surcharge: 0 },
   { id: 'oval',       label: 'Oval Mount',        multiplier: 1.0,  surcharge: 5.00 },
   { id: 'round',      label: 'Round Mount',       multiplier: 1.0,  surcharge: 5.00 },
@@ -87,11 +86,6 @@ export const MOUNT_WIDTHS = [
   { id: 'custom',   label: 'Custom',   mm: null },
 ];
 
-export const VGROOVE_COLOURS = [
-  { id: 'vg-black',     label: 'Black',     hex: '#1A1A1A' },
-  { id: 'vg-white',     label: 'White',     hex: '#FFFFFF' },
-  { id: 'vg-off-white', label: 'Off White', hex: '#F5F0E1' },
-];
 
 export const MOUNT_COLOUR_GROUPS = [
   { id: 'whites',  label: 'Whites' },
@@ -501,7 +495,7 @@ export function calcMountPrice(mountTypeId, w_cm, h_cm, mountWidthMm = 50) {
   const outerArea = (w_cm + 2 * borderCm) * (h_cm + 2 * borderCm);
   const mountAreaSqFt = (outerArea - w_cm * h_cm) / SQCM_PER_SQFT;
   // Multiplier applies to the whole mount price (area + base), so a Double Mount
-  // (multiplier 2) is exactly twice a Plain Mount. Surcharge is a flat add-on.
+  // (multiplier 2) is exactly twice a Single Mount. Surcharge is a flat add-on.
   return ((mountAreaSqFt * MOUNT_BASE_RATE_PER_SQFT + MOUNT_BASE) * mt.multiplier) + mt.surcharge;
 }
 

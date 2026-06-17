@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
 import {
   PRINT_SIZES, PRINT_TYPES, FRAME_CATALOGUE, MOUNT_COLOURS, COLOUR_GROUPS, MOUNT_TYPES,
-  GLASS_OPTIONS, VGROOVE_COLOURS, MOUNT_WIDTHS,
+  GLASS_OPTIONS, MOUNT_WIDTHS,
   calcFramePrice, calcPrintPrice, calcMountPrice, calcGlassPrice,
   VAT_RATE, calcStandardDelivery,
 } from './newData.js';
@@ -49,7 +49,6 @@ const DEFAULT_SELECTIONS = {
   mountColourId2: 'deep-black',
   mountWidthId: 'standard',
   customMountWidth: null,
-  vGrooveColourId: null,
   glassId: 'none',
   imageFit: 'fill',
   imageOffsetX: 50,
@@ -148,7 +147,6 @@ export default function NewConfigurator() {
     const mountWidthObj = MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId);
     const glassObj = GLASS_OPTIONS.find(g => g.id === selections.glassId);
     const printTypeObj = PRINT_TYPES.find(p => p.id === selections.printType);
-    const vGrooveObj = VGROOVE_COLOURS.find(v => v.id === selections.vGrooveColourId);
     const sizeObj = PRINT_SIZES.find(s => s.id === selections.sizeId);
 
     const isCustomerImage = selections.imageUrl !== SAMPLE_IMAGE_URL && selections.imageFile;
@@ -207,7 +205,6 @@ export default function NewConfigurator() {
           widthLabel: mountWidthObj?.label || null,
           secondColour: selections.mountTypeId === 'double' ? (mountColourObj2?.label || null) : null,
           secondColourCode: selections.mountTypeId === 'double' ? (mountColourObj2?.code || null) : null,
-          vGrooveColour: selections.mountTypeId === 'v_groove' ? (vGrooveObj?.label || null) : null,
         } : null,
         glass: selections.glassId && selections.glassId !== 'none' ? {
           type: glassObj?.label || selections.glassId,
@@ -237,7 +234,6 @@ export default function NewConfigurator() {
   const size = PRINT_SIZES.find(s => s.id === selections.sizeId);
   const mountColour = MOUNT_COLOURS.find(c => c.id === selections.mountColourId);
   const mountColour2 = MOUNT_COLOURS.find(c => c.id === selections.mountColourId2);
-  const vGrooveColour = VGROOVE_COLOURS.find(c => c.id === selections.vGrooveColourId);
   const mountType = MOUNT_TYPES.find(m => m.id === selections.mountTypeId);
   const mountWidth = MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId);
   const glass = GLASS_OPTIONS.find(g => g.id === selections.glassId);
@@ -680,16 +676,6 @@ export default function NewConfigurator() {
                     borderRadius: 0,
                   }}
                 >
-                  {selections.mountTypeId === 'v_groove' && vGrooveColour && (
-                    <div 
-                      className="preview-mount-line" 
-                      style={{ 
-                        borderColor: vGrooveColour.hex,
-                        borderRadius: isOvalOrRound ? '50%' : 0,
-                      }} 
-                    />
-                  )}
-                  
                   <div
                     className={selections.mountTypeId === 'double' ? 'preview-mount-double-reveal' : ''}
                     style={{

@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
   PRINT_SIZES, PRINT_TYPES, PRINT_PRICES,
-  GLASS_OPTIONS, MOUNT_TYPES, MOUNT_COLOURS, MOUNT_COLOUR_GROUPS, MOUNT_WIDTHS, VGROOVE_COLOURS,
+  GLASS_OPTIONS, MOUNT_TYPES, MOUNT_COLOURS, MOUNT_COLOUR_GROUPS, MOUNT_WIDTHS,
   FRAME_CATALOGUE, COLOUR_GROUPS,
   getFinishesForColour, recommendWidth,
   calcGlassPrice, calcMountPrice, calcFramePrice, calcPrintPrice,
@@ -354,13 +354,12 @@ export function FrameSection({ selections, onUpdate, effW, effH }) {
 
 export function MountSection({ selections, onUpdate, effW, effH }) {
   const [unit, setUnit] = useState('metric');
-  const { mountTypeId, mountColourId, mountColourId2, mountWidthId, vGrooveColourId, sizeId, printType, customMountWidth } = selections;
+  const { mountTypeId, mountColourId, mountColourId2, mountWidthId, sizeId, printType, customMountWidth } = selections;
   const size = PRINT_SIZES.find(s => s.id === sizeId);
   const dimW = effW || size?.w_cm;
   const dimH = effH || size?.h_cm;
   const isCanvas = printType === 'canvas';
   const isDouble = mountTypeId === 'double';
-  const isVGroove = mountTypeId === 'v_groove';
   if (isCanvas) {
     return (
       <div className="sec-body">
@@ -381,7 +380,6 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
 
   const mountColour = MOUNT_COLOURS.find(mc => mc.id === mountColourId);
   const mountColour2 = MOUNT_COLOURS.find(mc => mc.id === mountColourId2);
-  const vGrooveColour = VGROOVE_COLOURS.find(vc => vc.id === vGrooveColourId);
 
   return (
     <div className="sec-body">
@@ -421,15 +419,7 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
                     <div className="mount-profile-card__preview-artwork" />
                   </div>
                 ) : (
-                  <>
-                    {isVGroove && vGrooveColour && (
-                      <div 
-                        className="mount-profile-card__preview-vgroove" 
-                        style={{ borderColor: vGrooveColour.hex }}
-                      />
-                    )}
-                    <div className="mount-profile-card__preview-artwork" />
-                  </>
+                  <div className="mount-profile-card__preview-artwork" />
                 )}
               </div>
             </div>
@@ -449,13 +439,6 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
                   <span className="mount-profile-card__spec-value">
                     {mountColour2 ? `${mountColour2.label}` : 'None'}
                   </span>
-                </div>
-              )}
-              
-              {isVGroove && vGrooveColour && (
-                <div className="mount-profile-card__spec">
-                  <span className="mount-profile-card__spec-label">V-Groove:</span>
-                  <span className="mount-profile-card__spec-value">{vGrooveColour.label}</span>
                 </div>
               )}
               
@@ -565,24 +548,6 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
                       </div>
                     );
                   })}
-                </div>
-              </>
-            )}
-
-            {isVGroove && (
-              <>
-                <span className="sec-label" style={{ marginTop: 12 }}>V-Groove Colour</span>
-                <div className="mc-row">
-                  {VGROOVE_COLOURS.map(vc => (
-                    <button
-                      key={vc.id}
-                      className={`mc-swatch ${vGrooveColourId === vc.id ? 'mc-swatch--sel' : ''}`}
-                      onClick={() => onUpdate({ vGrooveColourId: vc.id })}
-                      title={vc.label}
-                    >
-                      <span className="mc-swatch__fill" style={{ backgroundColor: vc.hex }} />
-                    </button>
-                  ))}
                 </div>
               </>
             )}
