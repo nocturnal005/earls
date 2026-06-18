@@ -203,8 +203,8 @@ export default function NewConfigurator() {
           colourCode: mountColourObj?.code || null,
           widthMm: selections.mountWidthId === 'custom' ? selections.customMountWidth : (mountWidthObj?.mm || 50),
           widthLabel: mountWidthObj?.label || null,
-          secondColour: selections.mountTypeId === 'double' ? (mountColourObj2?.label || null) : null,
-          secondColourCode: selections.mountTypeId === 'double' ? (mountColourObj2?.code || null) : null,
+          secondColour: ['double', 'oval_double', 'round_double'].includes(selections.mountTypeId) ? (mountColourObj2?.label || null) : null,
+          secondColourCode: ['double', 'oval_double', 'round_double'].includes(selections.mountTypeId) ? (mountColourObj2?.code || null) : null,
         } : null,
         glass: selections.glassId && selections.glassId !== 'none' ? {
           type: glassObj?.label || selections.glassId,
@@ -237,7 +237,9 @@ export default function NewConfigurator() {
   const mountType = MOUNT_TYPES.find(m => m.id === selections.mountTypeId);
   const mountWidth = MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId);
   const glass = GLASS_OPTIONS.find(g => g.id === selections.glassId);
-  const isOvalOrRound = selections.mountTypeId === 'oval' || selections.mountTypeId === 'round';
+  const isDouble = ['double', 'oval_double', 'round_double'].includes(selections.mountTypeId);
+  const isOvalOrRound = ['oval', 'round', 'oval_double', 'round_double'].includes(selections.mountTypeId);
+  const isRound = ['round', 'round_double'].includes(selections.mountTypeId);
 
   const isCustom = selections.sizeId === 'custom';
   const rawW = isCustom ? selections.customW : size?.w_cm;
@@ -669,7 +671,7 @@ export default function NewConfigurator() {
                 <div
                   className={`preview-mount preview-mount--${selections.mountTypeId}`}
                   style={{
-                    padding: selections.mountTypeId !== 'none' ? (selections.mountTypeId === 'double' ? Math.max(8, mountPadPx - 6) : mountPadPx) : 0,
+                    padding: selections.mountTypeId !== 'none' ? (isDouble ? Math.max(8, mountPadPx - 6) : mountPadPx) : 0,
                     backgroundColor: selections.mountTypeId !== 'none' ? (mountColour?.hex || '#F9F7F4') : 'transparent',
                     boxShadow: selections.mountTypeId !== 'none' ? 'inset 1px 1px 2px rgba(255, 255, 255, 0.4)' : 'none',
                     transition: 'padding 0.6s ease-in-out, background-color 0.5s ease-in-out',
@@ -677,10 +679,10 @@ export default function NewConfigurator() {
                   }}
                 >
                   <div
-                    className={selections.mountTypeId === 'double' ? 'preview-mount-double-reveal' : ''}
+                    className={isDouble ? 'preview-mount-double-reveal' : ''}
                     style={{
-                      padding: selections.mountTypeId === 'double' ? '6px' : '0px',
-                      backgroundColor: selections.mountTypeId === 'double' ? (mountColour2?.hex || '#1A1A1A') : 'transparent',
+                      padding: isDouble ? '6px' : '0px',
+                      backgroundColor: isDouble ? (mountColour2?.hex || '#1A1A1A') : 'transparent',
                       borderRadius: isOvalOrRound ? '50%' : 0,
                       transition: 'padding 0.6s ease-in-out, background-color 0.5s ease-in-out',
                       width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box'
@@ -689,8 +691,8 @@ export default function NewConfigurator() {
                     <div
                       className={`preview-image ${!selections.imageUrl ? 'preview-image--empty' : ''}`}
                       style={{
-                        width: selections.mountTypeId === 'round' ? Math.min(artworkWidthPx, artworkHeightPx) : artworkWidthPx,
-                        height: selections.mountTypeId === 'round' ? Math.min(artworkWidthPx, artworkHeightPx) : artworkHeightPx,
+                        width: isRound ? Math.min(artworkWidthPx, artworkHeightPx) : artworkWidthPx,
+                        height: isRound ? Math.min(artworkWidthPx, artworkHeightPx) : artworkHeightPx,
                         borderRadius: isOvalOrRound ? '50%' : 0,
                         overflow: 'hidden',
                         containerType: 'size'

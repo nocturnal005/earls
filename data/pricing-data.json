@@ -1,5 +1,5 @@
 {
-  "_generated": "2026-06-17T16:03:25.568Z",
+  "_generated": "2026-06-18T12:10:54.830Z",
   "_note": "AUTO-GENERATED from configurator/src/newData.js. Do not edit by hand. Regenerate: node scripts/gen-pricing.mjs",
   "constants": {
     "SQCM_PER_SQFT": 929.0304,
@@ -167,6 +167,14 @@
     },
     "round": {
       "multiplier": 1,
+      "surcharge": 5
+    },
+    "oval_double": {
+      "multiplier": 2,
+      "surcharge": 5
+    },
+    "round_double": {
+      "multiplier": 2,
       "surcharge": 5
     }
   },

@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
   PRINT_SIZES, PRINT_TYPES, PRINT_PRICES,
-  GLASS_OPTIONS, MOUNT_TYPES, MOUNT_COLOURS, MOUNT_COLOUR_GROUPS, MOUNT_WIDTHS,
+  GLASS_OPTIONS, MOUNT_COLOURS, MOUNT_COLOUR_GROUPS, MOUNT_WIDTHS,
+  MOUNT_LAYERS_OF, MOUNT_SHAPE_OF, mountTypeIdFor,
   FRAME_CATALOGUE, COLOUR_GROUPS,
   getFinishesForColour, recommendWidth,
   calcGlassPrice, calcMountPrice, calcFramePrice, calcPrintPrice,
@@ -359,7 +360,9 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
   const dimW = effW || size?.w_cm;
   const dimH = effH || size?.h_cm;
   const isCanvas = printType === 'canvas';
-  const isDouble = mountTypeId === 'double';
+  const currentLayers = MOUNT_LAYERS_OF[mountTypeId] || 'none';
+  const currentShape = MOUNT_SHAPE_OF[mountTypeId] || 'rect';
+  const isDouble = currentLayers === 'double';
   if (isCanvas) {
     return (
       <div className="sec-body">
@@ -386,21 +389,48 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
       <div className="sec-row">
         <span className="sec-label">Mount Type</span>
         <div className="opt-grid opt-grid--3">
-          {MOUNT_TYPES.map(mt => {
-            const price = dimW ? calcMountPrice(mt.id, dimW, dimH, mountWidthMm) : null;
+          {[
+            { layers: 'none',   label: 'No Mount' },
+            { layers: 'single', label: 'Single Mount' },
+            { layers: 'double', label: 'Double Mount' },
+          ].map(opt => {
+            const id = mountTypeIdFor(opt.layers, currentShape);
+            const price = (opt.layers !== 'none' && dimW) ? calcMountPrice(id, dimW, dimH, mountWidthMm) : null;
             return (
               <button
-                key={mt.id}
-                className={`opt-card opt-card--sm ${mountTypeId === mt.id ? 'opt-card--sel' : ''}`}
-                onClick={() => onUpdate({ mountTypeId: mt.id })}
+                key={opt.layers}
+                className={`opt-card opt-card--sm ${currentLayers === opt.layers ? 'opt-card--sel' : ''}`}
+                onClick={() => onUpdate({ mountTypeId: mountTypeIdFor(opt.layers, currentShape) })}
               >
-                <span className="opt-card__name">{mt.label}</span>
-                <span className="opt-card__price">{mt.id === 'none' ? '—' : price !== null ? `£${price.toFixed(2)}` : '—'}</span>
+                <span className="opt-card__name">{opt.label}</span>
+                <span className="opt-card__price">{opt.layers === 'none' ? '—' : price !== null ? `£${price.toFixed(2)}` : '—'}</span>
               </button>
             );
           })}
         </div>
       </div>
+
+      {currentLayers !== 'none' && (
+        <div className="sec-row">
+          <span className="sec-label">Window Shape</span>
+          <div className="opt-grid opt-grid--3">
+            {[
+              { shape: 'rect',  label: 'Rectangular', note: '—' },
+              { shape: 'oval',  label: 'Oval',        note: '+£5.00' },
+              { shape: 'round', label: 'Round',       note: '+£5.00' },
+            ].map(opt => (
+              <button
+                key={opt.shape}
+                className={`opt-card opt-card--sm ${currentShape === opt.shape ? 'opt-card--sel' : ''}`}
+                onClick={() => onUpdate({ mountTypeId: mountTypeIdFor(currentLayers, opt.shape) })}
+              >
+                <span className="opt-card__name">{opt.label}</span>
+                <span className="opt-card__price">{opt.note}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {mountTypeId !== 'none' && (
         <>

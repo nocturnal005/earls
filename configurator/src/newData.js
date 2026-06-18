@@ -73,11 +73,29 @@ export const MOUNT_BASE_RATE_PER_SQFT = 5.00;
 
 export const MOUNT_TYPES = [
   { id: 'none',       label: 'No Mount',          multiplier: 0,    surcharge: 0 },
-  { id: 'plain',      label: 'Single Mount',      multiplier: 1.0,  surcharge: 0 },
-  { id: 'double',     label: 'Double Mount',      multiplier: 2.0,  surcharge: 0 },
-  { id: 'oval',       label: 'Oval Mount',        multiplier: 1.0,  surcharge: 5.00 },
-  { id: 'round',      label: 'Round Mount',       multiplier: 1.0,  surcharge: 5.00 },
+  { id: 'plain',        label: 'Single Mount',        multiplier: 1.0,  surcharge: 0 },
+  { id: 'double',       label: 'Double Mount',        multiplier: 2.0,  surcharge: 0 },
+  { id: 'oval',         label: 'Oval Mount',          multiplier: 1.0,  surcharge: 5.00 },
+  { id: 'round',        label: 'Round Mount',         multiplier: 1.0,  surcharge: 5.00 },
+  { id: 'oval_double',  label: 'Oval Double Mount',   multiplier: 2.0,  surcharge: 5.00 },
+  { id: 'round_double', label: 'Round Double Mount',  multiplier: 2.0,  surcharge: 5.00 },
 ];
+
+// A mount = layers (single/double) × window shape (rect/oval/round), stored as
+// one id below. These helpers map between the two representations.
+export const MOUNT_LAYERS_OF = {
+  none: 'none', plain: 'single', oval: 'single', round: 'single',
+  double: 'double', oval_double: 'double', round_double: 'double',
+};
+export const MOUNT_SHAPE_OF = {
+  none: 'rect', plain: 'rect', double: 'rect',
+  oval: 'oval', oval_double: 'oval', round: 'round', round_double: 'round',
+};
+export function mountTypeIdFor(layers, shape) {
+  if (layers === 'none') return 'none';
+  if (layers === 'single') return shape === 'oval' ? 'oval' : shape === 'round' ? 'round' : 'plain';
+  return shape === 'oval' ? 'oval_double' : shape === 'round' ? 'round_double' : 'double';
+}
 
 export const MOUNT_WIDTHS = [
   { id: 'standard', label: 'Standard', mm: 50 },
