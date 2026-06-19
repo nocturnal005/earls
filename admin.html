@@ -311,6 +311,7 @@
       .status-completed { background: #D1FAE5; color: #065F46; }
       .status-shipped { background: #E0E7FF; color: #3730A3; }
       .status-archived { background: #F0EDEA; color: #8A8580; }
+      .status-refunded { background: #FCE7E7; color: #B91C1C; }
 
       .archive-btn {
         padding: 5px 12px;
@@ -559,6 +560,7 @@
           <button class="filter-btn" data-status="in_progress">In Progress</button>
           <button class="filter-btn" data-status="completed">Completed</button>
           <button class="filter-btn" data-status="shipped">Shipped</button>
+          <button class="filter-btn" data-status="refunded">Refunded</button>
           <button class="filter-btn" data-status="archived">Archived</button>
         </div>
 
@@ -803,7 +805,7 @@
 
       function renderOrders() {
         const tbody = document.getElementById('orders-body');
-        const hiddenFromAll = ['archived', 'pending_payment'];
+        const hiddenFromAll = ['archived', 'pending_payment', 'refunded'];
         const filtered = currentFilter === 'all'
           ? allOrders.filter(o => !hiddenFromAll.includes(o.status))
           : allOrders.filter(o => o.status === currentFilter);
@@ -838,6 +840,7 @@
                   <option value="in_progress" ${order.status === 'in_progress' ? 'selected' : ''}>In Progress</option>
                   <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Completed</option>
                   <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+                  <option value="refunded" ${order.status === 'refunded' ? 'selected' : ''}>Refunded</option>
                 </select>
                 ${order.status !== 'archived'
                   ? '<button class="archive-btn" onclick="archiveOrder(\'' + order.id + '\')">Archive</button>'
