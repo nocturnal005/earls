@@ -120,7 +120,18 @@ module.exports = async (req, res) => {
 
     res.status(200).json({ sessionId: session.id, url: session.url });
   } catch (err) {
-    console.error('Stripe error:', err.message);
-    res.status(500).json({ error: err.message });
+    // Capture the precise cause (auth vs connection vs request, plus the
+    // underlying network error) instead of the generic Stripe message.
+    const info = {
+      message: err && err.message,
+      type: err && err.type,
+      code: err && err.code,
+      statusCode: err && err.statusCode,
+      requestId: err && err.requestId,
+      detail: err && err.detail && (err.detail.message || err.detail.code || String(err.detail)),
+      cause: err && err.cause && (err.cause.message || err.cause.code || String(err.cause)),
+    };
+    console.error('Stripe checkout error:', JSON.stringify(info));
+    res.status(500).json({ error: err && err.message, debug: info });
   }
 };
