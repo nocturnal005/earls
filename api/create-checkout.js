@@ -10,7 +10,9 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  // Trim to tolerate stray whitespace/newlines from pasting the key into env vars
+  // (a trailing newline corrupts the Authorization header -> StripeConnectionError).
+  const stripeKey = (process.env.STRIPE_SECRET_KEY || '').trim();
   if (!stripeKey) {
     return res.status(503).json({ error: 'Payment system is not configured yet. Please try again later.' });
   }
@@ -122,16 +124,13 @@ module.exports = async (req, res) => {
   } catch (err) {
     // Capture the precise cause (auth vs connection vs request, plus the
     // underlying network error) instead of the generic Stripe message.
-    const info = {
+    console.error('Stripe checkout error:', JSON.stringify({
       message: err && err.message,
       type: err && err.type,
       code: err && err.code,
       statusCode: err && err.statusCode,
-      requestId: err && err.requestId,
       detail: err && err.detail && (err.detail.message || err.detail.code || String(err.detail)),
-      cause: err && err.cause && (err.cause.message || err.cause.code || String(err.cause)),
-    };
-    console.error('Stripe checkout error:', JSON.stringify(info));
-    res.status(500).json({ error: err && err.message, debug: info });
+    }));
+    res.status(500).json({ error: 'We couldn’t start the payment. Please try again in a moment.' });
   }
 };

@@ -2,7 +2,7 @@
 // page can only claim "Order confirmed" for genuinely completed payments.
 
 module.exports = async (req, res) => {
-  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  const stripeKey = (process.env.STRIPE_SECRET_KEY || '').trim();
   if (!stripeKey) {
     return res.status(503).json({ error: 'Payment system is not configured.' });
   }

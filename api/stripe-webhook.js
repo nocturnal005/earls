@@ -14,8 +14,8 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const stripeKey = process.env.STRIPE_SECRET_KEY;
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  const stripeKey = (process.env.STRIPE_SECRET_KEY || '').trim();
+  const webhookSecret = (process.env.STRIPE_WEBHOOK_SECRET || '').trim();
   if (!stripeKey || !webhookSecret) {
     console.error('Webhook not configured: missing STRIPE_SECRET_KEY or STRIPE_WEBHOOK_SECRET');
     return res.status(503).json({ error: 'Webhook not configured.' });
