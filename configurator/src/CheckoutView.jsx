@@ -173,8 +173,8 @@ export default function CheckoutView() {
           {/* Header with Earl's branding */}
           <header className="co-header">
             <div className="co-header-brand">
-              <img src={`${import.meta.env.BASE_URL}earls_logo.png`} alt="Earl's Picture Framing" className="co-header-logo" />
-              <span className="co-header-name">EARL'S PICTURE FRAMING</span>
+              <img src={`${import.meta.env.BASE_URL}earls_logo.png`} alt="Earl's Frames London" className="co-header-logo" />
+              <span className="co-header-name">EARL'S FRAMES LONDON</span>
             </div>
           </header>
 
@@ -246,7 +246,7 @@ export default function CheckoutView() {
               <span className="co-footer-dot">·</span>
               <a href="#">Contact Us</a>
             </div>
-            <p className="co-footer-copy">© {new Date().getFullYear()} Earl's Picture Framing. All rights reserved.</p>
+            <p className="co-footer-copy">© {new Date().getFullYear()} Earl's Frames London. All rights reserved.</p>
           </footer>
         </div>
       </div>

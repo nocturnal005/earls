@@ -415,9 +415,9 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
           <span className="sec-label">Window Shape</span>
           <div className="opt-grid opt-grid--3">
             {[
-              { shape: 'rect',  label: 'Rectangular', note: '—' },
-              { shape: 'oval',  label: 'Oval',        note: '+£5.00' },
-              { shape: 'round', label: 'Round',       note: '+£5.00' },
+              { shape: 'rect',  label: 'Rectangular' },
+              { shape: 'oval',  label: 'Oval' },
+              { shape: 'round', label: 'Round' },
             ].map(opt => (
               <button
                 key={opt.shape}
@@ -425,7 +425,6 @@ export function MountSection({ selections, onUpdate, effW, effH }) {
                 onClick={() => onUpdate({ mountTypeId: mountTypeIdFor(currentLayers, opt.shape) })}
               >
                 <span className="opt-card__name">{opt.label}</span>
-                <span className="opt-card__price">{opt.note}</span>
               </button>
             ))}
           </div>
