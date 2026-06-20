@@ -32,10 +32,30 @@ module.exports = async (req, res) => {
       if (supabaseUrl && supabaseKey) {
         const supabase = createClient(supabaseUrl, supabaseKey);
 
-        // TEMP probe: report the actual orders-table columns so we can find
-        // which column the failing checkout insert references. Remove after.
-        const { data: probe } = await supabase.from('orders').select('*').limit(1);
-        debug.columns = probe && probe.length ? Object.keys(probe[0]).sort() : 'no-rows';
+        // TEMP probe: reproduce create-checkout's exact insert shape with
+        // throwaway values to capture the real error, then delete the row.
+        // Remove after diagnosis.
+        const diagSession = 'diag_' + Date.now();
+        const { error: testErr } = await supabase.from('orders').insert({
+          stripe_session_id: diagSession,
+          status: 'pending_payment',
+          customer_email: 'diag@example.com',
+          customer_phone: '0',
+          customer_first_name: 'Diag',
+          customer_last_name: 'Test',
+          shipping_address: 'x',
+          shipping_apt: 'x',
+          shipping_city: 'x',
+          shipping_postcode: 'x',
+          shipping_method: 'standard',
+          items: [{ name: 'Test', dims: 'A4', mount: null, qty: 1, price: 1, spec: { frame: { code: 'X' } } }],
+          subtotal: 1,
+          shipping_cost: 1,
+          vat: 0.17,
+          total: 2,
+        });
+        debug.testInsert = testErr ? `error: ${testErr.message}` : 'ok';
+        await supabase.from('orders').delete().eq('stripe_session_id', diagSession);
 
         const { data: existing, error: selErr } = await supabase
           .from('orders')
