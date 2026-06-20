@@ -100,7 +100,7 @@ module.exports = async (req, res) => {
       // queue. When it is NOT configured (testing), save directly as 'new' so
       // orders show immediately without a webhook. This switches automatically
       // the moment STRIPE_WEBHOOK_SECRET is set in the environment.
-      await supabase.from('orders').insert({
+      const { error: insertError } = await supabase.from('orders').insert({
         stripe_session_id: session.id,
         status: webhookConfigured ? 'pending_payment' : 'new',
         customer_email: cust.email || customerEmail || null,
@@ -118,6 +118,11 @@ module.exports = async (req, res) => {
         vat: priced.vat,
         total: priced.total,
       });
+      // Supabase doesn't throw on insert failure — surface it so an order can
+      // never silently fail to persist (it would otherwise be invisible in admin).
+      if (insertError) {
+        console.error('create-checkout: order insert failed:', insertError.message, '— session', session.id);
+      }
     }
 
     res.status(200).json({ sessionId: session.id, url: session.url });
