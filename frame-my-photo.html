@@ -66,6 +66,10 @@
             <div class="header__contact">
                 <span class="iconify header__contact-icon" data-icon="lucide:phone"></span>
                 <span>075 0896 3540</span>
+                <a href="account.html" class="header__account" id="header-account-btn" aria-label="Account" style="margin-left: 20px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;" title="Log in / Sign up">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span class="header__account-label">Log in</span>
+                </a>
                 <a href="#" class="header__cart" id="header-cart-btn" aria-label="Shopping Cart" style="margin-left: 20px; color: #fff; text-decoration: none; display: flex; align-items: center; position: relative;">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
                     <span class="header__cart-count" id="header-cart-count" style="display:none; position: absolute; top: -6px; right: -8px; background: #C41E1E; color: white; font-size: 10px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; align-items: center; justify-content: center;">0</span>
@@ -164,5 +168,7 @@
       })();
     </script>
     <script src="js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="js/auth.js"></script>
   </body>
 </html>
