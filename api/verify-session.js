@@ -32,6 +32,11 @@ module.exports = async (req, res) => {
       if (supabaseUrl && supabaseKey) {
         const supabase = createClient(supabaseUrl, supabaseKey);
 
+        // TEMP probe: report the actual orders-table columns so we can find
+        // which column the failing checkout insert references. Remove after.
+        const { data: probe } = await supabase.from('orders').select('*').limit(1);
+        debug.columns = probe && probe.length ? Object.keys(probe[0]).sort() : 'no-rows';
+
         const { data: existing, error: selErr } = await supabase
           .from('orders')
           .select('id, status')
