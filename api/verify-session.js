@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
   }
 
   const sessionId = req.query && req.query.session_id;
-  if (!sessionId || typeof sessionId !== 'string' || !sessionId.startsWith('cs_')) {
+  if (!sessionId || typeof sessionId !== 'string' || !/^cs_(live|test)_[A-Za-z0-9]{40,}$/.test(sessionId)) {
     return res.status(400).json({ error: 'Missing or invalid session_id.' });
   }
 

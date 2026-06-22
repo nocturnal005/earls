@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
-    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js" integrity="sha384-GYcZF/Xz4/6ZHVch5eVcYcyWmSCvO3+ffsxF+B9hfRyc3XCkSws7SO5ZSGqHlUNH" crossorigin="anonymous"></script>
     <style>
       :root {
         --earls-red: #C41E1E; --earls-red-hover: #A31818; --earls-black: #1A1A1A;
@@ -116,7 +116,11 @@
               <div class="field"><label>Last name</label><input type="text" id="f-last" autocomplete="family-name"></div>
             </div>
             <div class="field"><label>Email</label><input type="email" id="f-email" autocomplete="email" required></div>
-            <div class="field"><label>Password</label><input type="password" id="f-password" autocomplete="current-password" required></div>
+            <div class="field">
+              <label>Password</label>
+              <input type="password" id="f-password" autocomplete="current-password" required>
+              <p id="pw-hint" style="display:none; font-size:0.78rem; color:var(--acc-muted); margin:5px 0 0;">Must be at least 8 characters.</p>
+            </div>
             <div style="text-align:right; margin:-4px 0 14px;">
               <button type="button" class="link-btn" id="forgot-btn" style="display:none;">Forgot password?</button>
             </div>
@@ -179,7 +183,7 @@
       </section>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.108.2/dist/umd/supabase.min.js" integrity="sha384-JWEyvHh+lRf0sN/WWY+QTQwX+CyWqmNg4tkc8GQzAMEtR2wGNrCJlvnu1lHD1kDm" crossorigin="anonymous"></script>
     <script>
       const SUPABASE_URL = 'https://nytevdjawjoxqfkafwxg.supabase.co';
       const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55dGV2ZGphd2pveHFma2Fmd3hnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MDc3OTQsImV4cCI6MjA5NjQ4Mzc5NH0.wHh0rIioMpwtHWGnYeZn51IMCs5cK1Rohd7QXuc2DNY';
@@ -200,6 +204,13 @@
         $('forgot-btn').style.display = m === 'login' ? 'inline' : 'none';
         $('auth-submit').textContent = m === 'login' ? 'Log in' : 'Create account';
         $('f-password').setAttribute('autocomplete', m === 'login' ? 'current-password' : 'new-password');
+        if (m === 'signup') {
+          $('f-password').setAttribute('minlength', '8');
+          $('pw-hint').style.display = 'block';
+        } else {
+          $('f-password').removeAttribute('minlength');
+          $('pw-hint').style.display = 'none';
+        }
         clearMsg($('auth-msg'));
       }
       $('tab-login').onclick = () => setMode('login');
@@ -263,6 +274,22 @@
 
       // ---- Logout ----
       $('logout-btn').onclick = async () => { await sb.auth.signOut(); await render(); };
+
+      // ---- Inactivity timeout (30 minutes) ----
+      const INACTIVITY_LIMIT = 30 * 60 * 1000;
+      let inactivityTimer = null;
+      function resetInactivityTimer() {
+        if (inactivityTimer) clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(async () => {
+          const { data: { session } } = await sb.auth.getSession();
+          if (!session) return;
+          await sb.auth.signOut();
+          await render();
+        }, INACTIVITY_LIMIT);
+      }
+      ['mousemove', 'click', 'keydown', 'scroll', 'touchstart'].forEach(evt => {
+        document.addEventListener(evt, resetInactivityTimer, { passive: true });
+      });
 
       // ---- Save profile ----
       $('profile-form').onsubmit = async (e) => {
