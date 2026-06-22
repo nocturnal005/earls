@@ -443,6 +443,60 @@
         .admin-header-right { gap: 10px; }
         .admin-user { display: none; }
       }
+
+      /* ── MFA / Security ── */
+      .security-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 24px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      }
+      .security-card h3 {
+        margin: 0 0 4px;
+        font-family: 'Libre Baskerville', Georgia, serif;
+        font-size: 18px;
+      }
+      .mfa-status {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .mfa-status.on { background: #D1FAE5; color: #065F46; }
+      .mfa-status.off { background: #FEE2E2; color: #991B1B; }
+      .btn-sm {
+        padding: 10px 18px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        font-family: inherit;
+      }
+      .btn-sm.primary { background: #1A1A1A; color: #fff; }
+      .btn-sm.primary:hover { background: #333; }
+      .btn-sm.danger { background: #fff; color: #991B1B; border: 1px solid #E8B4B4; }
+      .btn-sm:disabled { opacity: 0.6; cursor: not-allowed; }
+      .mfa-qr {
+        display: flex;
+        justify-content: center;
+        margin: 14px 0;
+        background: #fff;
+        padding: 8px;
+      }
+      .mfa-qr img, .mfa-qr svg { width: 180px; height: 180px; }
+      .mfa-secret {
+        font-family: monospace;
+        background: #F5F3F0;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        word-break: break-all;
+        text-align: center;
+        margin-bottom: 12px;
+      }
     </style>
   </head>
   <body>
@@ -520,6 +574,28 @@
       </div>
     </div>
 
+    <!-- ═══ MFA CHALLENGE SCREEN (at login when 2FA enabled) ═══ -->
+    <div class="login-screen reset-screen" id="mfa-screen">
+      <div class="login-card">
+        <div class="login-logo">
+          <img src="assets/images/earls_admin_logo.png" alt="Earl's">
+          <span>Earl's Frames London</span>
+        </div>
+        <div class="login-subtitle">Two-Factor Authentication</div>
+        <div class="login-error" id="mfa-error"></div>
+        <p style="text-align:center;color:#6B6560;font-size:14px;margin-bottom:16px">Enter the 6-digit code from your authenticator app.</p>
+        <form id="mfa-form">
+          <div class="login-field">
+            <input type="text" id="mfa-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required style="text-align:center;letter-spacing:8px;font-size:20px" />
+          </div>
+          <button type="submit" class="login-btn" id="mfa-btn">Verify</button>
+        </form>
+        <div class="login-back">
+          <a id="mfa-cancel">Cancel</a>
+        </div>
+      </div>
+    </div>
+
     <!-- ═══ ADMIN DASHBOARD ═══ -->
     <div class="admin-wrap" id="admin-wrap">
       <div class="admin-header">
@@ -535,6 +611,11 @@
       </div>
 
       <div class="admin-body">
+        <div class="security-card" id="security-card">
+          <h3>Security</h3>
+          <div id="mfa-state">Checking…</div>
+        </div>
+
         <div class="stats-row">
           <div class="stat-card">
             <div class="stat-label">New Orders</div>
@@ -594,6 +675,8 @@
       let accessToken = null;
       let allOrders = [];
       let currentFilter = 'all';
+      let mfaChallengeFactorId = null;
+      let enrollFactorId = null;
 
       // ── Auth state ──
       async function init() {
@@ -606,7 +689,7 @@
 
         const { data: { session } } = await sb.auth.getSession();
         if (session) {
-          onLogin(session);
+          await routeAfterPassword();
         } else {
           showScreen('login');
         }
@@ -626,15 +709,169 @@
         document.getElementById('login-screen').classList.toggle('hide', screen !== 'login');
         document.getElementById('reset-screen').classList.toggle('show', screen === 'reset');
         document.getElementById('update-pw-screen').classList.toggle('show', screen === 'update-pw');
+        document.getElementById('mfa-screen').classList.toggle('show', screen === 'mfa');
         document.getElementById('admin-wrap').classList.toggle('show', screen === 'admin');
       }
 
       function onLogin(session) {
         accessToken = session.access_token;
         document.getElementById('admin-user').textContent = session.user.email;
+        resetLoginBtn();
         showScreen('admin');
         resetInactivityTimer();
         fetchOrders();
+        renderMfaState();
+      }
+
+      function resetLoginBtn() {
+        const btn = document.getElementById('login-btn');
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+
+      // After a correct password: if this account has a verified TOTP factor,
+      // require the 6-digit code (step up to AAL2) before showing the dashboard.
+      // Also closes the gap where a half-finished AAL1 session could otherwise
+      // reach the dashboard on a page reload.
+      async function routeAfterPassword() {
+        try {
+          const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+          if (aal && aal.nextLevel === 'aal2' && aal.currentLevel !== 'aal2') {
+            const { data: factors } = await sb.auth.mfa.listFactors();
+            const verified = ((factors && factors.totp) || []).filter(f => f.status === 'verified');
+            if (verified.length) {
+              mfaChallengeFactorId = verified[0].id;
+              showScreen('mfa');
+              const codeEl = document.getElementById('mfa-code');
+              codeEl.value = '';
+              codeEl.focus();
+              return;
+            }
+          }
+        } catch (e) { /* fall through to normal login */ }
+        const { data: { session } } = await sb.auth.getSession();
+        if (session) onLogin(session); else showScreen('login');
+      }
+
+      // ── MFA challenge (login step-up) ──
+      document.getElementById('mfa-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const code = document.getElementById('mfa-code').value.trim();
+        const errEl = document.getElementById('mfa-error');
+        const btn = document.getElementById('mfa-btn');
+        errEl.classList.remove('show');
+        btn.disabled = true;
+        btn.textContent = 'Verifying…';
+        try {
+          const { data: challenge, error: cErr } = await sb.auth.mfa.challenge({ factorId: mfaChallengeFactorId });
+          if (cErr) throw cErr;
+          const { error: vErr } = await sb.auth.mfa.verify({ factorId: mfaChallengeFactorId, challengeId: challenge.id, code });
+          if (vErr) throw vErr;
+          const { data: { session } } = await sb.auth.getSession();
+          onLogin(session);
+        } catch (err) {
+          errEl.textContent = (err && err.message) || 'Invalid code. Please try again.';
+          errEl.classList.add('show');
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Verify';
+        }
+      });
+
+      document.getElementById('mfa-cancel').addEventListener('click', async () => {
+        await sb.auth.signOut();
+        document.getElementById('mfa-code').value = '';
+        document.getElementById('mfa-error').classList.remove('show');
+        resetLoginBtn();
+        showScreen('login');
+      });
+
+      // ── MFA enrolment (dashboard Security card) ──
+      async function renderMfaState() {
+        const el = document.getElementById('mfa-state');
+        el.innerHTML = 'Checking…';
+        try {
+          const { data: factors, error } = await sb.auth.mfa.listFactors();
+          if (error) throw error;
+          const verified = ((factors && factors.totp) || []).filter(f => f.status === 'verified');
+          if (verified.length) {
+            el.innerHTML =
+              '<p>Two-factor authentication is <span class="mfa-status on">ON</span></p>' +
+              '<p style="color:#6B6560;font-size:14px;margin:8px 0 14px">Your login is protected by an authenticator app.</p>' +
+              '<button class="btn-sm danger" id="mfa-remove">Remove 2FA</button>';
+            document.getElementById('mfa-remove').addEventListener('click', () => removeMfa(verified[0].id));
+          } else {
+            el.innerHTML =
+              '<p>Two-factor authentication is <span class="mfa-status off">OFF</span></p>' +
+              '<p style="color:#6B6560;font-size:14px;margin:8px 0 14px">Add an authenticator app (Google Authenticator, Authy, 1Password) for a second step at login.</p>' +
+              '<button class="btn-sm primary" id="mfa-setup">Set up 2FA</button>' +
+              '<div id="mfa-enroll" style="display:none;margin-top:16px;max-width:320px"></div>';
+            document.getElementById('mfa-setup').addEventListener('click', startEnroll);
+          }
+        } catch (e) {
+          el.innerHTML = '<p style="color:#8A8580;font-size:14px">Couldn’t load 2FA status. If you just enabled MFA in Supabase, refresh the page.</p>';
+        }
+      }
+
+      async function startEnroll() {
+        const box = document.getElementById('mfa-enroll');
+        box.style.display = 'block';
+        box.innerHTML = 'Generating…';
+        try {
+          // Clear any stale unverified factor so enrol can't clash on name.
+          const { data: existing } = await sb.auth.mfa.listFactors();
+          const stale = ((existing && existing.all) || []).filter(f => f.status === 'unverified');
+          for (const f of stale) { try { await sb.auth.mfa.unenroll({ factorId: f.id }); } catch (_) {} }
+
+          const { data, error } = await sb.auth.mfa.enroll({ factorType: 'totp', friendlyName: 'Admin TOTP ' + Date.now() });
+          if (error) throw error;
+          enrollFactorId = data.id;
+          const qr = (data.totp && data.totp.qr_code) || '';
+          const secret = (data.totp && data.totp.secret) || '';
+          const qrHtml = /^\s*<svg/i.test(qr)
+            ? '<div class="mfa-qr">' + qr + '</div>'
+            : '<div class="mfa-qr"><img src="' + qr + '" alt="Scan with your authenticator app" /></div>';
+          box.innerHTML =
+            qrHtml +
+            '<p style="text-align:center;font-size:13px;color:#6B6560;margin-bottom:6px">Or enter this key manually:</p>' +
+            '<div class="mfa-secret">' + escapeHtml(secret) + '</div>' +
+            '<form id="enroll-form">' +
+            '<div class="login-error" id="enroll-error"></div>' +
+            '<div class="login-field"><input type="text" id="enroll-code" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" placeholder="6-digit code" required style="text-align:center;letter-spacing:6px;font-size:18px" /></div>' +
+            '<button type="submit" class="btn-sm primary" id="enroll-btn">Verify &amp; enable</button>' +
+            '</form>';
+          document.getElementById('enroll-form').addEventListener('submit', confirmEnroll);
+        } catch (err) {
+          box.innerHTML = '<p style="color:#991B1B;font-size:14px">' + escapeHtml((err && err.message) || 'Could not start 2FA setup. Make sure TOTP MFA is enabled in your Supabase project.') + '</p>';
+        }
+      }
+
+      async function confirmEnroll(e) {
+        e.preventDefault();
+        const code = document.getElementById('enroll-code').value.trim();
+        const errEl = document.getElementById('enroll-error');
+        const btn = document.getElementById('enroll-btn');
+        errEl.classList.remove('show');
+        btn.disabled = true;
+        btn.textContent = 'Verifying…';
+        try {
+          const { data: challenge, error: cErr } = await sb.auth.mfa.challenge({ factorId: enrollFactorId });
+          if (cErr) throw cErr;
+          const { error: vErr } = await sb.auth.mfa.verify({ factorId: enrollFactorId, challengeId: challenge.id, code });
+          if (vErr) throw vErr;
+          await renderMfaState();
+        } catch (err) {
+          errEl.textContent = (err && err.message) || 'Invalid code. Please try again.';
+          errEl.classList.add('show');
+          btn.disabled = false;
+          btn.textContent = 'Verify & enable';
+        }
+      }
+
+      async function removeMfa(factorId) {
+        if (!confirm('Remove two-factor authentication from this account?')) return;
+        try { await sb.auth.mfa.unenroll({ factorId }); } catch (e) {}
+        await renderMfaState();
       }
 
       // ── Login form ──
@@ -657,7 +894,7 @@
           btn.disabled = false;
           btn.textContent = 'Sign In';
         } else if (data.session) {
-          onLogin(data.session);
+          await routeAfterPassword();
         }
       });
 
