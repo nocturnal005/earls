@@ -1152,21 +1152,25 @@
                           html += '</div></div>';
                         }
                         html += '</div>';
-                        // Framed preview and customer image
-                        const previewUrl = safeImageUrl(s.previewImageUrl);
-                        const rawUrl = safeImageUrl(s.rawImageUrl);
-                        if (previewUrl || rawUrl) {
+                        // Framed preview and customer image. The bucket is
+                        // private, so we don't put the stored URL in src — we
+                        // stash the path in data-sign-src and mint a short-lived
+                        // signed URL when the order row is expanded.
+                        const previewStored = String(s.previewImageUrl || '');
+                        const rawStored = String(s.rawImageUrl || '');
+                        const imgStyle = 'width:220px;height:160px;object-fit:contain;border-radius:6px;border:1px solid #E8E4E0;cursor:pointer;background:#F5F3F0';
+                        if (extractStoragePath(previewStored) || extractStoragePath(rawStored)) {
                           html += '<div style="margin-top:12px;display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">';
-                          if (previewUrl) {
+                          if (extractStoragePath(previewStored)) {
                             html += '<div><div class="spec-label" style="margin-bottom:6px">Framed Preview</div>' +
-                              '<a href="' + escapeHtml(previewUrl) + '" target="_blank" rel="noopener noreferrer">' +
-                              '<img src="' + escapeHtml(previewUrl) + '" alt="Framed preview" style="max-width:220px;max-height:220px;border-radius:6px;border:1px solid #E8E4E0;cursor:pointer" />' +
+                              '<a target="_blank" rel="noopener noreferrer">' +
+                              '<img class="signed-img" data-sign-src="' + escapeHtml(previewStored) + '" alt="Framed preview" style="' + imgStyle + '" />' +
                               '</a></div>';
                           }
-                          if (rawUrl) {
+                          if (extractStoragePath(rawStored)) {
                             html += '<div><div class="spec-label" style="margin-bottom:6px">Customer Image</div>' +
-                              '<a href="' + escapeHtml(rawUrl) + '" target="_blank" rel="noopener noreferrer">' +
-                              '<img src="' + escapeHtml(rawUrl) + '" alt="Customer image" style="max-width:220px;max-height:220px;border-radius:6px;border:1px solid #E8E4E0;cursor:pointer" />' +
+                              '<a target="_blank" rel="noopener noreferrer">' +
+                              '<img class="signed-img" data-sign-src="' + escapeHtml(rawStored) + '" alt="Customer image" style="' + imgStyle + '" />' +
                               '</a></div>';
                           }
                           html += '</div>';
@@ -1196,15 +1200,47 @@
           .replace(/'/g, '&#39;');
       }
 
-      // Only allow image URLs we're willing to put in href/src. Anything that
-      // isn't a plain http(s) or image data URL (e.g. javascript:) is dropped,
-      // so a malformed order can't run script in the admin's session.
-      function safeImageUrl(url) {
-        const u = String(url == null ? '' : url).trim();
-        return /^(https?:\/\/|data:image\/)/i.test(u) ? u : '';
+      // Reduce a stored value (full URL or bare path) to the object path inside
+      // the order-images bucket. Returns '' for anything outside the expected
+      // previews/ or originals/ folders, or containing traversal.
+      function extractStoragePath(stored) {
+        let v = String(stored == null ? '' : stored).trim();
+        if (!v) return '';
+        const marker = '/order-images/';
+        const idx = v.indexOf(marker);
+        if (idx !== -1) v = v.slice(idx + marker.length);
+        v = v.replace(/^\/+/, '');
+        if (v.includes('..')) return '';
+        return /^(previews|originals)\/[A-Za-z0-9._\-\/]+$/.test(v) ? v : '';
       }
 
-      function toggleDetail(id) {
+      // Ask the server for a short-lived signed URL for a private-bucket image.
+      async function signImagePath(path) {
+        const res = await fetch('/api/sign-image?path=' + encodeURIComponent(path), {
+          headers: { 'Authorization': 'Bearer ' + accessToken },
+        });
+        if (!res.ok) throw new Error('sign failed');
+        const data = await res.json();
+        return data.url;
+      }
+
+      // Sign any not-yet-signed images inside a detail row and drop the URLs in.
+      async function signImagesIn(row) {
+        const imgs = row.querySelectorAll('img.signed-img[data-sign-src]:not([data-signed])');
+        for (const img of imgs) {
+          img.setAttribute('data-signed', '1'); // mark first to avoid double-fetch
+          const path = extractStoragePath(img.getAttribute('data-sign-src'));
+          if (!path) continue;
+          try {
+            const url = await signImagePath(path);
+            img.src = url;
+            const a = img.closest('a');
+            if (a) a.href = url;
+          } catch (e) { /* leave the placeholder box */ }
+        }
+      }
+
+      async function toggleDetail(id) {
         const row = document.getElementById('detail-' + id);
         const btn = row.previousElementSibling.querySelector('.expand-btn');
         if (row.classList.contains('open')) {
@@ -1213,6 +1249,7 @@
         } else {
           row.classList.add('open');
           btn.textContent = '▼';
+          await signImagesIn(row);
         }
       }
 
