@@ -45,7 +45,8 @@ module.exports = async (req, res) => {
     const { data, error } = await query;
 
     if (error) {
-      return res.status(500).json({ error: error.message });
+      console.error('orders: fetch failed:', error.message);
+      return res.status(500).json({ error: 'Could not load orders.' });
     }
     return res.status(200).json(data);
   }
@@ -70,7 +71,8 @@ module.exports = async (req, res) => {
       .select();
 
     if (error) {
-      return res.status(500).json({ error: error.message });
+      console.error('orders: status update failed:', error.message);
+      return res.status(500).json({ error: 'Could not update the order.' });
     }
     return res.status(200).json(data[0]);
   }

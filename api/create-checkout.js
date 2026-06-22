@@ -5,6 +5,17 @@ function clampStr(v, max) {
   return (typeof v === 'string' ? v : '').slice(0, max);
 }
 
+// Defence-in-depth: the spec is shown in the admin panel, so never let a
+// non-image URL (e.g. javascript:) reach storage. Anything that isn't a plain
+// http(s) or image data URL is dropped before insert.
+function scrubSpec(spec) {
+  if (!spec || typeof spec !== 'object') return spec || null;
+  const okUrl = (u) => (typeof u === 'string' && /^(https?:\/\/|data:image\/)/i.test(u.trim()) ? u : null);
+  if ('previewImageUrl' in spec) spec.previewImageUrl = okUrl(spec.previewImageUrl);
+  if ('rawImageUrl' in spec) spec.rawImageUrl = okUrl(spec.rawImageUrl);
+  return spec;
+}
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -91,7 +102,7 @@ module.exports = async (req, res) => {
         mount: item.mount || null,
         qty: priced.lines[idx].qty,
         price: priced.lines[idx].unit,
-        spec: item.spec || null,
+        spec: scrubSpec(item.spec),
       }));
 
       // When the Stripe webhook is configured (production), save as

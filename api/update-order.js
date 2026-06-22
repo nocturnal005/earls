@@ -49,7 +49,8 @@ module.exports = async (req, res) => {
     .select();
 
   if (error) {
-    return res.status(500).json({ error: error.message });
+    console.error('update-order: status update failed:', error.message);
+    return res.status(500).json({ error: 'Could not update the order.' });
   }
 
   if (!data || data.length === 0) {

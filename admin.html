@@ -916,18 +916,20 @@
                         }
                         html += '</div>';
                         // Framed preview and customer image
-                        if (s.previewImageUrl || s.rawImageUrl) {
+                        const previewUrl = safeImageUrl(s.previewImageUrl);
+                        const rawUrl = safeImageUrl(s.rawImageUrl);
+                        if (previewUrl || rawUrl) {
                           html += '<div style="margin-top:12px;display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">';
-                          if (s.previewImageUrl) {
+                          if (previewUrl) {
                             html += '<div><div class="spec-label" style="margin-bottom:6px">Framed Preview</div>' +
-                              '<a href="' + escapeHtml(s.previewImageUrl) + '" target="_blank">' +
-                              '<img src="' + escapeHtml(s.previewImageUrl) + '" alt="Framed preview" style="max-width:220px;max-height:220px;border-radius:6px;border:1px solid #E8E4E0;cursor:pointer" />' +
+                              '<a href="' + escapeHtml(previewUrl) + '" target="_blank" rel="noopener noreferrer">' +
+                              '<img src="' + escapeHtml(previewUrl) + '" alt="Framed preview" style="max-width:220px;max-height:220px;border-radius:6px;border:1px solid #E8E4E0;cursor:pointer" />' +
                               '</a></div>';
                           }
-                          if (s.rawImageUrl) {
+                          if (rawUrl) {
                             html += '<div><div class="spec-label" style="margin-bottom:6px">Customer Image</div>' +
-                              '<a href="' + escapeHtml(s.rawImageUrl) + '" target="_blank">' +
-                              '<img src="' + escapeHtml(s.rawImageUrl) + '" alt="Customer image" style="max-width:220px;max-height:220px;border-radius:6px;border:1px solid #E8E4E0;cursor:pointer" />' +
+                              '<a href="' + escapeHtml(rawUrl) + '" target="_blank" rel="noopener noreferrer">' +
+                              '<img src="' + escapeHtml(rawUrl) + '" alt="Customer image" style="max-width:220px;max-height:220px;border-radius:6px;border:1px solid #E8E4E0;cursor:pointer" />' +
                               '</a></div>';
                           }
                           html += '</div>';
@@ -949,9 +951,20 @@
       }
 
       function escapeHtml(str) {
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
+        return String(str == null ? '' : str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      // Only allow image URLs we're willing to put in href/src. Anything that
+      // isn't a plain http(s) or image data URL (e.g. javascript:) is dropped,
+      // so a malformed order can't run script in the admin's session.
+      function safeImageUrl(url) {
+        const u = String(url == null ? '' : url).trim();
+        return /^(https?:\/\/|data:image\/)/i.test(u) ? u : '';
       }
 
       function toggleDetail(id) {
