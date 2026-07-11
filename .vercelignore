@@ -24,3 +24,17 @@ fine-art-printing-plan.md
 implementation-plan.html
 room-dining.jpg
 scripts/
+
+# Backup / test / scratch artifacts — must never be served publicly
+new-hero-backup.mp4
+output.html
+demo_gallery.html
+sketch-frame-selector.html
+sketches/
+my-video-editor/
+test_12.png
+test_slice.png
+test_trimmed.jpg
+test_pixels.js
+temp.txt
+cmd.txt
