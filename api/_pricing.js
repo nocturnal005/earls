@@ -8,7 +8,7 @@
 // in newData.js — keep them in sync if the formulas ever change.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const data = require('../data/pricing-data.json');
+const data = require('./_data/pricing-data.json');
 const C = data.constants;
 
 const MAX_LINES = 50;

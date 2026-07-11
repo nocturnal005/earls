@@ -1,9 +1,9 @@
-const fs = require('fs');
-const path = require('path');
+// Cost prices and supplier codes live here; the file is under api/ so Vercel
+// never serves it as a static asset. Only the public fields are returned below.
+const allFrames = require('./_data/frames.json');
 
 module.exports = (req, res) => {
-  const framesPath = path.join(process.cwd(), 'data', 'frames.json');
-  let frames = JSON.parse(fs.readFileSync(framesPath, 'utf-8'));
+  let frames = allFrames;
 
   // Filter by category
   if (req.query.category) {

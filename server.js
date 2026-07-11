@@ -4,7 +4,6 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,9 +16,23 @@ app.use(express.json());
 app.use((req, res, next) => {
     if (req.method === 'GET' && !path.extname(req.path) && !req.path.startsWith('/api/') && req.path !== '/') {
         const htmlPath = path.join(__dirname, req.path + '.html');
-        if (fs.existsSync(htmlPath)) {
-            return res.sendFile(htmlPath);
+        // Containment check: a crafted path (e.g. encoded traversal) must never
+        // resolve outside the site root before we sendFile it.
+        const resolved = path.resolve(htmlPath);
+        if (resolved.startsWith(__dirname + path.sep) && fs.existsSync(resolved)) {
+            return res.sendFile(resolved);
         }
+    }
+    next();
+});
+
+// In production (Vercel) the /api directory is served only as serverless
+// functions, never as static files. Mirror that here so the dev server can't
+// leak handler source (/api/*.js) or the private catalogue (/api/_data/*.json).
+// The JSON API routes below are extensionless, so blocking pathed files is safe.
+app.use((req, res, next) => {
+    if (req.path.startsWith('/api/') && path.extname(req.path)) {
+        return res.status(404).json({ error: 'Not found' });
     }
     next();
 });
@@ -101,7 +114,7 @@ function getMouldingImage(simonsCode) {
 
 // Get frames catalog (public — strips internal fields)
 app.get('/api/frames', (req, res) => {
-    const framesPath = path.join(__dirname, 'data', 'frames.json');
+    const framesPath = path.join(__dirname, 'api', '_data', 'frames.json');
     let frames = JSON.parse(fs.readFileSync(framesPath, 'utf-8'));
 
     // Filter by category
@@ -119,9 +132,10 @@ app.get('/api/frames', (req, res) => {
         );
     }
 
-    // Strip internal fields (cost price, but keep supplier code and resolve its image)
-    const publicFrames = frames.map(({ costPricePerMetre, ...rest }) => {
-        const image = getMouldingImage(rest.simonsCode);
+    // Strip internal fields (cost price AND supplier code) but still use the
+    // supplier code to resolve the moulding image before dropping it.
+    const publicFrames = frames.map(({ costPricePerMetre, simonsCode, ...rest }) => {
+        const image = getMouldingImage(simonsCode);
         return { ...rest, image };
     });
     res.json(publicFrames);
@@ -129,7 +143,7 @@ app.get('/api/frames', (req, res) => {
 
 // Get product categories with counts and price ranges
 app.get('/api/categories', (req, res) => {
-    const framesPath = path.join(__dirname, 'data', 'frames.json');
+    const framesPath = path.join(__dirname, 'api', '_data', 'frames.json');
     const frames = JSON.parse(fs.readFileSync(framesPath, 'utf-8'));
     const cats = {};
     frames.forEach(f => {
@@ -145,53 +159,22 @@ app.get('/api/categories', (req, res) => {
 
 // Get pricing config
 app.get('/api/pricing', (req, res) => {
-    const pricingPath = path.join(__dirname, 'data', 'pricing.json');
+    const pricingPath = path.join(__dirname, 'api', '_data', 'pricing.json');
     const pricing = JSON.parse(fs.readFileSync(pricingPath, 'utf-8'));
     res.json(pricing);
 });
 
 // Get papers catalog
 app.get('/api/papers', (req, res) => {
-    const papersPath = path.join(__dirname, 'data', 'papers.json');
+    const papersPath = path.join(__dirname, 'api', '_data', 'papers.json');
     const papers = JSON.parse(fs.readFileSync(papersPath, 'utf-8'));
     res.json(papers);
 });
 
-// Create Stripe Checkout Session
-app.post('/api/create-checkout', async (req, res) => {
-    try {
-        const { items, customerEmail, orderSummary, successUrl, cancelUrl } = req.body;
-
-        const lineItems = items.map(item => ({
-            price_data: {
-                currency: 'gbp',
-                product_data: {
-                    name: item.name,
-                    description: item.description || ''
-                },
-                unit_amount: Math.round(item.price * 100) // Stripe expects pence
-            },
-            quantity: 1
-        }));
-
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
-            line_items: lineItems,
-            mode: 'payment',
-            customer_email: customerEmail || undefined,
-            success_url: successUrl || `${req.protocol}://${req.get('host')}/frame-my-photo.html?payment=success&session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: cancelUrl || `${req.protocol}://${req.get('host')}/frame-my-photo.html?payment=cancelled`,
-            metadata: {
-                order_summary: JSON.stringify(orderSummary).substring(0, 500)
-            }
-        });
-
-        res.json({ sessionId: session.id, url: session.url });
-    } catch (err) {
-        console.error('Stripe error:', err.message);
-        res.status(500).json({ error: err.message });
-    }
-});
+// Create Stripe Checkout Session — delegate to the production handler so the
+// dev server uses the exact same authoritative, server-side pricing engine
+// (client-supplied prices are ignored) instead of a divergent copy.
+app.post('/api/create-checkout', require('./api/create-checkout'));
 
 // Multer error handling
 app.use((err, req, res, next) => {

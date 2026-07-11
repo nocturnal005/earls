@@ -77,7 +77,7 @@ const out = {
   frames,
 };
 
-const dest = join(__dirname, '..', 'data', 'pricing-data.json');
+const dest = join(__dirname, '..', 'api', '_data', 'pricing-data.json');
 writeFileSync(dest, JSON.stringify(out, null, 2));
 console.log(`Wrote ${dest}`);
 console.log(`  ${Object.keys(frames).length} frames, ${Object.keys(printSizes).length} sizes`);

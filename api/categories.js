@@ -1,9 +1,6 @@
-const fs = require('fs');
-const path = require('path');
+const frames = require('./_data/frames.json');
 
 module.exports = (req, res) => {
-  const framesPath = path.join(process.cwd(), 'data', 'frames.json');
-  const frames = JSON.parse(fs.readFileSync(framesPath, 'utf-8'));
   const cats = {};
   frames.forEach(f => {
     if (!f.category) return;

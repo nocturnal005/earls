@@ -1118,19 +1118,19 @@
                         if (s.print) {
                           html += '<div class="spec-item"><div class="spec-label">Print</div><div class="spec-value">' + escapeHtml(s.print.type || '—') + '</div></div>';
                           html += '<div class="spec-item"><div class="spec-label">Size</div><div class="spec-value">' + escapeHtml(s.print.sizeLabel || '—') + (s.print.isCustomSize ? ' (Custom)' : '') + '</div>' +
-                            (s.print.widthCm && s.print.heightCm ? '<div class="spec-sub">' + s.print.widthCm + ' &times; ' + s.print.heightCm + ' cm &bull; ' + escapeHtml(s.print.orientation || '') + '</div>' : '') + '</div>';
+                            (s.print.widthCm && s.print.heightCm ? '<div class="spec-sub">' + escapeHtml(s.print.widthCm) + ' &times; ' + escapeHtml(s.print.heightCm) + ' cm &bull; ' + escapeHtml(s.print.orientation || '') + '</div>' : '') + '</div>';
                         }
                         // Frame
                         if (s.frame) {
                           html += '<div class="spec-item"><div class="spec-label">Moulding</div><div class="spec-value">' + escapeHtml(s.frame.name) + '</div><div class="spec-sub">' + escapeHtml(s.frame.code) + '</div></div>';
-                          html += '<div class="spec-item"><div class="spec-label">Frame Detail</div><div class="spec-value">' + s.frame.widthMm + 'mm ' + escapeHtml(s.frame.finish || '') + '</div><div class="spec-sub">' + escapeHtml(s.frame.profile || '') + ' profile</div></div>';
+                          html += '<div class="spec-item"><div class="spec-label">Frame Detail</div><div class="spec-value">' + escapeHtml(s.frame.widthMm) + 'mm ' + escapeHtml(s.frame.finish || '') + '</div><div class="spec-sub">' + escapeHtml(s.frame.profile || '') + ' profile</div></div>';
                         } else {
                           html += '<div class="spec-item"><div class="spec-label">Frame</div><div class="spec-value">No frame</div></div>';
                         }
                         // Mount
                         if (s.mount) {
                           html += '<div class="spec-item"><div class="spec-label">Mount</div><div class="spec-value">' + escapeHtml(s.mount.type) + '</div><div class="spec-sub">' + escapeHtml(s.mount.colour || '') + (s.mount.colourCode ? ' (' + escapeHtml(s.mount.colourCode) + ')' : '') + '</div></div>';
-                          html += '<div class="spec-item"><div class="spec-label">Mount Width</div><div class="spec-value">' + (s.mount.widthMm || '—') + 'mm</div><div class="spec-sub">' + escapeHtml(s.mount.widthLabel || '') + '</div></div>';
+                          html += '<div class="spec-item"><div class="spec-label">Mount Width</div><div class="spec-value">' + escapeHtml(s.mount.widthMm || '—') + 'mm</div><div class="spec-sub">' + escapeHtml(s.mount.widthLabel || '') + '</div></div>';
                           if (s.mount.secondColour) {
                             html += '<div class="spec-item"><div class="spec-label">2nd Mount Colour</div><div class="spec-value">' + escapeHtml(s.mount.secondColour) + '</div>' + (s.mount.secondColourCode ? '<div class="spec-sub">' + escapeHtml(s.mount.secondColourCode) + '</div>' : '') + '</div>';
                           }
@@ -1145,10 +1145,10 @@
                         // Pricing breakdown
                         if (s.pricing) {
                           html += '<div class="spec-item"><div class="spec-label">Price Breakdown</div><div class="spec-value">&pound;' + Number(i.price||0).toFixed(2) + '</div><div class="spec-sub">';
-                          if (s.pricing.print) html += 'Print &pound;' + s.pricing.print.toFixed(2) + ' ';
-                          if (s.pricing.frame) html += 'Frame &pound;' + s.pricing.frame.toFixed(2) + ' ';
-                          if (s.pricing.mount) html += 'Mount &pound;' + s.pricing.mount.toFixed(2) + ' ';
-                          if (s.pricing.glass) html += 'Glass &pound;' + s.pricing.glass.toFixed(2);
+                          if (s.pricing.print) html += 'Print &pound;' + Number(s.pricing.print||0).toFixed(2) + ' ';
+                          if (s.pricing.frame) html += 'Frame &pound;' + Number(s.pricing.frame||0).toFixed(2) + ' ';
+                          if (s.pricing.mount) html += 'Mount &pound;' + Number(s.pricing.mount||0).toFixed(2) + ' ';
+                          if (s.pricing.glass) html += 'Glass &pound;' + Number(s.pricing.glass||0).toFixed(2);
                           html += '</div></div>';
                         }
                         html += '</div>';
