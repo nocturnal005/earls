@@ -47,7 +47,11 @@
 }
 
 .cfg__preview--detail {
-  background-image: url(./assets/blank-wall.jpg);
+  /* wall-detail.jpg is blank-wall.jpg cropped to the wall only (top 540 of
+     687px, everything above the floor line). The full room photo put a tiled
+     floor at 79% height, and the fixed-scale detail artwork crossed it on
+     viewports shorter than ~720px — frames appeared to stand on the floor. */
+  background-image: url(./assets/wall-detail.jpg);
   background-size: cover;
   background-position: center;
 }
@@ -109,13 +113,15 @@
   padding-top: 1.5vh;
 }
 
+/* No max-height here: .preview-frame inside is fixed-px sized with visible
+   overflow, so a clamp on this wrapper never stopped it painting past —
+   artwork size is governed by previewScale in NewConfigurator.jsx. */
 .preview-frame-outer {
   width: 100%;
-  max-height: 75vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: max-height 0.7s ease-in-out, transform 0.6s ease-in-out, margin 0.6s ease-in-out;
+  transition: transform 0.6s ease-in-out, margin 0.6s ease-in-out;
   transform-origin: top center;
 }
 
