@@ -206,18 +206,27 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--space-lg);
 }
 
+/* The three groups never shrink: the wordmark is nowrap, and a shrunken box
+   would spill the text over the nav rather than reflow it. space-between
+   turns whatever room is left into even gaps. */
 .logo {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
   color: #fff;
+  flex: 0 0 auto;
 }
 
+/* flex:none keeps the mark out of the shrink pool. Without it the mark is
+   shrinkable, so .logo reports a min-content narrower than it really needs
+   and the flex algorithm hands it a box the nowrap wordmark spills out of. */
 .logo img {
   height: 50px;
   width: auto;
+  flex: none;
   transition: height var(--transition-base);
 }
 
@@ -231,11 +240,16 @@ img {
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.nav {
+  flex: 0 0 auto;
 }
 
 .nav__list {
   display: flex;
-  gap: var(--space-xl);
+  gap: clamp(1rem, 2.5vw, var(--space-xl));
 }
 
 .nav__link {
@@ -247,6 +261,7 @@ img {
   position: relative;
   padding: var(--space-xs) 0;
   transition: color var(--transition-base);
+  white-space: nowrap;
 }
 
 .nav__link::after {
@@ -273,9 +288,12 @@ img {
 .header__contact {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: var(--space-sm);
   color: #fff;
   font-weight: 600;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .header__contact-icon {
@@ -1520,8 +1538,23 @@ img {
   }
 }
 
-@media (max-width: 768px) {
-  .nav__list {
+/* The full row needs ~1082px of content box (logo+wordmark 374, nav 394,
+   phone/account/cart 266, gaps 48), which only clears the container padding
+   at roughly 1240px. Below that the phone number is dropped first — it is
+   repeated in the contact section and footer — which buys back ~120px and
+   carries the horizontal nav down to ~1150. */
+@media (max-width: 1240px) {
+  .header__contact-icon,
+  .header__contact > span {
+    display: none;
+  }
+}
+
+@media (max-width: 1150px) {
+  /* Only collapse into a drawer where there is a toggle to reopen it with.
+     The secondary pages (account, terms, privacy, returns, cookies) ship the
+     nav without a hamburger, so theirs stays inline — it is only two links. */
+  .nav:has(.mobile-menu-btn) .nav__list {
     position: fixed;
     top: 0;
     right: -100%;
@@ -1530,12 +1563,13 @@ img {
     height: 100vh;
     background-color: var(--earls-black);
     flex-direction: column;
+    gap: var(--space-sm);
     padding: 100px var(--space-2xl) var(--space-2xl);
     transition: right var(--transition-base);
     box-shadow: -5px 0 15px rgba(0,0,0,0.1);
   }
 
-  .nav__list.active {
+  .nav:has(.mobile-menu-btn) .nav__list.active {
     right: 0;
   }
 
@@ -1544,14 +1578,38 @@ img {
     z-index: 101;
   }
 
-  .header__contact-icon,
-  .header__contact > span {
+  /* Hamburger belongs at the far right, past the account/cart icons. */
+  .nav:has(.mobile-menu-btn) {
+    order: 3;
+  }
+
+  .nav:has(.mobile-menu-btn) .nav__link {
+    padding: 12px 0;
+    font-size: 1rem;
+  }
+
+  .nav__list {
+    gap: var(--space-md);
+  }
+
+  /* Keep the account/cart icons tucked against the hamburger on the right
+     instead of letting space-between strand them mid-row. */
+  .header__contact {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Wordmark can't shrink (it's nowrap), so drop it and keep the logo mark
+     rather than let it crowd the account icon. */
+  .logo-text {
     display: none;
   }
 
-  .nav__link {
-    padding: 12px 0;
-    font-size: 1rem;
+  /* Nothing in the row shrinks any more, so claw the space back from the
+     gaps — the secondary pages keep their nav inline and need it. */
+  .header__inner {
+    gap: var(--space-md);
   }
 
   .contact-grid {
@@ -1562,5 +1620,13 @@ img {
   .footer-grid {
     grid-template-columns: 1fr;
     gap: var(--space-xl);
+  }
+}
+
+/* Smallest phones: the account icon carries the meaning on its own, and the
+   secondary pages need the ~44px to keep their inline nav on one row. */
+@media (max-width: 480px) {
+  .header__account-label {
+    display: none;
   }
 }
