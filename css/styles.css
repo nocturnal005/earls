@@ -713,23 +713,21 @@ img {
     pointer-events: none;
 }
 
-/* Arrows sit at the left/right edges, vertically centred — the standard
-   carousel position. This deliberately keeps them clear of the bottom-fixed
-   cookie-consent banner, which previously overlapped bottom-centred buttons and
-   swallowed their clicks. The container ignores pointer events so dragging the
-   deck still works everywhere between the two buttons. */
+/* Prev/Next beneath the deck, bottom-centre — same placement as the original
+   GSAP demo. --earls-cc-h is the live height of the fixed cookie-consent bar
+   (set by js/cookie-consent.js, 0 once dismissed): the cluster rides just above
+   the banner so its clicks are never swallowed, then settles at 42px. */
 .ourwork-actions {
     position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    transform: translateY(-50%);
+    bottom: calc(42px + var(--earls-cc-h, 0px));
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 clamp(12px, 4vw, 56px);
+    justify-content: center;
+    gap: 1rem;
     z-index: 40;
-    pointer-events: none;
+    transition: bottom 0.3s ease;
 }
 
 .ourwork-nav {
@@ -744,7 +742,6 @@ img {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    pointer-events: auto;
     transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
     -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);

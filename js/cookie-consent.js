@@ -60,9 +60,18 @@
     document.head.appendChild(s);
   }
 
+  // Publish the banner's live height as --earls-cc-h so fixed/bottom-anchored
+  // UI (e.g. the Our Work slider arrows) can ride above it while it's shown.
+  function publishHeight() {
+    var el = document.getElementById('earls-cc');
+    var h = el ? el.offsetHeight : 0;
+    document.documentElement.style.setProperty('--earls-cc-h', h + 'px');
+  }
+
   function removeBanner() {
     var el = document.getElementById('earls-cc');
     if (el && el.parentNode) el.parentNode.removeChild(el);
+    publishHeight();
   }
 
   function showBanner() {
@@ -95,6 +104,9 @@
       applyConsent('rejected');
       removeBanner();
     });
+
+    publishHeight();
+    window.addEventListener('resize', publishHeight);
   }
 
   // Let a footer "Cookie settings" link reopen the banner to change the choice.
