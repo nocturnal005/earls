@@ -513,19 +513,24 @@ img {
   transform: translateY(var(--parallax-y, 0)) scale(1);
 }
 
-/* Custom Picture Mounts 2x2 Grid Image */
+/* Custom Picture Mounts 3x3 Grid Image.
+   The black text card overlaps this image's left edge by 100px (reverse row),
+   which previously hid the leftmost column of mounts. Reserve that overlapped
+   strip as blank white "mat" and shift the grid clear of it, so every mount
+   corner stays visible while the overlapping-card design is preserved. */
 .framing-rect-wrapper--mounts {
   background-color: #ffffff;
+  padding-left: 140px; /* clears the -100px card overlap + breathing room */
 }
 
 .framing-rect-wrapper--mounts img {
   object-fit: contain;
-  transform: scale(0.85);
+  transform: scale(0.9);
   transition: transform var(--transition-slow);
 }
 
 .poseify-service-row:hover .framing-rect-wrapper--mounts img {
-  transform: scale(0.88);
+  transform: scale(0.93);
 }
 
 .poseify-service-row:hover .framing-rect-wrapper--bespoke img {
@@ -627,7 +632,14 @@ img {
   .framing-rect-wrapper {
     height: 400px;
   }
-  
+
+  /* On mobile the card overlaps the image's BOTTOM edge, so swap the reserved
+     strip from left to bottom and let the grid use the full width. */
+  .framing-rect-wrapper--mounts {
+    padding-left: 0;
+    padding-bottom: 96px;
+  }
+
   .poseify-service-content-col,
   .poseify-service-row--reverse .poseify-service-content-col {
     width: 90%;
@@ -637,115 +649,117 @@ img {
   }
 }
 
-/* === IMMERSIVE GALLERY SECTION === */
-.gallery-immersive-section {
-    padding: var(--space-2xl) 0;
-    background-color: var(--color-black); /* Dark background for cinematic feel */
-    color: var(--color-white);
-    overflow: hidden;
-}
-
-.gallery-immersive-section .section-title {
-    color: var(--color-white);
-}
-
-.gallery-immersive-section .section-subtitle {
-    color: var(--color-light-grey);
-}
-
-.gallery-immersive {
+/* === OUR WORK — GSAP infinite card slider (ScrollTrigger + Draggable) === */
+/* The pinned stage. ScrollTrigger pins .ourwork-gallery while the page scroll
+   scrubs a seamless looping timeline; cards travel in an arc and snap. */
+.ourwork-slider {
+    position: relative;
     width: 100%;
-    padding: var(--space-xl) 0;
-    display: flex;
-    justify-content: flex-start;
-    overflow: hidden;
 }
 
-.gallery-immersive__track {
+.ourwork-gallery {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--earls-black, #111);
+}
+
+.ourwork-cards {
+    position: absolute;
+    width: 15rem;
+    height: 22rem;
+    top: 46%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    cursor: grab;
+}
+.ourwork-cards:active {
+    cursor: grabbing;
+}
+
+.ourwork-cards li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 15rem;
+    height: 22rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #1b1b1b;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 0.85rem;
+    box-shadow: 0 22px 45px rgba(0, 0, 0, 0.55);
+    will-change: transform;
+}
+
+.ourwork-hint {
+    position: absolute;
+    top: 92px; /* clear the fixed site header */
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    z-index: 30;
+    pointer-events: none;
+}
+
+.ourwork-actions {
+    position: absolute;
+    bottom: 42px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: 30px;
-    width: max-content;
-    padding: 40px 0;
-    animation: marquee-scroll 40s linear infinite;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 30;
 }
 
-.gallery-immersive__track:hover {
-    animation-play-state: paused;
-}
-
-.gallery-immersive__item {
-    position: relative;
-    width: clamp(200px, 16vw, 320px);
-    aspect-ratio: 9/16;
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    transition: all 0.5s ease;
-    z-index: 1;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+.ourwork-nav {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font-size: 1.15rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+.ourwork-nav:hover {
+    background: var(--earls-red, #C41E1E);
+    border-color: var(--earls-red, #C41E1E);
+    transform: translateY(-2px);
 }
 
-/* Vertical Staggering (using margin to prevent transform conflicts on hover) */
-.gallery-immersive__item:nth-child(even) {
-    margin-top: 40px;
-}
-.gallery-immersive__item:nth-child(odd) {
-    margin-bottom: 40px;
-}
-
-/* Track hover state (blurs all) */
-.gallery-immersive__track:hover .gallery-immersive__item {
-    filter: blur(5px) brightness(0.4);
-    transform: scale(0.95);
-}
-
-/* Item hover state (focuses single item) */
-.gallery-immersive__track .gallery-immersive__item:hover {
-    filter: blur(0) brightness(1.1) !important;
-    transform: scale(1.15) !important;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.2);
-    z-index: 10;
-}
-
-@keyframes marquee-scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-
-.gallery-immersive__image-wrap {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-.gallery-immersive__item img {
-    width: 130%;
-    height: 130%;
-    object-fit: cover;
-    object-position: left top;
-    transition: transform 6s cubic-bezier(0.25, 1, 0.5, 1);
-    transform: translate3d(0, 0, 0);
-}
-
-.gallery-immersive__item:hover img {
-    transform: translate3d(-15%, -15%, 0);
-    transition: transform 12s cubic-bezier(0.1, 0.8, 0.3, 1);
+.ourwork-drag-proxy {
+    visibility: hidden;
+    position: absolute;
 }
 
 @media (max-width: 768px) {
-    .gallery-immersive__track {
-        gap: 15px;
-        animation: marquee-scroll 25s linear infinite; /* Faster on mobile */
+    .ourwork-cards,
+    .ourwork-cards li {
+        width: 11.5rem;
+        height: 17rem;
     }
-    .gallery-immersive__item {
-        width: clamp(140px, 40vw, 200px);
-    }
-    .gallery-immersive__item:nth-child(even) {
-        margin-top: 20px;
-    }
-    .gallery-immersive__item:nth-child(odd) {
-        margin-bottom: 20px;
+    .ourwork-hint {
+        font-size: 0.68rem;
     }
 }
 

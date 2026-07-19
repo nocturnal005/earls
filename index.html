@@ -286,170 +286,38 @@
             </div>
         </div>
 
-        <div class="gallery-immersive reveal" id="gallery-immersive">
-            <div class="gallery-immersive__track">
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="assets/images/ourwork-1.png" alt="Bespoke Framing Project 1">
-                    </div>
+        <!-- GSAP infinite card slider (ScrollTrigger + Draggable) -->
+        <div class="ourwork-slider" id="ourwork-slider">
+            <div class="ourwork-gallery">
+                <ul class="ourwork-cards">
+                    <li style="background-image: url('assets/images/ourwork-1.png')"></li>
+                    <li style="background-image: url('configurator/dist/samples/reworked 1.jpeg')"></li>
+                    <li style="background-image: url('assets/images/ourwork-2.png')"></li>
+                    <li style="background-image: url('configurator/dist/samples/reworked 2.jpeg')"></li>
+                    <li style="background-image: url('assets/images/ourwork-3.png')"></li>
+                    <li style="background-image: url('configurator/dist/samples/reworked 3.jpeg')"></li>
+                    <li style="background-image: url('configurator/dist/samples/reworked 4.jpeg')"></li>
+                    <li style="background-image: url('assets/images/ourwork-4.png')"></li>
+                    <li style="background-image: url('configurator/dist/samples/reworked 5.jpeg')"></li>
+                    <li style="background-image: url('configurator/dist/samples/reworked 6.jpeg')"></li>
+                    <li style="background-image: url('assets/images/ourwork-5.png')"></li>
+                    <li style="background-image: url('configurator/dist/samples/reworked 7.jpeg')"></li>
+                    <li style="background-image: url('configurator/dist/samples/reworked 8.jpeg')"></li>
+                    <li style="background-image: url('assets/images/ourwork-6.jpg')"></li>
+                    <li style="background-image: url('configurator/dist/samples/reworked 9.jpeg')"></li>
+                    <li style="background-image: url('configurator/dist/samples/reworked 10.jpeg')"></li>
+                </ul>
+                <div class="ourwork-actions">
+                    <button class="ourwork-nav ourwork-prev" type="button" aria-label="Previous project">
+                        <span class="iconify" data-icon="lucide:arrow-left"></span>
+                    </button>
+                    <button class="ourwork-nav ourwork-next" type="button" aria-label="Next project">
+                        <span class="iconify" data-icon="lucide:arrow-right"></span>
+                    </button>
                 </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 1.jpeg" alt="Framed Landscape Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="assets/images/ourwork-2.png" alt="Bespoke Framing Project 2">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 2.jpeg" alt="Framed Nature Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item active">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="assets/images/ourwork-3.png" alt="Bespoke Framing Project 3">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 3.jpeg" alt="Framed Portrait Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 4.jpeg" alt="Framed Architecture Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="assets/images/ourwork-4.png" alt="Bespoke Framing Project 4">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 5.jpeg" alt="Framed Art Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 6.jpeg" alt="Framed Scenic Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="assets/images/ourwork-5.png" alt="Bespoke Framing Project 5">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 7.jpeg" alt="Framed Sunset Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 8.jpeg" alt="Framed City Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="assets/images/ourwork-6.jpg" alt="Bespoke Framing Project 6">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 9.jpeg" alt="Framed Abstract Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 10.jpeg" alt="Framed Wildlife Photo">
-                    </div>
-                </div>
-                <!-- DUPLICATED ITEMS FOR INFINITE SCROLL -->
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="assets/images/ourwork-1.png" alt="Bespoke Framing Project 1">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 1.jpeg" alt="Framed Landscape Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="assets/images/ourwork-2.png" alt="Bespoke Framing Project 2">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 2.jpeg" alt="Framed Nature Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="assets/images/ourwork-3.png" alt="Bespoke Framing Project 3">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 3.jpeg" alt="Framed Portrait Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 4.jpeg" alt="Framed Architecture Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="assets/images/ourwork-4.png" alt="Bespoke Framing Project 4">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 5.jpeg" alt="Framed Art Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 6.jpeg" alt="Framed Scenic Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="assets/images/ourwork-5.png" alt="Bespoke Framing Project 5">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 7.jpeg" alt="Framed Sunset Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 8.jpeg" alt="Framed City Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="assets/images/ourwork-6.jpg" alt="Bespoke Framing Project 6">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 9.jpeg" alt="Framed Abstract Photo">
-                    </div>
-                </div>
-                <div class="gallery-immersive__item">
-                    <div class="gallery-immersive__image-wrap">
-                        <img src="configurator/dist/samples/reworked 10.jpeg" alt="Framed Wildlife Photo">
-                    </div>
-                </div>
+                <p class="ourwork-hint">Scroll, drag, or use the arrows to explore</p>
             </div>
+            <div class="ourwork-drag-proxy" aria-hidden="true"></div>
         </div>
     </section>
 
@@ -684,5 +552,11 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.108.2/dist/umd/supabase.min.js" integrity="sha384-JWEyvHh+lRf0sN/WWY+QTQwX+CyWqmNg4tkc8GQzAMEtR2wGNrCJlvnu1lHD1kDm" crossorigin="anonymous"></script>
     <script src="js/auth.js"></script>
     <script src="js/cookie-consent.js"></script>
+
+    <!-- GSAP + plugins for the "Our Work" infinite card slider -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" integrity="sha384-HOvlOYPIs/zjoIkWUGXkVmXsjr8GuZLV+Q+rcPwmJOVZVpvTSXQChiN4t9Euv9Vc" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" integrity="sha384-P8VzCVnT9NBUkMrpcIZrJbA7EBjJvh/fJS6PmP+4nLIM284DtsImIv8D0fFjIkeh" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Draggable.min.js" integrity="sha384-IJ0us7IOIdtwqJI237hVYv2U3Qt2IL5AkFeroJOnvSYXbNLBxkQ9xQ2sdidcbzTr" crossorigin="anonymous"></script>
+    <script src="js/ourwork-slider.js"></script>
 </body>
 </html>
