@@ -713,16 +713,23 @@ img {
     pointer-events: none;
 }
 
+/* Arrows sit at the left/right edges, vertically centred — the standard
+   carousel position. This deliberately keeps them clear of the bottom-fixed
+   cookie-consent banner, which previously overlapped bottom-centred buttons and
+   swallowed their clicks. The container ignores pointer events so dragging the
+   deck still works everywhere between the two buttons. */
 .ourwork-actions {
     position: absolute;
-    bottom: 42px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    z-index: 30;
+    justify-content: space-between;
+    padding: 0 clamp(12px, 4vw, 56px);
+    z-index: 40;
+    pointer-events: none;
 }
 
 .ourwork-nav {
@@ -730,13 +737,14 @@ img {
     height: 52px;
     border-radius: 50%;
     border: 1px solid rgba(255, 255, 255, 0.25);
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(0, 0, 0, 0.35);
     color: #fff;
     font-size: 1.15rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    pointer-events: auto;
     transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
     -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
