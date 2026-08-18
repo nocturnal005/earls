@@ -1594,6 +1594,10 @@ img {
 
   .mobile-menu-btn {
     display: block;
+    /* z-index only applies to positioned elements. Without this the drawer
+       (position: fixed) paints over the button and swallows the tap that
+       should close it, leaving the menu stuck open over the account link. */
+    position: relative;
     z-index: 101;
   }
 
