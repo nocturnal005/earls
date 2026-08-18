@@ -16,27 +16,45 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Mobile Menu Toggle ---
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const navList = document.querySelector('.nav__list');
-    
-    if(mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', () => {
-            navList.classList.toggle('active');
+
+    // Single source of truth for the drawer, so the icon and the aria state
+    // can never drift out of sync with the panel itself.
+    const setMenu = (open) => {
+        if(!navList) return;
+        navList.classList.toggle('active', open);
+        if(mobileMenuBtn) {
+            mobileMenuBtn.setAttribute('aria-expanded', String(open));
+            // Iconify swaps the placeholder <span> for an <svg> that keeps the
+            // .iconify class, but guard in case the CDN is blocked or slow.
             const icon = mobileMenuBtn.querySelector('.iconify');
-            if(navList.classList.contains('active')) {
-                icon.setAttribute('data-icon', 'lucide:x');
-            } else {
-                icon.setAttribute('data-icon', 'lucide:menu');
-            }
+            if(icon) icon.setAttribute('data-icon', open ? 'lucide:x' : 'lucide:menu');
+        }
+    };
+
+    if(mobileMenuBtn && navList) {
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        mobileMenuBtn.addEventListener('click', () => {
+            setMenu(!navList.classList.contains('active'));
         });
     }
 
     // Close mobile menu when clicking a link
     document.querySelectorAll('.nav__link').forEach(link => {
-        link.addEventListener('click', () => {
-            navList.classList.remove('active');
-            if(mobileMenuBtn) {
-                mobileMenuBtn.querySelector('.iconify').setAttribute('data-icon', 'lucide:menu');
-            }
-        });
+        link.addEventListener('click', () => setMenu(false));
+    });
+
+    // Escape hatches: the drawer covers the account link, so a user who
+    // changes their mind must be able to dismiss it without hitting the one
+    // small button. Escape key, or a tap anywhere outside the panel.
+    document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape') setMenu(false);
+    });
+
+    document.addEventListener('click', (e) => {
+        if(!navList || !navList.classList.contains('active')) return;
+        if(navList.contains(e.target)) return;
+        if(mobileMenuBtn && mobileMenuBtn.contains(e.target)) return;
+        setMenu(false);
     });
 
     // --- Scroll Reveal Animation ---
