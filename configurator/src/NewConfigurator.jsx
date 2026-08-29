@@ -10,6 +10,7 @@ import {
   MouldingCorner, MouldingThumb,
 } from './newPanels.jsx';
 import { useCart } from './CartContext.jsx';
+import { saveSessionState, loadSessionState, saveImageBlob, loadImageBlob, clearSession } from './sessionRestore.js';
 import CartDrawer from './CartDrawer.jsx';
 import CheckoutView from './CheckoutView.jsx';
 import { prepareUpload } from './uploadPrep.js';
@@ -89,6 +90,57 @@ export default function NewConfigurator() {
       return next;
     });
   }, []);
+
+  // ── Session restore ──
+  // A refresh must not wipe the customer's work: selections/view mode live in
+  // localStorage and the uploaded photo in IndexedDB (see sessionRestore.js).
+  // Saving is gated until hydration finishes so the defaults rendered during
+  // the async restore can't overwrite the very session being restored.
+  const hydratedRef = useRef(false);
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const saved = loadSessionState();
+        if (saved) {
+          // An explicit ?printType= link expresses fresh intent — it beats the
+          // remembered value; everything else comes back as the user left it.
+          const params = new URLSearchParams(window.location.search);
+          const urlPrint = params.get('printType');
+          const keepUrlPrint = urlPrint && ['poster', 'art_paper', 'canvas', 'none'].includes(urlPrint);
+          if (!cancelled) {
+            setSelections(prev => ({
+              ...prev,
+              ...saved.selections,
+              printType: keepUrlPrint ? prev.printType : (saved.selections.printType ?? prev.printType),
+              imageUrl: prev.imageUrl,
+              imageFile: prev.imageFile,
+            }));
+            if (saved.viewMode === 'room' || saved.viewMode === 'detail') setViewMode(saved.viewMode);
+          }
+          if (saved.hadCustomImage) {
+            const blob = await loadImageBlob();
+            if (blob && !cancelled) {
+              // Rebuild the preview from the stored original; keep the restored
+              // pan offsets (unlike a fresh upload, which recentres them).
+              const { previewUrl, originalFile } = await prepareUpload(blob);
+              if (!cancelled) {
+                setSelections(prev => ({ ...prev, imageUrl: previewUrl, imageFile: originalFile }));
+              }
+            }
+          }
+        }
+      } catch (e) { /* restore is best-effort — fall through to a fresh start */ }
+      hydratedRef.current = true;
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
+    if (!hydratedRef.current) return;
+    const t = setTimeout(() => saveSessionState(selections, viewMode), 400);
+    return () => clearTimeout(t);
+  }, [selections, viewMode]);
 
   // Hook into the main website's header cart button
   React.useEffect(() => {
@@ -228,6 +280,8 @@ export default function NewConfigurator() {
     setSelections(DEFAULT_SELECTIONS);
     setOpenSection('size');
     setShowBreakdown(false);
+    setViewMode('detail');
+    clearSession(); // Reset means start over — forget the saved session too
   }, []);
 
   const frame = FRAME_CATALOGUE.find(f => f.id === selections.frameId);
@@ -406,6 +460,7 @@ export default function NewConfigurator() {
     try {
       const { previewUrl, originalFile } = await prepareUpload(file);
       update({ imageUrl: previewUrl, imageFile: originalFile, imageOffsetX: 50, imageOffsetY: 50 });
+      saveImageBlob(originalFile); // survive a refresh (fire-and-forget)
     } catch (err) {
       showError(err?.message || 'Sorry — we couldn’t load that image.');
     }
