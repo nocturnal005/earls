@@ -1453,8 +1453,23 @@
   }
   .cfg__preview {
     padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     background-size: 100% 100%, 100% auto;
     background-position: top, center bottom;
+  }
+  /* .left-floating-panel (the Detail/Room/Portrait/Landscape button cluster)
+     is absolutely positioned at top:24/left:24 on desktop, floating beside the
+     preview. It was never un-absolutized on mobile, so it stayed pinned over
+     the top-left of the preview image — overlapping the upload dropzone
+     instead of flowing below it as .preview-actions' own (no-op, since it
+     isn't the flex item) `order: 2` below intended. Making the panel itself a
+     static, ordered flex child of .cfg__preview fixes that. */
+  .left-floating-panel {
+    position: static;
+    order: 2;
+    width: 100%;
   }
   .cfg__controls {
     position: static;
@@ -1471,7 +1486,6 @@
     order: 1;
   }
   .preview-actions {
-    order: 2;
     position: static;
     transform: none;
     flex-direction: row;
