@@ -1451,25 +1451,24 @@
   .cfg {
     grid-template-columns: 1fr;
   }
+  /* Rail + stage: the view/orientation buttons form a slim STATIC vertical
+     rail on the left (they were absolutely positioned on desktop, which on
+     mobile overlapped the upload zone). Reserving real flex space for the rail
+     — combined with the rail-aware preview clamp in NewConfigurator.jsx —
+     means the buttons can never sit over the artwork. */
   .cfg__preview {
-    padding: 20px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+    padding: 20px 16px 20px 8px;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
     background-size: 100% 100%, 100% auto;
     background-position: top, center bottom;
   }
-  /* .left-floating-panel (the Detail/Room/Portrait/Landscape button cluster)
-     is absolutely positioned at top:24/left:24 on desktop, floating beside the
-     preview. It was never un-absolutized on mobile, so it stayed pinned over
-     the top-left of the preview image — overlapping the upload dropzone
-     instead of flowing below it as .preview-actions' own (no-op, since it
-     isn't the flex item) `order: 2` below intended. Making the panel itself a
-     static, ordered flex child of .cfg__preview fixes that. */
   .left-floating-panel {
     position: static;
-    order: 2;
-    width: 100%;
+    order: 0;
+    flex: 0 0 auto;
+    width: auto;
   }
   .cfg__controls {
     position: static;
@@ -1485,19 +1484,20 @@
     max-width: none;
     order: 1;
   }
-  /* One neat row of view/orientation buttons. The glass-pill styling is for
-     the dark desktop panel; on the light mobile background the tiles go brand
-     red (all of them, active marked by a ring) and labels go dark so they're
-     actually readable. Dividers and the frame-detail card would break the
-     single row, so they're hidden here. */
+  /* Compact monochrome vertical rail. The desktop glass-pill styling (white
+     icons on dark glass) is illegible on the light mobile background, so the
+     tiles go black & white: white tile + dark icon at rest, inverted (black
+     tile + white icon) when active, with small dark labels that stay readable
+     over both the plain wall and the room photo. Dividers and the
+     frame-detail card don't fit the slim rail, so they're hidden. */
   .preview-actions {
     position: static;
     transform: none;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 12px;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 0;
     background: transparent;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -1505,36 +1505,41 @@
     box-shadow: none;
     padding: 0;
     width: auto;
-    gap: 12px;
+    gap: 10px;
   }
   .preview-actions .pill-divider,
   .preview-actions .frame-detail-floating-inner {
     display: none;
   }
   .action-item-btn {
-    width: auto;
-    min-width: 64px;
-    gap: 6px;
+    width: 56px;
+    gap: 4px;
   }
   .icon-wrapper {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, #931923, #540D14);
-    color: #fff;
-    box-shadow: 0 4px 14px rgba(147, 25, 35, 0.35);
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: #FFFFFF;
+    color: #1A1A1A;
+    border: 1px solid #C9C4BE;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
   }
-  .icon-wrapper svg { width: 26px; height: 26px; }
+  .icon-wrapper svg { width: 22px; height: 22px; }
   .action-item-btn span {
-    color: #3C3732;
-    font-size: 9px;
+    color: #1A1A1A;
+    font-size: 8px;
+    letter-spacing: 0.04em;
+    text-align: center;
+    line-height: 1.25;
   }
   .action-item-btn.active .icon-wrapper {
-    outline: 2px solid #C41E1E;
-    outline-offset: 2px;
-    box-shadow: 0 8px 20px rgba(147, 25, 35, 0.5);
+    background: #1A1A1A;
+    color: #FFFFFF;
+    border-color: #1A1A1A;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
   }
   .action-item-btn.active span {
-    color: #82161f;
+    color: #000000;
     font-weight: 700;
   }
   .frame-detail {

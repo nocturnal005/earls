@@ -339,8 +339,10 @@ export default function NewConfigurator() {
     if (viewMode === 'detail') {
        // Fixed physical scale so size differences are visible (A4 small → A0 large).
        // Cap so oversized prints don't overflow the panel — or the phone screen.
+       // The 128px allowance on narrow layouts covers the stage padding plus
+       // the vertical button rail that sits to the left of the preview.
        const detailScale = 5.5;
-       const maxDetailPx = isNarrow ? Math.max(200, viewportW - 56) : 520;
+       const maxDetailPx = isNarrow ? Math.max(180, viewportW - 128) : 520;
        if (maxTotalDimCm * detailScale > maxDetailPx) {
            return maxDetailPx / maxTotalDimCm;
        }
@@ -349,10 +351,10 @@ export default function NewConfigurator() {
        // Fixed physical scale for room view so A4 looks small and A0 looks large.
        // 1.8 ensures realistic sizing against the room background.
        // We cap the max pixel height to 220px so it NEVER hits the sofa,
-       // and the width to the stage so wide landscape prints fit phones.
+       // and the width to the stage (minus the button rail) for phones.
        const idealScale = 1.8;
        const maxAllowedHeightPx = 220;
-       const maxAllowedWidthPx = isNarrow ? Math.max(160, viewportW - 72) : 400;
+       const maxAllowedWidthPx = isNarrow ? Math.max(140, viewportW - 144) : 400;
 
        return Math.min(
          idealScale,
