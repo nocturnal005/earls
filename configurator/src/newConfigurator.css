@@ -1572,6 +1572,15 @@
     background-position: top, center top;
     background-repeat: no-repeat;
   }
+  /* Hang the artwork from a picture rail: the square room photo is 100vw tall
+     and its sofa back starts ≈62vw down, so this band ends just above the sofa
+     line and bottom-aligns the frame to it. Tall prints (e.g. 40×60") grow
+     UPWARD into the wall instead of downward onto the couch; the JSX room
+     height cap is matched to this band so they can't outgrow it either. */
+  .preview-frame-outer--room {
+    height: calc(62vw - 44px);
+    align-items: flex-end;
+  }
   .price-bar {
     position: sticky;
     bottom: 0;

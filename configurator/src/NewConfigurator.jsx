@@ -313,9 +313,11 @@ export default function NewConfigurator() {
   }, [effW, effH, selections.glassId, selections.mountTypeId, selections.mountWidthId, selections.customMountWidth, selections.printType]);
 
   // Track viewport width so the preview can never outgrow a phone screen.
-  const [viewportW, setViewportW] = useState(() => (typeof window !== 'undefined' ? window.innerWidth : 1280));
+  // Readings under 200px are ignored — backgrounded/hidden tabs can briefly
+  // report 0, which would collapse the preview.
+  const [viewportW, setViewportW] = useState(() => (typeof window !== 'undefined' && window.innerWidth >= 200 ? window.innerWidth : 1280));
   useEffect(() => {
-    const onResize = () => setViewportW(window.innerWidth);
+    const onResize = () => setViewportW(w => (window.innerWidth >= 200 ? window.innerWidth : w));
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
@@ -350,10 +352,14 @@ export default function NewConfigurator() {
     } else {
        // Fixed physical scale for room view so A4 looks small and A0 looks large.
        // 1.8 ensures realistic sizing against the room background.
-       // We cap the max pixel height to 220px so it NEVER hits the sofa,
-       // and the width to the stage (minus the button rail) for phones.
+       // We cap the max pixel height so it NEVER hits the sofa. On phones the
+       // photo is width-fit (sofa line ≈62vw down) and CSS bottom-aligns the
+       // frame to that line, so the cap is the wall band above it — matching
+       // .preview-frame-outer--room's height in newConfigurator.css.
        const idealScale = 1.8;
-       const maxAllowedHeightPx = 220;
+       const maxAllowedHeightPx = isNarrow
+         ? Math.max(110, Math.round(viewportW * 0.62) - 52)
+         : 220;
        const maxAllowedWidthPx = isNarrow ? Math.max(140, viewportW - 144) : 400;
 
        return Math.min(
