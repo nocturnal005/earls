@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import {
   PRINT_SIZES, PRINT_TYPES, FRAME_CATALOGUE, MOUNT_COLOURS, COLOUR_GROUPS, MOUNT_TYPES,
   GLASS_OPTIONS, MOUNT_WIDTHS,
@@ -312,22 +312,35 @@ export default function NewConfigurator() {
     return long > 40 || short > 32;
   }, [effW, effH, selections.glassId, selections.mountTypeId, selections.mountWidthId, selections.customMountWidth, selections.printType]);
 
+  // Track viewport width so the preview can never outgrow a phone screen.
+  const [viewportW, setViewportW] = useState(() => (typeof window !== 'undefined' ? window.innerWidth : 1280));
+  useEffect(() => {
+    const onResize = () => setViewportW(window.innerWidth);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
   const previewScale = useMemo(() => {
     const activeMountCm = selections.mountTypeId !== 'none' && selections.printType !== 'canvas'
-      ? (selections.mountWidthId === 'custom' ? (selections.customMountWidth || 0) : (MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50)) / 10 
+      ? (selections.mountWidthId === 'custom' ? (selections.customMountWidth || 0) : (MOUNT_WIDTHS.find(mw => mw.id === selections.mountWidthId)?.mm || 50)) / 10
       : 0;
     const frameCm = frame ? frame.widthMm / 10 : 0;
-    
+
     const extraCmPerSide = activeMountCm + frameCm;
     const totalPhysicalWidthCm = displayW + (extraCmPerSide * 2);
     const totalPhysicalHeightCm = displayH + (extraCmPerSide * 2);
     const maxTotalDimCm = Math.max(totalPhysicalWidthCm, totalPhysicalHeightCm);
 
+    // On single-column (mobile) layouts the stage is the viewport minus padding;
+    // the old fixed 520px cap overflowed phones and the overflow was cropped,
+    // so uploads rendered at the wrong size/aspect.
+    const isNarrow = viewportW <= 960;
+
     if (viewMode === 'detail') {
        // Fixed physical scale so size differences are visible (A4 small → A0 large).
-       // Cap at 520px so oversized prints don't overflow the panel.
+       // Cap so oversized prints don't overflow the panel — or the phone screen.
        const detailScale = 5.5;
-       const maxDetailPx = 520;
+       const maxDetailPx = isNarrow ? Math.max(200, viewportW - 56) : 520;
        if (maxTotalDimCm * detailScale > maxDetailPx) {
            return maxDetailPx / maxTotalDimCm;
        }
@@ -335,16 +348,19 @@ export default function NewConfigurator() {
     } else {
        // Fixed physical scale for room view so A4 looks small and A0 looks large.
        // 1.8 ensures realistic sizing against the room background.
-       // We cap the max pixel height to 220px so it NEVER hits the sofa.
+       // We cap the max pixel height to 220px so it NEVER hits the sofa,
+       // and the width to the stage so wide landscape prints fit phones.
        const idealScale = 1.8;
        const maxAllowedHeightPx = 220;
-       
-       if (totalPhysicalHeightCm * idealScale > maxAllowedHeightPx) {
-           return maxAllowedHeightPx / totalPhysicalHeightCm;
-       }
-       return idealScale;
+       const maxAllowedWidthPx = isNarrow ? Math.max(160, viewportW - 72) : 400;
+
+       return Math.min(
+         idealScale,
+         maxAllowedHeightPx / totalPhysicalHeightCm,
+         maxAllowedWidthPx / totalPhysicalWidthCm
+       );
     }
-  }, [displayW, displayH, hasDims, viewMode, selections.mountTypeId, selections.mountWidthId, selections.printType, selections.customMountWidth, frame]);
+  }, [displayW, displayH, hasDims, viewMode, selections.mountTypeId, selections.mountWidthId, selections.printType, selections.customMountWidth, frame, viewportW]);
 
   const frameColourHex = frame
     ? (COLOUR_GROUPS.find(c => c.id === frame.colour)?.hex || '#2D2D2D')
@@ -412,6 +428,17 @@ export default function NewConfigurator() {
   };
 
   const isSampleImage = selections.imageUrl === SAMPLE_IMAGE_URL;
+
+  // "Drag to adjust" is useful for a moment, then it just covers the photo —
+  // fade it out shortly after a customer image lands (CSS handles the fade).
+  const [hintDimmed, setHintDimmed] = useState(false);
+  useEffect(() => {
+    if (isSampleImage || !selections.imageUrl) return;
+    setHintDimmed(false);
+    const t = setTimeout(() => setHintDimmed(true), 2600);
+    return () => clearTimeout(t);
+  }, [selections.imageUrl, isSampleImage]);
+  const hintClass = 'adjust-hint' + (hintDimmed ? ' adjust-hint--hidden' : '');
 
   const onPanStart = (e) => {
     if (!selections.imageUrl || selections.imageFit === 'fit' || isSampleImage) return;
@@ -724,7 +751,7 @@ export default function NewConfigurator() {
                                 <span className="preview-placeholder__icon">↻</span>
                                 <span>Change</span>
                               </label>
-                              {selections.imageFit !== 'fit' && <div className="adjust-hint">Drag to adjust</div>}
+                              {selections.imageFit !== 'fit' && <div className={hintClass}>Drag to adjust</div>}
                             </>
                           )}
                         </div>
@@ -781,7 +808,7 @@ export default function NewConfigurator() {
                             <span className="preview-placeholder__icon">↻</span>
                             <span>Change</span>
                           </label>
-                          {selections.imageFit !== 'fit' && <div className="adjust-hint">Drag to adjust</div>}
+                          {selections.imageFit !== 'fit' && <div className={hintClass}>Drag to adjust</div>}
                         </>
                       )}
                     </div>

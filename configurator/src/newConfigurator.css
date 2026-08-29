@@ -1485,13 +1485,18 @@
     max-width: none;
     order: 1;
   }
+  /* One neat row of view/orientation buttons. The glass-pill styling is for
+     the dark desktop panel; on the light mobile background the tiles go brand
+     red (all of them, active marked by a ring) and labels go dark so they're
+     actually readable. Dividers and the frame-detail card would break the
+     single row, so they're hidden here. */
   .preview-actions {
     position: static;
     transform: none;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     margin-top: 12px;
     background: transparent;
     backdrop-filter: none;
@@ -1500,7 +1505,37 @@
     box-shadow: none;
     padding: 0;
     width: auto;
-    gap: 16px;
+    gap: 12px;
+  }
+  .preview-actions .pill-divider,
+  .preview-actions .frame-detail-floating-inner {
+    display: none;
+  }
+  .action-item-btn {
+    width: auto;
+    min-width: 64px;
+    gap: 6px;
+  }
+  .icon-wrapper {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #931923, #540D14);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(147, 25, 35, 0.35);
+  }
+  .icon-wrapper svg { width: 26px; height: 26px; }
+  .action-item-btn span {
+    color: #3C3732;
+    font-size: 9px;
+  }
+  .action-item-btn.active .icon-wrapper {
+    outline: 2px solid #C41E1E;
+    outline-offset: 2px;
+    box-shadow: 0 8px 20px rgba(147, 25, 35, 0.5);
+  }
+  .action-item-btn.active span {
+    color: #82161f;
+    font-weight: 700;
   }
   .frame-detail {
     flex-direction: row;
@@ -1510,8 +1545,27 @@
   .frame-detail__name { font-size: 13px; }
   .frame-detail__code { font-size: 11px; }
   .frame-detail__info { align-items: flex-start; }
-  .preview-image {
-    max-height: 320px;
+  /* No max-height clamp on .preview-image here: the artwork's px size is set
+     inline from previewScale (now viewport-aware in NewConfigurator.jsx), and
+     clamping only the height of a fixed-width box distorted the aspect ratio
+     of uploaded photos on phones. */
+  /* Room view: room-bg.jpg has three framed prints baked into its top half.
+     The desktop gradient hides them, but its %-based stops assume the desktop
+     container. Here the photo is width-fit and top-anchored, so its geometry
+     is known in vw: mask everything above the sofa (frames end ≈54vw down the
+     photo) with a solid wall colour, fading out just above the sofa line. */
+  .cfg__preview--room {
+    background-image:
+      linear-gradient(to bottom,
+        #E5E2DD 0,
+        #E5E2DD 56vw,
+        rgba(229, 226, 221, 0) 68vw,
+        rgba(229, 226, 221, 0) 100%
+      ),
+      url(./assets/room-bg.jpg);
+    background-size: 100% 100%, 100% auto;
+    background-position: top, center top;
+    background-repeat: no-repeat;
   }
   .price-bar {
     position: sticky;
