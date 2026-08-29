@@ -1572,6 +1572,16 @@
     background-position: top, center top;
     background-repeat: no-repeat;
   }
+  /* wall-detail.jpg has a dark feature-wall strip on its far left and a window
+     on its far right; squeezing the whole image into a phone-width stage put
+     that dark strip right behind the button rail. Overscale the width and
+     window into the clean ash wall between the two edges so both crop
+     off-screen (dark strip = leftmost ~4.5%: at 160% width and 45% position it
+     sits ~74px past the left edge; the window crops off the right likewise). */
+  .cfg__preview--detail {
+    background-size: 160% 100%;
+    background-position: 45% top;
+  }
   /* Hang the artwork from a picture rail: the square room photo is 100vw tall
      and its sofa back starts ≈62vw down, so this band ends just above the sofa
      line and bottom-aligns the frame to it. Tall prints (e.g. 40×60") grow
